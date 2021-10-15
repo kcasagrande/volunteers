@@ -32,7 +32,7 @@ public class Compare {
   public Volonteer[] CompareFirstName(Volonteer comparedVolonteers,String volonteerFirstName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
-      if (volonteerFirstName !== comparedVolonteers[index].firstname){
+      if (volonteerFirstName != comparedVolonteers[index].firstname){
         comparedVolonteers[index]= volonteers[index];
       }
 
@@ -43,7 +43,7 @@ public class Compare {
   public Volonteer[] CompareName(Volonteer comparedVolonteers, String volonteerName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
-      if (volonteerName !== comparedVolonteers[index].name){
+      if (volonteerName != comparedVolonteers[index].name){
         comparedVolonteers[index]= volonteers[index];
       }
 
@@ -54,7 +54,7 @@ public class Compare {
   public Volonteer[] CompareFirstNameByName(Volonteer comparedVolonteers, String volonteerName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
-      if (volonteerName !== comparedVolonteers[index].firstname){
+      if (volonteerName != comparedVolonteers[index].firstname){
         comparedVolonteers[index]= volonteers[index];
       }
 
@@ -64,7 +64,7 @@ public class Compare {
   public Volonteer[] CompareNameByFirstName(Volonteer comparedVolonteers, String volonteerFirstName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
-      if (volonteerFirstName !== comparedVolonteers[index].name){
+      if (volonteerFirstName != comparedVolonteers[index].name){
         comparedVolonteers[index]= volonteers[index];
       }
 
