@@ -6,7 +6,7 @@
   <h3 align="center">Ynov - M2 Dev Logiciel, Mobile & IoT</h3>
 </p>
 
-### Tripot Mélanie
+### Tripot Melanie
 
 - melanie.tripot@ynov.com
 
@@ -14,6 +14,6 @@
 
 - kaunogan.lemoine@ynov.com
 
-### Elric Gumbau
+### Gumbau Elric
 
 - elric.gumbau@ynov.com
