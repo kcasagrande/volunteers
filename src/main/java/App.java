@@ -24,7 +24,8 @@ public class App {
         System.out.println(listTest);
         List<Person> listEmail = personService.filterPersonDuplicateByEmail(listTest);
         // Apply dark magic here...
-
+//        personService.filterPersonDuplicateByPhoneNUmber(listPerson);
         System.out.println("Result goes here");
+        System.out.println(personService.refactorPhoneNumber("00-35-55-85-21"));
     }
 }
