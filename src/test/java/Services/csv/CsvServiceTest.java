@@ -1,15 +1,13 @@
 package Services.csv;
 
+import exceptions.CsvEmptyException;
+import exceptions.CsvNotExistException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CsvServiceTest {
@@ -17,17 +15,66 @@ class CsvServiceTest {
 
     @BeforeEach
     public void setUp() {
-        csvService = new CsvService("src/main/resources/data.csv");
+        csvService = new CsvService("src/test/java/resources/data.csv");
     }
 
     @Test
-    void isCsvExistsTest() throws IOException {
-        Path csvPath = Paths.get("src/main/resources/data.csv");
-        assertTrue(Files.exists(csvPath));
+    void isCsvExistsTest() {
+        try {
+            csvService.isCsvExists();
+            return;
+        }
+        catch (CsvNotExistException exception) {
+            fail();
+        }
+        catch (Exception exception) {
+            fail();
+        }
     }
     @Test
     void isCsvNotExistsTest() throws IOException {
-        Path csvPath = Paths.get("src/main/resources/dataNotExist.csv");
-        assertFalse(Files.exists(csvPath));
+        csvService.setCsvPath("src/test/java/resources/dataNotExist.csv");
+
+        try {
+            csvService.isCsvExists();
+            fail();
+        }
+        catch (CsvNotExistException exception) {
+            return;
+        }
+        catch (Exception exception) {
+            fail();
+        }
+    }
+
+    @Test
+    void readAllLinesResultEmpty() throws IOException, CsvNotExistException, CsvEmptyException {
+        csvService.setCsvPath("src/test/java/resources/dataEmpty.csv");
+
+        try {
+            csvService.readAllLines();
+            fail();
+        }
+        catch (CsvEmptyException exception) {
+            return;
+        }
+        catch (Exception exception) {
+            fail();
+        }
+    }
+    @Test
+    void readAllLinesResultNotEmpty() throws IOException, CsvNotExistException, CsvEmptyException {
+        csvService.setCsvPath("src/test/java/resources/dataNotEmpty.csv");
+
+        try {
+            csvService.readAllLines();
+            return;
+        }
+        catch (CsvEmptyException exception) {
+            fail();
+        }
+        catch (Exception exception) {
+            fail();
+        }
     }
 }
