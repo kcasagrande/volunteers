@@ -16,11 +16,22 @@ public class App {
             .stream().map(string -> string.split(";", -1))
             .collect(toList());
 
-        // Apply dark magic here...
-        /*Searcher chercheur = new Searcher();
-        List<Integer> truc = chercheur.searchSimilar(lines.get(245),lines);
-        System.out.println(Arrays.toString(truc.toArray()));*/
         System.out.println("Result goes here");
+
+
+        Searcher searcher = new Searcher();
+        List<String[]> uniqueList = new ArrayList<>();
+
+        for (String[] line : lines) {
+            List<Integer> intList = searcher.searchSimilarIndexes(line,lines);
+            List<String[]> fusionList = searcher.createUniqueListFromSearchSimilarIndex(intList,lines);
+            String[] fusionline = searcher.createUniqueUserFromSimilarList(fusionList);
+            uniqueList.add(fusionline);
+            lines = searcher.deleteIndexesFromMainList(intList,lines);
+        }
+
+        System.out.println(uniqueList.size());
+
     }
 
    /* */

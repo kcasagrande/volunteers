@@ -2,6 +2,7 @@ package org.example.volunteers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Searcher {
@@ -62,9 +63,27 @@ public class Searcher {
 
     public String[] createUniqueUserFromSimilarList(List<String[]> similarListValue){
 
+        HashMap<String,String> valueHashMap = new HashMap<>();
         List<String[]> uniqueValueList = new ArrayList<>();
 
-        
+        for(int i = 0; i< similarListValue.size();i++){
+                valueHashMap.put("prenom", similarListValue.get(i)[0]);
+                valueHashMap.put("nom",similarListValue.get(i)[1]);
+                valueHashMap.put("pseudo",similarListValue.get(i)[2]);
+                valueHashMap.put("mail",similarListValue.get(i)[3]);
+                valueHashMap.put("telephone",similarListValue.get(i)[4]);
+        }
+
+        System.out.println(valueHashMap);
+
         return null;
     }
+
+
+    public List<String[]> deleteIndexesFromMainList(List<Integer> indexList, List<String[]> list)
+    {
+        return null;
+    }
+
+
 }
