@@ -6,12 +6,27 @@ public class Compare {
   public Compare(Volonteer[] newVolonteers) {
       this.volonteers = newVolonteers;
   }
-  public static Volonteer[] CompareNum(String volonteerNum){
-    for(int index = 0; index < volonteers.size(); index ++ ){
+
+  public Volonteer[] CompareNum(String volonteerNum){
+    
+    for(int index = 0; index < volonteers.length ; index ++ ){
       if (volonteerNum == volonteers[index].tel){
         this.comparedVolonteers[index]= volonteers[index];
       }
-      return this.comparedVolonteers
+
     }
+    return this.comparedVolonteers;
   }
+
+  public Volonteer[] CompareMail(String volonteerMail){
+    
+    for(int index = 0; index < volonteers.length ; index++ ){
+      if (volonteerMail == volonteers[index].mail){
+        this.comparedVolonteers[index]= volonteers[index];
+      }
+
+    }
+    return this.comparedVolonteers;
+  }
+
 }
