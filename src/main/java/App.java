@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,7 +18,8 @@ public class App {
 
         // Apply dark magic here...
         Searcher chercheur = new Searcher();
-        chercheur.searchSimilar(lines.get(0),lines);
+        List<Integer> truc = chercheur.searchSimilar(lines.get(245),lines);
+        System.out.println(Arrays.toString(truc.toArray()));
         System.out.println("Result goes here");
     }
 
