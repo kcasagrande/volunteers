@@ -23,9 +23,9 @@ public class Parser {
             return maps;
         }
 
-        Set<String[]> lines = Files.readAllLines(Paths.get(filePath))
+        List<String[]> lines = Files.readAllLines(Paths.get(filePath))
                 .stream().map(string -> string.split(separator))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         lines.forEach(strings -> {
             Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
@@ -38,7 +38,10 @@ public class Parser {
             } else {
                 personPropertiesStringMap.put(PersonProperties.phoneNumber, "");
             }
-            maps.add(personPropertiesStringMap);
+
+            if(!maps.contains(personPropertiesStringMap)) {
+                maps.add(personPropertiesStringMap);
+            }
         });
         return maps;
     }

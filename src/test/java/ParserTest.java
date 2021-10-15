@@ -13,7 +13,7 @@ public class ParserTest {
 
     @Test
     public void testParseCsvFinishWithSuccess() throws IOException {
-        List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/test/resources/data.csv", ";");
+        List<Map<PersonProperties, String>> lines = parser.parseCsv("src/test/resources/data.csv", ";");
 
         lines.forEach(line -> {
                 assertEquals("Rébecca", line.get(PersonProperties.firstName));
@@ -27,19 +27,25 @@ public class ParserTest {
 
     @Test
     public void testParseCsvWithIncorrectSeparator() throws IOException {
-        List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/test/resources/data.csv", "^");
+        List<Map<PersonProperties, String>> lines = parser.parseCsv("src/test/resources/data.csv", "^");
         assertEquals(0, lines.size());
     }
 
     @Test
     public void testParseCsvWithIncorrectFilePath() throws IOException {
-        List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/tests/resources/data.csv", ";");
+        List<Map<PersonProperties, String>> lines = parser.parseCsv("src/tests/resources/data.csv", ";");
         assertEquals(0, lines.size());
     }
 
     @Test
     public void testParseCsvWithEmptyFile() throws IOException {
-        List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/test/resources/emptyData.csv", ";");
+        List<Map<PersonProperties, String>> lines = parser.parseCsv("src/test/resources/emptyData.csv", ";");
         assertEquals(0, lines.size());
+    }
+
+    @Test
+    public void testParseCsvCantReturnSamePerson() throws IOException {
+        List<Map<PersonProperties, String>> lines = parser.parseCsv("src/test/resources/sameData.csv", ";");
+        assertEquals(1, lines.size());
     }
 }
