@@ -60,41 +60,53 @@ public class User {
         this.phone = phone;
     }
 
+    public boolean cleanUserList(User user, List<User> userList){
+
+        if (checkValidComboLastNameFirstNameOfUser(userList)
+                && checkValidUsernameOfUser(userList)
+                && checkValidEmailOfUser(userList)
+                && checkValidPhoneNumberOfUser(userList)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean checkValidComboLastNameFirstNameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.firstName.equals(user.getFirstName()) && this.lastName.equals(user.getLastName()))
                 || (this.firstName.equals(user.getLastName()) && this.lastName.equals(user.getFirstName()))) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean checkValidUsernameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.userName.equals(user.getUserName()))) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean checkValidEmailOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.email.equals(user.getEmail()))) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean checkValidPhoneNumberOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.phone.equals(user.getPhone()))) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
 }
