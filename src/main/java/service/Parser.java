@@ -17,10 +17,9 @@ public class Parser {
                 .collect(Collectors.toSet());
 
         List<Map<PersonProperties, String>> maps = new ArrayList<>();
-        Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
 
         lines.forEach(strings -> {
-
+            Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
             personPropertiesStringMap.put(PersonProperties.email, strings[3]);
             personPropertiesStringMap.put(PersonProperties.userName, strings[2]);
             personPropertiesStringMap.put(PersonProperties.firstName, strings[0]);
