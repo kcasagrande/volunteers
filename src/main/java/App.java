@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -37,7 +38,23 @@ public class App {
     }
 
     public List<String[]> groupByLastname(List<String[]> actualLines) {
-        return actualLines;
+        Map<String, List<User>> records = actualLines
+                .stream()
+                .map(e -> createUserFromLine(e))
+                .collect(Collectors.groupingBy(e -> e.lastname));
+        List<String[]> results = new ArrayList<>();
+        records.forEach((k, v) -> {
+            for(User u: v){
+                results.add(new String[]{
+                        u.lastname,
+                        u.firstname,
+                        u.username,
+                        u.email,
+                        u.phone
+                });
+            }
+        });
+        return results;
     }
 
 }
