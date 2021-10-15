@@ -6,7 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,8 +31,6 @@ public class ContactTest {
     public void checkFirstPerson() {
         // Arrange
         String lastNameToCheck = contacts_test.get(0).firstName;
-        // Act
-
 
         // Assert
         assertEquals("Rébecca", lastNameToCheck, "Ce message s'affiche si le test échoue");
@@ -50,14 +51,31 @@ public class ContactTest {
         String email = contacts_test.get(0).email;
         String firstName = contacts_test.get(0).firstName;
 
-        assertEquals(true, email.contains(firstName), "Le firstName n'est pas dans le email");
+        assertEquals(true, email.contains(Contact.removeDiacriticalMarks(firstName.toLowerCase(Locale.ROOT))), "Le firstName n'est pas dans le email");
+    }
+
+    @Test
+    public void checkIsLastNameInEmail(){
+        // Arrange
+        String email = contacts_test.get(0).email;
+        String lastName = contacts_test.get(0).lastName;
+
+        assertEquals(true, email.contains(lastName.toLowerCase(Locale.ROOT)), "Le lastName n'est pas dans le email");
+    }
+
+    @Test
+    public void checkIsNickNameInEmail(){
+        // Arrange
+        String email = contacts_test.get(0).email;
+        String nickName = contacts_test.get(0).nickName;
+
+        assertEquals(true, email.contains(nickName.toLowerCase(Locale.ROOT)), "Le lastName n'est pas dans le email");
     }
 
     @Test
     public void checkIfPhoneIsCorrect() {
         // Arrange
         String phoneToCheck = contacts_test.get(0).phone;
-        // Act
 
         // Assert
         assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), "Ce message s'affiche si le test échoue");
