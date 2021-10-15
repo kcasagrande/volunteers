@@ -72,7 +72,7 @@ class SearcherTest {
         assertEquals( "lafromboise;romaine;Banditto;Banditto7416@example.com;+33055520502", String.join(";",finalLine),"Ce message s'affiche si le testNumberParam échoue");
     }
 
-   /* @Test
+    @Test
     public void deleteIndexesFromMainList() throws IOException
     {
         Searcher searcher = new Searcher();
@@ -86,21 +86,23 @@ class SearcherTest {
                 .collect(toList());
 
         List<String[]> attendu = new ArrayList<String[]>();
+        attendu.add(null);
+        attendu.add(null);
         String[] line1 = {"Reverdin","Léo","","Paladin4409@example.net","+33045550603"};
         attendu.add(line1);
         String[] line2 = {"Gicquel","Valérie","","valerie.gicquel@example.org","+33055529222"};
         attendu.add(line2);
-        String[] line3 = {"Reverdin","Léo","SarahLaBg","Paladin4409@example.net","+33045550603"};
+        attendu.add(null);
+        String[] line3 = {"Reverdin","Léo","","Paladin4409@example.net","+33045550603"};
         attendu.add(line3);
         String[] line4 = {"Gicquel","Valérie","","valerie.gicquel@example.org","+33055529222"};
         attendu.add(line4);
 
         List<String[]> result = searcher.deleteIndexesFromMainList(listIndex, lines);
-
         assertArrayEquals(attendu.toArray(), result.toArray());
 
 
-    }*/
+    }
 
 
 }

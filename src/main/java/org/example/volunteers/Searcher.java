@@ -95,7 +95,11 @@ public class Searcher {
 
     public List<String[]> deleteIndexesFromMainList(List<Integer> indexList, List<String[]> list)
     {
-        return null;
+        String[] vide = {"","","","",""};
+        for (int index:indexList ) {
+            list.set(index, null);
+        }
+        return list;
     }
 
 

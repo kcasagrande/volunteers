@@ -30,6 +30,7 @@ public class App {
             lines = searcher.deleteIndexesFromMainList(intList,lines);
         }
 
+
         System.out.println(uniqueList.size());
 
     }
