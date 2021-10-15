@@ -16,5 +16,7 @@ public class App {
         System.out.println("Result goes here");
 
         Parser parser = new Parser(lines);
+
+        parser.format();
     }
 }
