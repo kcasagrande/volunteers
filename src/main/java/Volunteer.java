@@ -1,4 +1,4 @@
-public class Volonteer {
+public class Volunteer {
     String firstname;
     String name;
     String nametag;

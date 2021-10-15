@@ -2,7 +2,7 @@ import java.util.List;
 
 public class Merge{
 
-  public static List<Volonteer> MergeName(List<Volonteer> volonteers){
+  public static List<Volunteer> MergeName(List<Volunteer> volonteers){
     if(volonteers.get(0).name == ""){
       for(int i =0; i<volonteers.size(); i++){
         if(volonteers.get(i).name != "" && volonteers.get(i).name != volonteers.get(0).firstname){
@@ -14,7 +14,7 @@ public class Merge{
     return volonteers;
   }
 
-  public static List<Volonteer> Mergefirstname(List<Volonteer> volonteers){
+  public static List<Volunteer> Mergefirstname(List<Volunteer> volonteers){
     if(volonteers.get(0).firstname == ""){
       for(int i =0; i<volonteers.size(); i++){
         if(volonteers.get(i).firstname != "" && volonteers.get(i).firstname != volonteers.get(0).name){
@@ -26,7 +26,7 @@ public class Merge{
     return volonteers;
   }
 
-  public static List<Volonteer> MergeNametag(List<Volonteer> volonteers){
+  public static List<Volunteer> MergeNametag(List<Volunteer> volonteers){
     if(volonteers.get(0).nametag == ""){
       for(int i =0; i<volonteers.size(); i++){
         if(volonteers.get(i).nametag != ""){
@@ -38,7 +38,7 @@ public class Merge{
     return volonteers;
   }
 
-  public static List<Volonteer> MergeMail(List<Volonteer> volonteers){
+  public static List<Volunteer> MergeMail(List<Volunteer> volonteers){
     if(volonteers.get(0).mail == ""){
       for(int i =0; i<volonteers.size(); i++){
         if(volonteers.get(i).mail != ""){
@@ -50,7 +50,7 @@ public class Merge{
     return volonteers;
   }
 
-  public static List<Volonteer> MergeTel(List<Volonteer> volonteers){
+  public static List<Volunteer> MergeTel(List<Volunteer> volonteers){
     if(volonteers.get(0).tel == ""){
       for(int i =0; i<volonteers.size(); i++){
         if(volonteers.get(i).tel != ""){

@@ -4,17 +4,17 @@ import java.util.ArrayList;
 public class Parser {
 
     public List<String[]> data;
-    public List<Volonteer> volonteers = new ArrayList<Volonteer>();
+    public List<Volunteer> volonteers = new ArrayList<Volunteer>();
 
 
     public Parser(List<String[]> data) {
         this.data = data;
     }
 
-    public List<Volonteer> format() {
+    public List<Volunteer> format() {
 
         for (String[] item : data) {
-            Volonteer volonteer = new Volonteer();
+            Volunteer volonteer = new Volunteer();
 
             volonteer.firstname = item[0].toString();
             volonteer.name = item[1].toString();
@@ -23,9 +23,9 @@ public class Parser {
 
             if (item.length == 5) volonteer.tel = item[4].toString();
             else volonteer.tel = "";
-        }
 
-        System.out.println(volonteers.get(0).name);
+            volonteers.add(volonteer);
+        }
 
         return volonteers;
     }
