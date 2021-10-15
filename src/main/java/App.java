@@ -17,17 +17,6 @@ public class App {
             .collect(toList());
 
         List<Contact> contacts = CreateContactList(personnes);
-        System.out.println(contacts.get(0).firstName);
-
-    }
-
-    public static boolean isEmailValid(String email){
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-
-        Pattern pattern = Pattern.compile(regex);
-
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 
     public static List<Contact> CreateContactList(List<String[]> contactLine) {

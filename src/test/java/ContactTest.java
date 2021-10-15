@@ -39,11 +39,9 @@ public class ContactTest {
     public void checkIfEmailIsCorrect() {
         // Arrange
         String emailToCheck = contacts_test.get(0).email;
-        // Act
-
 
         // Assert
-        assertEquals(true, App.isEmailValid(emailToCheck), "Ce message s'affiche si le test échoue");
+        assertEquals(true, Contact.isValidEmail(emailToCheck), "Ce message s'affiche si le test échoue");
     }
 
     @Test
@@ -60,7 +58,6 @@ public class ContactTest {
         // Arrange
         String phoneToCheck = contacts_test.get(0).phone;
         // Act
-
 
         // Assert
         assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), "Ce message s'affiche si le test échoue");

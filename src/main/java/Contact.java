@@ -9,14 +9,13 @@ public class Contact
     public String email;
     public String phone;
 
-    public static boolean checkIsValidEmail(String email){
+    public static boolean isValidEmail(String email){
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 
-        if(email.contains("@") && email.contains(".")){
-            return true;
-        }else {
-            return false;
-        }
+        Pattern pattern = Pattern.compile(regex);
 
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     public static boolean checkIsValidNumberPhone(String phone){
