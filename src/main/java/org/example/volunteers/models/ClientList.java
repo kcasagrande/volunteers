@@ -112,8 +112,16 @@ public class ClientList {
     }
 
     private String getMostFromStringList(HashMap<String, Integer> strings) {
-        // TODO
+        String mostValue = "";
+        int occurrencesNumber = 0;
 
-        return "";
+        for (String value: strings.keySet()) {
+            if (occurrencesNumber < strings.get(value)) {
+                occurrencesNumber = strings.get(value);
+                mostValue = value;
+            }
+        }
+
+        return mostValue;
     }
 }
