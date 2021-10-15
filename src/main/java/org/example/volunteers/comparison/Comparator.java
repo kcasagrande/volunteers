@@ -7,8 +7,8 @@ public class Comparator {
     UserMock user2;
 
     public static String Compare(UserMock user1, UserMock user2){
-        if(user1.firstName.equals(user2.firstName) && user1.lastName.equals(user2.lastName)
-                || user1.firstName.equals(user2.lastName) && user1.lastName.equals(user2.firstName)){
+        if(user1.firstName.toLowerCase().equals(user2.firstName.toLowerCase()) && user1.lastName.toLowerCase().equals(user2.lastName.toLowerCase())
+                || user1.firstName.toLowerCase().equals(user2.lastName.toLowerCase()) && user1.lastName.toLowerCase().equals(user2.firstName.toLowerCase())){
             return "same";
         }
         return "not same";

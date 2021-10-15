@@ -28,4 +28,14 @@ public class ComparatorTest {
         result = comparator.Compare(user1, user2);
         assertEquals("same", result);
     }
+
+    @Test
+    public void compareIgnoreUpper(){
+        UserMock user1 = new UserMock("DUPONT", "JEAN");
+        UserMock user2 = new UserMock("Dupont", "Jean");
+        String result;
+        Comparator comparator = new Comparator();
+        result = comparator.Compare(user1, user2);
+        assertEquals("same", result);
+    }
 }
