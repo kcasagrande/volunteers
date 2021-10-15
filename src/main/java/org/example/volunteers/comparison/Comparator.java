@@ -7,7 +7,8 @@ public class Comparator {
     UserMock user2;
 
     public static String Compare(UserMock user1, UserMock user2){
-        if(user1.firstName.equals(user2.firstName) || user1.lastName.equals(user2.lastName)){
+        if(user1.firstName.equals(user2.firstName) && user1.lastName.equals(user2.lastName)
+                || user1.firstName.equals(user2.lastName) && user1.lastName.equals(user2.firstName)){
             return "same";
         }
         return "not same";
