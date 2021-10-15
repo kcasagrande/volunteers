@@ -52,10 +52,16 @@ public class Parser {
             corrected = toCorrect.replace(" ", "");
             // si +33 remplace 0
             corrected = toCorrect.replace("+33", "0");            
+
+            //marche aussi avec 
+            // corrected = toCorrect.replaceAll("\\.|\\(0\\)|-|_| ", "");
+            // corrected = toCorrect.replaceAll("\\+33", "0");
+
             }
             else {isCorrect = true;}       
+            corrected = toCorrect;
         }        
-        corrected = toCorrect;
+        
         return corrected;
     }
 }
