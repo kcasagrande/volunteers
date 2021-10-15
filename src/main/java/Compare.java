@@ -1,13 +1,13 @@
 public class Compare {
 
-  public Volonteer[] volonteers = new Volonteer[900];
-  public Volonteer[] comparedVolonteers = new Volonteer[900];
+  public List<Volonteer> volonteers = new Volonteer[900];
+  public List<Volonteer> comparedVolonteers = new Volonteer[900];
 
-  public Compare(Volonteer[] newVolonteers) {
+  public Compare(List<Volonteer> newVolonteers) {
       this.volonteers = newVolonteers;
   }
 
-  public Volonteer[] CompareNum(String volonteerNum){
+  public List<Volonteer> CompareNum(String volonteerNum){
 
     for(int index = 0; index < volonteers.length ; index ++ ){
       if (volonteerNum == volonteers[index].tel){
@@ -18,7 +18,7 @@ public class Compare {
     return this.comparedVolonteers;
   }
 
-  public Volonteer[] CompareMail(Volonteer[] comparedVolonteers, String volonteerMail){
+  public List<Volonteer> CompareMail(List<Volonteer> comparedVolonteers, String volonteerMail){
 
     for(int index = 0; index < volonteers.length ; index++ ){
       if (volonteerMail == volonteers[index].mail){
@@ -29,7 +29,7 @@ public class Compare {
     return comparedVolonteers;
   }
 
-  public Volonteer[] CompareFirstName(Volonteer[] comparedVolonteers,String volonteerFirstName){
+  public List<Volonteer> CompareFirstName(List<Volonteer> comparedVolonteers,String volonteerFirstName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerFirstName != comparedVolonteers[index].firstname){
@@ -40,7 +40,7 @@ public class Compare {
     return comparedVolonteers;
   }
 
-  public Volonteer[] CompareName(Volonteer[] comparedVolonteers, String volonteerName){
+  public List<Volonteer> CompareName(List<Volonteer> comparedVolonteers, String volonteerName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerName != comparedVolonteers[index].name){
@@ -51,7 +51,7 @@ public class Compare {
     return comparedVolonteers;
   }
 
-  public Volonteer[] CompareFirstNameByName(Volonteer[] comparedVolonteers, String volonteerName){
+  public List<Volonteer> CompareFirstNameByName(List<Volonteer> comparedVolonteers, String volonteerName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerName != comparedVolonteers[index].firstname){
@@ -61,7 +61,7 @@ public class Compare {
     }
     return this.comparedVolonteers;
   }
-  public Volonteer[] CompareNameByFirstName(Volonteer[] comparedVolonteers, String volonteerFirstName){
+  public List<Volonteer> CompareNameByFirstName(List<Volonteer> comparedVolonteers, String volonteerFirstName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerFirstName != comparedVolonteers[index].name){
