@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserTest {
     private Function<String, Integer> dependency;
@@ -77,5 +78,36 @@ class UserTest {
         User userTest = new User(null,null, null,"azerty@gmail.com","054245457687343dk" );
         boolean result = userTest.checkValidPhoneNumberOfUser(testListUser);
         assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimFailed() {
+        User userTest = new User(" Bruneau"," Viviane"," Viviane"," Spookworm7637@example.com"," +33000555132" );
+        boolean result = true;
+
+        if(userTest.checkValidComboLastNameFirstNameOfUser(testListUser) &&
+                userTest.checkValidPhoneNumberOfUser(testListUser) &&
+                userTest.checkValidEmailOfUser(testListUser) &&
+                userTest.checkValidUsernameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimSuccesfull() {
+        User userTest = new User(" Bruneau"," Viviane"," Viviane"," Spookworm7637@example.com"," +33000555132" );
+        userTest.trimAll();
+        boolean result = true;
+
+        if(userTest.checkValidComboLastNameFirstNameOfUser(testListUser) &&
+            userTest.checkValidPhoneNumberOfUser(testListUser) &&
+            userTest.checkValidEmailOfUser(testListUser) &&
+            userTest.checkValidUsernameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 }

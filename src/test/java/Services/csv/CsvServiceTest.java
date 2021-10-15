@@ -85,7 +85,6 @@ class CsvServiceTest {
         String[] userString;
         boolean result = true;
 
-        System.out.println(linesUsers.size());
         for(int i = 0;linesUsers.size() <= i; i++)
         {
             user = linesUsers.get(i);
@@ -118,7 +117,6 @@ class CsvServiceTest {
         String[] userString;
         boolean result = true;
 
-        System.out.println(linesUsers.size());
         for(int i = 0;linesUsers.size() <= i; i++)
         {
             user = linesUsers.get(i);

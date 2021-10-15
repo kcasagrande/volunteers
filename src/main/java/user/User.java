@@ -104,4 +104,11 @@ public class User {
         return true;
     }
 
+    protected void trimAll() {
+        firstName = firstName.trim();
+        lastName = lastName.trim();
+        email = email.trim();
+        phone = phone.trim();
+        userName = userName.trim();
+    }
 }
