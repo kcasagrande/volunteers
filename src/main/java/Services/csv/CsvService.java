@@ -40,7 +40,7 @@ public class CsvService {
         isCsvExists();
 
         lines = Files.readAllLines(Paths.get(csvPath))
-                .stream().map(string -> string.split(";"))
+                .stream().map(string -> string.split(";", -1))
                 .collect(toList());
 
         // Check if csv is empty
