@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Parser {
 
     public List<String[]> data;
-    public List<Volunteer> volonteers = new ArrayList<Volunteer>();
+    public List<Volunteer> volunteers = new ArrayList<Volunteer>();
 
 
     public Parser(List<String[]> data) {
@@ -14,20 +14,20 @@ public class Parser {
     public List<Volunteer> format() {
 
         for (String[] item : data) {
-            Volunteer volonteer = new Volunteer();
+            Volunteer volunteer = new Volunteer();
 
-            volonteer.firstname = item[0].toString();
-            volonteer.name = item[1].toString();
-            volonteer.nametag = item[2].toString();
-            volonteer.mail = item[3].toString();
+            volunteer.firstname = item[0].toString();
+            volunteer.name = item[1].toString();
+            volunteer.nametag = item[2].toString();
+            volunteer.mail = item[3].toString();
 
-            if (item.length == 5) volonteer.tel = item[4].toString();
-            else volonteer.tel = "";
+            if (item.length == 5) volunteer.tel = item[4].toString();
+            else volunteer.tel = "";
 
-            volonteers.add(volonteer);
+            volunteers.add(volunteer);
         }
 
-        return volonteers;
+        return volunteers;
     }
 
     //corrige les numéro de télephone non conformes 

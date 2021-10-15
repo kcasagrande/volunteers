@@ -3,72 +3,72 @@ import java.util.List;
 
 public class Compare {
 
-  public List<Volunteer> volonteers = new ArrayList<Volunteer>();
-  public List<Volunteer> comparedVolonteers = new ArrayList<Volunteer>();
+  public List<Volunteer> volunteers = new ArrayList<Volunteer>();
+  public List<Volunteer> comparedVolunteers = new ArrayList<Volunteer>();
 
-  public Compare(List<Volunteer> newVolonteers) {
-      this.volonteers = newVolonteers;
+  public Compare(List<Volunteer> newVolunteers) {
+      this.volunteers = newVolunteers;
   }
 
-  public List<Volunteer> CompareNum(String volonteerNum){
+  public List<Volunteer> CompareNum(String volunteerNum){
 
-    for(int index = 0; index < volonteers.size() ; index ++ ){
-      if (volonteerNum == volonteers.get(index).tel){
-        this.comparedVolonteers.add(volonteers.get(index));
+    for(int index = 0; index < volunteers.size() ; index ++ ){
+      if (volunteerNum == volunteers.get(index).tel){
+        this.comparedVolunteers.add(volunteers.get(index));
       }
     }
-    return this.comparedVolonteers;
+    return this.comparedVolunteers;
   }
 
-  public List<Volunteer> CompareMail(List<Volunteer> comparedVolonteers, String volonteerMail){
+  public List<Volunteer> CompareMail(List<Volunteer> comparedVolunteers, String volunteerMail){
 
-    for(int index = 0; index < volonteers.size() ; index++ ){
-      if (volonteerMail == volonteers.get(index).mail){
-        this.comparedVolonteers.add(volonteers.get(index));
+    for(int index = 0; index < volunteers.size() ; index++ ){
+      if (volunteerMail == volunteers.get(index).mail){
+        this.comparedVolunteers.add(volunteers.get(index));
       }
     }
-    return comparedVolonteers;
+    return comparedVolunteers;
   }
 
-  public List<Volunteer> CompareFirstName(List<Volunteer> comparedVolonteers,String volonteerFirstName){
+  public List<Volunteer> CompareFirstName(List<Volunteer> comparedVolunteers,String volunteerFirstName){
 
-    for(int index = 0; index < comparedVolonteers.size() ; index++ ){
-      if (volonteerFirstName != volonteers.get(index).firstname){
-        this.CompareNameByFirstName(comparedVolonteers, volonteerFirstName);
+    for(int index = 0; index < comparedVolunteers.size() ; index++ ){
+      if (volunteerFirstName != volunteers.get(index).firstname){
+        this.CompareNameByFirstName(comparedVolunteers, volunteerFirstName);
       }
     }
-    return comparedVolonteers;
+    return comparedVolunteers;
   }
 
-  public List<Volunteer> CompareName(List<Volunteer> comparedVolonteers, String volonteerName){
+  public List<Volunteer> CompareName(List<Volunteer> comparedVolunteers, String volunteerName){
 
-    for(int index = 0; index < comparedVolonteers.size() ; index++ ){
-      if (volonteerName != volonteers.get(index).name){
-        this.CompareFirstNameByName(comparedVolonteers, volonteerName);
+    for(int index = 0; index < comparedVolunteers.size() ; index++ ){
+      if (volunteerName != volunteers.get(index).name){
+        this.CompareFirstNameByName(comparedVolunteers, volunteerName);
       }
     }
-    return comparedVolonteers;
+    return comparedVolunteers;
   }
 
-  public List<Volunteer> CompareFirstNameByName(List<Volunteer> comparedVolonteers, String volonteerName){
+  public List<Volunteer> CompareFirstNameByName(List<Volunteer> comparedVolunteers, String volunteerName){
 
-    for(int index = 0; index < comparedVolonteers.size() ; index++ ){
-      if (volonteerName != volonteers.get(index).firstname){
-        comparedVolonteers.remove(index);
+    for(int index = 0; index < comparedVolunteers.size() ; index++ ){
+      if (volunteerName != volunteers.get(index).firstname){
+        comparedVolunteers.remove(index);
         index = index--;
       }
     }
-    return this.comparedVolonteers;
+    return this.comparedVolunteers;
   }
 
-  public List<Volunteer> CompareNameByFirstName(List<Volunteer> comparedVolonteers, String volonteerName){
+  public List<Volunteer> CompareNameByFirstName(List<Volunteer> comparedVolunteers, String volunteerName){
 
-    for(int index = 0; index < comparedVolonteers.size() ; index++ ){
-      if (volonteerName != volonteers.get(index).firstname){
-        comparedVolonteers.remove(index);
+    for(int index = 0; index < comparedVolunteers.size() ; index++ ){
+      if (volunteerName != volunteers.get(index).firstname){
+        comparedVolunteers.remove(index);
         index = index--;
       }
     }
-    return comparedVolonteers;
+    return comparedVolunteers;
   }
 }
