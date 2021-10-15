@@ -34,8 +34,7 @@ public class Compare {
 
     for(int index = 0; index < comparedVolonteers.size() ; index++ ){
       if (volonteerFirstName != volonteers.get(index).firstname){
-        comparedVolonteers.remove(index);
-        index = index--;
+        this.CompareNameByFirstName(comparedVolonteers, volonteerFirstName);
       }
     }
     return comparedVolonteers;
@@ -45,8 +44,7 @@ public class Compare {
 
     for(int index = 0; index < comparedVolonteers.size() ; index++ ){
       if (volonteerName != volonteers.get(index).name){
-        comparedVolonteers.remove(index);
-        index = index--;
+        this.CompareFirstNameByName(comparedVolonteers, volonteerName);
       }
     }
     return comparedVolonteers;
@@ -62,7 +60,7 @@ public class Compare {
     }
     return this.comparedVolonteers;
   }
-  
+
   public List<Volonteer> CompareNameByFirstName(List<Volonteer> comparedVolonteers, String volonteerName){
 
     for(int index = 0; index < comparedVolonteers.size() ; index++ ){
