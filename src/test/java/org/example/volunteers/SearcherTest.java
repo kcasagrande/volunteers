@@ -15,8 +15,7 @@ class SearcherTest {
 
     @Test
     public void testSimilitudeShouldReturnListOfSimilitude() throws IOException {
-
-        Searcher searcher = new Searcher();
+            Searcher searcher = new Searcher();
 
         // arrange
         List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/Testdata.csv"))
@@ -25,12 +24,51 @@ class SearcherTest {
 
         String[] line = {"GUILLOUX","SARAH","","sarah_guilloux@example.com","+33085552877"};
         // act
-        List<Integer> result = searcher.searchSimilar(line,lines);
+        List<Integer> result = searcher.searchSimilarIndexes(line,lines);
         List<Integer> listIndex=new ArrayList<Integer>();
         listIndex.add(0);
         listIndex.add(1);
-        listIndex.add(2);
+        listIndex.add(4);
         // assert
         assertEquals(listIndex,result);
+    }
+
+
+    @Test
+    public void createUniqueElementFromIndexList() throws IOException
+    {
+        Searcher searcher = new Searcher();
+        List<Integer> listIndex=new ArrayList<Integer>();
+        listIndex.add(0);
+        listIndex.add(1);
+        listIndex.add(4);
+
+        List<String[]> attendu = new ArrayList<String[]>();
+        String[] line1 = {"Sarah","Guilloux","","","+33085552877"};
+        attendu.add(line1);
+        String[] line2 = {"GUILLOUX","SARAH","","sarah_guilloux@example.com",""};
+        attendu.add(line2);
+        String[] line3 = {"","","SarahLaBg","sarah_guilloux@example.com","+33085552877"};
+        attendu.add(line3);
+
+        List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/Testdata.csv"))
+                .stream().map(string -> string.split(";",-1))
+                .collect(toList());
+
+        List<String[]> result = searcher.createUniqueListFromSearchSimilarIndex(listIndex, lines);
+
+        assertArrayEquals(attendu.toArray(), result.toArray());
+
+    }
+
+    @Test
+    public void testFusionLineUnique() throws IOException {
+
+        Searcher searcher = new Searcher();
+        List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/TestdataFusion.csv"))
+                .stream().map(string -> string.split(";", -1))
+                .collect(toList());
+        String[] finalLine = searcher.createUniqueUserFromSimilarList(lines);
+        assertEquals(finalLine, "lafromboise;romaine;Banditto;Banditto7416@example.com;+33055520502", "Ce message s'affiche si le testNumberParam échoue");
     }
 }

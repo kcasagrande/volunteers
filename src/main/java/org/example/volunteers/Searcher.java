@@ -6,14 +6,16 @@ import java.util.List;
 
 public class Searcher {
 
+
     public Searcher() {
     }
 
-    public static List<Integer> searchSimilar(String[] lineToSearch, List<String[]> lines)
+    public static List<Integer> searchSimilarIndexes(String[] lineToSearch, List<String[]> lines)
     {
         List<Integer> listOfSimilarIndexes = new ArrayList<>();
 
         for (String[] line : lines) {
+            System.out.println(Arrays.toString(line));
             if(lineToSearch.equals(line))
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
@@ -45,5 +47,24 @@ public class Searcher {
         }
 
         return listOfSimilarIndexes;
+    }
+
+    public List<String[]> createUniqueListFromSearchSimilarIndex(List<Integer> indexList, List<String[]> initLines){
+
+        List<String[]> similarValueList = new ArrayList<>();
+
+        for (int i = 0; i<=indexList.size()-1;i++){
+
+            similarValueList.add(initLines.get(indexList.get(i)));
+        }
+        return similarValueList;
+    }
+
+    public String[] createUniqueUserFromSimilarList(List<String[]> similarListValue){
+
+        List<String[]> uniqueValueList = new ArrayList<>();
+
+        
+        return null;
     }
 }

@@ -17,8 +17,4 @@ public class Verification {
         }
         return numberOfParams;
     }
-
-    public String[] FusionLineUnique(List<String[]> listeSimilitude) {
-        return null;
-    }
 }

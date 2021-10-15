@@ -17,9 +17,9 @@ public class App {
             .collect(toList());
 
         // Apply dark magic here...
-        Searcher chercheur = new Searcher();
+        /*Searcher chercheur = new Searcher();
         List<Integer> truc = chercheur.searchSimilar(lines.get(245),lines);
-        System.out.println(Arrays.toString(truc.toArray()));
+        System.out.println(Arrays.toString(truc.toArray()));*/
         System.out.println("Result goes here");
     }
 

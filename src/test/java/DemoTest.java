@@ -39,15 +39,4 @@ public class DemoTest {
         // Assert
         assertEquals(expected, actual, "Ce message s'affiche si le test échoue");
     }
-
-
-
-    //Test Cherche similitude , en prenant en compte nom/prenom inverse
-
-
-
-    //Test fusion
-
-    //
-
 }

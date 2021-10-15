@@ -20,13 +20,5 @@ class VerificationTest {
         assertEquals(num, 5, "Ce message s'affiche si le testNumberParam échoue");
     }
 
-    @Test
-    public void testFusionLineUnique() throws IOException {
 
-        List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/TestdataFusion.csv"))
-                .stream().map(string -> string.split(";", -1))
-                .collect(toList());
-        String[] finalLine = verif.FusionLineUnique(lines);
-        assertEquals(finalLine, "lafromboise;romaine;Banditto;Banditto7416@example.com;+33055520502", "Ce message s'affiche si le testNumberParam échoue");
-    }
 }
