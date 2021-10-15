@@ -15,8 +15,6 @@ public class Parser {
     public List<Map<PersonProperties, String>> parseCsv(String filePath, String separator) throws IOException {
 
         List<Map<PersonProperties, String>> maps = new ArrayList<>();
-        Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
-
         File csv = new File(filePath);
 
         if((!separator.equals(";") || !csv.exists())) {
