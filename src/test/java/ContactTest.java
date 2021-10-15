@@ -2,9 +2,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
@@ -15,32 +17,38 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ContactTest {
 
     private Function<String, Integer> dependency;
-    List<Contact> contacts_test = new ArrayList<Contact>();
+    ArrayList<Contact> contacts_test = new ArrayList<Contact>();
 
     @BeforeEach
     public void setUp() throws IOException {
         dependency = (String string) -> 1;
-        contacts_test = App.CreateContactList(Files.readAllLines(Paths.get("src/main/resources/data.csv"))
-               .stream().map(string -> string.split(";"))
-               .collect(toList()));
+        List<String[]> personnes = Files.readAllLines(Paths.get("src/main/resources/data.csv"))
+                .stream().map(string -> string.split(";"))
+                .collect(toList());
+
+        ArrayList<Contact> contacts = App.CreateContactList(personnes);
+        contacts_test = new ArrayList<Contact>(App.removeDuplicates(contacts));
     }
 
     @Test
     public void checkFirstPerson() {
         // Arrange
-        String lastNameToCheck = contacts_test.get(0).firstName;
+        Contact person = contacts_test.get(0);
+        System.out.println(person.firstName.concat(" " + person.lastName).concat(" " + person.email));
 
         // Assert
-        assertEquals("Rébecca", lastNameToCheck, "Ce message s'affiche si le test échoue");
+        assertEquals("rao", person.firstName.toLowerCase(Locale.ROOT), "Ce message s'affiche si le test échoue");
     }
 
     @Test
     public void checkIfEmailIsCorrect() {
         // Arrange
-        String emailToCheck = contacts_test.get(0).email;
+        Contact person = contacts_test.get(0);
+        Contact person = contacts_test.get(0);
+        System.out.println(person.email);
 
         // Assert
-        assertEquals(true, Contact.isValidEmail(emailToCheck), "Ce message s'affiche si le test échoue");
+        assertEquals(true, Contact.isValidEmail(person.email), "Ce message s'affiche si le test échoue");
     }
 
     @Test

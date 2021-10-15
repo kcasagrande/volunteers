@@ -1,4 +1,5 @@
 import java.text.Normalizer;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,12 @@ public class Contact
     public String nickName;
     public String email;
     public String phone;
+
+
+
+    public String getEmail(){
+        return this.email;
+    }
 
     public static String removeDiacriticalMarks(String string) {
         return Normalizer.normalize(string, Normalizer.Form.NFD)
