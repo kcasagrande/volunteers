@@ -18,7 +18,7 @@ public class Compare {
     return this.comparedVolonteers;
   }
 
-  public Volonteer[] CompareMail(Volonteer comparedVolonteers, String volonteerMail){
+  public Volonteer[] CompareMail(Volonteer[] comparedVolonteers, String volonteerMail){
 
     for(int index = 0; index < volonteers.length ; index++ ){
       if (volonteerMail == volonteers[index].mail){
@@ -29,7 +29,7 @@ public class Compare {
     return comparedVolonteers;
   }
 
-  public Volonteer[] CompareFirstName(Volonteer comparedVolonteers,String volonteerFirstName){
+  public Volonteer[] CompareFirstName(Volonteer[] comparedVolonteers,String volonteerFirstName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerFirstName != comparedVolonteers[index].firstname){
@@ -40,7 +40,7 @@ public class Compare {
     return comparedVolonteers;
   }
 
-  public Volonteer[] CompareName(Volonteer comparedVolonteers, String volonteerName){
+  public Volonteer[] CompareName(Volonteer[] comparedVolonteers, String volonteerName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerName != comparedVolonteers[index].name){
@@ -51,7 +51,7 @@ public class Compare {
     return comparedVolonteers;
   }
 
-  public Volonteer[] CompareFirstNameByName(Volonteer comparedVolonteers, String volonteerName){
+  public Volonteer[] CompareFirstNameByName(Volonteer[] comparedVolonteers, String volonteerName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerName != comparedVolonteers[index].firstname){
@@ -61,7 +61,7 @@ public class Compare {
     }
     return this.comparedVolonteers;
   }
-  public Volonteer[] CompareNameByFirstName(Volonteer comparedVolonteers, String volonteerFirstName){
+  public Volonteer[] CompareNameByFirstName(Volonteer[] comparedVolonteers, String volonteerFirstName){
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerFirstName != comparedVolonteers[index].name){
