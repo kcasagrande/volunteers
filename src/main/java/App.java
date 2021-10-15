@@ -95,4 +95,10 @@ public class App {
         );
         return usersMap;
     }
+
+    public static List<User> filterPhone(List<User> users) {
+        return users.stream().filter(
+                user -> user.tel.length() == 10
+        ).collect(toList());
+    }
 }
