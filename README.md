@@ -1,4 +1,4 @@
-Membres du groupe :
-Julien Cottier
-Hugo Lantillon
-Pierre Malasiewicz
+Membres du groupe :<br />
+Julien Cottier<br />
+Hugo Lantillon<br />
+Pierre Malasiewicz<br />
