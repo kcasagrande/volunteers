@@ -61,22 +61,35 @@ public class Searcher {
         return similarValueList;
     }
 
+    // retourne un tableau de string contenant une seule entrée trié sur la liste de similitude
     public String[] createUniqueUserFromSimilarList(List<String[]> similarListValue){
 
         HashMap<String,String> valueHashMap = new HashMap<>();
         List<String[]> uniqueValueList = new ArrayList<>();
 
         for(int i = 0; i< similarListValue.size();i++){
+
+            if (valueHashMap.get("prenom") == null || valueHashMap.get("prenom").isEmpty()){
                 valueHashMap.put("prenom", similarListValue.get(i)[0]);
+            }
+            if(valueHashMap.get("nom") == null || valueHashMap.get("nom").isEmpty()){
                 valueHashMap.put("nom",similarListValue.get(i)[1]);
+            }
+            if(valueHashMap.get("pseudo") == null || valueHashMap.get("pseudo").isEmpty()){
                 valueHashMap.put("pseudo",similarListValue.get(i)[2]);
+            }
+            if (valueHashMap.get("mail") == null || valueHashMap.get("mail").isEmpty()){
                 valueHashMap.put("mail",similarListValue.get(i)[3]);
+            }
+            if (valueHashMap.get("telephone") == null || valueHashMap.get("telephone").isEmpty()){
                 valueHashMap.put("telephone",similarListValue.get(i)[4]);
+            }
         }
 
         System.out.println(valueHashMap);
 
-        return null;
+        return new String[]{valueHashMap.get("prenom"), valueHashMap.get("nom"),
+                valueHashMap.get("pseudo"),valueHashMap.get("mail"),valueHashMap.get("telephone")};
     }
 
 
