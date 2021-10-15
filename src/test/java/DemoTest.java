@@ -1,25 +1,22 @@
-import org.example.volunteers.Demo;
 import org.example.volunteers.model.Person;
 import org.example.volunteers.utils.PersonParser;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Function;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-public class DemoTest {
+class DemoTest {
     @Test
     void testModel(){
         Person person = new Person("GUYON", "clement.guyon@gmail.com", "Clément", "0781915332");
-
+        Assertions.assertInstanceOf(Person.class, person);
     }
 
     @Test
     void testParser(){
         PersonParser personParser = new PersonParser();
-        Assertions.assertEquals(null, personParser.parse(""));
+        Assertions.assertInstanceOf(Person.class, personParser.parse(new ArrayList<>()));
     }
 }
