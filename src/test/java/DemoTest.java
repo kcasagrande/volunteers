@@ -2,8 +2,13 @@ import org.example.volunteers.Demo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,4 +39,15 @@ public class DemoTest {
         // Assert
         assertEquals(expected, actual, "Ce message s'affiche si le test échoue");
     }
+
+
+
+    //Test Cherche similitude , en prenant en compte nom/prenom inverse
+
+
+
+    //Test fusion
+
+    //
+
 }
