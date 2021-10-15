@@ -14,5 +14,7 @@ public class App {
         // Apply dark magic here...
 
         System.out.println("Result goes here");
+
+        Parser parser = new Parser(lines);
     }
 }
