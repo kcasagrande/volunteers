@@ -29,4 +29,26 @@ public class Compare {
     return this.comparedVolonteers;
   }
 
+  public Volonteer[] CompareFirstName(String volonteerFirstName){
+    
+    for(int index = 0; index < volonteers.length ; index++ ){
+      if (volonteerFirstName == volonteers[index].firstname){
+        this.comparedVolonteers[index]= volonteers[index];
+      }
+
+    }
+    return this.comparedVolonteers;
+  }
+
+  public Volonteer[] CompareName(String volonteerName){
+    
+    for(int index = 0; index < volonteers.length ; index++ ){
+      if (volonteerName == volonteers[index].name){
+        this.comparedVolonteers[index]= volonteers[index];
+      }
+
+    }
+    return this.comparedVolonteers;
+  }
+
 }
