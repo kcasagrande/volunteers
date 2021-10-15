@@ -33,12 +33,10 @@ public class Parser {
     }
 
     //corrige les numéro de télephone non conformes 
-    public String formatePhoneNumber(String toCorrect) {
+    public static String formatePhoneNumber(String toCorrect) {
         String corrected = toCorrect;
-        boolean isCorrect = false;
-        while (!isCorrect){
-            // si ne fait pas 10 caractère 
-            if (toCorrect.length() > 10){            
+         // si ne fait pas 10 caractère 
+        if (toCorrect.length() > 10){            
             // si . suppr             
             corrected = toCorrect.replace(".", "");
             // si - suppr
@@ -55,10 +53,10 @@ public class Parser {
             //marche aussi avec 
             // corrected = toCorrect.replaceAll("\\.|\\(0\\)|-|_| ", "");
             // corrected = toCorrect.replaceAll("\\+33", "0");
-
-            }
-            else {isCorrect = true;}      
         }        
+        else {
+            corrected = toCorrect;
+        }  
         
         return corrected;
     }
