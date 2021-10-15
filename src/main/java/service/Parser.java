@@ -4,6 +4,7 @@ package service;
 import model.Person;
 import model.PersonProperties;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,15 +17,15 @@ public class Parser {
         List<Map<PersonProperties, String>> maps = new ArrayList<>();
         Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
 
-        if(!separator.equals(";")) {
+        File csv = new File(filePath);
+
+        if((!separator.equals(";") || !csv.exists())) {
             return maps;
         }
 
         Set<String[]> lines = Files.readAllLines(Paths.get(filePath))
                 .stream().map(string -> string.split(separator))
                 .collect(Collectors.toSet());
-
-
 
         lines.forEach(strings -> {
             Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
