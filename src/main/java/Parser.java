@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.*;
 
 public class Parser {
 
@@ -30,5 +31,31 @@ public class Parser {
             index++;
         }
         return volonteers;
+    }
+
+    //corrige les numéro de télephone non conformes 
+    public String formatePhoneNumber(String toCorrect) {
+        String corrected;
+        boolean isCorrect = false;
+        while (!isCorrect){
+            // si ne fait pas 10 caractère 
+            if (toCorrect.length() > 10){            
+            // si . suppr             
+            corrected = toCorrect.replace(".", "");
+            // si - suppr
+            corrected = toCorrect.replace("-", "");
+            // si _ suppr
+            corrected = toCorrect.replace("_", "");
+            // si (0) suprr
+            corrected = toCorrect.replace("(0)", "");
+            // si espace suprr
+            corrected = toCorrect.replace(" ", "");
+            // si +33 remplace 0
+            corrected = toCorrect.replace("+33", "0");            
+            }
+            else {isCorrect = true;}       
+        }        
+        corrected = toCorrect;
+        return corrected;
     }
 }
