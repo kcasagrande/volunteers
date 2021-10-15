@@ -9,7 +9,7 @@ public class Parser {
         this.data = data;
     }
 
-    public void format() {
+    public Volonteer[] format() {
 
         int index = 0;
 
