@@ -1,5 +1,6 @@
 package Services.csv;
 
+import exceptions.CsvEmptyException;
 import exceptions.CsvNotExistException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,6 @@ class CsvServiceTest {
             return;
         }
         catch (CsvNotExistException exception) {
-            System.out.println(exception);
             fail();
         }
         catch (Exception exception) {
@@ -40,7 +40,6 @@ class CsvServiceTest {
             fail();
         }
         catch (CsvNotExistException exception) {
-            System.out.println(exception);
             return;
         }
         catch (Exception exception) {
@@ -49,17 +48,33 @@ class CsvServiceTest {
     }
 
     @Test
-    void readAllLinesResultEmpty() throws IOException, CsvNotExistException {
+    void readAllLinesResultEmpty() throws IOException, CsvNotExistException, CsvEmptyException {
         csvService.setCsvPath("src/test/java/resources/dataEmpty.csv");
-        List<String[]> lines = csvService.readAllLines();
 
-        assertEquals(lines.size(), 0);
+        try {
+            csvService.readAllLines();
+            fail();
+        }
+        catch (CsvEmptyException exception) {
+            return;
+        }
+        catch (Exception exception) {
+            fail();
+        }
     }
     @Test
-    void readAllLinesResultNotEmpty() throws IOException, CsvNotExistException {
+    void readAllLinesResultNotEmpty() throws IOException, CsvNotExistException, CsvEmptyException {
         csvService.setCsvPath("src/test/java/resources/dataNotEmpty.csv");
-        List<String[]> lines = csvService.readAllLines();
 
-        assertNotEquals(lines.size(), 0);
+        try {
+            csvService.readAllLines();
+            return;
+        }
+        catch (CsvEmptyException exception) {
+            fail();
+        }
+        catch (Exception exception) {
+            fail();
+        }
     }
 }
