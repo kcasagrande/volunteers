@@ -1,5 +1,7 @@
 package user;
 
+import java.util.function.Function;
+
 public class User {
 
     // Props
@@ -17,7 +19,7 @@ public class User {
         this.email = email;
         this.phone = phone;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
