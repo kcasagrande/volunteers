@@ -3,10 +3,11 @@ import org.example.volunteers.user.User;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -21,10 +22,10 @@ public class App {
         List<User> users = createUserListFromCSV(lines);
 
         formatNumbers(users);
-
+        aggregateMailAndTel(users);
         users.forEach(
                 user -> {
-                    System.out.println(user.tel);
+                    System.out.println(user.toString());
                 }
         );
     }
@@ -59,5 +60,39 @@ public class App {
                     }
                 }
         );
+    }
+
+    public static void aggregateMailAndTel(List<User> users) {
+        List<User> mails = new ArrayList<>();
+        users.forEach(
+                user -> {
+                    if (!user.mail.equals("")) mails.add(user);
+                }
+        );
+
+        users.clear();
+
+        HashMap<String, List<User>> mailsMap = createMap(mails);
+
+        mailsMap.forEach(
+                (key, value) -> {
+                    value.forEach(
+                            user -> {
+
+                            }
+                    );
+                }
+        );
+
+    }
+
+    public static HashMap<String, List<User>> createMap(List<User> users) {
+        HashMap<String, List<User>> usersMap = new HashMap<>();
+        users.forEach(
+                user1 -> {
+                    usersMap.put(user1.mail, users.stream().filter(user -> user1.mail.equals(user.mail)).collect(toList()));
+                }
+        );
+        return usersMap;
     }
 }

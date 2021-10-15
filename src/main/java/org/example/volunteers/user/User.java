@@ -10,4 +10,17 @@ public class User {
         this.mail = mail;
         this.tel = tel;
     }
+
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", pseudo='" + pseudo + '\'' +
+                ", mail='" + mail + '\'' +
+                ", tel='" + tel + '\'' +
+                '}';
+    }
 }
