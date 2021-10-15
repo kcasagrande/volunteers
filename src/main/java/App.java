@@ -2,7 +2,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,6 +34,10 @@ public class App {
 
     public User createUserFromLine(String[] line) {
         return new User(line[0], line[1], line[2], line[3], line[4]);
+    }
+
+    public List<String[]> groupByLastname(List<String[]> actualLines) {
+        return actualLines;
     }
 
 }

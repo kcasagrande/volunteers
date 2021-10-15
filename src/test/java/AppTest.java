@@ -33,74 +33,90 @@ public class AppTest {
     }
 
     @Test
-    public void entriesMustBeGroupedByLetter() {
+    public void identicalEntriesGroupByLastname(){
         List<String[]> actualLines = new ArrayList<>();
-        actualLines.add(new String[]{"B", "", "", "", ""});
-        actualLines.add(new String[]{"A", "", "", "", ""});
-        actualLines.add(new String[]{"b", "", "", "", ""});
-        actualLines.add(new String[]{"a", "", "", "", ""});
+        actualLines.add(new String[]{"a", "", "a", "", "a"});
+        actualLines.add(new String[]{"a", "a", "", "a", ""});
 
         List<String[]> expectedLines = new ArrayList<>();
-        expectedLines.add(new String[]{"A", "", "", "", ""});
-        expectedLines.add(new String[]{"a", "", "", "", ""});
-        expectedLines.add(new String[]{"B", "", "", "", ""});
-        expectedLines.add(new String[]{"b", "", "", "", ""});
+        expectedLines.add(new String[]{"a", "a", "a", "a", "a"});
 
-        actualLines = this.app.groupedInput(actualLines);
+        actualLines = this.app.groupByLastname(actualLines);
 
         this.testActualAndExpected(actualLines, expectedLines);
 
     }
 
-    @Test
-    public void entriesMustBeGroupedByLetterByNumber() {
-        List<String[]> actualLines = new ArrayList<>();
-        actualLines.add(new String[]{"A", "", "", "", "1"});
-        actualLines.add(new String[]{"Aa", "", "", "", "1"});
-        actualLines.add(new String[]{"a", "", "", "", "1"});
-        actualLines.add(new String[]{"aA", "", "", "", "2"});
-        actualLines.add(new String[]{"a", "", "", "", "2"});
 
-
-        List<String[]> expectedLines = new ArrayList<>();
-        expectedLines.add(new String[]{"A", "", "", "", "1"});
-        expectedLines.add(new String[]{"a", "", "", "", "1"});
-        expectedLines.add(new String[]{"a", "", "", "", "2"});
-        expectedLines.add(new String[]{"Aa", "", "", "", "1"});
-        expectedLines.add(new String[]{"aA", "", "", "", "2"});
-
-
-        actualLines = this.app.groupedInput(actualLines);
-
-        this.testActualAndExpected(actualLines, expectedLines);
-
-    }
-
-    @Test
-    public void entriesMustBeGroupedAll() {
-        List<String[]> actualLines = new ArrayList<>();
-        actualLines.add(new String[]{"b", "", "", "", "1"});
-        actualLines.add(new String[]{"A", "", "", "", "1"});
-        actualLines.add(new String[]{"cC", "", "", "", "2"});
-        actualLines.add(new String[]{"a", "", "", "", "1"});
-        actualLines.add(new String[]{"b", "", "", "", "2"});
-        actualLines.add(new String[]{"c", "", "", "", "2"});
-        actualLines.add(new String[]{"Cc", "", "", "", "2"});
-        actualLines.add(new String[]{"B", "", "", "", "2"});
-
-        List<String[]> expectedLines = new ArrayList<>();
-        expectedLines.add(new String[]{"A", "", "", "", "1"});
-        expectedLines.add(new String[]{"a", "", "", "", "1"});
-        expectedLines.add(new String[]{"b", "", "", "", "1"});
-        expectedLines.add(new String[]{"b", "", "", "", "2"});
-        expectedLines.add(new String[]{"B", "", "", "", "2"});
-        expectedLines.add(new String[]{"c", "", "", "", "2"});
-        expectedLines.add(new String[]{"cC", "", "", "", "2"});
-        expectedLines.add(new String[]{"Cc", "", "", "", "2"});
-
-        actualLines = this.app.groupedInput(actualLines);
-
-        this.testActualAndExpected(actualLines, expectedLines);
-
-    }
+//    @Test
+//    public void entriesMustBeGroupedByLetter() {
+//        List<String[]> actualLines = new ArrayList<>();
+//        actualLines.add(new String[]{"B", "", "", "", ""});
+//        actualLines.add(new String[]{"A", "", "", "", ""});
+//        actualLines.add(new String[]{"b", "", "", "", ""});
+//        actualLines.add(new String[]{"a", "", "", "", ""});
+//
+//        List<String[]> expectedLines = new ArrayList<>();
+//        expectedLines.add(new String[]{"A", "", "", "", ""});
+//        expectedLines.add(new String[]{"a", "", "", "", ""});
+//        expectedLines.add(new String[]{"B", "", "", "", ""});
+//        expectedLines.add(new String[]{"b", "", "", "", ""});
+//
+//        actualLines = this.app.groupedInput(actualLines);
+//
+//        this.testActualAndExpected(actualLines, expectedLines);
+//
+//    }
+//
+//    @Test
+//    public void entriesMustBeGroupedByLetterByNumber() {
+//        List<String[]> actualLines = new ArrayList<>();
+//        actualLines.add(new String[]{"A", "", "", "", "1"});
+//        actualLines.add(new String[]{"Aa", "", "", "", "1"});
+//        actualLines.add(new String[]{"a", "", "", "", "1"});
+//        actualLines.add(new String[]{"aA", "", "", "", "2"});
+//        actualLines.add(new String[]{"a", "", "", "", "2"});
+//
+//
+//        List<String[]> expectedLines = new ArrayList<>();
+//        expectedLines.add(new String[]{"A", "", "", "", "1"});
+//        expectedLines.add(new String[]{"a", "", "", "", "1"});
+//        expectedLines.add(new String[]{"a", "", "", "", "2"});
+//        expectedLines.add(new String[]{"Aa", "", "", "", "1"});
+//        expectedLines.add(new String[]{"aA", "", "", "", "2"});
+//
+//
+//        actualLines = this.app.groupedInput(actualLines);
+//
+//        this.testActualAndExpected(actualLines, expectedLines);
+//
+//    }
+//
+//    @Test
+//    public void entriesMustBeGroupedAll() {
+//        List<String[]> actualLines = new ArrayList<>();
+//        actualLines.add(new String[]{"b", "", "", "", "1"});
+//        actualLines.add(new String[]{"A", "", "", "", "1"});
+//        actualLines.add(new String[]{"cC", "", "", "", "2"});
+//        actualLines.add(new String[]{"a", "", "", "", "1"});
+//        actualLines.add(new String[]{"b", "", "", "", "2"});
+//        actualLines.add(new String[]{"c", "", "", "", "2"});
+//        actualLines.add(new String[]{"Cc", "", "", "", "2"});
+//        actualLines.add(new String[]{"B", "", "", "", "2"});
+//
+//        List<String[]> expectedLines = new ArrayList<>();
+//        expectedLines.add(new String[]{"A", "", "", "", "1"});
+//        expectedLines.add(new String[]{"a", "", "", "", "1"});
+//        expectedLines.add(new String[]{"b", "", "", "", "1"});
+//        expectedLines.add(new String[]{"b", "", "", "", "2"});
+//        expectedLines.add(new String[]{"B", "", "", "", "2"});
+//        expectedLines.add(new String[]{"c", "", "", "", "2"});
+//        expectedLines.add(new String[]{"cC", "", "", "", "2"});
+//        expectedLines.add(new String[]{"Cc", "", "", "", "2"});
+//
+//        actualLines = this.app.groupedInput(actualLines);
+//
+//        this.testActualAndExpected(actualLines, expectedLines);
+//
+//    }
 }
