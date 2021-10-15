@@ -14,6 +14,7 @@ public class Searcher {
         List<Integer> listOfSimilarIndexes = new ArrayList<>();
 
         for (String[] line : lines) {
+            System.out.println(Arrays.toString(line));
             if(lineToSearch.equals(line))
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
