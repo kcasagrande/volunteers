@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CsvServiceTest {
@@ -12,13 +14,11 @@ class CsvServiceTest {
 
     @BeforeEach
     public void setUp() {
-        csvService = new CsvService("src/main/resources/data.csv");
+        csvService = new CsvService("src/test/java/resources/data.csv");
     }
 
     @Test
     void isCsvExistsTest() {
-        csvService.setCsvPath("src/main/resources/data.csv");
-
         try {
             csvService.isCsvExists();
             return;
@@ -33,7 +33,7 @@ class CsvServiceTest {
     }
     @Test
     void isCsvNotExistsTest() throws IOException {
-        csvService.setCsvPath("src/main/resources/dataNotExist.csv");
+        csvService.setCsvPath("src/test/java/resources/dataNotExist.csv");
 
         try {
             csvService.isCsvExists();
@@ -46,5 +46,20 @@ class CsvServiceTest {
         catch (Exception exception) {
             fail();
         }
+    }
+
+    @Test
+    void readAllLinesResultEmpty() throws IOException, CsvNotExistException {
+        csvService.setCsvPath("src/test/java/resources/dataEmpty.csv");
+        List<String[]> lines = csvService.readAllLines();
+
+        assertEquals(lines.size(), 0);
+    }
+    @Test
+    void readAllLinesResultNotEmpty() throws IOException, CsvNotExistException {
+        csvService.setCsvPath("src/test/java/resources/dataNotEmpty.csv");
+        List<String[]> lines = csvService.readAllLines();
+
+        assertNotEquals(lines.size(), 0);
     }
 }
