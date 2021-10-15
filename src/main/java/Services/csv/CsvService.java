@@ -18,6 +18,22 @@ public class CsvService {
         this.csvPath = csvPath;
     }
 
+    public String getCsvPath() {
+        return csvPath;
+    }
+
+    public void setCsvPath(String csvPath) {
+        this.csvPath = csvPath;
+    }
+
+    public List<String[]> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<String[]> lines) {
+        this.lines = lines;
+    }
+
     public List<String[]> readAllLines() throws IOException, CsvNotExistException {
         // Check if csv file exists
         isCsvExists();
