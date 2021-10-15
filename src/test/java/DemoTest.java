@@ -1,4 +1,7 @@
 import org.example.volunteers.Demo;
+import org.example.volunteers.model.Person;
+import org.example.volunteers.utils.PersonParser;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,30 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DemoTest {
+    @Test
+    void testModel(){
+        Person person = new Person("GUYON", "clement.guyon@gmail.com", "Clément", "0781915332");
 
-    private Function<String, Integer> dependency;
-
-    @BeforeEach
-    public void setUp() {
-        dependency = (String string) -> 1;
     }
 
     @Test
-    public void shouldAlwaysPass() {
-        assertTrue(true);
-    }
-
-    @Test
-    public void shouldReturnTheResultOfACallToTheDependency() {
-        // Arrange
-        Demo demo = new Demo(dependency);
-        String input = "tdd";
-        int expected = 1;
-
-        // Act
-        int actual = demo.run(input);
-
-        // Assert
-        assertEquals(expected, actual, "Ce message s'affiche si le test échoue");
+    void testParser(){
+        PersonParser personParser = new PersonParser();
+        Assertions.assertEquals(null, personParser.parse(""));
     }
 }

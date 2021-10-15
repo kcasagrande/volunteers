@@ -11,8 +11,11 @@ public class App {
             .stream().map(string -> string.split(";"))
             .collect(toList());
 
-        // Apply dark magic here...
+        lines.forEach(
+                strings -> {
+                    System.out.println(strings);
+                }
+        );
 
-        System.out.println("Result goes here");
     }
 }
