@@ -1,5 +1,6 @@
 # volunteers
 
 # membres
-David Herve
-Shaînee Khaldi
+- David Herve
+- Shaînee Khaldi
+- Corentin Laurencine
