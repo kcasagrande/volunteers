@@ -48,4 +48,9 @@ public class Person {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    public Person setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
 }

@@ -1,7 +1,7 @@
 import org.example.volunteers.model.Person;
-import org.example.volunteers.utils.CsvFileReader;
-import org.example.volunteers.utils.PersonParser;
+import org.example.volunteers.utils.*;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
@@ -9,6 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 class VolunteersTest {
+    static List<String[]> stringTab;
+    static PersonParser personParser;
+
+    @BeforeAll
+    static void initialize(){
+        try {
+            stringTab = CsvFileReader.extractDatas("src/main/resources/data.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        personParser = new PersonParser();
+    }
+
     @Test
     void testModel(){
         Person person = new Person("GUYON", "clement.guyon@gmail.com", "SahyyKI0", "Clément", "0781915332");
@@ -16,15 +29,13 @@ class VolunteersTest {
     }
 
     @Test
-    void testParser(){
-        PersonParser personParser = new PersonParser();
+    void personParser(){
         List<Person> listResult = personParser.parse(
                 new ArrayList<>()
                 {
                     {
                         add(new String[]{ "Delbecq", "Adeline","RedWappin", "adeline.delbecq@gmail.com", "01.02.03.04.05"});
                         add(new String[]{"Guyon", "Clément", "SahyyKI0", "clement.guyon@gmail.com", "0781915332"});
-                        add(new String[]{"Casagrande", "Kevin", "KCasa", "kevin.casagrande@gmail.com", "823892043"});
                     }
                 }
         );
@@ -39,11 +50,36 @@ class VolunteersTest {
 
     @Test
     void openCsv() {
-        try {
-            List<String[]> stringTab = CsvFileReader.extractDatas("src/main/resources/data.csv");
-            Assertions.assertInstanceOf(ArrayList.class, stringTab);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Assertions.assertInstanceOf(ArrayList.class, stringTab);
+    }
+
+    @Test
+    void formatPhoneNumber(){
+        Assertions.assertEquals("0781915332", PhoneNumberFormatter.format("+33-(7)-81-91-53-32"));
+        Assertions.assertEquals("0781915332", PhoneNumberFormatter.format("+33-(7)-81-91-53-32"));
+    }
+
+    @Test
+    void findDuplicate(){
+        List<Person> listResult = personParser.parse(
+                new ArrayList<>()
+                {
+                    {
+                        add(new String[]{ "Delbecq", "Adeline","RedWappin", "adeline.delbecq@gmail.com", "01.02.03.04.05"});
+                        add(new String[]{ "Delbecq", "Adeline","RedWappin", "adeline.delbecq@gmail.com", "01.02.03.04.05"});
+                        add(new String[]{"Guyon", "Clément", "SahyyKI0", "clement.guyon@gmail.com", "0781915332"});
+                        add(new String[]{"Guyon", "Clément", "SahyyKI0", "clement.guyon@gmail.com", "0781915332"});
+                    }
+                }
+        );
+
+        var listWithoutDuplicate = DuplicateFinder.findDuplicate(listResult);
+        Assertions.assertEquals(2, listWithoutDuplicate.size());
+    }
+
+    @Test
+    void stringSimilarity(){
+        var similarity = StringSimilarity.similarity("AZERTYUIOP", "AQSDFGHJKL");
+        Assertions.assertEquals(0.1, similarity);
     }
 }
