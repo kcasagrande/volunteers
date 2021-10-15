@@ -60,19 +60,14 @@ public class User {
         this.phone = phone;
     }
 
-    public boolean cleanUserList(User user, List<User> userList){
-
-        if (checkValidComboLastNameFirstNameOfUser(userList)
-                && checkValidUsernameOfUser(userList)
-                && checkValidEmailOfUser(userList)
-                && checkValidPhoneNumberOfUser(userList)){
+    public boolean cleanUserList(List<User> userList){
+        if (checkValidComboLastNameFirstNameOfUser(userList) && checkValidEmailOfUser(userList)){
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public boolean checkValidComboLastNameFirstNameOfUser(List<User> userList) {
+    protected boolean checkValidComboLastNameFirstNameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.firstName.equals(user.getFirstName()) && this.lastName.equals(user.getLastName()))
                 || (this.firstName.equals(user.getLastName()) && this.lastName.equals(user.getFirstName()))) {
@@ -82,7 +77,7 @@ public class User {
         return true;
     }
 
-    public boolean checkValidUsernameOfUser(List<User> userList) {
+    protected boolean checkValidUsernameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.userName.equals(user.getUserName()))) {
                 return false;
@@ -91,7 +86,7 @@ public class User {
         return true;
     }
 
-    public boolean checkValidEmailOfUser(List<User> userList) {
+    protected boolean checkValidEmailOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.email.equals(user.getEmail()))) {
                 return false;
@@ -100,7 +95,7 @@ public class User {
         return true;
     }
 
-    public boolean checkValidPhoneNumberOfUser(List<User> userList) {
+    protected boolean checkValidPhoneNumberOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.phone.equals(user.getPhone()))) {
                 return false;
