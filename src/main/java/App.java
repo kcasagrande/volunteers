@@ -14,7 +14,6 @@ public class App {
     public static void main(String[] args) throws IOException {
         List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/data.csv"))
             .stream()
-            .sorted()
             .map(splitCSV)
             .collect(toList());
 
@@ -31,9 +30,8 @@ public class App {
                 .collect(toList());
     }
 
-//    public List<String[]> fusedInput(List<String[]> actualLines) {
-//        return actualLines
-//                .stream()
-//                .ma
-//    }
+    public User createUserFromLine(String[] line) {
+        return new User(line[0], line[1], line[2], line[3], line[4]);
+    }
+
 }

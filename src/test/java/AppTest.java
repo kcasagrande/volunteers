@@ -27,6 +27,12 @@ public class AppTest {
     }
 
     @Test
+    public void entryBecomeUser(){
+        String[] line = new String[] {"Simon","Marina","Marina","marina.simon@example.net","+33065557043"};
+        assertTrue(this.app.createUserFromLine(line) instanceof User);
+    }
+
+    @Test
     public void entriesMustBeGroupedByLetter() {
         List<String[]> actualLines = new ArrayList<>();
         actualLines.add(new String[]{"B", "", "", "", ""});
@@ -89,27 +95,12 @@ public class AppTest {
         expectedLines.add(new String[]{"b", "", "", "", "2"});
         expectedLines.add(new String[]{"B", "", "", "", "2"});
         expectedLines.add(new String[]{"c", "", "", "", "2"});
-        expectedLines.add(new String[]{"Cc", "", "", "", "2"});
         expectedLines.add(new String[]{"cC", "", "", "", "2"});
+        expectedLines.add(new String[]{"Cc", "", "", "", "2"});
 
         actualLines = this.app.groupedInput(actualLines);
 
         this.testActualAndExpected(actualLines, expectedLines);
 
     }
-
-//    @Test
-//    public void entriesMustBeFused() {
-//        List<String[]> actualLines = new ArrayList<>();
-//        actualLines.add(new String[]{"A", "", "", "", "1"});
-//        actualLines.add(new String[]{"a", "", "", "", "1"});
-//        actualLines.add(new String[]{"a", "", "", "", "2"});
-//
-//        List<String[]> expectedLines = new ArrayList<>();
-//        expectedLines.add(new String[]{"A", "", "", "", "1"});
-//        expectedLines.add(new String[]{"a", "", "", "", "2"});
-//
-//        actualLines = this.app.fusedInput(actualLines);
-//        this.testActualAndExpected(actualLines, expectedLines);
-//    }
 }
