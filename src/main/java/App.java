@@ -19,6 +19,9 @@ public class App {
 
         List<Person> listPerson = personService.getListPersonWDuplicate(parsedFile);
         System.out.println(listPerson);
+
+        List<Person> listTest= personService.listSortByName(listPerson);
+        System.out.println(listTest);
         // Apply dark magic here...
 
         System.out.println("Result goes here");
