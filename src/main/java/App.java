@@ -17,6 +17,8 @@ public class App {
 
         Parser parser = new Parser(lines);
 
-        parser.format();
+        List<Volunteer> volunteers = parser.format();
+
+        for (Volunteer volunteer : volunteers) volunteer.tel = parser.formatPhoneNumber(volunteer.tel);
     }
 }
