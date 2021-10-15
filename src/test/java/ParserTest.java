@@ -21,12 +21,24 @@ public class ParserTest {
     
     @Test
     public void formatDataAndCreateVolunteersArray() {
-        List<Volunteer> volunteer = parser.format();
+        List<Volunteer> volunteers = parser.format();
 
-        assertEquals("Guilloux", volunteer.get(0).firstname);
-        assertEquals("Sarah", volunteer.get(0).name);
-        assertEquals("", volunteer.get(0).nametag);
-        assertEquals("sarah_guilloux@example.org", volunteer.get(0).mail);
-        assertEquals("+33085552877", volunteer.get(0).tel);
+        assertEquals("Guilloux", volunteers.get(0).firstname);
+        assertEquals("Sarah", volunteers.get(0).name);
+        assertEquals("", volunteers.get(0).nametag);
+        assertEquals("sarah_guilloux@example.org", volunteers.get(0).mail);
+        assertEquals("+33085552877", volunteers.get(0).tel);
+    }
+
+    @Test
+    public void formatTelNumberData() {
+        List<Volunteer> volunteers = parser.format();
+
+        for (Volunteer volunteer : volunteers) volunteer.tel = parser.formatPhoneNumber(volunteer.tel);
+
+        assertEquals("0085552877", volunteers.get(0).tel);
+        assertEquals("0007709351", volunteers.get(1).tel);
+        assertEquals("0075552706", volunteers.get(2).tel);
+       
     }
 }
