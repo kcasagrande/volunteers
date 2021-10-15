@@ -22,6 +22,7 @@ public class App {
         List<User> users = createUserListFromCSV(lines);
 
         formatNumbers(users);
+        users = filterPhone(users);
         aggregateMailAndTel(users);
         users.forEach(
                 user -> {
@@ -100,5 +101,13 @@ public class App {
         return users.stream().filter(
                 user -> user.tel.length() == 10
         ).collect(toList());
+    }
+
+    public static List<User> filterNameAndSurname(List<User> users) {
+        String regex = "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,.'-]+";
+        List<User> user2 = users.stream().filter(
+                user -> user.name.matches(regex) && user.surname.matches(regex)
+        ).collect(toList());
+        return user2;
     }
 }

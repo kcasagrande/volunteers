@@ -32,4 +32,16 @@ public class AppTest {
 
         assertEquals(1, users.size());
     }
+
+    @Test
+    public void checkNamesIntegrity() {
+        List<User> users = new ArrayList<>();
+        users.add(new User("", "sdufbsbfg", "", "", "0674886367"));
+        users.add(new User("skbfZYYébf-zdfb", "JJEY hf-zdfb", "", "", "674886367"));
+        users.add(new User("skbfZYYébf-zdfb", "fjzbufzbfiub", "", "", "674886367"));
+
+        users = App.filterNameAndSurname(users);
+
+        assertEquals(1, users.size());
+    }
 }
