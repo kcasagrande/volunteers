@@ -4,7 +4,9 @@ import org.example.volunteers.utils.PersonParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +23,8 @@ class DemoTest {
         Assertions.assertInstanceOf(Person.class, personParser.parse(new ArrayList<>()));
     }
 
-    @Test void readPersonDataFromCsv(){
-        CsvFileReader csvFileReader = new CsvFileReader();
-
-        Assertions.assertThrows(IOException.class, () -> csvFileReader.extractDatas("src/main/resources/data.csv") );
+    @Test
+    void noSuchFileExceptionThrow(){
+        Assertions.assertThrows(NoSuchFileException.class, () -> CsvFileReader.extractDatas("src/main/resources/azdazd.csv") );
     }
 }
