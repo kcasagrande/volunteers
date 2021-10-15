@@ -13,7 +13,6 @@ public class Compare {
       if (volonteerNum == volonteers[index].tel){
         this.comparedVolonteers[index]= volonteers[index];
       }
-
     }
     return this.comparedVolonteers;
   }
@@ -22,9 +21,8 @@ public class Compare {
 
     for(int index = 0; index < volonteers.length ; index++ ){
       if (volonteerMail == volonteers[index].mail){
-        comparedVolonteers[index]= volonteers[index];
+        comparedVolonteers.add(volonteer[index]) ;
       }
-
     }
     return comparedVolonteers;
   }
@@ -33,9 +31,9 @@ public class Compare {
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerFirstName != comparedVolonteers[index].firstname){
-        comparedVolonteers[index]= volonteers[index];
+        comparedVolonteers[index].remove()
+        index = index--
       }
-
     }
     return comparedVolonteers;
   }
@@ -44,9 +42,9 @@ public class Compare {
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerName != comparedVolonteers[index].name){
-        comparedVolonteers[index]= volonteers[index];
+        comparedVolonteers[index].remove()
+        index = index--
       }
-
     }
     return comparedVolonteers;
   }
@@ -55,9 +53,9 @@ public class Compare {
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerName != comparedVolonteers[index].firstname){
-        comparedVolonteers[index]= volonteers[index];
+        comparedVolonteers[index].remove()
+        index = index--
       }
-
     }
     return this.comparedVolonteers;
   }
@@ -65,9 +63,9 @@ public class Compare {
 
     for(int index = 0; index < comparedVolonteers.length ; index++ ){
       if (volonteerFirstName != comparedVolonteers[index].name){
-        comparedVolonteers[index]= volonteers[index];
+        comparedVolonteers[index].remove()
+        index = index--
       }
-
     }
     return comparedVolonteers;
   }
