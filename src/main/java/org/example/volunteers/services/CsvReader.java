@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 public class CsvReader {
     public List<String[]> getLinesFromFile() throws IOException {
         return Files.readAllLines(Paths.get("src/main/resources/data.csv"))
-                .stream().map(string -> string.split(";"))
+                .stream().map(string -> string.split(";", -1))
                 .collect(toList());
     }
 }
