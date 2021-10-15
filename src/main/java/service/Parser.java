@@ -4,6 +4,7 @@ package service;
 import model.Person;
 import model.PersonProperties;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,11 +13,17 @@ import java.util.stream.Collectors;
 
 public class Parser {
     public List<Map<PersonProperties, String>> parseCsv(String filePath, String separator) throws IOException {
-        Set<String[]> lines = Files.readAllLines(Paths.get(filePath))
-                .stream().map(string -> string.split(separator))
-                .collect(Collectors.toSet());
 
         List<Map<PersonProperties, String>> maps = new ArrayList<>();
+        File csv = new File(filePath);
+
+        if((!separator.equals(";") || !csv.exists())) {
+            return maps;
+        }
+
+        List<String[]> lines = Files.readAllLines(Paths.get(filePath))
+                .stream().map(string -> string.split(separator))
+                .collect(Collectors.toList());
 
         lines.forEach(strings -> {
             Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
@@ -29,7 +36,10 @@ public class Parser {
             } else {
                 personPropertiesStringMap.put(PersonProperties.phoneNumber, "");
             }
-            maps.add(personPropertiesStringMap);
+
+            if(!maps.contains(personPropertiesStringMap)) {
+                maps.add(personPropertiesStringMap);
+            }
         });
         return maps;
     }
