@@ -35,7 +35,7 @@ public class Parser {
 
     //corrige les numéro de télephone non conformes 
     public String formatePhoneNumber(String toCorrect) {
-        String corrected;
+        String corrected = toCorrect;
         boolean isCorrect = false;
         while (!isCorrect){
             // si ne fait pas 10 caractère 
@@ -58,8 +58,7 @@ public class Parser {
             // corrected = toCorrect.replaceAll("\\+33", "0");
 
             }
-            else {isCorrect = true;}       
-            corrected = toCorrect;
+            else {isCorrect = true;}      
         }        
         
         return corrected;
