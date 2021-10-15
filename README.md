@@ -6,7 +6,7 @@ Adeline DELBECQ
 Tâches :
 
   Données :
-    TEST  
+    TEST  \n
     Données identiques
     Délimiteurs différents (; ou ;;;)
     Nom prénom inversés donc lignes différentes sur nom - prenom
