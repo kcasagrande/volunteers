@@ -83,4 +83,16 @@ public class DemoTest {
         // Assert
         assertEquals(true, Contact.checkIsValidEmail(emailToCheck), "Ce message s'affiche si le test échoue");
     }
+
+    @Test
+    public void checkIfPhoneIsCorrect() {
+        // Arrange
+        String phoneToCheck = contacts.get(0).phone;
+        // Act
+
+
+        // Assert
+        assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), "Ce message s'affiche si le test échoue");
+    }
+
 }
