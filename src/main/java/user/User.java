@@ -6,11 +6,11 @@ import java.util.function.Function;
 
 public class User {
 
-    private String firstName;
-    private String lastName;
-    private String userName;
-    private String email;
-    private String phone;
+    private String firstName = null;
+    private String lastName = null;
+    private String userName = null;
+    private String email = null;
+    private String phone = null;
 
     public User(String firstName, String lastName, String userName, String email, String phone) {
         this.firstName = firstName;
@@ -18,14 +18,6 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.phone = phone;
-    }
-
-    public User() {
-        this.firstName = null;
-        this.lastName = null;
-        this.userName = null;
-        this.email = null;
-        this.phone = null;
     }
 
     public String getFirstName() {
@@ -68,36 +60,40 @@ public class User {
         this.phone = phone;
     }
 
-    public boolean checkUserData(ArrayList user) {
-
-       if (user.checkUniqueEmailOfUser)
-
-
-
-    }
-
-    public boolean checkComboLastNameFirstNameOfUser(String userFirstName, String userLastName, List<User> userList) {
+    public boolean checkValidComboLastNameFirstNameOfUser(List<User> userList) {
         for (User user : userList) {
-
-            if (userFirstName.equals(user.getFirstName()) && userLastName.equals(user.getLastName())){
-                return false;
-            } else if(userFirstName.equals(user.getLastName()) && userLastName.equals(user.getFirstName())) {
-                return false;
-            } else {
+            if ((this.firstName.equals(user.getFirstName()) && this.lastName.equals(user.getLastName()))
+                || (this.firstName.equals(user.getLastName()) && this.lastName.equals(user.getFirstName()))) {
                 return true;
             }
         }
-    }
-
-    public boolean checkValidUsernameOfUser(String userName) {
         return false;
     }
 
-    public boolean checkUniqueEmailOfUser(String userEmail) {
+    public boolean checkValidUsernameOfUser(List<User> userList) {
+        for (User user : userList) {
+            if ((this.userName.equals(user.getUserName()))) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean checkValidPhoneNumberOfUser(String userPhone) {
+    public boolean checkValidEmailOfUser(List<User> userList) {
+        for (User user : userList) {
+            if ((this.email.equals(user.getEmail()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkValidPhoneNumberOfUser(List<User> userList) {
+        for (User user : userList) {
+            if ((this.phone.equals(user.getPhone()))) {
+                return true;
+            }
+        }
         return false;
     }
 

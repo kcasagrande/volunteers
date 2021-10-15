@@ -31,6 +31,7 @@ class CsvServiceTest {
             fail();
         }
     }
+
     @Test
     void isCsvNotExistsTest() throws IOException {
         csvService.setCsvPath("src/test/java/resources/dataNotExist.csv");
@@ -62,6 +63,7 @@ class CsvServiceTest {
             fail();
         }
     }
+
     @Test
     void readAllLinesResultNotEmpty() throws IOException, CsvNotExistException, CsvEmptyException {
         csvService.setCsvPath("src/test/java/resources/dataNotEmpty.csv");
