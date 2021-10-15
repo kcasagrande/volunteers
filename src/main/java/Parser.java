@@ -1,17 +1,17 @@
 import java.util.List;
+import java.util.ArrayList;
 
 public class Parser {
 
     public List<String[]> data;
-    public Volonteer[] volonteers = new Volonteer[900];
+    public List<Volonteer> volonteers = new ArrayList<Volonteer>();
+
 
     public Parser(List<String[]> data) {
         this.data = data;
     }
 
-    public Volonteer[] format() {
-
-        int index = 0;
+    public List<Volonteer> format() {
 
         for (String[] item : data) {
             Volonteer volonteer = new Volonteer();
@@ -23,41 +23,23 @@ public class Parser {
 
             if (item.length == 5) volonteer.tel = item[4].toString();
             else volonteer.tel = "";
-
-
-            volonteers[index] = volonteer;
-
-            index++;
         }
+
+        System.out.println(volonteers.get(0).name);
+
         return volonteers;
     }
 
     //corrige les numéro de télephone non conformes 
-    public static String formatePhoneNumber(String toCorrect) {
+    public String formatPhoneNumber(String toCorrect) {
         String corrected = toCorrect;
+
          // si ne fait pas 10 caractère 
         if (toCorrect.length() > 10){            
-            // si . suppr             
-            corrected = toCorrect.replace(".", "");
-            // si - suppr
-            corrected = toCorrect.replace("-", "");
-            // si _ suppr
-            corrected = toCorrect.replace("_", "");
-            // si (0) suprr
-            corrected = toCorrect.replace("(0)", "");
-            // si espace suprr
-            corrected = toCorrect.replace(" ", "");
-            // si +33 remplace 0
-            corrected = toCorrect.replace("+33", "0");            
+             corrected = toCorrect.replaceAll("\\.|\\(0\\)|-|_| ", "");
+             corrected = corrected.replaceAll("\\+33", "0");
+        }
 
-            //marche aussi avec 
-            // corrected = toCorrect.replaceAll("\\.|\\(0\\)|-|_| ", "");
-            // corrected = toCorrect.replaceAll("\\+33", "0");
-        }        
-        else {
-            corrected = toCorrect;
-        }  
-        
         return corrected;
     }
 }
