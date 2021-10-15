@@ -14,7 +14,8 @@ public class CsvFileReader  {
 
     public static List<String[]> extractDatas(String filePath) throws IOException {
         return Files.readAllLines(Paths.get(filePath))
-                .stream().map(string -> string.split(";"))
+                .stream()
+                .map(string -> string.split(";", -1))
                 .collect(toList());
     }
 }
