@@ -1,8 +1,6 @@
 import model.PersonProperties;
 import org.junit.jupiter.api.Test;
 import service.Parser;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +28,18 @@ public class ParserTest {
     @Test
     public void testParseCsvWithIncorrectSeparator() throws IOException {
         List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/test/resources/data.csv", "^");
-        assertEquals(0, (long) lines.size());
+        assertEquals(0, lines.size());
     }
 
     @Test
     public void testParseCsvWithIncorrectFilePath() throws IOException {
         List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/tests/resources/data.csv", ";");
-        assertEquals(0, (long) lines.size());
+        assertEquals(0, lines.size());
+    }
+
+    @Test
+    public void testParseCsvWithEmptyFile() throws IOException {
+        List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/test/resources/emptyData.csv", ";");
+        assertEquals(0, lines.size());
     }
 }
