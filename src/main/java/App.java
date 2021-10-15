@@ -17,6 +17,7 @@ public class App {
             .collect(toList());
 
         List<Contact> contacts = CreateContactList(personnes);
+        System.out.println(contacts.get(0).firstName);
     }
 
     public static List<Contact> CreateContactList(List<String[]> contactLine) {
@@ -33,7 +34,7 @@ public class App {
 
         for (String[] _contact : contactLine) {
             ArrayList listContact = new ArrayList<>(Arrays.asList(_contact));
-            if (listContact.size() == contactList.size()){
+            if (isValidContact(listContact, contactList)){
                 Contact newContact = new Contact(){{
                     firstName = _contact[contactList.indexOf("FirstName")].trim();
                     lastName = _contact[contactList.indexOf("LastName")].trim();
@@ -45,5 +46,9 @@ public class App {
             }
         }
         return contacts;
+    }
+
+    public static boolean isValidContact(ArrayList contact,LinkedList<String> contactList){
+        return contact.size() == contactList.size();
     }
 }
