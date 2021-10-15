@@ -12,11 +12,19 @@ import java.util.stream.Collectors;
 
 public class Parser {
     public List<Map<PersonProperties, String>> parseCsv(String filePath, String separator) throws IOException {
+
+        List<Map<PersonProperties, String>> maps = new ArrayList<>();
+        Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
+
+        if(!separator.equals(";")) {
+            return maps;
+        }
+
         Set<String[]> lines = Files.readAllLines(Paths.get(filePath))
                 .stream().map(string -> string.split(separator))
                 .collect(Collectors.toSet());
 
-        List<Map<PersonProperties, String>> maps = new ArrayList<>();
+
 
         lines.forEach(strings -> {
             Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();

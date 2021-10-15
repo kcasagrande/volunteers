@@ -24,4 +24,10 @@ public class ParserTest {
             }
         );
     }
+
+    @Test
+    public void testParseCsvWithIncorrectSeparator() throws IOException {
+        List<Map<PersonProperties, String>> lines =  parser.parseCsv("src/test/resources/data.csv", "^");
+        assertEquals(0, (long) lines.size());
+    }
 }
