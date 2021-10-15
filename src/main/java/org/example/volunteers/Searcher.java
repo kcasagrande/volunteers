@@ -1,6 +1,7 @@
 package org.example.volunteers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Searcher {
@@ -13,6 +14,10 @@ public class Searcher {
         List<Integer> listOfSimilarIndexes = new ArrayList<>();
 
         for (String[] line : lines) {
+            if(lineToSearch.equals(line))
+            {
+                listOfSimilarIndexes.add(lines.indexOf(line));
+            }
             //Recherche nom/prénom
             if(lineToSearch[0].equalsIgnoreCase(line[0]) && lineToSearch[1].equalsIgnoreCase(line[1]))
             {
@@ -46,6 +51,8 @@ public class Searcher {
                 System.out.println(line[0]);
             }
         }
+
+        System.out.println(Arrays.toString(listOfSimilarIndexes.toArray()));
 
         return listOfSimilarIndexes;
     }

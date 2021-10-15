@@ -1,3 +1,5 @@
+import org.example.volunteers.Searcher;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,7 +16,8 @@ public class App {
             .collect(toList());
 
         // Apply dark magic here...
-
+        Searcher chercheur = new Searcher();
+        chercheur.searchSimilar(lines.get(0),lines);
         System.out.println("Result goes here");
     }
 

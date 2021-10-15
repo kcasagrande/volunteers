@@ -24,9 +24,10 @@ class SearcherTest {
                 .collect(toList());
 
         String[] line = {"GUILLOUX;SARAH;;sarah_guilloux@example.com;+33085552877"};
-        searcher.searchSimilar(lines)
         // act
-
+        List<Integer> result = searcher.searchSimilar(line,lines);
+        List<Integer> indexList = {0,1,2};
         // assert
+        assertEquals();
     }
 }
