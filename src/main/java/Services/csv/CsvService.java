@@ -2,11 +2,13 @@ package Services.csv;
 
 import exceptions.CsvEmptyException;
 import exceptions.CsvNotExistException;
+import user.User;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -14,6 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class CsvService {
     private String csvPath;
     private List<String[]> lines;
+    private List<User> linesUser = new ArrayList<User>();
 
     public CsvService(String csvPath) {
         this.csvPath = csvPath;
@@ -47,6 +50,15 @@ public class CsvService {
         isCsvEmpty();
 
         return lines;
+    }
+
+    public List<User> convertListUser(List<String[]> linesString)
+    {
+        for (String[] lineString: linesString) {
+            linesUser.add(new User(lineString[0], lineString[1], lineString[2], lineString[3], lineString[4]));
+        }
+
+        return linesUser;
     }
 
     public void isCsvExists() throws CsvNotExistException {

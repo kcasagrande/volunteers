@@ -14,8 +14,6 @@ public class App {
         CsvService csvService = new CsvService("src/main/resources/data.csv");
         List<String[]> lines = csvService.readAllLines();
 
-        // Apply dark magic here...
-
         System.out.println("Result goes here");
     }
 }
