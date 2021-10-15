@@ -1,30 +1,26 @@
+import lombok.extern.java.Log;
 import model.Person;
 import model.PersonProperties;
 import service.Parser;
-import service.sortList.GetAllPerson;
+import service.PersonService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 public class App {
     public static Parser parser = new Parser();
-    public static GetAllPerson getAllPerson = new GetAllPerson();
+    public static PersonService personService = new PersonService();
 
 
     public static void main(String[] args) throws IOException {
-         List<Map<PersonProperties, String>> lol = parser.parseCsv("src/main/resources/data.csv",";");
-         System.out.println(lol);
+         List<Map<PersonProperties, String>> parsedFile = parser.parseCsv("src/main/resources/data.csv",";");
 
-
-        List<Person> listPerson = getAllPerson.getListPersonWDuplicate(lol);
+        List<Person> listPerson = personService.getListPersonWDuplicate(parsedFile);
         System.out.println(listPerson);
-
         // Apply dark magic here...
 
         System.out.println("Result goes here");
-        System.out.println("Ouh ouh c'est reparti comme en 46");
     }
 }
