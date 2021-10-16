@@ -32,6 +32,8 @@ public class App {
             if (volunteer.firstname.equals("") && volunteer.name.equals("")) continue;
 
             List<Volunteer> comparedVolunteers = compare.compareNameInMail(volunteers, volunteer.name);
+
+            comparedVolunteers = compare.compareFirstName(comparedVolunteers, volunteer.firstname);
             
             displayData(comparedVolunteers);
         }
