@@ -33,4 +33,11 @@ public class CompareTest {
 
        assertEquals(3, comparedVolunteer.size());
     }
+
+    @Test
+    public void compareVolunteersBetweenName() {
+
+       List<Volunteer> comparedVolunteers = compare.compareFirstName(volunteers, "John");
+       assertEquals(2, comparedVolunteers.size());
+    }
 }
