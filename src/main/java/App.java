@@ -26,6 +26,7 @@ public class App {
         for (Volunteer volunteer : volunteers) volunteer.tel = parser.formatPhoneNumber(volunteer.tel);
 
         Compare compare = new Compare();
+        Merge merge = new Merge();
 
         for (Volunteer volunteer : volunteers) {
 
@@ -34,11 +35,20 @@ public class App {
             List<Volunteer> comparedVolunteers = compare.compareNameInMail(volunteers, volunteer.name);
 
             comparedVolunteers = compare.compareFirstName(comparedVolunteers, volunteer.firstname);
+
+            Volunteer mergedVolunteer;
+
+            if (comparedVolunteers.size() == 0) continue;
+            else if (comparedVolunteers.size() > 1) mergedVolunteer = merge.mergeVolunteers(comparedVolunteers);
+            else mergedVolunteer = comparedVolunteers.get(0);
+
+            arrayVolunteers.add(mergedVolunteer);
             
-            displayData(comparedVolunteers);
         }
+        
+        List<Volunteer> uniqueVolunteersArray = arrayVolunteers.stream().distinct().collect(toList()); // Remove duplicated volunteers
 
-
+        displayData(uniqueVolunteersArray);
     }
 
     public static void displayData(List<Volunteer> volunteers) {
