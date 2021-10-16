@@ -17,4 +17,27 @@ public class Compare {
         return arrayToReturn;
 
     }
+
+    public List<Volunteer> compareFirstName(List<Volunteer> comparedVolunteer,String volunterrName) {
+        List<Volunteer> arrayToReturn = new ArrayList<Volunteer>();
+
+        for (Volunteer volunteer : comparedVolunteer) {
+            
+            if (volunteer.firstname.toLowerCase().equals(volunterrName.toLowerCase())) arrayToReturn.add(volunteer);
+            if (volunteer.name.toLowerCase().equals(volunterrName.toLowerCase())) {
+
+                // Reverse firstname and name
+                
+                String firstname = volunteer.firstname;
+
+                volunteer.firstname = volunteer.name;
+                volunteer.name = firstname;
+
+                arrayToReturn.add(volunteer);
+            }
+
+            
+        }
+        return arrayToReturn;
+    }
 }
