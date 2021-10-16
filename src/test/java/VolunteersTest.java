@@ -73,12 +73,15 @@ class VolunteersTest {
                 }
         );
 
-        var listWithoutDuplicate = DuplicateFinder.findDuplicate(listResult);
+        var listWithoutDuplicate = DuplicateFinder.eliminateDuplicate(listResult);
         Assertions.assertEquals(2, listWithoutDuplicate.size());
     }
 
     @Test
     void stringSimilarity(){
+        var sim = StringSimilarity.similarity("eleonore_cote@example.com", "eleonorecote@example.net");
+        System.out.println(sim);
+
         var similarity = StringSimilarity.similarity("AZERTYUIOP", "AQSDFGHJKL");
         Assertions.assertEquals(0.1, similarity);
     }

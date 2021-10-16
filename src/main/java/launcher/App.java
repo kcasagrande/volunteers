@@ -5,8 +5,8 @@ import org.example.volunteers.utils.CsvFileReader;
 import org.example.volunteers.utils.DuplicateFinder;
 import org.example.volunteers.utils.PersonParser;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class App {
     public static void main(String[] args){
@@ -14,10 +14,11 @@ public class App {
 
         try {
             var openedFile = CsvFileReader.extractDatas("src/main/resources/data.csv");
-            List<Person> personList = parser.parse(openedFile);
-            var listWithoutDuplicate = DuplicateFinder.findDuplicate(personList);
-            listWithoutDuplicate.forEach(person -> Logger.getLogger(person.toString()));
 
+            List<Person> personList = parser.parse(openedFile);
+
+            var listWithoutDuplicate = DuplicateFinder.eliminateDuplicate(personList);
+            listWithoutDuplicate.sort(Comparator.comparing(Person::getSurname));
         } catch (Exception e) {
             e.printStackTrace();
         }

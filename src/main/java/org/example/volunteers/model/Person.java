@@ -37,10 +37,6 @@ public class Person {
         return surname;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
     public String getEmail() {
         return email;
     }

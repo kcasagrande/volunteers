@@ -1,8 +1,6 @@
 package org.example.volunteers.utils;
 
 import org.example.volunteers.model.Person;
-
-import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +10,22 @@ public class DuplicateFinder {
 
     }
 
-    public static List<Person> findDuplicate(List<Person> userList){
+    public static List<Person> eliminateDuplicate(List<Person> userList){
         List<Person> resultList = new ArrayList<>();
 
         var personListGroupedWithPhoneNumber = userList.stream().collect(Collectors.groupingBy(Person::getPhoneNumber));
 
-        personListGroupedWithPhoneNumber.forEach((n, personListToCompareOrderByPhoneNumber) -> {
-            List<Person> finalList = new ArrayList<>(personListToCompareOrderByPhoneNumber);
+        personListGroupedWithPhoneNumber.forEach((n, personListToCompare) -> {
+            List<Person> finalList = new ArrayList<>(personListToCompare);
 
-            for (Iterator<Person> iterator = personListToCompareOrderByPhoneNumber.iterator(); iterator.hasNext();) {
-                Person nextPerson = iterator.next();
+            for (int i = 0; i < personListToCompare.size(); i++) {
+                Person actualPerson = personListToCompare.get(i);
 
-                if(iterator.hasNext()){
-                    var fieldCompareResult = CompareTool.comparePersons(nextPerson, iterator.next());
-                    if(fieldCompareResult) finalList.remove(nextPerson);
+                if(i+1 < personListToCompare.size()){
+                    Person nextPerson = personListToCompare.get(i+1);
+
+                    var fieldCompareResult = CompareTool.comparePersons(actualPerson, nextPerson);
+                    if(fieldCompareResult) finalList.remove(actualPerson);
                 }
             }
 
