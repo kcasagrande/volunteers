@@ -1,6 +1,6 @@
 public class User {
-    public final String firstname;
     public final String lastname;
+    public final String firstname;
     public final String username;
     public final String email;
     public final String phone;
@@ -11,5 +11,15 @@ public class User {
         this.username = username;
         this.email = email;
         this.phone = phone;
+    }
+
+    public String[] getRow() {
+        return new String[]{
+            lastname,
+            firstname,
+            username,
+            email,
+            phone
+        };
     }
 }
