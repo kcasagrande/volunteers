@@ -1,9 +1,9 @@
 public class User {
-    final String firstname;
-    final String lastname;
-    final String username;
-    final String email;
-    final String phone;
+    public final String firstname;
+    public final String lastname;
+    public final String username;
+    public final String email;
+    public final String phone;
 
     public User(String firstname, String lastname, String username, String email, String phone) {
         this.firstname = firstname;
