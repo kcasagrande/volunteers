@@ -22,4 +22,13 @@ public class User {
             phone
         };
     }
+
+    @Override
+    public String toString(){
+        return lastname + ";" +
+                firstname + ";" +
+                username + ";" +
+                email + ";" +
+                phone;
+    }
 }

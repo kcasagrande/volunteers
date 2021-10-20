@@ -25,8 +25,9 @@ public class AppTest {
 
         String[] expectedStringArray = new String[]{"Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043"};
 
+        assertEquals(5, actualStringArray.length);
         for(int i = 0; i < actualStringArray.length; i++){
-            assertEquals(actualStringArray[i], expectedStringArray[i]);
+            assertEquals(expectedStringArray[i], actualStringArray[i]);
         }
 
     }
@@ -38,8 +39,9 @@ public class AppTest {
 
         String[] expectedStringArray = new String[]{"", "", "", "", ""};
 
-        for(int i = 0; i < actualStringArray.length; i++){
-            assertEquals(actualStringArray[i], expectedStringArray[i]);
+        assertEquals(5, actualStringArray.length);
+        for(int i = 0; i < expectedStringArray.length; i++){
+            assertEquals(expectedStringArray[i], actualStringArray[i]);
         }
 
     }
@@ -48,13 +50,27 @@ public class AppTest {
     public void entryBecomeUser() {
         String[] line = new String[]{"Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043"};
 
-        User user = this.app.createUserFromLine(line);
+        User user = this.app.createUserFromLine.apply(line);
 
         assertEquals(user.lastname, "Simon");
         assertEquals(user.firstname, "Marina");
         assertEquals(user.username, "Marina");
         assertEquals(user.email, "marina.simon@example.net");
         assertEquals(user.phone, "+33065557043");
+
+    }
+
+    @Test
+    public void emptyEntryBecomeUser() {
+        String[] line = new String[]{"", "", "", "", ""};
+
+        User user = this.app.createUserFromLine.apply(line);
+
+        assertEquals(user.lastname, "");
+        assertEquals(user.firstname, "");
+        assertEquals(user.username, "");
+        assertEquals(user.email, "");
+        assertEquals(user.phone, "");
 
     }
 
@@ -73,6 +89,9 @@ public class AppTest {
     @Test
     public void userToString(){
         String expected_full_row = "Simon;Marina;Marina;marina.simon@example.net;+33065557043";
+        User user = new User("Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043");
+
+        assertEquals(expected_full_row, user.toString());
     }
 
     @Test
