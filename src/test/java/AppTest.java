@@ -29,7 +29,16 @@ public class AppTest {
     @Test
     public void entryBecomeUser() {
         String[] line = new String[]{"Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043"};
-        assertTrue(this.app.createUserFromLine(line) instanceof User);
+
+        User user = this.app.createUserFromLine(line);
+
+        assertTrue(user instanceof User);
+        assertEquals(user.lastname, "Simon");
+        assertEquals(user.firstname, "Marina");
+        assertEquals(user.username, "Marina");
+        assertEquals(user.email, "marina.simon@example.net");
+        assertEquals(user.phone, "+33065557043");
+
     }
 
     @Test
