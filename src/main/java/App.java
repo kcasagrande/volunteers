@@ -24,37 +24,9 @@ public class App {
         lines.stream().map(joinCSV).forEach(System.out::println);
     }
 
-    public static List<String[]> groupedInput(List<String[]> actualLines) {
-        return actualLines
-                .stream()
-                .map(joinCSV)
-                .sorted(String.CASE_INSENSITIVE_ORDER)
-                .map(splitCSV)
-                .collect(toList());
-    }
-
     public User createUserFromLine(String[] line) {
         return new User(line[0], line[1], line[2], line[3], line[4]);
     }
 
-    public List<String[]> groupByLastname(List<String[]> actualLines) {
-        Map<String, List<User>> records = actualLines
-                .stream()
-                .map(e -> createUserFromLine(e))
-                .collect(Collectors.groupingBy(e -> e.lastname));
-        List<String[]> results = new ArrayList<>();
-        records.forEach((k, v) -> {
-            for(User u: v){
-                results.add(new String[]{
-                        u.lastname,
-                        u.firstname,
-                        u.username,
-                        u.email,
-                        u.phone
-                });
-            }
-        });
-        return results;
-    }
 
 }
