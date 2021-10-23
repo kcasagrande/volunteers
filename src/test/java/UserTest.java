@@ -62,10 +62,31 @@ public class UserTest {
     }
 
     @Test
-    public void twoUsersAreSameLastname(){
+    public void twoUsersGetScoreIdenticalButEmptyFieldPlusOne(){
         User userA = new User("ABOUT", "Axelle", "Axelle", "axelleabout@example.net", "+33000555503");
         User userB = new User("About", "Axelle", "Axelle", "", "00-00-55-55-03");
 
-        assertTrue(userA.isSameLastname(userB));
+        assertEquals(5, userA.getScoreTo(userB));
+    }
+
+    @Test
+    public void formatPhone33(){
+        User user = new User("", "", "", "", "+33055557808");
+        String expected = "0055557808";
+        assertEquals(expected, user.formatPhone(user.phone));
+    }
+
+    @Test
+    public void formatPhoneSpecial33(){
+        User user = new User("", "", "", "", "+33(0)055557808");
+        String expected = "0055557808";
+        assertEquals(expected, user.formatPhone(user.phone));
+    }
+
+    @Test
+    public void formatPhoneSpecialComplex33(){
+        User user = new User("", "", "", "", " +33(0)0-55-55-78-08");
+        String expected = "0055557808";
+        assertEquals(expected, user.formatPhone(user.phone));
     }
 }
