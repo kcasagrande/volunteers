@@ -1,8 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserTest {
@@ -60,5 +59,13 @@ public class UserTest {
         User user = new User("Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043");
 
         assertEquals(expected_full_row, user.toString());
+    }
+
+    @Test
+    public void twoUsersAreSameLastname(){
+        User userA = new User("ABOUT", "Axelle", "Axelle", "axelleabout@example.net", "+33000555503");
+        User userB = new User("About", "Axelle", "Axelle", "", "00-00-55-55-03");
+
+        assertTrue(userA.isSameLastname(userB));
     }
 }

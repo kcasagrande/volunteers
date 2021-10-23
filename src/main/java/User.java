@@ -1,4 +1,4 @@
-public class User {
+public class User{
     public final String lastname;
     public final String firstname;
     public final String username;
@@ -31,4 +31,9 @@ public class User {
                 email + ";" +
                 phone;
     }
+
+    public boolean isSameLastname(User user){
+        return this.lastname.equalsIgnoreCase(user.lastname);
+    }
+
 }
