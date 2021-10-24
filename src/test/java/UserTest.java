@@ -46,7 +46,7 @@ public class UserTest {
         User user = new User("Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043");
 
         String[] actualRow = user.getRow();
-        String[] expectedRow = new String[]{"Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043"};
+        String[] expectedRow = new String[]{"Simon", "Marina", "Marina", "marina.simon@example.net", "0065557043"};
 
         for(int i=0; i < actualRow.length; i++){
             assertEquals(actualRow[i], expectedRow[i]);
@@ -55,7 +55,7 @@ public class UserTest {
 
     @Test
     public void userToString(){
-        String expected_full_row = "Simon;Marina;Marina;marina.simon@example.net;+33065557043";
+        String expected_full_row = "Simon;Marina;Marina;marina.simon@example.net;0065557043";
         User user = new User("Simon", "Marina", "Marina", "marina.simon@example.net", "+33065557043");
 
         assertEquals(expected_full_row, user.toString());
