@@ -23,7 +23,7 @@ public class UserTest {
         assertEquals(user.firstname, "Marina");
         assertEquals(user.username, "Marina");
         assertEquals(user.email, "marina.simon@example.net");
-        assertEquals(user.phone, "+33065557043");
+        assertEquals(user.phone, "0065557043");
 
     }
 
@@ -88,5 +88,19 @@ public class UserTest {
         User user = new User("", "", "", "", " +33(0)0-55-55-78-08");
         String expected = "0055557808";
         assertEquals(expected, user.formatPhone(user.phone));
+    }
+
+    @Test
+    public void formatPhoneSpecialOtherComplex33(){
+        User user = new User("", "", "", "", " +33(0)0.55.55.78.08");
+        String expected = "0055557808";
+        assertEquals(expected, user.formatPhone(user.phone));
+    }
+
+    @Test
+    public void compareUsersByPhone(){
+        User userA = new User("Bonhomme", "Jean-Noël", "", "jean.noelbonhomme@example.com", "+330.55.58.90.50");
+        User userB = new User("Bofrand", "Odile", "", "odileboffrand@example.org", "+33000088891");
+        assertEquals(1, userA.compareTo(userB));
     }
 }

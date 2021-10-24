@@ -1,4 +1,4 @@
-public class User{
+public class User implements Comparable<User>{
     public final String lastname;
     public final String firstname;
     public final String username;
@@ -10,7 +10,7 @@ public class User{
         this.firstname = firstname;
         this.username = username;
         this.email = email;
-        this.phone = phone;
+        this.phone = this.formatPhone(phone);
     }
 
     public String[] getRow() {
@@ -59,6 +59,7 @@ public class User{
     public String formatPhone(String phone){
         return phone
                 .replace(" ", "")
+                .replace(".", "")
                 .replace("-", "")
                 .replace("+33(0)", "0")
                 .replace("+33", "0");
@@ -90,5 +91,10 @@ public class User{
             score++;
         }
         return score;
+    }
+
+    @Override
+    public int compareTo(User userB) {
+        return this.phone.compareTo(userB.phone) > 0 ? 1 : -1;
     }
 }
