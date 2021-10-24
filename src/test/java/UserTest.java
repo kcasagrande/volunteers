@@ -102,5 +102,44 @@ public class UserTest {
         User userA = new User("Bonhomme", "Jean-Noël", "", "jean.noelbonhomme@example.com", "+330.55.58.90.50");
         User userB = new User("Bofrand", "Odile", "", "odileboffrand@example.org", "+33000088891");
         assertEquals(1, userA.compareTo(userB));
+        assertEquals(-1, userB.compareTo(userA));
+    }
+
+    @Test
+    public void getEmptyFields(){
+        User userA = new User("Barthet", "Angeline", "", "", "+33055589050");
+        assertEquals(2, userA.getNbEmptyFields());
+
+        User userB = new User("Barthet", "Angeline", "Locust", "Locust1681@example.com", "+33000555017");
+        assertEquals(0, userB.getNbEmptyFields());
+
+        User userC = new User("", "", "", "", "+33055589050");
+        assertEquals(4, userC.getNbEmptyFields());
+
+    }
+
+    @Test
+    public void compareUsersBySamePhoneSoCompareByEmptyFields(){
+        // Celui qui a le plus de champ rempli est le référent
+        User userA = new User("Barthet", "Angeline", "", "", "+33055589050");
+        User userB = new User("", "aaa", "", "", "+33055589050");
+
+        assertEquals(1, userA.compareTo(userB));
+    }
+
+    @Test
+    public void compareUsersBySamePhoneSoCompareByLastname(){
+        User userA = new User("Barthet", "Angeline", "Locust", "Locust1681@example.com", "+33000555017");
+        User userB = new User("Aarthet", "Angeline", "Locust", "Locust1681@example.com", "+33000555017");
+
+        assertEquals(1, userA.compareTo(userB));
+    }
+
+    @Test
+    public void compareUsersIsTheSame(){
+        User userA = new User("Barthet", "Angeline", "Locust", "Locust1681@example.com", "+33000555017");
+        User userB = new User("Barthet", "Angeline", "Locust", "Locust1681@example.com", "+33000555017");
+
+        assertEquals(0, userA.compareTo(userB));
     }
 }

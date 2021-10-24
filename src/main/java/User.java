@@ -93,8 +93,51 @@ public class User implements Comparable<User>{
         return score;
     }
 
+    public int getNbEmptyFields(){
+        int nb = 0;
+        for(String field: this.getRow()){
+            nb += field.isEmpty() ? 1 : 0;
+        }
+        return nb;
+    }
+
+
     @Override
-    public int compareTo(User userB) {
-        return this.phone.compareTo(userB.phone) > 0 ? 1 : -1;
+    public int compareTo(User user) {
+        if(this.phone.equals(user.phone)){
+            return this.getIndexSamePhone(user);
+        }else{
+            return this.getCompareToString(this.phone.compareToIgnoreCase(user.phone));
+        }
+    }
+
+    private int getIndexSamePhone(User user){
+        int myNbEmptyFields = this.getNbEmptyFields();
+        int yourNbEmptyFields = user.getNbEmptyFields();
+
+        if(myNbEmptyFields == yourNbEmptyFields){
+            int result = this.getCompareToString(this.lastname.compareToIgnoreCase(user.lastname));
+            if(result == 0){
+                result = this.getCompareToString(this.firstname.compareToIgnoreCase(user.firstname));
+            }
+            if(result == 0){
+                result = this.getCompareToString(this.username.compareToIgnoreCase(user.username));
+            }
+            return result;
+        }
+
+        if(myNbEmptyFields < yourNbEmptyFields){
+            return 1;
+        }else{
+            return -1;
+        }
+    }
+
+    private int getCompareToString(int value){
+        if(value == 0){
+            return 0;
+        }else{
+            return value > 0 ? 1 : -1;
+        }
     }
 }

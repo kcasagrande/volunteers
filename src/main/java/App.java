@@ -13,6 +13,7 @@ public class App {
             .stream()
             .map(splitCSV)
             .map(createUserFromLine)
+            .sorted()
             .collect(toList());
 
         // Apply dark magic here...
