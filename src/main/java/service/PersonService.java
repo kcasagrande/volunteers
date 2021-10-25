@@ -4,8 +4,10 @@ import model.Person;
 import model.PersonProperties;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PersonService {
@@ -60,12 +62,13 @@ public class PersonService {
             if (!email.equals("")) {
                 List<String> emailVariants = generateEmailVariants(email);
                 emailVariants.add(email);
-                emailVariants.forEach(emailVariant -> {
-                    List<Person> duplicatedPersons = personList.stream().filter(p -> p.getEmail().equals(emailVariant)).collect(Collectors.toList());
-                    if (duplicatedPersons.size() == 1) {
-                        personListWithoutDuplicate.add(person);
-                    }
-                });
+                if (personListWithoutDuplicate.stream()
+                        .map(Person::getEmail)
+                        .noneMatch(
+                                new HashSet<>(emailVariants)
+                                        ::contains)) {
+                    personListWithoutDuplicate.add(person);
+                }
             }
         });
         return personListWithoutDuplicate;
@@ -81,12 +84,12 @@ public class PersonService {
         List<String> emailVariants = new ArrayList<>();
         String splitEmail = email.split("@")[0];
         if (splitEmail.contains(".")) {
-            emailVariants.add(email.replaceFirst(".", "_"));
-            emailVariants.add(email.replaceFirst(".", ""));
+            emailVariants.add(email.replaceFirst(Pattern.quote("."), "_"));
+            emailVariants.add(email.replaceFirst(Pattern.quote("."), ""));
         }
         if (splitEmail.contains("_")) {
-            emailVariants.add(email.replaceFirst("_", "."));
-            emailVariants.add(email.replaceFirst("_", ""));
+            emailVariants.add(email.replaceFirst(Pattern.quote("_"), "."));
+            emailVariants.add(email.replaceFirst(Pattern.quote("_"), ""));
         }
         int i = email.lastIndexOf('.');
         emailVariants.add(new String[]{email.substring(0, i), email.substring(i)}[0]);
