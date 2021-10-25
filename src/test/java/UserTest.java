@@ -120,7 +120,6 @@ public class UserTest {
 
     @Test
     public void compareUsersBySamePhoneSoCompareByEmptyFields(){
-        // Celui qui a le plus de champ rempli est le référent
         User userA = new User("Barthet", "Angeline", "", "", "+33055589050");
         User userB = new User("", "aaa", "", "", "+33055589050");
 
