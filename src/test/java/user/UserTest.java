@@ -358,6 +358,7 @@ class UserTest {
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
+    @Test
     public void testIsNotNullDataPhoneOfUser() {
         User userTest = new User(null,null, null,null,null );
         boolean result = userTest.checkNullPhoneOfUser(testListUser);
