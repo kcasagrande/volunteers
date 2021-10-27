@@ -22,6 +22,7 @@ class UserTest {
         testListUser.add(new User("Thibaut", "Andre", "tandre", "tandre@ynov.com","0647000000"));
         testListUser.add(new User("Theo", "Segard", "tseguard", "tseguard@ynov.com",null));
         testListUser.add(new User("Bruneau","Viviane","Viviane","Spookworm7637@example.com","+33000555132"));
+        testListUser.add(new User("lasul","viviane","viviane","test@example.com","+33000555132"));
     }
 
     @Test
@@ -185,6 +186,8 @@ class UserTest {
         User userTest = new User(null,null,null,null," +33000555132" );
         boolean result = true;
 
+        System.out.println(userTest.getPhone());
+        System.out.println(userTest.checkValidPhoneNumberOfUser(testListUser));
         if(userTest.checkValidPhoneNumberOfUser(testListUser)) {
             result = false;
         }
@@ -199,6 +202,108 @@ class UserTest {
         boolean result = true;
 
         if(userTest.checkValidPhoneNumberOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperFirstNameFailed() {
+        User userTest = new User("LASUL",null,null,null,null );
+        boolean result = true;
+
+        if(userTest.checkValidFirstNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperFirstNameSuccesfull() {
+        User userTest = new User("LASUL",null,null,null,null );
+        userTest.setFirstName(userTest.getFirstName().toLowerCase());
+        boolean result = true;
+
+        System.out.println(userTest.getFirstName());
+        System.out.println(userTest.checkValidFirstNameOfUser(testListUser));
+        if(userTest.checkValidFirstNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperLastNameFailed() {
+        User userTest = new User(null,"VIVIANE",null,null,null );
+        boolean result = true;
+
+        if(userTest.checkValidLastNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperLastNameSuccesfull() {
+        User userTest = new User(null,"VIVIANE",null,null,null );
+        userTest.setLastName(userTest.getLastName().toLowerCase());
+        boolean result = true;
+
+        if(userTest.checkValidLastNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperMailFailed() {
+        User userTest = new User(null,null,null,"TEST@EXAMPLE.COM",null );
+        boolean result = true;
+
+        if(userTest.checkValidEmailOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperMailSuccesfull() {
+        User userTest = new User(null,null,null,"TEST@EXAMPLE.COM",null );
+        userTest.setEmail(userTest.getEmail().toLowerCase());
+        boolean result = true;
+
+        if(userTest.checkValidEmailOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperUserNameFailed() {
+        User userTest = new User(null,null,"VIVIANE",null,null );
+        boolean result = true;
+
+        if(userTest.checkValidUsernameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckUpperUserNameSuccesfull() {
+        User userTest = new User(null,null,"VIVIANE",null,null );
+        userTest.setUserName(userTest.getUserName().toLowerCase());
+        boolean result = true;
+
+        if(userTest.checkValidUsernameOfUser(testListUser)) {
             result = false;
         }
 
