@@ -194,66 +194,74 @@ class UserTest {
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
+    @Test
     public void testNullDataLastNameOfUser() {
         User userTest = new User(null,"Andre", null,null,null );
-        boolean result = userTest.checkNullLastNameOfUser(testListUser);
+        boolean result = userTest.checkNullLastNameOfUser();
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testIsNotNullDataLastNameOfUser() {
         User userTest = new User(null, null, null, null, null);
-        boolean result = userTest.checkNullLastNameOfUser(testListUser);
+        boolean result = userTest.checkNullLastNameOfUser();
         assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testNullDataFirsNameOfUser() {
         User userTest = new User("Thibaut",null, null,null,null );
-        boolean result = userTest.checkNullFirstNameOfUser(testListUser);
+        boolean result = userTest.checkNullFirstNameOfUser();
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testIsNotNullDataFirsNameOfUser() {
         User userTest = new User(null,null, null,null,null );
-        boolean result = userTest.checkNullFirstNameOfUser(testListUser);
+        boolean result = userTest.checkNullFirstNameOfUser();
         assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testNullDataUserNameOfUser() {
         User userTest = new User(null,null, "tandre",null,null );
-        boolean result = userTest.checkNullUserNameOfUser(testListUser);
+        boolean result = userTest.checkNullUserNameOfUser();
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testIsNotNullDataUserNameOfUser() {
         User userTest = new User(null,null, null,null,null );
-        boolean result = userTest.checkNullUserNameOfUser(testListUser);
+        boolean result = userTest.checkNullUserNameOfUser();
         assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testNullDataEmailOfUser() {
         User userTest = new User(null,null, null,"azerty@gmail.com",null );
-        boolean result = userTest.checkNullEmailOfUser(testListUser);
+        boolean result = userTest.checkNullEmailOfUser();
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testIsNotNullDataEmailOfUser() {
         User userTest = new User(null,null, null,null,null );
-        boolean result = userTest.checkNullEmailOfUser(testListUser);
+        boolean result = userTest.checkNullEmailOfUser();
         assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
     public void testNullDataPhoneOfUser() {
         User userTest = new User(null,null, null,null,"0600000000" );
-        boolean result = userTest.checkNullPhoneOfUser(testListUser);
+        boolean result = userTest.checkNullPhoneOfUser();
         assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testIsNotNullDataPhoneOfUser() {
+        User userTest = new User(null,null, null,null,null );
+        boolean result = userTest.checkNullPhoneOfUser();
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
@@ -356,12 +364,5 @@ class UserTest {
         }
 
         assertTrue(result, "Ce message s'affiche si le test échoue.");
-    }
-
-    @Test
-    public void testIsNotNullDataPhoneOfUser() {
-        User userTest = new User(null,null, null,null,null );
-        boolean result = userTest.checkNullPhoneOfUser(testListUser);
-        assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 }

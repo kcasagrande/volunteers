@@ -123,35 +123,35 @@ public class User {
         return true;
     }
 
-    protected boolean checkNullLastNameOfUser(List<User> userList) {
+    protected boolean checkNullLastNameOfUser() {
         if (this.lastName == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullFirstNameOfUser(List<User> userList) {
+    protected boolean checkNullFirstNameOfUser() {
         if (this.firstName == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullUserNameOfUser(List<User> userList) {
+    protected boolean checkNullUserNameOfUser() {
         if (this.userName == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullEmailOfUser(List<User> userList) {
+    protected boolean checkNullEmailOfUser() {
         if (this.email == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullPhoneOfUser(List<User> userList) {
+    protected boolean checkNullPhoneOfUser() {
         if (this.phone == null) {
             return false;
         }
