@@ -1,5 +1,6 @@
 package user;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -157,11 +158,23 @@ public class User {
         }
         return true;
     }
-    protected void trimAll() {
+    public void trimAll() {
         firstName = firstName.trim();
         lastName = lastName.trim();
         email = email.trim();
         phone = phone.trim();
         userName = userName.trim();
+    }
+    public void toLowerCase() {
+        firstName = firstName.toLowerCase();
+        lastName = lastName.toLowerCase();
+        email = email.toLowerCase();
+        userName = userName.toLowerCase();
+    }
+    public void stripAccent() {
+        firstName = Normalizer.normalize(firstName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        lastName = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        email = Normalizer.normalize(email, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        userName = Normalizer.normalize(userName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 }

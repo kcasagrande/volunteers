@@ -4,6 +4,7 @@ import org.example.volunteers.Demo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -23,6 +24,7 @@ class UserTest {
         testListUser.add(new User("Theo", "Segard", "tseguard", "tseguard@ynov.com",null));
         testListUser.add(new User("Bruneau","Viviane","Viviane","Spookworm7637@example.com","+33000555132"));
         testListUser.add(new User("lasul","viviane","viviane","test@example.com","+33000555132"));
+        testListUser.add(new User("Lepal","Leo","Betias","te@example.com","+33000555132"));
     }
 
     @Test
@@ -362,5 +364,113 @@ class UserTest {
         User userTest = new User(null,null, null,null,null );
         boolean result = userTest.checkNullPhoneOfUser(testListUser);
         assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccentFirstNameFailed() {
+        User userTest = new User("Lépal",null,null,null,null );
+        boolean result = true;
+
+        if(userTest.checkValidFirstNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccentFirstNameSuccesfull() {
+        User userTest = new User("Lépal",null,null,null,null );
+        String firstNameFormat = Normalizer.normalize(userTest.getFirstName(), Normalizer.Form.NFD);
+        firstNameFormat = firstNameFormat.replaceAll("[^\\p{ASCII}]", "");
+        userTest.setFirstName(firstNameFormat);
+        boolean result = true;
+
+        if(userTest.checkValidFirstNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccentLastNameFailed() {
+        User userTest = new User(null,"Léo",null,null,null );
+        boolean result = true;
+
+        if(userTest.checkValidLastNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccentLastNameSuccesfull() {
+        User userTest = new User(null,"Léo",null,null,null );
+        String lastNameFormat = Normalizer.normalize(userTest.getLastName(), Normalizer.Form.NFD);
+        lastNameFormat = lastNameFormat.replaceAll("[^\\p{ASCII}]", "");
+        userTest.setLastName(lastNameFormat);
+        boolean result = true;
+
+        if(userTest.checkValidLastNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccentMailFailed() {
+        User userTest = new User(null,null,null,"té@example.com",null );
+        boolean result = true;
+
+        if(userTest.checkValidEmailOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccentMailSuccesfull() {
+        User userTest = new User(null,null,null,"té@example.com",null );
+        String emailFormat = Normalizer.normalize(userTest.getEmail(), Normalizer.Form.NFD);
+        emailFormat = emailFormat.replaceAll("[^\\p{ASCII}]", "");
+        userTest.setEmail(emailFormat);
+        boolean result = true;
+
+        if(userTest.checkValidEmailOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccenUsernameFailed() {
+        User userTest = new User(null,null,"Bétias",null,null );
+        boolean result = true;
+
+        if(userTest.checkValidUsernameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckAccenUsernameSuccesfull() {
+        User userTest = new User(null,null,"Bétias",null,null );
+        String usernameFormat = Normalizer.normalize(userTest.getUserName(), Normalizer.Form.NFD);
+        usernameFormat = usernameFormat.replaceAll("[^\\p{ASCII}]", "");
+        userTest.setUserName(usernameFormat);
+        boolean result = true;
+
+        if(userTest.checkValidUsernameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 }

@@ -55,7 +55,12 @@ public class CsvService {
     public List<User> convertListUser(List<String[]> linesString)
     {
         for (String[] lineString: linesString) {
-            linesUser.add(new User(lineString[0], lineString[1], lineString[2], lineString[3], lineString[4]));
+            User user = new User(lineString[0], lineString[1], lineString[2], lineString[3], lineString[4]);
+            user.trimAll();
+            user.stripAccent();
+            user.toLowerCase();
+
+            linesUser.add(user);
         }
 
         return linesUser;

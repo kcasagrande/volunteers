@@ -20,7 +20,7 @@ public class  App {
         for (User user: linesUser) {
             if (user.cleanUserList(CleanListUser)){
                 CleanListUser.add(user);
-                System.out.println(user.getFirstName() + " "  + user.getLastName()  + " "  + user.getUserName()+ " "  + user.getEmail()+ " "  + user.getPhone() );
+                System.out.println(user.getFirstName() + " - "  + user.getLastName()  + " - "  + user.getUserName()+ " - "  + user.getEmail()+ " - "  + user.getPhone() );
                 System.out.println("----------------------------------------------------------------");
             }
         }
