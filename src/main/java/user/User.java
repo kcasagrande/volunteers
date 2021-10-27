@@ -62,6 +62,7 @@ public class User {
 
     public boolean cleanUserList(List<User> userList){
         if (checkValidComboLastNameFirstNameOfUser(userList) && checkValidEmailOfUser(userList)){
+
             return true;
         }
         return false;
@@ -122,6 +123,40 @@ public class User {
         return true;
     }
 
+    protected boolean checkNullLastNameOfUser(List<User> userList) {
+        if (this.lastName == null) {
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean checkNullFirstNameOfUser(List<User> userList) {
+        if (this.firstName == null) {
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean checkNullUserNameOfUser(List<User> userList) {
+        if (this.userName == null) {
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean checkNullEmailOfUser(List<User> userList) {
+        if (this.email == null) {
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean checkNullPhoneOfUser(List<User> userList) {
+        if (this.phone == null) {
+            return false;
+        }
+        return true;
+    }
     protected void trimAll() {
         firstName = firstName.trim();
         lastName = lastName.trim();

@@ -158,38 +158,31 @@ class UserTest {
 
     @Test
     public void testCheckTrimOnUsernameFailed() {
-        User userTest = new User(null,null," Viviane",null,null );
-        boolean result = true;
+        User userTest = new User(" Bruneau"," Viviane"," Viviane"," Spookworm7637@example.com"," +33000555132" );
+        userTest.trimAll();
+        boolean result = false;
 
-        if(userTest.checkValidUsernameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "Ce message s'affiche si le test échoue.");
-    }
-
-    @Test
-    public void testCheckTrimOnUsernameSuccesfull() {
-        User userTest = new User(null,null," Viviane",null,null );
-        userTest.setUserName(userTest.getUserName().trim());
-        boolean result = true;
-
-        if(userTest.checkValidUsernameOfUser(testListUser)) {
-            result = false;
+        if(userTest.checkValidComboLastNameFirstNameOfUser(testListUser) &&
+                userTest.checkValidPhoneNumberOfUser(testListUser) &&
+                userTest.checkValidEmailOfUser(testListUser) &&
+                userTest.checkValidUsernameOfUser(testListUser)) {
+            result = true;
         }
 
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
     @Test
-    public void testCheckTrimOnPhoneFailed() {
-        User userTest = new User(null,null,null,null," +33000555132" );
-        boolean result = true;
+    public void testCheckTrimSuccesfull() {
+        User userTest = new User(" Bruneau"," Viviane"," Viviane"," Spookworm7637@example.com"," +33000555132" );
+        userTest.trimAll();
+        boolean result = false;
 
-        System.out.println(userTest.getPhone());
-        System.out.println(userTest.checkValidPhoneNumberOfUser(testListUser));
-        if(userTest.checkValidPhoneNumberOfUser(testListUser)) {
-            result = false;
+        if(userTest.checkValidComboLastNameFirstNameOfUser(testListUser) &&
+            userTest.checkValidPhoneNumberOfUser(testListUser) &&
+            userTest.checkValidEmailOfUser(testListUser) &&
+            userTest.checkValidUsernameOfUser(testListUser)) {
+            result = true;
         }
 
         assertFalse(result, "Ce message s'affiche si le test échoue.");
@@ -205,6 +198,68 @@ class UserTest {
             result = false;
         }
 
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    public void testNullDataLastNameOfUser() {
+        User userTest = new User(null,"Andre", null,null,null );
+        boolean result = userTest.checkNullLastNameOfUser(testListUser);
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testIsNotNullDataLastNameOfUser() {
+        User userTest = new User(null, null, null, null, null);
+        boolean result = userTest.checkNullLastNameOfUser(testListUser);
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testNullDataFirsNameOfUser() {
+        User userTest = new User("Thibaut",null, null,null,null );
+        boolean result = userTest.checkNullFirstNameOfUser(testListUser);
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testIsNotNullDataFirsNameOfUser() {
+        User userTest = new User(null,null, null,null,null );
+        boolean result = userTest.checkNullFirstNameOfUser(testListUser);
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testNullDataUserNameOfUser() {
+        User userTest = new User(null,null, "tandre",null,null );
+        boolean result = userTest.checkNullUserNameOfUser(testListUser);
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testIsNotNullDataUserNameOfUser() {
+        User userTest = new User(null,null, null,null,null );
+        boolean result = userTest.checkNullUserNameOfUser(testListUser);
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testNullDataEmailOfUser() {
+        User userTest = new User(null,null, null,"azerty@gmail.com",null );
+        boolean result = userTest.checkNullEmailOfUser(testListUser);
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testIsNotNullDataEmailOfUser() {
+        User userTest = new User(null,null, null,null,null );
+        boolean result = userTest.checkNullEmailOfUser(testListUser);
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testNullDataPhoneOfUser() {
+        User userTest = new User(null,null, null,null,"0600000000" );
+        boolean result = userTest.checkNullPhoneOfUser(testListUser);
         assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 
@@ -308,5 +363,11 @@ class UserTest {
         }
 
         assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    public void testIsNotNullDataPhoneOfUser() {
+        User userTest = new User(null,null, null,null,null );
+        boolean result = userTest.checkNullPhoneOfUser(testListUser);
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
     }
 }
