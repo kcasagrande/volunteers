@@ -184,6 +184,18 @@ class UserTest {
     }
 
     @Test
+    public void testCheckTrimOnPhoneFailed() {
+        User userTest = new User(null,null,null,null," +33000555132" );
+        boolean result = true;
+
+        if(userTest.checkValidPhoneNumberOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
     public void testCheckTrimOnPhoneSuccesfull() {
         User userTest = new User(null,null,null,null," +33000555132" );
         userTest.setPhone(userTest.getPhone().trim());
