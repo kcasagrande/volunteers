@@ -81,14 +81,24 @@ class UserTest {
     }
 
     @Test
-    public void testCheckTrimFailed() {
-        User userTest = new User(" Bruneau"," Viviane"," Viviane"," Spookworm7637@example.com"," +33000555132" );
+    public void testCheckTrimOnFirstNameFailed() {
+        User userTest = new User(" Bruneau",null,null,null,null );
         boolean result = true;
 
-        if(userTest.checkValidComboLastNameFirstNameOfUser(testListUser) &&
-                userTest.checkValidPhoneNumberOfUser(testListUser) &&
-                userTest.checkValidEmailOfUser(testListUser) &&
-                userTest.checkValidUsernameOfUser(testListUser)) {
+        if(userTest.checkValidFirstNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnFirstNameSuccesfull() {
+        User userTest = new User(" Bruneau",null,null,null,null );
+        userTest.setFirstName(userTest.getFirstName().trim());
+        boolean result = true;
+
+        if(userTest.checkValidFirstNameOfUser(testListUser)) {
             result = false;
         }
 
@@ -96,18 +106,102 @@ class UserTest {
     }
 
     @Test
-    public void testCheckTrimSuccesfull() {
-        User userTest = new User(" Bruneau"," Viviane"," Viviane"," Spookworm7637@example.com"," +33000555132" );
-        userTest.trimAll();
+    public void testCheckTrimOnLastNameFailed() {
+        User userTest = new User(null," Viviane",null,null,null );
         boolean result = true;
 
-        if(userTest.checkValidComboLastNameFirstNameOfUser(testListUser) &&
-            userTest.checkValidPhoneNumberOfUser(testListUser) &&
-            userTest.checkValidEmailOfUser(testListUser) &&
-            userTest.checkValidUsernameOfUser(testListUser)) {
+        if(userTest.checkValidLastNameOfUser(testListUser)) {
             result = false;
         }
 
         assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnLastNameSuccesfull() {
+        User userTest = new User(null," Viviane",null,null,null );
+        userTest.setLastName(userTest.getLastName().trim());
+        boolean result = true;
+
+        if(userTest.checkValidLastNameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnMailFailed() {
+        User userTest = new User(null,null,null," Spookworm7637@example.com",null );
+        boolean result = true;
+
+        if(userTest.checkValidEmailOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnMailSuccesfull() {
+        User userTest = new User(null,null,null," Spookworm7637@example.com",null );
+        userTest.setEmail(userTest.getEmail().trim());
+        boolean result = true;
+
+        if(userTest.checkValidEmailOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnUsernameFailed() {
+        User userTest = new User(null,null," Viviane",null,null );
+        boolean result = true;
+
+        if(userTest.checkValidUsernameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnUsernameSuccesfull() {
+        User userTest = new User(null,null," Viviane",null,null );
+        userTest.setUserName(userTest.getUserName().trim());
+        boolean result = true;
+
+        if(userTest.checkValidUsernameOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnPhoneFailed() {
+        User userTest = new User(null,null,null,null," +33000555132" );
+        boolean result = true;
+
+        if(userTest.checkValidPhoneNumberOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertFalse(result, "Ce message s'affiche si le test échoue.");
+    }
+
+    @Test
+    public void testCheckTrimOnPhoneSuccesfull() {
+        User userTest = new User(null,null,null,null," +33000555132" );
+        userTest.setPhone(userTest.getPhone().trim());
+        boolean result = true;
+
+        if(userTest.checkValidPhoneNumberOfUser(testListUser)) {
+            result = false;
+        }
+
+        assertTrue(result, "Ce message s'affiche si le test échoue.");
     }
 }

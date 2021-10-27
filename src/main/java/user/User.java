@@ -95,6 +95,24 @@ public class User {
         return true;
     }
 
+    protected boolean checkValidFirstNameOfUser(List<User> userList) {
+        for (User user : userList) {
+            if ((this.firstName.equals(user.getFirstName()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected boolean checkValidLastNameOfUser(List<User> userList) {
+        for (User user : userList) {
+            if ((this.lastName.equals(user.getLastName()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected boolean checkValidPhoneNumberOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.phone.equals(user.getPhone()))) {
