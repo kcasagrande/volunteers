@@ -30,10 +30,12 @@ public class Merge {
     private HashMap<String, Double> getPercentageByFirstname(){
         HashMap<String, Double> dict = new HashMap<>();
         for(User user: users){
-            if(dict.containsKey(user.firstname)){
-                dict.put(user.firstname, dict.get(user.firstname) + 1.);
-            }else {
-                dict.put(user.firstname, 1.);
+            if(!user.username.isEmpty()){
+                if(dict.containsKey(user.firstname)){
+                    dict.put(user.firstname, dict.get(user.firstname) + 1.);
+                }else {
+                    dict.put(user.firstname, 1.);
+                }
             }
         }
         for(String key: dict.keySet()){
@@ -59,10 +61,12 @@ public class Merge {
     private HashMap<String, Double> getPercentageByUsername(){
         HashMap<String, Double> dict = new HashMap<>();
         for(User user: users){
-            if(dict.containsKey(user.username)){
-                dict.put(user.username, dict.get(user.username) + 1.);
-            }else {
-                dict.put(user.username, 1.);
+            if(!user.username.isEmpty()){
+                if(dict.containsKey(user.username)){
+                    dict.put(user.username, dict.get(user.username) + 1.);
+                }else {
+                    dict.put(user.username, 1.);
+                }
             }
         }
         for(String key: dict.keySet()){
@@ -88,10 +92,12 @@ public class Merge {
     private HashMap<String, Double> getPercentageByEmail(){
         HashMap<String, Double> dict = new HashMap<>();
         for(User user: users){
-            if(dict.containsKey(user.email)){
-                dict.put(user.email, dict.get(user.email) + 1.);
-            }else {
-                dict.put(user.email, 1.);
+            if(!user.email.isEmpty()) {
+                if (dict.containsKey(user.email)) {
+                    dict.put(user.email, dict.get(user.email) + 1.);
+                } else {
+                    dict.put(user.email, 1.);
+                }
             }
         }
         for(String key: dict.keySet()){
@@ -117,10 +123,12 @@ public class Merge {
     private HashMap<String, Double> getPercentageByPhone(){
         HashMap<String, Double> dict = new HashMap<>();
         for(User user: users){
-            if(dict.containsKey(user.phone)){
-                dict.put(user.phone, dict.get(user.phone) + 1.);
-            }else {
-                dict.put(user.phone, 1.);
+            if(!user.phone.isEmpty()){
+                if(dict.containsKey(user.phone)){
+                    dict.put(user.phone, dict.get(user.phone) + 1.);
+                }else {
+                    dict.put(user.phone, 1.);
+                }
             }
         }
         for(String key: dict.keySet()){
