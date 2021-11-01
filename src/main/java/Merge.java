@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class Merge {
@@ -19,8 +17,27 @@ public class Merge {
     }
 
     public void mergeUsers(){
-        User user = new User(key, getValue("firstname"), getValue("username"), getValue("email"), getValue("phone"));
-        this.result.add(user);
+//        User user = new User(key, getValue("firstname"), getValue("username"), getValue("email"), getValue("phone"));
+//        this.result.add(user);
+
+        HashMap<String, User> dict = new HashMap<>();
+
+        User buffUser = users.get(0);
+        dict.put(buffUser.firstname.toUpperCase(Locale.ROOT), buffUser);
+
+        for (int i = 1; i < users.size(); i++) {
+            String key = users.get(i).firstname.toUpperCase(Locale.ROOT);
+            int ld = Levenshtein.ld(key, buffUser.username.toUpperCase(Locale.ROOT));
+            if(ld <= 1){
+            }else{
+                dict.put(key, users.get(i));
+            }
+            buffUser = users.get(i);
+        }
+
+        for(User user: dict.values()){
+            this.result.add(user);
+        }
     }
 
     public ArrayList<User> getResult() {

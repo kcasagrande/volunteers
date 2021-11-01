@@ -14,6 +14,7 @@ public class LevenshteinTest {
     @Test
     public void testLevensheinLd(){
         assertEquals(0,  lv.ld("kitten","kitten"));
+        assertEquals(1,  lv.ld("Kitten","kitten"));
         assertEquals(1,  lv.ld("kitten","sitten"));
         assertEquals(2,  lv.ld("kitten","sittes"));
         assertEquals(3,  lv.ld("kitten","sityteng"));

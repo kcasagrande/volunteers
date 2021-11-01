@@ -73,4 +73,29 @@ public class MergeTest {
         assertEquals(new User("About", "Axelle", "Axelle", "axelle_about@example.org", "0000555503"),
                 merge.getResult().get(0));
     }
+
+    @Test
+    public void mergeTwoUserWithFirstnameSoSameFamily(){
+        User userA = new User("About", "Axelle","Axelle","axelle_about@example.net","0000555503");
+        User userB = new User("About","Axel","Axou","axelabout@example.net","0000555503");
+        User userC = new User("About","Axelle","","axelle_about@example.net","0000555503");
+        User userD = new User("About","Axel","","axelabout@example.net","0000555503");
+        User userE = new User("About","Axel","Axi","axelabout@example.net","0000555502");
+
+        Merge merge = new Merge("About");
+        merge.addUser(userA);
+        merge.addUser(userB);
+        merge.addUser(userD);
+        merge.addUser(userC);
+        merge.addUser(userE);
+
+        merge.mergeUsers();
+
+        assertEquals(2, merge.getResult().size());
+
+        assertEquals(new User("About", "Axelle", "Axelle", "axelle_about@example.net", "0000555503"),
+                merge.getResult().get(0));
+        assertEquals(new User("About", "Axel", "Axou", "axelabout@example.net", "0000555503"),
+                merge.getResult().get(1));
+    }
 }
