@@ -19,7 +19,7 @@ public class Merge {
     }
 
     public void mergeUsers(){
-        User user = new User(key, getFirstname(), getUsername(), getEmail(), getPhone());
+        User user = new User(key, getValue("firstname"), getValue("username"), getValue("email"), getValue("phone"));
         this.result.add(user);
     }
 
@@ -27,14 +27,32 @@ public class Merge {
         return result;
     }
 
-    private HashMap<String, Double> getPercentageByFirstname(){
+    private HashMap<String, Double> getPercentageByValue(String value){
         HashMap<String, Double> dict = new HashMap<>();
         for(User user: users){
-            if(!user.username.isEmpty()){
-                if(dict.containsKey(user.firstname)){
-                    dict.put(user.firstname, dict.get(user.firstname) + 1.);
+            String valueInUsers = "";
+            switch (value){
+                case "lastname":
+                    valueInUsers = user.lastname;
+                    break;
+                case "firstname":
+                    valueInUsers = user.firstname;
+                    break;
+                case "username":
+                    valueInUsers = user.username;
+                    break;
+                case "email":
+                    valueInUsers = user.email;
+                    break;
+                case "phone":
+                    valueInUsers = user.phone;
+                    break;
+            }
+            if(!valueInUsers.isEmpty()){
+                if(dict.containsKey(valueInUsers)){
+                    dict.put(valueInUsers, dict.get(valueInUsers) + 1.);
                 }else {
-                    dict.put(user.firstname, 1.);
+                    dict.put(valueInUsers, 1.);
                 }
             }
         }
@@ -44,10 +62,10 @@ public class Merge {
         return dict;
     }
 
-    private String getFirstname(){
+    private String getValue(String field){
         String firstname = "";
         Double max = 0.;
-        for (Map.Entry<String, Double> entry : getPercentageByFirstname().entrySet()) {
+        for (Map.Entry<String, Double> entry : getPercentageByValue(field).entrySet()) {
             String key = entry.getKey();
             Double value = entry.getValue();
             if(max < value){
@@ -58,96 +76,4 @@ public class Merge {
         return firstname;
     }
 
-    private HashMap<String, Double> getPercentageByUsername(){
-        HashMap<String, Double> dict = new HashMap<>();
-        for(User user: users){
-            if(!user.username.isEmpty()){
-                if(dict.containsKey(user.username)){
-                    dict.put(user.username, dict.get(user.username) + 1.);
-                }else {
-                    dict.put(user.username, 1.);
-                }
-            }
-        }
-        for(String key: dict.keySet()){
-            dict.put(key, dict.get(key) / users.size());
-        }
-        return dict;
-    }
-
-    private String getUsername(){
-        String username = "";
-        Double max = 0.;
-        for (Map.Entry<String, Double> entry : getPercentageByUsername().entrySet()) {
-            String key = entry.getKey();
-            Double value = entry.getValue();
-            if(max < value){
-                max = value;
-                username = key;
-            }
-        }
-        return username;
-    }
-
-    private HashMap<String, Double> getPercentageByEmail(){
-        HashMap<String, Double> dict = new HashMap<>();
-        for(User user: users){
-            if(!user.email.isEmpty()) {
-                if (dict.containsKey(user.email)) {
-                    dict.put(user.email, dict.get(user.email) + 1.);
-                } else {
-                    dict.put(user.email, 1.);
-                }
-            }
-        }
-        for(String key: dict.keySet()){
-            dict.put(key, dict.get(key) / users.size());
-        }
-        return dict;
-    }
-
-    private String getEmail(){
-        String email = "";
-        Double max = 0.;
-        for (Map.Entry<String, Double> entry : getPercentageByEmail().entrySet()) {
-            String key = entry.getKey();
-            Double value = entry.getValue();
-            if(max < value){
-                max = value;
-                email = key;
-            }
-        }
-        return email;
-    }
-
-    private HashMap<String, Double> getPercentageByPhone(){
-        HashMap<String, Double> dict = new HashMap<>();
-        for(User user: users){
-            if(!user.phone.isEmpty()){
-                if(dict.containsKey(user.phone)){
-                    dict.put(user.phone, dict.get(user.phone) + 1.);
-                }else {
-                    dict.put(user.phone, 1.);
-                }
-            }
-        }
-        for(String key: dict.keySet()){
-            dict.put(key, dict.get(key) / users.size());
-        }
-        return dict;
-    }
-
-    private String getPhone(){
-        String phone = "";
-        Double max = 0.;
-        for (Map.Entry<String, Double> entry : getPercentageByPhone().entrySet()) {
-            String key = entry.getKey();
-            Double value = entry.getValue();
-            if(max < value){
-                max = value;
-                phone = key;
-            }
-        }
-        return phone;
-    }
 }
