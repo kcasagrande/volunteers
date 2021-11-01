@@ -1,8 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
@@ -17,8 +16,10 @@ public class App {
             .sorted(Collections.reverseOrder())
             .collect(toList());
 
+
         // Apply dark magic here...
         lines.forEach(System.out::println);
+
     }
 
     public static Function<String, String[]> splitCSV = (row) -> row.split(";", -1);

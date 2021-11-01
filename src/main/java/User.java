@@ -1,4 +1,8 @@
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class User implements Comparable<User>{
+    private static final AtomicInteger count = new AtomicInteger(0);
+    public final int id;
     public final String lastname;
     public final String firstname;
     public final String username;
@@ -6,6 +10,7 @@ public class User implements Comparable<User>{
     public final String phone;
 
     public User(String lastname, String firstname, String username, String email, String phone) {
+        this.id = count.incrementAndGet();
         this.lastname = lastname;
         this.firstname = firstname;
         this.username = username;
