@@ -106,6 +106,21 @@ public class User implements Comparable<User>{
         return nb;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null) {
+            return false;
+        }
+        if(!(obj instanceof User)){
+            return false;
+        }
+        User user = (User) obj;
+        return lastname.equals(user.lastname) &&
+                firstname.equals(user.firstname) &&
+                username.equals(user.username) &&
+                email.equals(user.email) &&
+                phone.equals(user.phone);
+    }
 
     @Override
     public int compareTo(User user) {
