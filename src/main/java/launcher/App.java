@@ -15,7 +15,7 @@ public class App {
         try {
             var openedFile = CsvFileReader.extractDatas("src/main/resources/data.csv");
 
-            List<Person> personList = parser.parse(openedFile);
+            List<Person> personList = (List<Person>) parser.parse(openedFile);
 
             var listWithoutDuplicate = DuplicateFinder.eliminateDuplicate(personList);
             listWithoutDuplicate.sort(Comparator.comparing(Person::getSurname));

@@ -17,21 +17,22 @@ public class DuplicateFinder {
 
         personListGroupedWithPhoneNumber.forEach((n, personListToCompare) -> {
             List<Person> finalList = new ArrayList<>(personListToCompare);
-
             for (int i = 0; i < personListToCompare.size(); i++) {
                 Person actualPerson = personListToCompare.get(i);
-
-                if(i+1 < personListToCompare.size()){
-                    Person nextPerson = personListToCompare.get(i+1);
-
-                    var fieldCompareResult = CompareTool.comparePersons(actualPerson, nextPerson);
-                    if(fieldCompareResult) finalList.remove(actualPerson);
+                int j = i+1;
+                if(j < personListToCompare.size()){
+                    while(j < personListToCompare.size()){
+                        Person nextPerson = personListToCompare.get(j);
+                        var fieldCompareResult = CompareTool.comparePersons(actualPerson, nextPerson);
+                        if(fieldCompareResult) finalList.remove(actualPerson);
+                        j++;
+                    }
                 }
+
             }
 
             resultList.addAll(finalList);
         });
-
         return resultList;
     }
 }
