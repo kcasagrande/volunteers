@@ -23,7 +23,7 @@ class VolunteersTest {
     }
 
     @Test
-    void testModel(){
+    void personModel(){
         Person person = new Person("GUYON", "clement.guyon@gmail.com", "SahyyKI0", "Clément", "0781915332");
         Assertions.assertInstanceOf(Person.class, person);
     }
