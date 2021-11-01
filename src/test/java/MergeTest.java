@@ -30,6 +30,26 @@ public class MergeTest {
         assertEquals(1, merge.getResult().size());
         assertEquals(new User("About", "Axelle", "Axelle", "axelleabout@example.net", "0000555503"),
                 merge.getResult().get(0));
+    }
 
+    @Test
+    public void mergeSameUserWithSameRecurrentFirstname(){
+        User userA = new User("About", "Axelle","Axelle","axelleabout@example.net","0000555503");
+        User userB = new User("About","Axele","","axelleabout@example.net","0000555503");
+        User userC = new User("About","Axell","","axelle_about@example.org","0000555503");
+        User userD = new User("About","Axelle","","axelleabout@example.org","0000555503");
+
+
+        Merge merge = new Merge("About");
+        merge.addUser(userA);
+        merge.addUser(userB);
+        merge.addUser(userD);
+        merge.addUser(userC);
+
+        merge.mergeUsers();
+
+        assertEquals(1, merge.getResult().size());
+        assertEquals(new User("About", "Axelle", "Axelle", "axelleabout@example.net", "0000555503"),
+                merge.getResult().get(0));
     }
 }

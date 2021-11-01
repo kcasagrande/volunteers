@@ -49,6 +49,7 @@ public class Merge {
             String key = entry.getKey();
             Double value = entry.getValue();
             if(max < value){
+                max = value;
                 firstname = key;
             }
         }
@@ -77,6 +78,7 @@ public class Merge {
             String key = entry.getKey();
             Double value = entry.getValue();
             if(max < value){
+                max = value;
                 username = key;
             }
         }
@@ -105,6 +107,7 @@ public class Merge {
             String key = entry.getKey();
             Double value = entry.getValue();
             if(max < value){
+                max = value;
                 email = key;
             }
         }
@@ -133,6 +136,7 @@ public class Merge {
             String key = entry.getKey();
             Double value = entry.getValue();
             if(max < value){
+                max = value;
                 phone = key;
             }
         }
