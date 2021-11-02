@@ -19,83 +19,97 @@ public class Comparator {
 
     public static String CompareList(List<String[]> lines){
 
-        for(int i=0; i < lines.size()-1; i++){
-            for(int j=0; j < lines.size()-1; j++){
-                if(i == j){
-                    j += 1;
-                    if(lines.get(i)[4].equalsIgnoreCase(lines.get(j)[4])
-                            && !lines.get(i)[4].isEmpty()
-                        || lines.get(i)[3].equalsIgnoreCase(lines.get(j)[3])
-                            && !lines.get(i)[3].isEmpty()
-                        || lines.get(i)[0].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[1])
-                        || lines.get(i)[0].equalsIgnoreCase(lines.get(j)[1])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[0])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[2])
-                            && lines.get(i)[0].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[1])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[0].equalsIgnoreCase(lines.get(j)[2])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[1])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[1])
-                            && lines.get(i)[0].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[2])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[2])
-                            && !lines.get(i)[2].isEmpty()
-                            || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[0])
-                            && !lines.get(i)[2].isEmpty()
-                            || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[1])
-                            && !lines.get(i)[2].isEmpty()
-                    )
-                    {
-                        lines.remove(lines.get(j));
-                        return "same";
-                    }
-                }
-
-
-
-            }
+        if(VoidedCompareList(lines)){
+            return "same";
         }
         return "not same";
+
     }
 
-    public static void VoidedCompareList(List<String[]> lines){
+    public static boolean VoidedCompareList(List<String[]> lines){
 
+
+        boolean removed = false;
         for(int i=0; i < lines.size()-1; i++){
             for(int j=0; j < lines.size()-1; j++){
-                if(i == j){
-                    j += 1;
-                    if(lines.get(i)[4].equalsIgnoreCase(lines.get(j)[4])
-                            && !lines.get(i)[4].isEmpty()
-                        || lines.get(i)[3].equalsIgnoreCase(lines.get(j)[3])
-                            && !lines.get(i)[3].isEmpty()
-                        || lines.get(i)[0].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[1])
-                        || lines.get(i)[0].equalsIgnoreCase(lines.get(j)[1])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[0])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[2])
-                            && lines.get(i)[0].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[1])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[0].equalsIgnoreCase(lines.get(j)[2])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[1])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[1])
-                            && lines.get(i)[0].equalsIgnoreCase(lines.get(j)[0])
-                            && lines.get(i)[1].equalsIgnoreCase(lines.get(j)[2])
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[2])
-                            && !lines.get(i)[2].isEmpty()
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[0])
-                            && !lines.get(i)[2].isEmpty()
-                        || lines.get(i)[2].equalsIgnoreCase(lines.get(j)[1])
-                            && !lines.get(i)[2].isEmpty()
+                if(i == j) {
+                    j+=1;
+                }
+                    if(ComparePhoneNumbers(lines.get(i), lines.get(j))
+                        || CompareEmails(lines.get(i), lines.get(j))
+                        || CompareSameFnLn(lines.get(i), lines.get(j))
+                        || CompareInvertedFnLn(lines.get(i), lines.get(j))
+                        || CompareSamePseudo(lines.get(i), lines.get(j))
+                        || CompareLastNameInPseudo(lines.get(i), lines.get(j))
+                        || CompareFirstNameInPseudo(lines.get(i), lines.get(j))
+                        || ComparePseudoInLn(lines.get(i), lines.get(j))
+                        || ComparePseudoInFn(lines.get(i), lines.get(j))
                     )
                     {
                         lines.remove(lines.get(j));
+                        removed = true;
                     }
-                }
             }
         }
+        return removed;
+    }
+
+    public static boolean CompareFirstNameInPseudo(String[] line, String[] line2){
+
+        return line[0].equalsIgnoreCase(line2[0])
+                && line[1].equalsIgnoreCase(line2[2])
+                && !line[0].isEmpty()
+                && !line[1].isEmpty();
+    }
+
+    public static boolean CompareLastNameInPseudo(String[] line, String[] line2){
+
+        return line[0].equalsIgnoreCase(line2[2])
+                && line[1].equalsIgnoreCase(line2[1])
+                && !line[0].isEmpty()
+                && !line[1].isEmpty();
+    }
+
+    public static boolean ComparePhoneNumbers(String[] line, String[] line2){
+
+        return line[4].equalsIgnoreCase(line2[4])
+                && !line[4].isEmpty();
+
+    }
+
+    public static boolean CompareEmails(String[] line, String[] line2){
+        return line[3].equalsIgnoreCase(line2[3])
+                && !line[3].isEmpty();
+
+    }
+
+    public static boolean CompareSameFnLn(String[] line, String[] line2){
+        return line[0].equalsIgnoreCase(line2[0])
+                && line[1].equalsIgnoreCase(line2[1])
+                && !line[0].isEmpty()
+                && !line[1].isEmpty();
+    }
+
+    public static boolean CompareInvertedFnLn(String[] line, String[] line2){
+        return line[0].equalsIgnoreCase(line2[1])
+                && line[1].equalsIgnoreCase(line2[0])
+                && !line[0].isEmpty()
+                && !line[1].isEmpty();
+    }
+
+    public static boolean CompareSamePseudo(String[] line, String[] line2){
+        return line[2].equalsIgnoreCase(line2[2])
+                && !line[2].isEmpty();
+    }
+
+    public static boolean ComparePseudoInLn(String[] line, String[] line2){
+        return line[2].equalsIgnoreCase(line2[0])
+                && !line[2].isEmpty();
+    }
+
+    public static boolean ComparePseudoInFn(String[] line, String[] line2){
+        return line[2].equalsIgnoreCase(line2[1])
+                && !line[2].isEmpty();
     }
 
 

@@ -14,15 +14,15 @@ public class App {
             .collect(toList());
 
         // Apply dark magic here...
-        //for (String[] strings : lines) {
-        //    System.out.println(Arrays.toString(strings));
-        //}
+        System.out.println("Result goes here");
+
         System.out.println(lines.size());
         Comparator comparator = new Comparator();
         comparator.VoidedCompareList(lines);
         System.out.println(lines.size());
 
-
-        System.out.println("Result goes here");
+        for (String[] strings : lines) {
+            System.out.println(Arrays.toString(strings));
+        }
     }
 }

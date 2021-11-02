@@ -51,7 +51,7 @@ public class ComparatorTest {
         List<String[]> lines = new ArrayList<String[]>();
         String[] a1 = new String[]{"Jean", "Bon"," ", "jeanbon@example.org",""};
         lines.add(0, a1);
-        String[] a2 = new String[]{"Bon", "Jean","Twizou ", "jeanbon@example.org",""};
+        String[] a2 = new String[]{"Laurens","Muriel","","muriel_laurens@example.net","+33075555171"};
         lines.add(1, a2);
         Comparator comparator = new Comparator();
         result = comparator.CompareList(lines);
@@ -102,5 +102,106 @@ public class ComparatorTest {
         assertEquals("same", result);
         assertEquals(1, lines.size());
     }
+
+    @Test
+    public void comparePseudoThree(){
+        String result;
+        List<String[]> lines = new ArrayList<String[]>();
+        String[] a1 = new String[]{"Laurens","Muriel","","muriel.laurens@example.org","+33075555171"};
+        lines.add(0, a1);
+        String[] a2 = new String[]{"Laurens","Muriel","","muriel.laurens@example.net","+33006116604"};
+        lines.add(0, a2);
+        String[] a3 = new String[]{"Laurens","Muriel","","muriel_laurens@example.net","+33075555171"};
+        lines.add(0, a3);
+        Comparator comparator = new Comparator();
+        result = comparator.CompareList(lines);
+        assertEquals("same", result);
+        assertEquals(1, lines.size());
+    }
+
+    //test methodes séparées
+
+    @Test
+    public void testCompareFirstNameInPseudo(){
+        boolean result;
+        String[] a1 = new String[]{"Laurens","Muriel","","muriel.laurens@example.org","+33075555171"};
+        String[] a2 = new String[]{"Laurens","","Muriel","muriel.laurens@example.net","+33006116604"};
+        Comparator comparator = new Comparator();
+        result = comparator.CompareFirstNameInPseudo(a1, a2);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testComparePhoneNumbers(){
+        boolean result;
+        String[] a1 = new String[]{"Laurens","Muriel","","muriel.laurens@example.org","+33075555171"};
+        String[] a2 = new String[]{"Laurens","","Muriel","muriel.laurens@example.net","+33075555171"};
+        Comparator comparator = new Comparator();
+        result = comparator.ComparePhoneNumbers(a1, a2);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testCompareSameFnLn(){
+        boolean result;
+        String[] a1 = new String[]{"Laurens","Muriel","","muriel.laurens@example.org","+33075554171"};
+        String[] a2 = new String[]{"Laurens","Muriel","Mumu","muriel.laurens@example.net","+33075555171"};
+        Comparator comparator = new Comparator();
+        result = comparator.CompareSameFnLn(a1, a2);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testCompareInvertedFnLn(){
+        boolean result;
+        String[] a1 = new String[]{"Laurens","Muriel","Mumu","muriel.laurens@example.org","+33075455171"};
+        String[] a2 = new String[]{"Muriel","Laurens","Mumu","muriel.laurens@example.net","+33075555171"};
+        Comparator comparator = new Comparator();
+        result = comparator.CompareInvertedFnLn(a1, a2);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testCompareSamePseudo(){
+        boolean result;
+        String[] a1 = new String[]{"","","Mumu","muriel.laurens@example.org","+33075455171"};
+        String[] a2 = new String[]{"Muriel","Laurens","Mumu","muriel.laurens@example.net","+33075555171"};
+        Comparator comparator = new Comparator();
+        result = comparator.CompareSamePseudo(a1, a2);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testComparePseudoInLn(){
+        boolean result;
+        String[] a1 = new String[]{"","Laurens","Muriel","muriel.laurens@example.org","+33075455171"};
+        String[] a2 = new String[]{"Muriel","Laurens","Mumu","muriel.laurens@example.net","+33075555171"};
+        Comparator comparator = new Comparator();
+        result = comparator.ComparePseudoInLn(a1, a2);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testComparePseudoInFn(){
+        boolean result;
+        String[] a1 = new String[]{"","","mumu","muriel.laurens@example.org","+33075455171"};
+        String[] a2 = new String[]{"Laurens","Mumu","Muriel","muriel.laurens@example.net","+33075555171"};
+        Comparator comparator = new Comparator();
+        result = comparator.ComparePseudoInFn(a1, a2);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testCompareLastNameInPseudo(){
+        boolean result;
+        String[] a1 = new String[]{"laurens","Muriel","mumu","muriel.laurens@example.org","+33075455171"};
+        String[] a2 = new String[]{"","Muriel","laurens","muriel.laurens@example.net","+33075555171"};
+        Comparator comparator = new Comparator();
+        result = comparator.CompareLastNameInPseudo(a1, a2);
+        assertEquals(true, result);
+    }
+
+
+
 
 }
