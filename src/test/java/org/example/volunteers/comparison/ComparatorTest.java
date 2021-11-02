@@ -55,8 +55,8 @@ public class ComparatorTest {
         lines.add(1, a2);
         Comparator comparator = new Comparator();
         result = comparator.CompareList(lines);
-        assertEquals("same", result);
-        assertEquals(1, lines.size());
+        assertEquals("not same", result);
+        assertEquals(2, lines.size());
     }
     // comparaison numpero telephone + bien suppr de la liste
     @Test

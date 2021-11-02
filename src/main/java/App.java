@@ -21,8 +21,8 @@ public class App {
         comparator.VoidedCompareList(lines);
         System.out.println(lines.size());
 
-        for (String[] strings : lines) {
-            System.out.println(Arrays.toString(strings));
-        }
+        //for (String[] strings : lines) {
+        //    System.out.println(Arrays.toString(strings));
+        //}
     }
 }

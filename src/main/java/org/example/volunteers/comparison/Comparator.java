@@ -30,10 +30,10 @@ public class Comparator {
 
 
         boolean removed = false;
-        for(int i=0; i < lines.size()-1; i++){
-            for(int j=0; j < lines.size()-1; j++){
+        for(int i=0; i < lines.size(); i++){
+            for(int j=0; j < lines.size(); j++){
                 if(i == j) {
-                    j+=1;
+                    continue;
                 }
                     if(ComparePhoneNumbers(lines.get(i), lines.get(j))
                         || CompareEmails(lines.get(i), lines.get(j))
@@ -82,6 +82,8 @@ public class Comparator {
                 && !line[3].isEmpty();
 
     }
+
+    // Ici Fn = FirstName et Ln = LastName
 
     public static boolean CompareSameFnLn(String[] line, String[] line2){
         return line[0].equalsIgnoreCase(line2[0])
