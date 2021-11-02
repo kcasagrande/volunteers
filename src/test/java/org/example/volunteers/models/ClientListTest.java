@@ -32,4 +32,38 @@ public class ClientListTest {
         assertEquals("a@a.com", client.getEmail());
         assertEquals("0617332545", client.getPhone());
     }
+
+    @Test
+    public void testNormalizeClientList() {
+        List<String[]> listClientsLines = new ArrayList<>();
+        listClientsLines.add(new String[]{
+                "Arthur",
+                "Genthial",
+                "Volt",
+                "a@a.com",
+                "+336 17 33 25 45"
+        });
+        listClientsLines.add(new String[]{
+                "Arthur",
+                "Genthial",
+                "Voltzy",
+                "a.g@test.com",
+                "06 17 33 25 45"
+        });
+
+        ClientList clientList = new ClientList();
+        clientList.setClientListFromFileLines(listClientsLines);
+        clientList.normalize();
+
+        ArrayList<Client> clientsResult = clientList.getClientListClean();
+
+        Client client = clientsResult.get(0);
+
+        assertEquals(1, clientsResult.size());
+        assertEquals("Arthur", client.getFirstname());
+        assertEquals("Genthial", client.getLastname());
+        assertEquals("Volt", client.getUsername());
+        assertEquals("a@a.com", client.getEmail());
+        assertEquals("0617332545", client.getPhone());
+    }
 }
