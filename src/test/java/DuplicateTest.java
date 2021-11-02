@@ -30,4 +30,27 @@ public class DuplicateTest {
 
         assertEquals(listExpected, finalListUser);
     }
+
+    @Test
+    public void test_mergeDuplicateByPhoneNumber() {
+        List<User> listUser = new ArrayList<>();
+        listUser.add(listUser.size(), new User("Doe","John","unknown","","0612345678"));
+        listUser.add(listUser.size(), new User("DOE","John","","john.doe@example.com","0612345678"));
+        listUser.add(listUser.size(), new User("Doe","Jane","unknown","jane.doe@example.com",""));
+        listUser.add(listUser.size(), new User("Martins","Alexis","","martins.alexis@gmail.com",""));
+        listUser.add(listUser.size(), new User("","","","jackie@example.com",""));
+        listUser.add(listUser.size(), new User("","","","jesaisplusquo@mettre.com",""));
+
+        Duplicate duplicate = new Duplicate();
+        var finalListUser = duplicate.mergeByPhoneNumber(listUser);
+
+        List<User> listExpected = new ArrayList<>();
+        listExpected.add(listExpected.size(), new User("Doe","John","unknown","john.doe@example.com","0612345678"));
+        listExpected.add(listExpected.size(), new User("Doe","Jane","unknown","jane.doe@example.com",""));
+        listExpected.add(listExpected.size(), new User("Martins","Alexis","","martins.alexis@gmail.com",""));
+        listExpected.add(listExpected.size(), new User("","","","jackie@example.com",""));
+        listExpected.add(listExpected.size(), new User("","","","jesaisplusquo@mettre.com",""));
+
+        assertEquals(listExpected, finalListUser);
+    }
 }
