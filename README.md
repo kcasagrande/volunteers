@@ -2,5 +2,5 @@
 
 ### Membres
 * David Herve
-* Shaînee Khaldi
+* Shaïnee Khaldi
 * Corentin Laurencine
