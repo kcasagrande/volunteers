@@ -16,6 +16,12 @@ public class App {
             .sorted(Collections.reverseOrder())
             .collect(toList());
 
+        HashMap<Integer, User> usersDict = new HashMap<>();
+        for(User user: lines){
+            if(!(usersDict.containsKey(user.id))){
+                usersDict.put(user.id, user);
+            }
+        }
 
         // Apply dark magic here...
         lines.forEach(System.out::println);
