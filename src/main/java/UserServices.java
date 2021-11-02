@@ -28,7 +28,7 @@ public class UserServices {
             if (user.checkValidComboLastNameFirstNameOfUser(CleanListUser)
                     && user.checkValidEmailOfUser(CleanListUser)) {
                 CleanListUser.add(user);
-            }
+            } 
         }
     }
 

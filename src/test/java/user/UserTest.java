@@ -243,202 +243,136 @@ class UserTest {
     @Test
     public void testCheckUpperFirstNameFailed() {
         User userTest = new User("LASUL",null,null,null,null );
-        boolean result = true;
+        boolean result = userTest.checkValidFirstNameOfUser(testListUser);
 
-        if(userTest.checkValidFirstNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "Le firstname a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
+        assertTrue(result, "Le firstname a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckUpperFirstNameSuccesfull() {
         User userTest = new User("LASUL",null,null,null,null );
         userTest.setFirstName(userTest.getFirstName().toLowerCase());
-        boolean result = true;
+        boolean result = userTest.checkValidFirstNameOfUser(testListUser);
 
-        System.out.println(userTest.getFirstName());
-        System.out.println(userTest.checkValidFirstNameOfUser(testListUser));
-        if(userTest.checkValidFirstNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "Le firstname n'a pas été trouvé en UPPERCASE !");
+        assertFalse(result, "Le firstname n'a pas été trouvé en UPPERCASE !");
     }
 
     @Test
     public void testCheckUpperLastNameFailed() {
         User userTest = new User(null,"VIVIANE",null,null,null );
-        boolean result = true;
+        boolean result = userTest.checkValidLastNameOfUser(testListUser);
 
-        if(userTest.checkValidLastNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "Le lastname a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
+        assertTrue(result, "Le lastname a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckUpperLastNameSuccesfull() {
         User userTest = new User(null,"VIVIANE",null,null,null );
         userTest.setLastName(userTest.getLastName().toLowerCase());
-        boolean result = true;
+        boolean result = userTest.checkValidLastNameOfUser(testListUser);
 
-        if(userTest.checkValidLastNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "Le lastname n'a pas été trouvé en UPPERCASE !");
+        assertFalse(result, "Le lastname n'a pas été trouvé en UPPERCASE !");
     }
 
     @Test
     public void testCheckUpperMailFailed() {
         User userTest = new User(null,null,null,"TEST@EXAMPLE.COM",null );
-        boolean result = true;
+        boolean result = userTest.checkValidEmailOfUser(testListUser);
 
-        if(userTest.checkValidEmailOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "Le mail a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
+        assertTrue(result, "Le mail a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckUpperMailSuccesfull() {
         User userTest = new User(null,null,null,"TEST@EXAMPLE.COM",null );
         userTest.setEmail(userTest.getEmail().toLowerCase());
-        boolean result = true;
+        boolean result = userTest.checkValidEmailOfUser(testListUser);
 
-        if(userTest.checkValidEmailOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "Le mail n'a pas été trouvé en UPPERCASE !");
+        assertFalse(result, "Le mail n'a pas été trouvé en UPPERCASE !");
     }
 
     @Test
     public void testCheckUpperUserNameFailed() {
         User userTest = new User(null,null,"VIVIANE",null,null );
-        boolean result = true;
+        boolean result = userTest.checkValidUsernameOfUser(testListUser);
 
-        if(userTest.checkValidUsernameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result,  "Le username a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
+        assertTrue(result,  "Le username a été trouvé en UPPERCASE alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckUpperUserNameSuccesfull() {
         User userTest = new User(null,null,"VIVIANE",null,null );
         userTest.setUserName(userTest.getUserName().toLowerCase());
-        boolean result = true;
+        boolean result = userTest.checkValidUsernameOfUser(testListUser);
 
-        if(userTest.checkValidUsernameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "Le username n'a pas été trouvé en UPPERCASE !");
+        assertFalse(result, "Le username n'a pas été trouvé en UPPERCASE !");
     }
 
     @Test
     public void testCheckAccentFirstNameFailed() {
         User userTest = new User("Lépal",null,null,null,null );
-        boolean result = true;
+        boolean result = userTest.checkValidFirstNameOfUser(testListUser);
 
-        if(userTest.checkValidFirstNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "L'accent a été trouvé sur le firstname alors qu'il ne devrait pas !");
+        assertTrue(result, "L'accent a été trouvé sur le firstname alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckAccentFirstNameSuccesfull() {
         User userTest = new User("Lépal",null,null,null,null );
         userTest.stripAccentFirstName();
-        boolean result = true;
+        boolean result = userTest.checkValidFirstNameOfUser(testListUser);
 
-        if(userTest.checkValidFirstNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "L'accent n'a pas été trouvé !");
+        assertFalse(result, "L'accent n'a pas été trouvé !");
     }
 
     @Test
     public void testCheckAccentLastNameFailed() {
         User userTest = new User(null,"Léo",null,null,null );
-        boolean result = true;
+        boolean result = userTest.checkValidLastNameOfUser(testListUser);
 
-        if(userTest.checkValidLastNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "L'accent a été trouvé sur le lastname alors qu'il ne devrait pas !");
+        assertTrue(result, "L'accent a été trouvé sur le lastname alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckAccentLastNameSuccesfull() {
         User userTest = new User(null,"Léo",null,null,null );
         userTest.stripAccentLastname();
-        boolean result = true;
+        boolean result = userTest.checkValidLastNameOfUser(testListUser);
 
-        if(userTest.checkValidLastNameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "L'accent n'a pas été trouvé sur le lastname !");
+        assertFalse(result, "L'accent n'a pas été trouvé sur le lastname !");
     }
 
     @Test
     public void testCheckAccentMailFailed() {
         User userTest = new User(null,null,null,"té@example.com",null );
-        boolean result = true;
+        boolean result = userTest.checkValidEmailOfUser(testListUser);
 
-        if(userTest.checkValidEmailOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "L'accent a été trouvé sur le mail alors qu'il ne devrait pas !");
+        assertTrue(result, "L'accent a été trouvé sur le mail alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckAccentMailSuccesfull() {
         User userTest = new User(null,null,null,"té@example.com",null );
         userTest.stripAccentEmail();
-        boolean result = true;
+        boolean result = userTest.checkValidEmailOfUser(testListUser);
 
-        if(userTest.checkValidEmailOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "L'accent n'a pas été trouvé sur le mail !");
+        assertFalse(result, "L'accent n'a pas été trouvé sur le mail !");
     }
 
     @Test
     public void testCheckAccenUsernameFailed() {
         User userTest = new User(null,null,"Bétias",null,null );
-        boolean result = true;
+        boolean result = userTest.checkValidUsernameOfUser(testListUser);
 
-        if(userTest.checkValidUsernameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertFalse(result, "L'accent a été trouvé sur l'username alors qu'il ne devrait pas !");
+        assertTrue(result, "L'accent a été trouvé sur l'username alors qu'il ne devrait pas !");
     }
 
     @Test
     public void testCheckAccenUsernameSuccesfull() {
         User userTest = new User(null,null,"Bétias",null,null );
         userTest.stripAccentUsername();
-        boolean result = true;
+        boolean result = userTest.checkValidUsernameOfUser(testListUser);
 
-        if(userTest.checkValidUsernameOfUser(testListUser)) {
-            result = false;
-        }
-
-        assertTrue(result, "L'accent n'a pas été trouvé sur l'username !");
+        assertFalse(result, "L'accent n'a pas été trouvé sur l'username !");
     }
 }
