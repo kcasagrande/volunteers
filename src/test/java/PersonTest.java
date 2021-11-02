@@ -109,4 +109,10 @@ public class PersonTest {
             assertEquals(this.personService.refactorPhoneNumber(nonFormatted), formatted);
         });
     }
+
+    @Test
+    public void testGetSplitEmail() {
+        Person person = new Person(1, "Jean", "Bon", "Jean69", "jean_bon@example.com", "+33611111111");
+        assertEquals(person.getSplitEmail(), "jean_bon@example");
+    }
 }
