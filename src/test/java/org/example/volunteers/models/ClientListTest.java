@@ -66,4 +66,72 @@ public class ClientListTest {
         assertEquals("a@a.com", client.getEmail());
         assertEquals("0617332545", client.getPhone());
     }
+
+    @Test
+    public void testNormalizeClientListSameEmail() {
+        List<String[]> listClientsLines = new ArrayList<>();
+        listClientsLines.add(new String[]{
+                "Arthur",
+                "Genthial",
+                "Voltzy",
+                "a.g@test.com",
+                "06 17 33 25 45"
+        });
+        listClientsLines.add(new String[]{
+                "Ahur",
+                "Gehial",
+                "Volt",
+                "a.g@test.com",
+                "+336 17 33 25 4"
+        });
+
+        ClientList clientList = new ClientList();
+        clientList.setClientListFromFileLines(listClientsLines);
+        clientList.normalize();
+
+        ArrayList<Client> clientsResult = clientList.getClientListClean();
+
+        Client client = clientsResult.get(0);
+
+        assertEquals(1, clientsResult.size());
+        assertEquals("Arthur", client.getFirstname());
+        assertEquals("Genthial", client.getLastname());
+        assertEquals("Voltzy", client.getUsername());
+        assertEquals("a.g@test.com", client.getEmail());
+        assertEquals("0617332545", client.getPhone());
+    }
+
+    @Test
+    public void testNormalizeClientListSamePhoneNotSameFormat() {
+        List<String[]> listClientsLines = new ArrayList<>();
+        listClientsLines.add(new String[]{
+                "Arthur",
+                "Genthial",
+                "Voltzy",
+                "a@test.com",
+                "06 17 33 25 45"
+        });
+        listClientsLines.add(new String[]{
+                "Ahur",
+                "Gehial",
+                "Volt",
+                "a.g@test.com",
+                "+336 17 33 25 45"
+        });
+
+        ClientList clientList = new ClientList();
+        clientList.setClientListFromFileLines(listClientsLines);
+        clientList.normalize();
+
+        ArrayList<Client> clientsResult = clientList.getClientListClean();
+
+        Client client = clientsResult.get(0);
+
+        assertEquals(1, clientsResult.size());
+        assertEquals("Arthur", client.getFirstname());
+        assertEquals("Genthial", client.getLastname());
+        assertEquals("Voltzy", client.getUsername());
+        assertEquals("a@test.com", client.getEmail());
+        assertEquals("0617332545", client.getPhone());
+    }
 }
