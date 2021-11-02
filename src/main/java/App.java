@@ -22,13 +22,14 @@ public class App {
         List<User> users = createUserListFromCSV(lines);
 
         formatNumbers(users);
-        users = filterPhone(users);
+        //users = filterPhone(users);
+        //users = filterNameAndSurname(users);
         aggregateMailAndTel(users);
-        users.forEach(
+        /*users.forEach(
                 user -> {
                     System.out.println(user.toString());
                 }
-        );
+        );*/
     }
 
     public static List<User> createUserListFromCSV(List<String[]> csvList) {
@@ -64,34 +65,46 @@ public class App {
     }
 
     public static void aggregateMailAndTel(List<User> users) {
-        List<User> mails = new ArrayList<>();
         users.forEach(
                 user -> {
-                    if (!user.mail.equals("")) mails.add(user);
+                    if (user.mail.equals("")) user.mail = "noMail";
+                    if (user.tel.equals("")) user.tel = "noTel";
                 }
         );
 
-        users.clear();
-
-        HashMap<String, List<User>> mailsMap = createMap(mails);
+        HashMap<String, List<User>> mailsMap = createMapMail(users);
+        HashMap<String, List<User>> telsMap = createMapTel(users);
 
         mailsMap.forEach(
                 (key, value) -> {
-                    value.forEach(
-                            user -> {
+                    if (key.equals("tel")) {
 
-                            }
-                    );
+                    }
+                }
+        );
+        telsMap.forEach(
+                (key, value) -> {
+                    System.out.println(key + ": " + value);
                 }
         );
 
     }
 
-    public static HashMap<String, List<User>> createMap(List<User> users) {
+    public static HashMap<String, List<User>> createMapMail(List<User> users) {
         HashMap<String, List<User>> usersMap = new HashMap<>();
         users.forEach(
                 user1 -> {
                     usersMap.put(user1.mail, users.stream().filter(user -> user1.mail.equals(user.mail)).collect(toList()));
+                }
+        );
+        return usersMap;
+    }
+
+    public static HashMap<String, List<User>> createMapTel(List<User> users) {
+        HashMap<String, List<User>> usersMap = new HashMap<>();
+        users.forEach(
+                user1 -> {
+                    usersMap.put(user1.tel, users.stream().filter(user -> user1.tel.equals(user.tel)).collect(toList()));
                 }
         );
         return usersMap;
