@@ -44,6 +44,15 @@ public class Client {
     public void setPhone(String phone) {this.phone = phone;}
 
     private void normalizePhoneNumber() {
+        String number = this.phone;
 
+        number = number.replaceAll("^\\+33", "");
+        number = number.replaceAll("[^\\+\\d]", "");
+
+        if (number.length() == 9) {
+            number = "0" + number;
+        }
+
+        this.phone = number;
     }
 }
