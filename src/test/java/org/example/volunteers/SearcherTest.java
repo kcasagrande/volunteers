@@ -15,7 +15,7 @@ class SearcherTest {
 
     @Test
     public void testSimilitudeShouldReturnListOfSimilitude() throws IOException {
-            Searcher searcher = new Searcher();
+        Searcher searcher = new Searcher();
 
         // arrange
         List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/Testdata.csv"))
@@ -33,6 +33,41 @@ class SearcherTest {
         assertEquals(listIndex,result);
     }
 
+    @Test
+    public void testSimilitudeShouldReturnEmptyListIfNoSimilarLines() throws IOException
+    {
+        Searcher searcher = new Searcher();
+
+        // arrange
+        List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/Testdata.csv"))
+                .stream().map(string -> string.split(";",-1))
+                .collect(toList());
+
+        String[] line = {"Jean","michel","","jeanmichel@example.com","+330583916590 "};
+        // act
+        List<Integer> result = searcher.searchSimilarIndexes(line,lines);
+        List<Integer> listIndex=new ArrayList<Integer>();
+        // assert
+        assertEquals(listIndex,result);
+    }
+
+    @Test
+    public void testSimilitudeShouldReturnEmptyListIfEmptyLine() throws IOException
+    {
+        Searcher searcher = new Searcher();
+
+        // arrange
+        List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/Testdata.csv"))
+                .stream().map(string -> string.split(";",-1))
+                .collect(toList());
+
+        String[] line = {"","","","",""};
+        // act
+        List<Integer> result = searcher.searchSimilarIndexes(line,lines);
+        List<Integer> listIndex=new ArrayList<Integer>();
+        // assert
+        assertEquals(listIndex,result);
+    }
 
     @Test
     public void createUniqueElementFromIndexList() throws IOException
@@ -72,7 +107,7 @@ class SearcherTest {
         assertEquals( "lafromboise;romaine;Banditto;Banditto7416@example.com;+33055520502", String.join(";",finalLine),"Ce message s'affiche si le testNumberParam échoue");
     }
 
-   /* @Test
+    @Test
     public void deleteIndexesFromMainList() throws IOException
     {
         Searcher searcher = new Searcher();
@@ -86,13 +121,10 @@ class SearcherTest {
                 .collect(toList());
 
         List<String[]> attendu = new ArrayList<String[]>();
-        attendu.add(null);
-        attendu.add(null);
         String[] line1 = {"Reverdin","Léo","","Paladin4409@example.net","+33045550603"};
         attendu.add(line1);
         String[] line2 = {"Gicquel","Valérie","","valerie.gicquel@example.org","+33055529222"};
         attendu.add(line2);
-        attendu.add(null);
         String[] line3 = {"Reverdin","Léo","","Paladin4409@example.net","+33045550603"};
         attendu.add(line3);
         String[] line4 = {"Gicquel","Valérie","","valerie.gicquel@example.org","+33055529222"};
@@ -102,7 +134,7 @@ class SearcherTest {
         assertArrayEquals(attendu.toArray(), result.toArray());
 
 
-    }*/
+    }
 
 
 }

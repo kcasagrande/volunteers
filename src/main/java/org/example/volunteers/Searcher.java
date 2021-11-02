@@ -21,26 +21,26 @@ public class Searcher {
                 listOfSimilarIndexes.add(lines.indexOf(line));
             }
             //Recherche nom/prénom
-            else if(lineToSearch[0].equalsIgnoreCase(line[0]) && lineToSearch[1].equalsIgnoreCase(line[1]))
+            else if(lineToSearch[0].equalsIgnoreCase(line[0]) && lineToSearch[1].equalsIgnoreCase(line[1]) && (lineToSearch[0]!="" || lineToSearch[1]!=""))
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
             }
-            else if(lineToSearch[0].equalsIgnoreCase(line[1]) && lineToSearch[1].equalsIgnoreCase(line[0]))
+            else if(lineToSearch[0].equalsIgnoreCase(line[1]) && lineToSearch[1].equalsIgnoreCase(line[0]) && (lineToSearch[0]!="" || lineToSearch[1]!=""))
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
             }
             //Recherche pseudo
-            else if(!lineToSearch[2].isEmpty() && lineToSearch[2].equalsIgnoreCase(line[2]))
+            else if(!lineToSearch[2].isEmpty() && lineToSearch[2].equalsIgnoreCase(line[2]) && lineToSearch[2]!="")
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
             }
             //Recherche mail
-            else if(lineToSearch[3].equalsIgnoreCase(line[3]))
+            else if(lineToSearch[3].equalsIgnoreCase(line[3]) && lineToSearch[3]!="")
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
             }
             //Recherche numéro
-            else if(lineToSearch[4].equalsIgnoreCase(line[4]))
+            else if(lineToSearch[4].equalsIgnoreCase(line[4]) && lineToSearch[4]!="")
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
             }
@@ -84,8 +84,6 @@ public class Searcher {
                 valueHashMap.put("telephone",similarListValue.get(i)[4]);
             }
         }
-
-        //System.out.println(valueHashMap);
 
         return new String[]{valueHashMap.get("prenom"), valueHashMap.get("nom"),
                 valueHashMap.get("pseudo"),valueHashMap.get("mail"),valueHashMap.get("telephone")};
