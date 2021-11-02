@@ -40,12 +40,10 @@ public class ContactTest {
 
     public Contact getContactWithEmailNotEmpty(){
         int i = 0;
-        boolean emailNotEmpty = false;
-        Contact person = null;
-
-        while(!emailNotEmpty){
+        Contact person = contacts_test.get(0);
+        boolean emailEmpty = person.email.isEmpty();
+        while(!emailEmpty){
             if(!contacts_test.get(i).email.isEmpty()){
-                emailNotEmpty = true;
                 person = contacts_test.get(i);
             }else{
                 i++;
@@ -57,8 +55,6 @@ public class ContactTest {
     @Test
     public void checkIfEmailIsCorrect() {
         // Arrange
-        int i = 0;
-        boolean emailNotEmpty = false;
         Contact person = getContactWithEmailNotEmpty();
 
         // Assert
