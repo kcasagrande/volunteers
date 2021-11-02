@@ -1,8 +1,13 @@
-import model.Person;
-import model.PersonProperties;
-import service.Parser;
 
+
+import org.example.volunteers.model.Person;
+import org.example.volunteers.model.PersonProperties;
+import org.example.volunteers.service.Parser;
+import org.example.volunteers.service.PersonService;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,30 +15,41 @@ import java.util.Map;
 
 public class App {
     public static Parser parser = new Parser();
+    public static PersonService personService = new PersonService();
 
 
     public static void main(String[] args) throws IOException {
-         List<Map<PersonProperties, String>> lol = parser.parseCsv("src/main/resources/data.csv",";");
-         System.out.println(lol);
 
-        List<Person> listPersonWDuplicate = new ArrayList<>();
+        System.out.println("Bienvenue ! Comment souhaitez-vous trier la liste : (telephone), (mail), (nom), (tous)");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String choiceSelected = reader.readLine();
 
-        for ( int i = 0; i < lol.size(); i++){
-            Person person = new Person();
+        List<Map<PersonProperties, String>> parsedFile = parser.parseCsv("src/main/resources/data.csv", ";");
 
-            person.id = i +1;
-            person.lastName = lol.get(i).get(PersonProperties.lastName);
-            person.firstName = lol.get(i).get(PersonProperties.firstName);
-            person.userName = lol.get(i).get(PersonProperties.userName);
-            person.email = lol.get(i).get(PersonProperties.email);
-            person.phoneNumber = lol.get(i).get(PersonProperties.phoneNumber);
-
-            listPersonWDuplicate.add(person);
+        List<Person> listPerson = personService.transformInPersonObject(parsedFile);
+        List<Person> listFinal = new ArrayList<>();
+        switch (choiceSelected) {
+            case "nom":
+                listFinal = personService.listSortByName(listPerson);
+                break;
+            case "telephone":
+                listFinal = personService.filterPersonDuplicateByPhoneNumber(listPerson);
+                break;
+            case "mail":
+                listFinal = personService.filterPersonDuplicateByEmail(listPerson);
+                break;
+            case "tous":
+                listFinal = personService.listSortByName(listPerson);
+                listFinal = personService.filterPersonDuplicateByEmail(listFinal);
+                listFinal = personService.filterPersonDuplicateByPhoneNumber(listFinal);
+                break;
+            default:
+                System.out.println("Cas non géré");
+                break;
         }
-System.out.println(listPersonWDuplicate);
-        // Apply dark magic here...
-
-        System.out.println("Result goes here");
-        System.out.println("Ouh ouh c'est reparti comme en 46");
+        listFinal.forEach(person -> {
+            System.out.println("First name : " + person.getFirstName() + " Last name : " + person.getLastName() +" Surname : " + person.getUserName() + " Email : " + person.getEmail() + " Phone number : " + person.getPhoneNumber());
+        });
+        System.out.println("Total : " + listFinal.size());
     }
 }

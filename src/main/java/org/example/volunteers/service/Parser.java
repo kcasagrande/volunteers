@@ -1,9 +1,9 @@
-package service;
+package org.example.volunteers.service;
 
 
-import model.Person;
-import model.PersonProperties;
+import org.example.volunteers.model.PersonProperties;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,15 +12,20 @@ import java.util.stream.Collectors;
 
 public class Parser {
     public List<Map<PersonProperties, String>> parseCsv(String filePath, String separator) throws IOException {
-        Set<String[]> lines = Files.readAllLines(Paths.get(filePath))
-                .stream().map(string -> string.split(separator))
-                .collect(Collectors.toSet());
 
         List<Map<PersonProperties, String>> maps = new ArrayList<>();
-        Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
+        File csv = new File(filePath);
+
+        if((!separator.equals(";") || !csv.exists())) {
+            return maps;
+        }
+
+        List<String[]> lines = Files.readAllLines(Paths.get(filePath))
+                .stream().map(string -> string.split(separator))
+                .collect(Collectors.toList());
 
         lines.forEach(strings -> {
-
+            Map<PersonProperties, String> personPropertiesStringMap = new HashMap<>();
             personPropertiesStringMap.put(PersonProperties.email, strings[3]);
             personPropertiesStringMap.put(PersonProperties.userName, strings[2]);
             personPropertiesStringMap.put(PersonProperties.firstName, strings[0]);
@@ -30,7 +35,10 @@ public class Parser {
             } else {
                 personPropertiesStringMap.put(PersonProperties.phoneNumber, "");
             }
-            maps.add(personPropertiesStringMap);
+
+            if(!maps.contains(personPropertiesStringMap)) {
+                maps.add(personPropertiesStringMap);
+            }
         });
         return maps;
     }
