@@ -27,6 +27,12 @@ public class ClientTest {
         client = new Client("", "","","","07 68 58 00 37");
         assertEquals(client.getPhone(), expectedPhoneNumber);
 
+        client = new Client("", "","","","07.68.58.00.37");
+        assertEquals(client.getPhone(), expectedPhoneNumber);
+
+        client = new Client("", "","","","07-68-58-00-37");
+        assertEquals(client.getPhone(), expectedPhoneNumber);
+
         client = new Client("", "","","","+33 7 68 58 00 37");
         assertEquals(client.getPhone(), expectedPhoneNumber);
     }
