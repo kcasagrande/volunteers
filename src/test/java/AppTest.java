@@ -145,6 +145,11 @@ public class AppTest {
         users.add(new User("", "fea", "toto", "test@test.com", "6914979"));
         users.add(new User("faf", "fea", "titi", "test@test.com", "6914979"));
         users = App.filterPseudo(users);
+        users.forEach(
+                user -> {
+                    assertTrue(!user.pseudo.equals("") && (user.name.equals("") || user.surname.equals("")));
+                }
+        );
         assertEquals(3, users.size());
     }
 }

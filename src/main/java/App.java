@@ -185,7 +185,7 @@ public class App {
 
     public static List<User> filterPseudo(List<User> users){
         List<User> user2 = users.stream().filter(
-                user -> user.name.equals("") || user.surname.equals("")
+                user -> !user.pseudo.equals("") && (user.name.equals("") || user.surname.equals(""))
         ).collect(toList());
         return user2;
     }
