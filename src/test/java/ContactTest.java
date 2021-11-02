@@ -11,6 +11,7 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ContactTest {
 
@@ -95,14 +96,9 @@ public class ContactTest {
             Contact person = getContactWithEmailNotEmpty(contact);
             if(person != null) {
                 String email = person.getEmail();
-                if(!email.isEmpty()){
-                    System.out.println(String.format("The email is: %s", email));
-
-                    String nickName = person.getNickName();
-                    System.out.println(String.format("The nickName is: %s", nickName));
-
-                    assertEquals(true, email.toLowerCase(Locale.ROOT).contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le nickName n'est pas dans le email");
-                }
+                String nickName = person.getNickName();
+                System.out.println(String.format("The nickName is: %s", nickName));
+                assertTrue(email.toLowerCase(Locale.ROOT).contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le nickName n'est pas dans l'email");
             }
         }
     }
@@ -114,17 +110,20 @@ public class ContactTest {
             if(person != null) {
                 String phoneToCheck = person.getPhone();
                 System.out.println(String.format("The phone is: %s", phoneToCheck));
+
                 // Assert
                 assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), String.format("The phone is %s", phoneToCheck.toString()));
             }
         }
     }
 
+    @Test
     private Contact getContactWithEmailNotEmpty(Contact contact){
         Contact person = contact;
         if(!person.getEmail().isEmpty()){
             return person;
         }
         return null;
-    }
+	}
+
 }
