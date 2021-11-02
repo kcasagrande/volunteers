@@ -9,8 +9,10 @@ public class CompareTool {
     }
 
     public static boolean comparePersons(Person person1, Person person2){
-        if(compareMailAdress(person1.getEmail(), person2.getEmail()) > 0.7 && !person1.getEmail().equals(" ") && !person2.getEmail().equals(" ") && person1.getEmail() != null && person2.getEmail() != null){
-            return compareNameSurname(person1, person2);
+        try {
+            return compareFields(person1, person2) > 0.54 || compareNameSurname(person1, person2);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
         return false;
     }
