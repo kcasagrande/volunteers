@@ -22,6 +22,7 @@ public class App {
 
         List<Person> listTest= personService.listSortByName(listPerson);
         System.out.println(listTest);
+        List<Person> listEmail = personService.filterPersonDuplicateByEmail(listTest);
         // Apply dark magic here...
 
         System.out.println("Result goes here");
