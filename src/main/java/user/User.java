@@ -61,15 +61,7 @@ public class User {
         this.phone = phone;
     }
 
-    public boolean cleanUserList(List<User> userList){
-        if (checkValidComboLastNameFirstNameOfUser(userList) && checkValidEmailOfUser(userList)){
-
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean checkValidComboLastNameFirstNameOfUser(List<User> userList) {
+    public boolean checkValidComboLastNameFirstNameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.firstName.equals(user.getFirstName()) && this.lastName.equals(user.getLastName()))
                 || (this.firstName.equals(user.getLastName()) && this.lastName.equals(user.getFirstName()))) {
@@ -79,7 +71,7 @@ public class User {
         return true;
     }
 
-    protected boolean checkValidUsernameOfUser(List<User> userList) {
+    public boolean checkValidUsernameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.userName.equals(user.getUserName()))) {
                 return false;
@@ -88,7 +80,7 @@ public class User {
         return true;
     }
 
-    protected boolean checkValidEmailOfUser(List<User> userList) {
+    public boolean checkValidEmailOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.email.equals(user.getEmail()))) {
                 return false;
@@ -97,7 +89,7 @@ public class User {
         return true;
     }
 
-    protected boolean checkValidFirstNameOfUser(List<User> userList) {
+    public boolean checkValidFirstNameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.firstName.equals(user.getFirstName()))) {
                 return false;
@@ -106,7 +98,7 @@ public class User {
         return true;
     }
 
-    protected boolean checkValidLastNameOfUser(List<User> userList) {
+    public boolean checkValidLastNameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.lastName.equals(user.getLastName()))) {
                 return false;
@@ -115,7 +107,7 @@ public class User {
         return true;
     }
 
-    protected boolean checkValidPhoneNumberOfUser(List<User> userList) {
+    public boolean checkValidPhoneNumberOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.phone.equals(user.getPhone()))) {
                 return false;
@@ -124,36 +116,43 @@ public class User {
         return true;
     }
 
-    protected boolean checkNullLastNameOfUser() {
+    public boolean checkNullLastNameOfUser() {
         if (this.lastName == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullFirstNameOfUser() {
+    public boolean checkNullFirstNameOfUser() {
         if (this.firstName == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullUserNameOfUser() {
+    public boolean checkNullUserNameOfUser() {
         if (this.userName == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullEmailOfUser() {
+    public boolean checkNullEmailOfUser() {
         if (this.email == null) {
             return false;
         }
         return true;
     }
 
-    protected boolean checkNullPhoneOfUser() {
+    public boolean checkNullPhoneOfUser() {
         if (this.phone == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkNullDataUser() {
+        if (this.checkNullFirstNameOfUser()|| this.checkNullLastNameOfUser() || this.checkNullUserNameOfUser() || this.checkNullPhoneOfUser()) {
             return false;
         }
         return true;
