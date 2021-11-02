@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import org.example.volunteers.comparison.Comparator;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,9 +14,14 @@ public class App {
             .collect(toList());
 
         // Apply dark magic here...
-        for (String[] strings : lines) {
-            System.out.println(Arrays.toString(strings));
-        }
+        //for (String[] strings : lines) {
+        //    System.out.println(Arrays.toString(strings));
+        //}
+        System.out.println(lines.size());
+        Comparator comparator = new Comparator();
+        comparator.VoidedCompareList(lines);
+        System.out.println(lines.size());
+
 
         System.out.println("Result goes here");
     }
