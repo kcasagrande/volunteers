@@ -17,11 +17,40 @@ public class App {
             .collect(toList());
 
         HashMap<Integer, User> usersDict = new HashMap<>();
+
+        Registre lastnameRegistre = new Registre(Header.LASTNAME);
+        Registre firstnameRegistre = new Registre(Header.FIRSTNAME);
+        Registre usernameRegistre = new Registre(Header.USERNAME);
+        Registre emailRegistre = new Registre(Header.EMAIL);
+        Registre phoneRegistre = new Registre(Header.PHONE);
+
         for(User user: lines){
             if(!(usersDict.containsKey(user.id))){
                 usersDict.put(user.id, user);
             }
+
+            if(!(lastnameRegistre.containsKey(user.lastname))){
+                lastnameRegistre.put(user.lastname, user.id);
+            }
+
+            if(!(firstnameRegistre.containsKey(user.firstname))){
+                firstnameRegistre.put(user.firstname, user.id);
+            }
+
+            if(!(usernameRegistre.containsKey(user.username))){
+                usernameRegistre.put(user.username, user.id);
+            }
+
+            if(!(emailRegistre.containsKey(user.email))){
+                emailRegistre.put(user.email, user.id);
+            }
+
+            if(!(phoneRegistre.containsKey(user.phone))){
+                phoneRegistre.put(user.phone, user.id);
+            }
+
         }
+
 
         // Apply dark magic here...
         lines.forEach(System.out::println);
