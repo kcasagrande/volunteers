@@ -16,5 +16,13 @@ public class App {
         clientList.normalize();
 
         ArrayList<Client> clientsList = clientList.getClientListClean();
+
+        System.out.println("Nombre d'entrées : " + clientsList.size());
+
+        clientsList.forEach(client -> System.out.println(client.getFirstname() + " "
+                + client.getLastname() + " "
+                + client.getUsername() + " "
+                + client.getEmail() + " "
+                + client.getPhone()));
     }
 }
