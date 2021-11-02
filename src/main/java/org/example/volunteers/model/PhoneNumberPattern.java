@@ -1,4 +1,4 @@
-package model;
+package org.example.volunteers.model;
 
 public enum PhoneNumberPattern {
     //+33(0)0.75.55.99.79

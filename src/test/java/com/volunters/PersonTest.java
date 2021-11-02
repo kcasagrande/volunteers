@@ -1,19 +1,40 @@
-import model.Person;
-import model.PersonProperties;
+package com.volunters;
+
+import org.example.volunteers.model.Person;
+import org.example.volunteers.model.PersonProperties;
+import org.example.volunteers.service.PersonService;
+import org.example.volunteers.utils.StringUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.PersonService;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 
+@ExtendWith(MockitoExtension.class)
 public class PersonTest {
 
-    private final PersonService personService = new PersonService();
+
+    private static PersonService personService;
+
+    @BeforeEach
+    public void setUp() {
+
+        personService = new PersonService();
+    }
+
+    @Mock
+    private static StringUtil stringUtil;
+
+    public static void setPersonService(PersonService personService) {
+        PersonTest.personService = personService;
+    }
 
     @Test
     public void testTransformCSVInPersonObject() {
@@ -29,7 +50,6 @@ public class PersonTest {
     }
 
     @Test
-
     public void testPersonContent() {
         Person person = personService.transformInPersonObject(givenPersons()).get(0);
         assertEquals("+33085552814", person.phoneNumber);
@@ -40,6 +60,7 @@ public class PersonTest {
     }
 
 
+    @Test
     public void testTransformerReturnsWrongSize() {
         assertNotEquals(1, personService.transformInPersonObject(givenPersons()).size());
     }
@@ -82,7 +103,6 @@ public class PersonTest {
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -145,25 +165,51 @@ public class PersonTest {
         assertEquals(baseVariantsEmailList, variantsEmailList);
     }
 
-    @Test
-    public void testPhoneNumberFormatting() {
-        Map<String, String> nonFormattedAndFormattedMap = new HashMap<>();
-        nonFormattedAndFormattedMap.put("+33(0)0.75.55.99.79", "0075559979");
-        nonFormattedAndFormattedMap.put("+33(0)0-75-55-55-20", "0075555520");
-        nonFormattedAndFormattedMap.put("+33055587491", "0055587491");
-        nonFormattedAndFormattedMap.put("+33(0)0 85 55 67 37", "0085556737");
-        nonFormattedAndFormattedMap.put("+33(0)000555091", "0000555091");
-        nonFormattedAndFormattedMap.put("+330 00 55 52 25", "0000555225");
-        nonFormattedAndFormattedMap.put("+330-55-55-66-33", "0055556633");
-        nonFormattedAndFormattedMap.put("+330.00.55.52.42", "0000555242");
-        nonFormattedAndFormattedMap.put("00 00 55 55 33", "0000555533");
-        nonFormattedAndFormattedMap.put("00-35-55-85-21", "0035558521");
-        nonFormattedAndFormattedMap.put("00.45.55.63.57", "0045556357");
-        nonFormattedAndFormattedMap.put("0000555204", "0000555204");
 
-        nonFormattedAndFormattedMap.forEach((nonFormatted, formatted) -> {
-            assertEquals(this.personService.refactorPhoneNumber(nonFormatted), formatted);
-        });
+    @Test
+    public void testFilterDuplicatePhone() {
+        Person person1 = Person.builder()
+                .id(1)
+                .phoneNumber("+33085552814")
+                .build();
+        Person person2 = Person.builder()
+                .id(2)
+                .phoneNumber("+33(0)0.85.55.28.14")
+                .build();
+
+        List<Person> personList = new ArrayList<>(Arrays.asList(person1, person2));
+
+        //when
+        lenient().when(stringUtil.refactorPhoneNumberString("+33085552814")).thenReturn("0085552814");
+        lenient().when(stringUtil.refactorPhoneNumberString("+33(0)0.85.55.28.14")).thenReturn("0085552814");
+        List<Person> listFiltered = personService.filterPersonDuplicateByPhoneNumber(personList);
+
+        assertEquals(listFiltered.size(), 1);
+        assertEquals(listFiltered.get(0).getPhoneNumber(), "0085552814");
+    }
+
+    @Test
+    public void testFilterDuplicateEmptyPhone() {
+        Person person1 = Person.builder()
+                .id(1)
+                .phoneNumber("")
+                .build();
+        Person person2 = Person.builder()
+                .id(2)
+                .phoneNumber("")
+                .build();
+
+
+        List<Person> personList = new ArrayList<>(Arrays.asList(person1, person2));
+        //when
+        lenient().when(stringUtil.refactorPhoneNumberString(any())).thenReturn("");
+        List<Person> listFiltered = personService.filterPersonDuplicateByPhoneNumber(personList);
+
+        assertEquals(listFiltered.size(), 3);
+        assertEquals(listFiltered.get(0).getPhoneNumber(), "");
+        assertEquals(listFiltered.get(1).getPhoneNumber(), "");
+        assertEquals(listFiltered.get(2).getPhoneNumber(), "");
+
     }
 
     @Test
