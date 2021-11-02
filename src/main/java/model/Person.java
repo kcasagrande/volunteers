@@ -19,4 +19,9 @@ public class Person {
     public String email;
 
     public String phoneNumber;
+
+    public String getSplitEmail() {
+        int i = email.lastIndexOf('.');
+        return new String[]{email.substring(0, i), email.substring(i)}[0];
+    }
 }
