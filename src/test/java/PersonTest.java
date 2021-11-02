@@ -3,7 +3,6 @@ import model.PersonProperties;
 import org.junit.jupiter.api.Test;
 import service.PersonService;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +24,7 @@ public class PersonTest {
     }
 
     @Test
-    public void testTransformatorReturnsRightSize() {
+    public void testTransformerReturnsCorrectSize() {
         assertEquals(2, personService.transformInPersonObject(givenPersons()).size());
     }
 
