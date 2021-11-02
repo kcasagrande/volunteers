@@ -103,6 +103,75 @@ public class ContactTest {
         }
     }
 
+
+    @Test
+    public void checkIsFirstNameThenLastNameInEmailWithBrutValue(){
+                String email = "Jean.Lassalle@hotmail.fr";
+                if(!email.isEmpty()){
+                    System.out.println(String.format("The email is: %s", email));
+
+                    String firstName = "Jean";
+                    System.out.println(String.format("The firstName is: %s", firstName));
+
+                    String lastName = "Lassalle";
+                    System.out.println(String.format("The lastName is: %s", lastName));
+
+                    assertEquals(true, isFirstNameLastName(firstName, lastName, email), "Le lastName n'est pas dans le email");
+        }
+    }
+
+    @Test
+    public void checkIsNotFirstNameThenLastNameInEmailWithBrutValue(){
+        String email = "Lassalle.Jean@hotmail.fr";
+        if(!email.isEmpty()){
+            System.out.println(String.format("The email is: %s", email));
+
+            String firstName = "Jean";
+            System.out.println(String.format("The firstName is: %s", firstName));
+
+            String lastName = "Lassalle";
+            System.out.println(String.format("The lastName is: %s", lastName));
+
+            assertEquals(false, isFirstNameLastName(firstName, lastName, email), "Le lastName n'est pas dans le email");
+        }
+    }
+
+    @Test
+    public void checkIsFirstNameThenLastNameInEmail(){
+        for (Contact contact: contacts_test) {
+            Contact person = getContactWithEmailNotEmpty(contact);
+            if(person != null) {
+                String email = person.getEmail();
+                if(!email.isEmpty()){
+                    System.out.println(String.format("The email is: %s", email));
+
+                    String firstName = person.getFirstName();
+                    System.out.println(String.format("The firstName is: %s", firstName));
+
+                    String lastName = person.getLastName();
+                    System.out.println(String.format("The lastName is: %s", lastName));
+
+                    String firstNameLastName = firstName + "." + lastName;
+
+
+                    assertEquals(true, isFirstNameLastName(firstName, lastName, email), "Le lastName n'est pas dans le email");
+                }
+            }
+        }
+    }
+
+    public boolean isFirstNameLastName(String firstName, String lastName, String email){
+       String[] emailArray = email.split(firstName);
+
+       if(emailArray[0].isEmpty()){
+           // firstname is first and lastName is next
+           return emailArray[1].contains(lastName);
+       }else {
+           return false;
+       }
+
+    }
+
     @Test
     public void checkIfPhoneIsCorrect() {
         for (Contact contact: contacts_test) {
@@ -118,6 +187,18 @@ public class ContactTest {
     }
 
     @Test
+    public void checkIfEmailIsEmpty() {
+        for (Contact contact: contacts_test) {
+            Contact person = getContactWithEmailNotEmpty(contact);
+            if(person != null) {
+                String phoneToCheck = person.getPhone();
+                System.out.println(String.format("The phone is: %s", phoneToCheck));
+                // Assert
+                assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), String.format("The phone is %s", phoneToCheck.toString()));
+            }
+        }
+    }
+
     private Contact getContactWithEmailNotEmpty(Contact contact){
         Contact person = contact;
         if(!person.getEmail().isEmpty()){
