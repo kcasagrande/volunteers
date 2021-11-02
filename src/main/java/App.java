@@ -71,7 +71,7 @@ public class App {
     public static Function<String[], User> createUserFromLine =
             (line) -> new User(line[0], line[1], line[2], line[3], line[4]);
 
-    public static ArrayList<User> mergeRegistre( HashMap<Integer, User> users, Registre lastname, Registre firstname, Registre username, Registre email, Registre phone){
+    /*public static ArrayList<User> mergeRegistre( HashMap<Integer, User> users, Registre lastname, Registre firstname, Registre username, Registre email, Registre phone){
 
         ArrayList<User> result = new ArrayList<>();
         Levenshtein lv = new Levenshtein();
@@ -95,5 +95,5 @@ public class App {
             }
         }
         return result;
-    }
+    }*/
 }
