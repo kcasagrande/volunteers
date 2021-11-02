@@ -28,6 +28,16 @@ public class PersonTest {
         assertEquals(2, personService.transformInPersonObject(givenPersons()).size());
     }
 
+    @Test
+    public void testPersonContent() {
+        Person person = personService.transformInPersonObject(givenPersons()).get(0);
+        assertEquals("+33085552814", person.phoneNumber);
+        assertEquals("rebeccacompere@example.org", person.email);
+        assertEquals("", person.userName);
+        assertEquals("Rébecca", person.firstName);
+        assertEquals("Compere", person.lastName);
+    }
+
     public List<Map<PersonProperties, String>> givenPersons() {
         List<Map<PersonProperties, String>> persons = new ArrayList<Map<PersonProperties, String>>();
 
