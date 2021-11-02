@@ -15,20 +15,13 @@ public class CompareTest {
     List<Volunteer> volunteers;
 
     @BeforeEach
-    public void setUp() {
-        List<String[]> lines = new ArrayList<String[]>();
-        
-        String[] data = {"Doe;John;;john.doe@exemple.org;+33055513225",
-         "Doe;Marc;md;marcdoe@exemple.org;+33096426764",
-         "k;John;jd;john_doe@exemple.org;+33055513225",
-        "jean;michel;;miche.jean@exemple.org;+33055913225"};
-        
+    public void setUp() {     
+        List<Volunteer> comparedVolunteer = new ArrayList<Volunteer>();
 
-        for (String volunteer : data) lines.add(volunteer.split(";"));
-        
-        parser = new Parser(lines);
-        
-        volunteers = parser.format();
+        comparedVolunteer.add(new Volunteer("Doe", "John", "", "john.doe@exemple.org", "+33055513225"));
+        comparedVolunteer.add(new Volunteer("Doe", "Marc", "md", "marcdoe@exemple.org", "+33096426764"));
+        comparedVolunteer.add(new Volunteer("k","John", "jd", "john_doe@exemple.org","+33055513225"));      
+        comparedVolunteer.add(new Volunteer("jean","michel","","miche.jean@exemple.org","+33055913225"));      
 
         compare = new Compare();
 
