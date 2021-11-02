@@ -3,15 +3,12 @@ package service;
 import model.Person;
 import model.PersonProperties;
 import model.PhoneNumberPattern;
-import static java.util.Comparator.comparing;
-import java.util.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 
@@ -76,6 +73,8 @@ public class PersonService {
                                         ::contains)) {
                     personListWithoutDuplicate.add(person);
                 }
+            } else {
+                personListWithoutDuplicate.add(person);
             }
         });
         return personListWithoutDuplicate;
@@ -117,7 +116,7 @@ public class PersonService {
                 person.setPhoneNumber("00" + refactorPhoneNumber(person.getPhoneNumber()));
             }
             if (refactorPhoneNumber(person.getPhoneNumber()).length() == 12) {
-                person.setPhoneNumber(refactorPhoneNumber(person.getPhoneNumber()).replaceFirst("00",""));
+                person.setPhoneNumber(refactorPhoneNumber(person.getPhoneNumber()).replaceFirst("00", ""));
             }
             person.setPhoneNumber(refactorPhoneNumber(person.getPhoneNumber()));
             formattedPhoneNumberPerson.add(person);
