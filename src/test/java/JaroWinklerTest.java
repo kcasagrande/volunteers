@@ -23,6 +23,5 @@ public class JaroWinklerTest {
         assertEquals(0.1136, jw.jaroWinklerDistance("accomodate", "accolade"));
         assertEquals(0.1328, jw.jaroWinklerDistance("accomodate", "accompanist"));
         assertEquals(0.1334, jw.jaroWinklerDistance("accomodate", "accost"));
-
     }
 }
