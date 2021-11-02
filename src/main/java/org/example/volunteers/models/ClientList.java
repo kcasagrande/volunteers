@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class ClientList {
-    private final ArrayList<Client> clientList = new ArrayList<Client>();
-    private final ArrayList<Client> clientListClean = new ArrayList<Client>();
+    private final ArrayList<Client> clientList = new ArrayList<>();
+    private final ArrayList<Client> clientListClean = new ArrayList<>();
 
     public void setClientListFromFileLines(List<String[]> fileLines) {
         for (String[] line: fileLines) {
@@ -24,19 +24,31 @@ public class ClientList {
     public ArrayList<Client> getClientListClean() { return clientListClean; }
 
     public void normalize() {
+        ArrayList<Integer> excludedIndexes = new ArrayList<>();
+
         int i = 0;
         for(Client client : clientList) {
-            ArrayList<Client> duplicatesClients = new ArrayList<Client>();
+            if (excludedIndexes.contains(i)) {
+                i++;
+
+                continue;
+            }
+
+            ArrayList<Client> duplicatesClients = new ArrayList<>();
             duplicatesClients.add(client);
 
-            int y = i;
+            int y = 0;
             for (Client clientPotentialDuplicate : clientList) {
-                if (y <= i) { continue; }
+                if (y <= i) {
+                    y++;
+
+                    continue;
+                }
 
                 if (this.isDuplicate(client, clientPotentialDuplicate)) {
                     duplicatesClients.add(clientPotentialDuplicate);
 
-                    clientList.remove(y);
+                    excludedIndexes.add(y);
                 }
 
                 y++;
@@ -49,11 +61,10 @@ public class ClientList {
     }
 
     private boolean isDuplicate(Client clientA, Client clientB) {
-        // TODO: format string chars
-        boolean firstNameMatch = Objects.equals(clientA.getFirstname(), clientB.getFirstname());
-        boolean lastNameMatch = Objects.equals(clientA.getLastname(), clientB.getLastname());
-        boolean usernameMatch = Objects.equals(clientA.getUsername(), clientB.getUsername());
-        boolean emailMatch = Objects.equals(clientA.getEmail(), clientB.getEmail());
+        boolean firstNameMatch = Objects.equals(clientA.getFirstname().toLowerCase(), clientB.getFirstname().toLowerCase());
+        boolean lastNameMatch = Objects.equals(clientA.getLastname().toLowerCase(), clientB.getLastname().toLowerCase());
+        boolean usernameMatch = Objects.equals(clientA.getUsername().toLowerCase(), clientB.getUsername().toLowerCase());
+        boolean emailMatch = Objects.equals(clientA.getEmail().toLowerCase(), clientB.getEmail().toLowerCase());
         boolean phoneMatch = Objects.equals(clientA.getPhone(), clientB.getPhone());
 
         if (usernameMatch || emailMatch || phoneMatch) {
@@ -78,7 +89,7 @@ public class ClientList {
     }
 
     private String getUniqueForAttribute(String attribute, ArrayList<Client> duplicatesClients) {
-        HashMap<String, Integer> attributes = new HashMap<String, Integer>();
+        HashMap<String, Integer> attributes = new HashMap<>();
 
         for (Client client: duplicatesClients) {
             switch (attribute) {
@@ -101,7 +112,7 @@ public class ClientList {
                     break;
             }
 
-            if (attributes.containsKey(attribute)) {
+            if (!attributes.containsKey(attribute)) {
                 attributes.put(attribute, 0);
             } else {
                 attributes.put(attribute, attributes.get(attribute) + 1);
