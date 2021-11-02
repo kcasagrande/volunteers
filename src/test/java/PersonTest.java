@@ -40,7 +40,7 @@ public class PersonTest {
     }
 
 
-    public void testTransformatorReturnsWrongSize() {
+    public void testTransformerReturnsWrongSize() {
         assertNotEquals(1, personService.transformInPersonObject(givenPersons()).size());
     }
 
