@@ -47,6 +47,9 @@ public class ContactTest {
         for (Contact contact: contacts_test) {
             Contact person = getContactWithEmailNotEmpty(contact);
             if(person != null) {
+                System.out.println(String.format("the firstName is: %s", person.getFirstName()));
+                System.out.println(String.format("the lastName is: %s", person.getLastName()));
+                System.out.println(String.format("the nickName is: %s", person.getNickName()));
                 System.out.println(String.format("The email is valid: %s", person.getEmail().toString()));
                 System.out.println("-------------------------------------");
                 // Assert
