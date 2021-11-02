@@ -12,7 +12,7 @@ public class CsvReaderTest {
     public void TestAllLineAreImported() throws IOException {
         CsvReader reader = new CsvReader();
 
-        List<String[]> data = reader.getLinesFromFile("src/test/java/org/example/volunteers/services/data-test.csv");
+        List<String[]> data = reader.getLinesFromFile("src/test/resources/data-test.csv");
 
         assertEquals(4, data.size());
         assertEquals("+33(0)0 55 53 75 36", data.get(0)[4]);
