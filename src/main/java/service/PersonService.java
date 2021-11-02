@@ -40,10 +40,7 @@ public class PersonService {
 
         for (Person person : personList) {
             List<Person> listPerson = personList.stream().filter(w -> {
-                if (person.firstName.equals(w.firstName) && person.lastName.equals(w.lastName)) {
-                    return true;
-                }
-                return false;
+                return person.firstName.equals(w.firstName) && person.lastName.equals(w.lastName);
             }).collect(Collectors.toList());
 
             if (listPerson.size() > 1) {
@@ -71,6 +68,11 @@ public class PersonService {
                         .map(Person::getEmail)
                         .noneMatch(
                                 new HashSet<>(emailVariants)
+                                        ::contains)
+                        && personListWithoutDuplicate.stream()
+                        .map(Person::getSplitEmail)
+                        .noneMatch(
+                                new HashSet<>(emailVariants)
                                         ::contains)) {
                     personListWithoutDuplicate.add(person);
                 }
@@ -85,19 +87,26 @@ public class PersonService {
      * @param email base person email
      * @return list of variant emails
      */
-    private List<String> generateEmailVariants(String email) {
+    public List<String> generateEmailVariants(String email) {
         List<String> emailVariants = new ArrayList<>();
         String splitEmail = email.split("@")[0];
+        int lastDotIndex = email.lastIndexOf('.');
         if (splitEmail.contains(".")) {
             emailVariants.add(email.replaceFirst(Pattern.quote("."), "_"));
             emailVariants.add(email.replaceFirst(Pattern.quote("."), ""));
+            emailVariants.add(new String[]{email.substring(0, lastDotIndex), email.substring(lastDotIndex)}[0].replaceFirst(Pattern.quote("."), ""));
+            emailVariants.add(new String[]{email.substring(0, lastDotIndex), email.substring(lastDotIndex)}[0].replaceFirst(Pattern.quote("."), "_"));
         }
         if (splitEmail.contains("_")) {
             emailVariants.add(email.replaceFirst(Pattern.quote("_"), "."));
             emailVariants.add(email.replaceFirst(Pattern.quote("_"), ""));
+            emailVariants.add(new String[]{email.substring(0, lastDotIndex), email.substring(lastDotIndex)}[0].replaceFirst(Pattern.quote("_"), ""));
+            emailVariants.add(new String[]{email.substring(0, lastDotIndex), email.substring(lastDotIndex)}[0].replaceFirst(Pattern.quote("_"), "."));
         }
-        int i = email.lastIndexOf('.');
-        emailVariants.add(new String[]{email.substring(0, i), email.substring(i)}[0]);
+
+        if (!emailVariants.contains(new String[]{email.substring(0, lastDotIndex), email.substring(lastDotIndex)}[0])) {
+            emailVariants.add(new String[]{email.substring(0, lastDotIndex), email.substring(lastDotIndex)}[0]);
+        }
         return emailVariants;
     }
 
