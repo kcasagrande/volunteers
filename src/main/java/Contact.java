@@ -1,5 +1,6 @@
 import java.text.Normalizer;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,5 +44,17 @@ public class Contact
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
 
+    }
+
+    public static boolean IsFirstNameLastName(Contact contact){
+        String emailString = contact.getEmail().split("@")[0].toLowerCase(Locale.ROOT);
+
+        if(!emailString.isEmpty()){
+            // firstname is first and lastName is next
+            Pattern pattern = Pattern.compile(String.format("%s.%s", contact.getFirstName().toLowerCase(Locale.ROOT), contact.getLastName().toLowerCase(Locale.ROOT)));
+            Matcher matcher = pattern.matcher(emailString);
+            return matcher.matches();
+        }
+        return false;
     }
 }
