@@ -18,7 +18,7 @@ public class App {
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println("Bienvenu ! Selectionnez comment voulez vous triez la liste : (telephone), (mail), (nom), (tous)");
+        System.out.println("Bienvenue ! Selectionnez comment voulez vous triez la liste : (telephone), (mail), (nom), (tous)");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String choiceSelected = reader.readLine();
 
@@ -31,11 +31,11 @@ public class App {
                 listFinal = personService.listSortByName(listPerson);
                 break;
             case "telephone":
-                listFinal = personService.filterPersonDuplicateByEmail(listPerson);
+                listFinal = personService.filterPersonDuplicateByPhoneNUmber(listPerson);
 
                 break;
             case "mail":
-                listFinal = personService.filterPersonDuplicateByPhoneNUmber(listPerson);
+                listFinal = personService.filterPersonDuplicateByEmail(listPerson);
 
                 break;
             case "tous":
