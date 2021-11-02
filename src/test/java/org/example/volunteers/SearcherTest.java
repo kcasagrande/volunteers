@@ -72,7 +72,7 @@ class SearcherTest {
         assertEquals( "lafromboise;romaine;Banditto;Banditto7416@example.com;+33055520502", String.join(";",finalLine),"Ce message s'affiche si le testNumberParam échoue");
     }
 
-    @Test
+   /* @Test
     public void deleteIndexesFromMainList() throws IOException
     {
         Searcher searcher = new Searcher();
@@ -102,7 +102,7 @@ class SearcherTest {
         assertArrayEquals(attendu.toArray(), result.toArray());
 
 
-    }
+    }*/
 
 
 }

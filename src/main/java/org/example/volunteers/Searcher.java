@@ -1,7 +1,6 @@
 package org.example.volunteers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class Searcher {
         List<Integer> listOfSimilarIndexes = new ArrayList<>();
 
         for (String[] line : lines) {
-            System.out.println(Arrays.toString(line));
+            //System.out.println(Arrays.toString(line));
             if(lineToSearch.equals(line))
             {
                 listOfSimilarIndexes.add(lines.indexOf(line));
@@ -86,20 +85,22 @@ public class Searcher {
             }
         }
 
-        System.out.println(valueHashMap);
+        //System.out.println(valueHashMap);
 
         return new String[]{valueHashMap.get("prenom"), valueHashMap.get("nom"),
                 valueHashMap.get("pseudo"),valueHashMap.get("mail"),valueHashMap.get("telephone")};
     }
 
 
-    public List<String[]> deleteIndexesFromMainList(List<Integer> indexList, List<String[]> list)
+    public List<String[]> deleteIndexesFromMainList(List<Integer> indexList, List<String[]> voluteerList)
     {
-        String[] vide = {"","","","",""};
-        for (int index:indexList ) {
-            list.set(index, null);
+        for (int i = indexList.size()-1; i >= 0; i--) {
+            System.out.print("| Index a suppr : " + indexList.get(i));
+            voluteerList.remove(indexList.get(i).intValue());
         }
-        return list;
+
+        System.out.println("taille liste : " + voluteerList.size());
+        return voluteerList;
     }
 
 

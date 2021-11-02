@@ -16,17 +16,21 @@ public class App {
             .stream().map(string -> string.split(";", -1))
             .collect(toList());
 
+
+
         System.out.println("Result goes here");
 
 
         Searcher searcher = new Searcher();
         List<String[]> uniqueList = new ArrayList<>();
 
-        for (String[] line : lines) {
-            List<Integer> intList = searcher.searchSimilarIndexes(line,lines);
+       while(lines.size()>0){
+            List<Integer> intList = searcher.searchSimilarIndexes(lines.get(0),lines);
             List<String[]> fusionList = searcher.createUniqueListFromSearchSimilarIndex(intList,lines);
             String[] fusionline = searcher.createUniqueUserFromSimilarList(fusionList);
             uniqueList.add(fusionline);
+            System.out.println(fusionline.toString());
+
             lines = searcher.deleteIndexesFromMainList(intList,lines);
         }
 
@@ -36,5 +40,6 @@ public class App {
     }
 
    /* */
+
 
 }
