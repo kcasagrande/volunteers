@@ -25,8 +25,8 @@ public class ParserTest {
         assertEquals("Guilloux", volunteers.get(0).name);
         assertEquals("Sarah", volunteers.get(0).firstname);
         assertEquals("", volunteers.get(0).nametag);
-        assertEquals("sarah_guilloux@example.org", volunteers.get(0).mail);
-        assertEquals("+33085552877", volunteers.get(0).tel);
+        assertEquals("camille_thevenet@example.net", volunteers.get(1).mail);
+        assertEquals("+33075552706", volunteers.get(2).tel);
     }
 
     @Test

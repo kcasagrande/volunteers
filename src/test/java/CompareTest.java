@@ -16,12 +16,12 @@ public class CompareTest {
 
     @BeforeEach
     public void setUp() {     
-        List<Volunteer> comparedVolunteer = new ArrayList<Volunteer>();
+        List<Volunteer> volunteers = new ArrayList<Volunteer>();
 
-        comparedVolunteer.add(new Volunteer("Doe", "John", "", "john.doe@exemple.org", "+33055513225"));
-        comparedVolunteer.add(new Volunteer("Doe", "Marc", "md", "marcdoe@exemple.org", "+33096426764"));
-        comparedVolunteer.add(new Volunteer("k","John", "jd", "john_doe@exemple.org","+33055513225"));      
-        comparedVolunteer.add(new Volunteer("jean","michel","","miche.jean@exemple.org","+33055913225"));      
+        volunteers.add(new Volunteer("Doe", "John", "", "john.doe@exemple.org", "+33055513225"));
+        volunteers.add(new Volunteer("Doe", "Marc", "md", "marcdoe@exemple.org", "+33096426764"));
+        volunteers.add(new Volunteer("k","John", "jd", "john_doe@exemple.org","+33055513225"));      
+        volunteers.add(new Volunteer("jean","michel","","miche.jean@exemple.org","+33055913225"));      
 
         compare = new Compare();
 
@@ -29,8 +29,6 @@ public class CompareTest {
 
     @Test
     public void compareVolunteersBetweenMailAndName() {
-    List<Volunteer> AH = volunteers;
-    AH.remove(3); 
        List<Volunteer> comparedVolunteer = compare.compareNameInMail(volunteers, "doe");
 
         List<Volunteer> expected = new ArrayList<Volunteer>();
@@ -39,16 +37,22 @@ public class CompareTest {
        expected.add(new Volunteer("Doe", "Marc", "md", "marcdoe@exemple.org", "+33096426764"));
        expected.add(new Volunteer("k","John", "jd", "john_doe@exemple.org","+33055513225"));      
 
-    
        assertEquals(3, comparedVolunteer.size());
        assertTrue(comparedVolunteer.containsAll(expected) && expected.containsAll(comparedVolunteer));
-       //assertArrayEquals(expected.toArray(), comparedVolunteer.toArray());
     }
 
     @Test
     public void compareVolunteersBetweenName() {
 
+       List<Volunteer> expected = new ArrayList<Volunteer>();
+
+       expected.add(new Volunteer("Doe", "John", "", "john.doe@exemple.org", "+33055513225"));
+       expected.add(new Volunteer("k","John", "jd", "john_doe@exemple.org","+33055513225"));      
+
        List<Volunteer> comparedVolunteers = compare.compareFirstName(volunteers, "John");
+
        assertEquals(2, comparedVolunteers.size());
+       assertTrue(comparedVolunteer.containsAll(expected) && expected.containsAll(comparedVolunteer));
+
     }
 }
