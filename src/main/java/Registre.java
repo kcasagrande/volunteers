@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Registre {
     private Header header;
@@ -13,15 +10,16 @@ public class Registre {
     }
 
     public void put(String key, Integer value){
-        if(!this.dict.containsKey(key)){
-            this.dict.put(key, new ArrayList<>(Arrays.asList(value)));
+        String keyUpper = key.toUpperCase(Locale.ROOT);
+        if(!this.dict.containsKey(keyUpper)){
+            this.dict.put(keyUpper, new ArrayList<>(Arrays.asList(value)));
         }else{
-            this.dict.get(key).add(value);
+            this.dict.get(keyUpper).add(value);
         }
     }
 
     public boolean containsKey(String key){
-        return this.dict.containsKey(key);
+        return this.dict.containsKey(key.toUpperCase(Locale.ROOT));
     }
 
     @Override

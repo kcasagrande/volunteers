@@ -33,7 +33,7 @@ public class App {
                 lastnameRegistre.put(user.lastname, user.id);
             }
 
-            if(!(firstnameRegistre.containsKey(user.firstname))){
+            if(!(firstnameRegistre.containsKey(user.firstname.toUpperCase(Locale.ROOT)))){
                 firstnameRegistre.put(user.firstname, user.id);
             }
 
@@ -53,8 +53,8 @@ public class App {
 
 
         // Apply dark magic here...
-        lines.forEach(System.out::println);
-
+//        lines.forEach(System.out::println);
+        System.out.println(lastnameRegistre);
     }
 
     public static Function<String, String[]> splitCSV = (row) -> row.split(";", -1);
