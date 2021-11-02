@@ -2,8 +2,6 @@ import model.Person;
 import model.PersonProperties;
 import org.junit.jupiter.api.Test;
 import service.PersonService;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +14,8 @@ public class PersonTest {
     private final PersonService personService = new PersonService();
 
     @Test
-    public void testListPersonWDuplicate() throws IOException {
-        List<Map<PersonProperties, String>> personsList = new ArrayList<Map<PersonProperties, String>>();
+    public void testTransformInPersonObject() {
+        List<Map<PersonProperties, String>> persons = new ArrayList<Map<PersonProperties, String>>();
 
         Map<PersonProperties, String> person = new HashMap<PersonProperties, String>()
         {
@@ -30,12 +28,12 @@ public class PersonTest {
             }
         };
 
-        personsList.add(person);
-        personsList.add(person);
+        persons.add(person);
+        persons.add(person);
 
-        List<Person> persons = personService.transformInPersonObject(personsList);
+        List<Person> personsTransformed = personService.transformInPersonObject(persons);
 
-        for (Person personTransformed : persons) {
+        for (Person personTransformed : personsTransformed) {
             assertInstanceOf(Person.class, personTransformed);
         }
     }
