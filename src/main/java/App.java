@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -16,7 +17,10 @@ public class App {
             .sorted(Collections.reverseOrder())
             .collect(toList());
 
-        HashMap<Integer, User> usersDict = new HashMap<>();
+        Duplicate duplicate = new Duplicate();
+        List<User> listUser = duplicate.mergeByName(lines);
+
+        /*HashMap<Integer, User> usersDict = new HashMap<>();
 
         Registre lastnameRegistre = new Registre(Header.LASTNAME);
         Registre firstnameRegistre = new Registre(Header.FIRSTNAME);
@@ -54,7 +58,9 @@ public class App {
 
         // Apply dark magic here...
 //        lines.forEach(System.out::println);
-        System.out.println(lastnameRegistre);
+//        lines.forEach(System.out::println);
+        System.out.println(lastnameRegistre);*/
+        listUser.forEach((System.out::println));
     }
 
     public static Function<String, String[]> splitCSV = (row) -> row.split(";", -1);

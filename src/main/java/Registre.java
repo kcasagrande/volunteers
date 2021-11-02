@@ -18,6 +18,11 @@ public class Registre {
         }
     }
 
+    public ArrayList<Integer> get(String key){
+        String keyUpper = key.toUpperCase(Locale.ROOT);
+        return this.dict.get(keyUpper);
+    }
+
     public boolean containsKey(String key){
         return this.dict.containsKey(key.toUpperCase(Locale.ROOT));
     }

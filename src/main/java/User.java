@@ -18,6 +18,10 @@ public class User implements Comparable<User>{
         this.phone = this.formatPhone(phone);
     }
 
+    public String getLastname() {
+        return this.lastname;
+    }
+
     public String[] getRow() {
         return new String[]{
             lastname,
