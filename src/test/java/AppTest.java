@@ -1,12 +1,15 @@
 import org.example.volunteers.user.User;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
 
@@ -54,7 +57,7 @@ public class AppTest {
         users.add(new User("", "xdcvV", "", "test@test.com", "6914979"));
         users.add(new User("feaz", "", "efafe", "zeidbfuyzb@izybf.com", "54956"));
 
-        HashMap<String, List<User>> map = App.aggregateMailAndTel(users);
+        HashMap<String, List<User>> map = App.aggregateMail(users);
         map.forEach(
                 (key, value) -> {
                     System.out.println(key + ":" + value);
@@ -62,5 +65,86 @@ public class AppTest {
                 }
 
         );
+    }
+
+    @Test
+    public void checkUsersTelNotTheSame() {
+        List<User> users = new ArrayList<>();
+        users.add(new User("", "", "", "test@test.com", ""));
+        users.add(new User("feaz", "", "", "zeidbfuyzb@izybf.com", "6914979"));
+        users.add(new User("dfafe", "", "", "test@test.com", "6914979"));
+        users.add(new User("", "xdcvV", "", "test@test.com", "6914979"));
+        users.add(new User("feaz", "", "efafe", "zeidbfuyzb@izybf.com", "54956"));
+        HashMap<String, List<User>> map = App.aggregateMail(users);
+        map = App.aggregateTel(map);
+        map.forEach(
+                (key, value) -> {
+                    System.out.println(key + ":" + value);
+                    assertEquals(1, value.size());
+                }
+        );
+    }
+
+    @Test
+    public void checkPhoneFormatInternational() {
+        String phone = "+33698979468";
+        phone = App.formatNumbers(phone);
+        assertEquals("0698979468", phone);
+    }
+
+    @Test
+    public void checkPhoneFormatPoint() {
+        String phone = "06.26.36.89.45";
+        phone = App.formatNumbers(phone);
+        assertEquals("0626368945", phone);
+    }
+
+    @Test
+    public void checkPhoneFormatSpace() {
+        String phone = "06 98 97 94 68";
+        phone = App.formatNumbers(phone);
+        assertEquals("0698979468", phone);
+    }
+
+    @Test
+    public void checkPhoneFormatDash() {
+        String phone = "06-98-97-94-68";
+        phone = App.formatNumbers(phone);
+        assertEquals("0698979468", phone);
+    }
+
+    @Test
+    public void checkPhoneFormatZero() {
+        String phone = "+33(0)698979468";
+        phone = App.formatNumbers(phone);
+        assertEquals("0698979468", phone);
+    }
+
+    @Test
+    public void checkListUser() {
+        List<String[]> lines = new ArrayList<>();
+        lines.add(new String[]{"Fabien", "Fab", "", "test@test.com", ""});
+        lines.add(new String[]{"Theo", "theo", "", "theo@test.com", ""});
+        lines.sort(Comparator.comparing(strings -> strings[0]));
+        List<User> users = App.createUserListFromCSV(lines);
+
+        assertEquals(2, users.size());
+        assertEquals("Fabien", users.get(0).surname);
+        assertEquals("Theo", users.get(1).surname);
+        assertEquals("Fab", users.get(0).name);
+        assertEquals("theo", users.get(1).name);
+        assertEquals("test@test.com", users.get(0).mail);
+        assertEquals("theo@test.com", users.get(1).mail);
+    }
+
+    @Test
+    public void checkFilterPseudo() {
+        List<User> users = new ArrayList<>();
+        users.add(new User("", "", "fab", "test@test.com", ""));
+        users.add(new User("feaz", "", "tata", "zeidbfuyzb@izybf.com", "6914979"));
+        users.add(new User("", "fea", "toto", "test@test.com", "6914979"));
+        users.add(new User("faf", "fea", "titi", "test@test.com", "6914979"));
+        users = App.filterPseudo(users);
+        assertEquals(3, users.size());
     }
 }

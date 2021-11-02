@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,20 +14,32 @@ public class App {
         List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/data.csv"))
                 .stream().map(string -> string.split(";"))
                 .collect(toList());
-
         lines.sort(Comparator.comparing(strings -> strings[0]));
-
         List<User> users = createUserListFromCSV(lines);
-
-        formatNumbers(users);
-        //users = filterPhone(users);
-        //users = filterNameAndSurname(users);
-        HashMap<String, List<User>> map = aggregateMailAndTel(users);
-        map.forEach(
-                (key,user) -> {
-                    System.out.println(key + ":" + user);
+        users.forEach(
+                user -> {
+                    user.tel = formatNumbers(user.tel);
                 }
         );
+        HashMap<String, List<User>> map = aggregateMail(users);
+        map = aggregateTel(map);
+        users.clear();
+        map.forEach(
+                (key, user) -> {
+                    users.addAll(user);
+                }
+        );
+        List<User> finalUsers;
+        finalUsers = filterPhone(users);
+        users.clear();
+        users.addAll(filterPseudo(finalUsers));
+        users.addAll(filterNameAndSurname(finalUsers));
+        users.forEach(
+                user -> {
+                    System.out.println(user);
+                }
+        );
+        System.out.println(users.size());
     }
 
     public static List<User> createUserListFromCSV(List<String[]> csvList) {
@@ -39,29 +52,26 @@ public class App {
         return users;
     }
 
-    public static void formatNumbers(List<User> users) {
-        users.forEach(
-                user -> {
-                    if (user.tel.contains("+33")) {
-                        user.tel = user.tel.replaceAll("\\+33", "0");
-                    }
-                    if (user.tel.contains(".")) {
-                        user.tel = user.tel.replaceAll("\\.", "");
-                    }
-                    if (user.tel.contains(" ")) {
-                        user.tel = user.tel.replaceAll(" ", "");
-                    }
-                    if (user.tel.contains("-")) {
-                        user.tel = user.tel.replaceAll("-", "");
-                    }
-                    if (user.tel.contains("(0)")) {
-                        user.tel = user.tel.replaceAll("\\(0\\)", "");
-                    }
-                }
-        );
+    public static String formatNumbers(String phone) {
+        if (phone.contains("+33")) {
+            phone = phone.replaceAll("\\+33", "0");
+        }
+        if (phone.contains(".")) {
+            phone = phone.replaceAll("\\.", "");
+        }
+        if (phone.contains(" ")) {
+            phone = phone.replaceAll(" ", "");
+        }
+        if (phone.contains("-")) {
+            phone = phone.replaceAll("-", "");
+        }
+        if (phone.contains("(0)")) {
+            phone = phone.replaceAll("\\(0\\)", "");
+        }
+        return phone;
     }
 
-    public static HashMap<String,List<User>> aggregateMailAndTel(List<User> users) {
+    public static HashMap<String, List<User>> aggregateMail(List<User> users) {
         users.forEach(
                 user -> {
                     if (user.mail.equals("")) user.mail = "noMail";
@@ -70,8 +80,6 @@ public class App {
         );
 
         HashMap<String, List<User>> mailsMap = createMapMail(users);
-        HashMap<String, List<User>> telsMap = createMapTel(users);
-
         mailsMap.forEach(
                 (key, value) -> {
                     if (value.size() > 1 && (!key.equals("noMail"))) {
@@ -88,17 +96,57 @@ public class App {
                                         j++;
                                     if (!user.tel.equals("noTel"))
                                         j++;
-                                    if (j > i[0]){
+                                    if (j > i[0]) {
                                         i[0] = j;
                                         finalUser.set(user);
                                     }
                                 }
                         );
                         value.clear();
-                        value.add(finalUser.get());                    }
+                        value.add(finalUser.get());
+                    }
                 }
         );
         return mailsMap;
+    }
+
+    public static HashMap<String, List<User>> aggregateTel(HashMap<String, List<User>> users) {
+        List<User> usersFinal = new ArrayList<>();
+        users.forEach(
+                (key, value) -> {
+                    usersFinal.addAll(value);
+                }
+
+        );
+        HashMap<String, List<User>> mapUser = createMapTel(usersFinal);
+        mapUser.forEach(
+                (key, value) -> {
+                    if (value.size() > 1 && (!key.equals("noTel"))) {
+                        final int[] i = {0};
+                        AtomicReference<User> finalUser = new AtomicReference<>(new User("", "", "", "", ""));
+                        value.forEach(
+                                (user) -> {
+                                    int j = 0;
+                                    if (!user.surname.equals(""))
+                                        j++;
+                                    if (!user.name.equals(""))
+                                        j++;
+                                    if (!user.pseudo.equals(""))
+                                        j++;
+                                    if (!user.mail.equals("noMail"))
+                                        j++;
+                                    if (j > i[0]) {
+                                        i[0] = j;
+                                        finalUser.set(user);
+                                    }
+                                }
+                        );
+                        value.clear();
+                        value.add(finalUser.get());
+                    }
+                }
+        );
+        return mapUser;
     }
 
     public static HashMap<String, List<User>> createMapMail(List<User> users) {
@@ -131,6 +179,13 @@ public class App {
         String regex = "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,.'-]+";
         List<User> user2 = users.stream().filter(
                 user -> user.name.matches(regex) && user.surname.matches(regex)
+        ).collect(toList());
+        return user2;
+    }
+
+    public static List<User> filterPseudo(List<User> users){
+        List<User> user2 = users.stream().filter(
+                user -> user.name.equals("") || user.surname.equals("")
         ).collect(toList());
         return user2;
     }
