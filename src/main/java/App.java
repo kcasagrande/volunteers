@@ -21,12 +21,12 @@ public class App {
         formatNumbers(users);
         //users = filterPhone(users);
         //users = filterNameAndSurname(users);
-        aggregateMailAndTel(users);
-        /*users.forEach(
-                user -> {
-                    System.out.println(user.toString());
+        HashMap<String, List<User>> map = aggregateMailAndTel(users);
+        map.forEach(
+                (key,user) -> {
+                    System.out.println(key + ":" + user);
                 }
-        );*/
+        );
     }
 
     public static List<User> createUserListFromCSV(List<String[]> csvList) {
