@@ -1,20 +1,21 @@
-package service;
+package org.example.volunteers.service;
 
-import model.Person;
-import model.PersonProperties;
-import model.PhoneNumberPattern;
+import org.example.volunteers.model.Person;
+import org.example.volunteers.model.PersonProperties;
+import org.example.volunteers.utils.StringUtil;
+import org.example.volunteers.model.PhoneNumberPattern;
 
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 
 public class PersonService {
-    public List<Person> transformInPersonObject(List<Map<PersonProperties, String>> listMap)
-    {
+    private static final StringUtil stringUtil = new StringUtil();
+
+    public List<Person> transformInPersonObject(List<Map<PersonProperties, String>> listMap) {
         List<Person> listPersonWDuplicate = new ArrayList<>();
 
         for (int i = 0; i < listMap.size(); i++) {
@@ -112,16 +113,16 @@ public class PersonService {
      * @param personList person list
      * @return list of filtered person by phone number
      */
-    public List<Person> filterPersonDuplicateByPhoneNUmber(List<Person> personList) {
+    public List<Person> filterPersonDuplicateByPhoneNumber(List<Person> personList) {
         List<Person> formattedPhoneNumberPerson = new ArrayList<>();
         personList.forEach(person -> {
-            if (refactorPhoneNumber(person.getPhoneNumber()).length() == 8) {
-                person.setPhoneNumber("00" + refactorPhoneNumber(person.getPhoneNumber()));
+            if (stringUtil.refactorPhoneNumberString(person.getPhoneNumber()).length() == 8) {
+                person.setPhoneNumber("00" + stringUtil.refactorPhoneNumberString(person.getPhoneNumber()));
             }
-            if (refactorPhoneNumber(person.getPhoneNumber()).length() == 12) {
-                person.setPhoneNumber(refactorPhoneNumber(person.getPhoneNumber()).replaceFirst("00", ""));
+            if (stringUtil.refactorPhoneNumberString(person.getPhoneNumber()).length() == 12) {
+                person.setPhoneNumber(stringUtil.refactorPhoneNumberString(person.getPhoneNumber()).replaceFirst("00", ""));
             }
-            person.setPhoneNumber(refactorPhoneNumber(person.getPhoneNumber()));
+            person.setPhoneNumber(stringUtil.refactorPhoneNumberString(person.getPhoneNumber()));
             formattedPhoneNumberPerson.add(person);
         });
         List<Person> emptyPhoneNumberList = new ArrayList<>();
@@ -137,84 +138,5 @@ public class PersonService {
         return formattedPhoneNumberPersonWithEmpty;
     }
 
-    /**
-     * Formatted a given phone number
-     *
-     * @param phoneNumber phone number to be formated
-     * @return String phone number
-     */
-    public String refactorPhoneNumber(String phoneNumber) {
-        //+33(0)0.75.55.99.79
-        if (phoneNumber.matches(PhoneNumberPattern.pattern1.toString())) {
-            return this.refactorPhoneNumberForSeparator(phoneNumber, "\\.");
-        }
 
-        //+33(0)0-75-55-55-20
-        if (phoneNumber.matches(PhoneNumberPattern.pattern2.toString())) {
-            return this.refactorPhoneNumberForSeparator(phoneNumber, "\\-");
-        }
-
-        //+33055587491
-        if (phoneNumber.matches(PhoneNumberPattern.pattern3.toString())) {
-            return phoneNumber.replace("+33", "0");
-        }
-
-        //+33(0)0 85 55 67 37
-        if (phoneNumber.matches(PhoneNumberPattern.pattern4.toString())) {
-            return this.refactorPhoneNumberForSeparator(phoneNumber, " ");
-        }
-
-        //+33(0)000555091
-        if (phoneNumber.matches(PhoneNumberPattern.pattern5.toString())) {
-            return phoneNumber.replace("+33(0)", "0");
-        }
-
-        //+330 00 55 52 25
-        if (phoneNumber.matches(PhoneNumberPattern.pattern6.toString())) {
-            return "00" + this.refactorPhoneNumberForSeparator(phoneNumber, " ");
-        }
-
-        //+330-55-55-66-33
-        if (phoneNumber.matches(PhoneNumberPattern.pattern7.toString())) {
-            return this.refactorPhoneNumberForSeparator(phoneNumber, "\\-");
-        }
-
-        //+330.00.55.52.42
-        if (phoneNumber.matches(PhoneNumberPattern.pattern8.toString())) {
-            return "00" + this.refactorPhoneNumberForSeparator(phoneNumber, "\\.");
-        }
-
-        //00 00 55 55 33
-        if (phoneNumber.matches(PhoneNumberPattern.pattern9.toString())) {
-            return phoneNumber.replace(" ", "");
-        }
-
-        //00-35-55-85-21
-        if (phoneNumber.matches(PhoneNumberPattern.pattern10.toString())) {
-            return phoneNumber.replace("-", "");
-        }
-
-        //00.45.55.63.57
-        if (phoneNumber.matches(PhoneNumberPattern.pattern11.toString())) {
-            return phoneNumber.replace(".", "");
-        }
-
-        //0000555302
-        if (phoneNumber.matches(PhoneNumberPattern.pattern12.toString())) {
-            return phoneNumber;
-        }
-
-
-        return phoneNumber;
-    }
-
-    private String refactorPhoneNumberForSeparator(String phoneNumber, String regexSeparator) {
-        StringBuilder basedPhoneNumber = new StringBuilder("00");
-        for (String s : phoneNumber.split(regexSeparator)) {
-            if (s.length() == 2 && !s.equals("00")) {
-                basedPhoneNumber.append(s);
-            }
-        }
-        return basedPhoneNumber.toString();
-    }
 }

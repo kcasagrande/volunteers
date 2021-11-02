@@ -1,6 +1,7 @@
-import model.PersonProperties;
+package com.volunters;
+import org.example.volunteers.model.PersonProperties;
 import org.junit.jupiter.api.Test;
-import service.Parser;
+import org.example.volunteers.service.Parser;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

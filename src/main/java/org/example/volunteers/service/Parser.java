@@ -1,8 +1,7 @@
-package service;
+package org.example.volunteers.service;
 
 
-import model.Person;
-import model.PersonProperties;
+import org.example.volunteers.model.PersonProperties;
 
 import java.io.File;
 import java.io.IOException;

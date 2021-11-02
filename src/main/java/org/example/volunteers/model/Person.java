@@ -1,4 +1,4 @@
-package model;
+package org.example.volunteers.model;
 
 import lombok.*;
 
