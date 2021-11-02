@@ -1,7 +1,9 @@
+import org.example.volunteers.models.Client;
 import org.example.volunteers.models.ClientList;
 import org.example.volunteers.services.CsvReader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class App {
@@ -12,5 +14,7 @@ public class App {
         ClientList clientList = new ClientList();
         clientList.setClientListFromFileLines(fileLines);
         clientList.normalize();
+
+        ArrayList<Client> clientsList = clientList.getClientListClean();
     }
 }
