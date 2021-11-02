@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClientList {
     private ArrayList<Client> clientList = new ArrayList<Client>();
@@ -123,5 +125,11 @@ public class ClientList {
         }
 
         return mostValue;
+    }
+
+    public boolean checkMail(String email) {
+        Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$");
+        Matcher m = p.matcher(email.toUpperCase());
+        return m.matches();
     }
 }
