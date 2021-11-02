@@ -1,6 +1,5 @@
 package Services.csv;
 
-import exceptions.CsvConversionToUserException;
 import exceptions.CsvEmptyException;
 import exceptions.CsvNotExistException;
 import org.junit.jupiter.api.BeforeEach;

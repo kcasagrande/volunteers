@@ -1,17 +1,15 @@
 package user;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class User {
 
-    private String firstName = null;
-    private String lastName = null;
-    private String userName = null;
-    private String email = null;
-    private String phone = null;
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String email;
+    private String phone;
 
     public User(String firstName, String lastName, String userName, String email, String phone) {
         this.firstName = firstName;
@@ -64,7 +62,7 @@ public class User {
     public boolean checkValidComboLastNameFirstNameOfUser(List<User> userList) {
         for (User user : userList) {
             if ((this.firstName.equals(user.getFirstName()) && this.lastName.equals(user.getLastName()))
-                || (this.firstName.equals(user.getLastName()) && this.lastName.equals(user.getFirstName()))) {
+                    || (this.firstName.equals(user.getLastName()) && this.lastName.equals(user.getFirstName()))) {
                 return false;
             }
         }
@@ -152,11 +150,12 @@ public class User {
     }
 
     public boolean checkNullDataUser() {
-        if (this.checkNullFirstNameOfUser()|| this.checkNullLastNameOfUser() || this.checkNullUserNameOfUser() || this.checkNullPhoneOfUser()) {
+        if (this.checkNullFirstNameOfUser() || this.checkNullLastNameOfUser() || this.checkNullUserNameOfUser() || this.checkNullPhoneOfUser()) {
             return false;
         }
         return true;
     }
+
     public void trimAll() {
         firstName = firstName.trim();
         lastName = lastName.trim();
@@ -164,12 +163,14 @@ public class User {
         phone = phone.trim();
         userName = userName.trim();
     }
+
     public void toLowerCase() {
         firstName = firstName.toLowerCase();
         lastName = lastName.toLowerCase();
         email = email.toLowerCase();
         userName = userName.toLowerCase();
     }
+
     public void stripAccent() {
         stripAccentFirstName();
         stripAccentLastname();
@@ -177,23 +178,19 @@ public class User {
         stripAccentUsername();
     }
 
-    public void stripAccentFirstName()
-    {
+    public void stripAccentFirstName() {
         firstName = Normalizer.normalize(firstName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
-    public void stripAccentLastname()
-    {
+    public void stripAccentLastname() {
         lastName = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
-    public void stripAccentEmail()
-    {
+    public void stripAccentEmail() {
         email = Normalizer.normalize(email, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
-    public void stripAccentUsername()
-    {
+    public void stripAccentUsername() {
         userName = Normalizer.normalize(userName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 }
