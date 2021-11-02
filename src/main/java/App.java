@@ -22,29 +22,33 @@ public class App {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String choiceSelected = reader.readLine();
 
+        List<Map<PersonProperties, String>> parsedFile = parser.parseCsv("src/main/resources/data.csv",";");
+
+        List<Person> listPerson = personService.transformInPersonObject(parsedFile);
+        List<Person> listFinal = null;
         switch (choiceSelected){
             case "nom":
-                List<Map<PersonProperties, String>> parsedFile = parser.parseCsv("src/main/resources/data.csv",";");
-
-                List<Person> listPerson = personService.getListPersonWDuplicate(parsedFile);
-                System.out.println(listPerson);
+                listFinal = personService.listSortByName(listPerson);
                 break;
             case "telephone":
+                listFinal = personService.filterPersonDuplicateByEmail(listPerson);
 
                 break;
             case "mail":
+                listFinal = personService.filterPersonDuplicateByPhoneNUmber(listPerson);
 
                 break;
             case "tous":
+                listFinal = personService.listSortByName(listPerson);
+                listFinal = personService.filterPersonDuplicateByEmail(listFinal);
+                listFinal = personService.filterPersonDuplicateByPhoneNUmber(listFinal);
 
                 break;
             default:
                 System.out.println("Cas non gérer");
                 break;
         }
-
+        System.out.println(listFinal);
         // Apply dark magic here...
-        System.out.println("Result goes here");
-        System.out.println(personService.refactorPhoneNumber("00-35-55-85-21"));
     }
 }
