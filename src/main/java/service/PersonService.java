@@ -63,14 +63,10 @@ public class PersonService {
                 emailVariants.add(email);
                 if (personListWithoutDuplicate.stream()
                         .map(Person::getEmail)
-                        .noneMatch(
-                                new HashSet<>(emailVariants)
-                                        ::contains)
+                        .noneMatch(new HashSet<>(emailVariants)::contains)
                         && personListWithoutDuplicate.stream()
                         .map(Person::getSplitEmail)
-                        .noneMatch(
-                                new HashSet<>(emailVariants)
-                                        ::contains)) {
+                        .noneMatch(new HashSet<>(emailVariants)::contains)) {
                     personListWithoutDuplicate.add(person);
                 }
             } else {
