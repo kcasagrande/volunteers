@@ -101,7 +101,7 @@ public class ContactTest {
                     String nickName = person.nickName;
                     System.out.println(String.format("The nickName is: %s", nickName));
 
-                    assertEquals(true, email.contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le nickName n'est pas dans le email");
+                    assertEquals(true, email.toLowerCase(Locale.ROOT).contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le nickName n'est pas dans le email");
                 }
             }
         }
