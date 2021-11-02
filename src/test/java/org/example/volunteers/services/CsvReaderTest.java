@@ -1,4 +1,18 @@
 package org.example.volunteers.services;
 
+import java.io.IOException;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
 public class CsvReaderTest {
+    @Test
+    public void TestAllLineAreImported() throws IOException {
+        CsvReader reader = new CsvReader();
+
+        List<String[]> data = reader.getLinesFromFile("src/test/java/org/example/volunteers/services/data-test.csv");
+
+        assertEquals(4, data.size());
+    }
 }
