@@ -171,9 +171,29 @@ public class User {
         userName = userName.toLowerCase();
     }
     public void stripAccent() {
+        stripAccentFirstName();
+        stripAccentLastname();
+        stripAccentEmail();
+        stripAccentUsername();
+    }
+
+    public void stripAccentFirstName()
+    {
         firstName = Normalizer.normalize(firstName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    public void stripAccentLastname()
+    {
         lastName = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    public void stripAccentEmail()
+    {
         email = Normalizer.normalize(email, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    public void stripAccentUsername()
+    {
         userName = Normalizer.normalize(userName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 }

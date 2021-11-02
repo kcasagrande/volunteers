@@ -77,63 +77,53 @@ class CsvServiceTest {
     @Test
     void convertListUserTestSuccessful() throws CsvNotExistException, IOException, CsvEmptyException {
         csvService.setCsvPath("src/test/java/resources/dataInsertForAUser.csv");
-
         List<String[]> linesString = csvService.readAllLines();
-
         List<User> linesUsers = csvService.convertListUser(linesString);
         User user;
         String[] userString;
         boolean result = true;
 
-        for(int i = 0;linesUsers.size() <= i; i++)
-        {
+        for (int i = 0; linesUsers.size() <= i; i++) {
             user = linesUsers.get(i);
             userString = linesString.get(i);
 
-            if(!user.getLastName().equals(userString[0]) ||
-                !user.getFirstName().equals(userString[1]) ||
-                !user.getUserName().equals(userString[2]) ||
-                !user.getEmail().equals(userString[3]) ||
-                !user.getPhone().equals(userString[4]))
-            {
+            if (!user.getLastName().equals(userString[0]) ||
+                    !user.getFirstName().equals(userString[1]) ||
+                    !user.getUserName().equals(userString[2]) ||
+                    !user.getEmail().equals(userString[3]) ||
+                    !user.getPhone().equals(userString[4])) {
                 result = false;
             }
 
             i++;
         }
-
-        assertTrue(result);
+        assertTrue(result, "La liste n'a pas été convertie correctement !");
     }
-
 
     @Test
     void convertListUserTestFailed() throws CsvNotExistException, IOException, CsvEmptyException {
         csvService.setCsvPath("src/test/java/resources/dataInsertForAUser.csv");
-
         List<String[]> linesString = csvService.readAllLines();
-
         List<User> linesUsers = csvService.convertListUser(linesString);
         User user;
         String[] userString;
         boolean result = true;
 
-        for(int i = 0;linesUsers.size() <= i; i++)
-        {
+        for (int i = 0; linesUsers.size() <= i; i++) {
             user = linesUsers.get(i);
             userString = linesString.get(i);
 
-            if(!user.getLastName().equals(userString[0]) ||
+            if (!user.getLastName().equals(userString[0]) ||
                     !user.getFirstName().equals(userString[1]) ||
                     !user.getUserName().equals(userString[2]) ||
                     !user.getEmail().equals(userString[3]) ||
-                    !user.getPhone().equals(userString[4]))
-            {
+                    !user.getPhone().equals(userString[4])) {
                 result = false;
             }
 
             i++;
         }
 
-        assertTrue(result);
+        assertTrue(result, "La liste a été convertie correctement alors qu'elle ne devrait pas !");
     }
 }
