@@ -22,8 +22,8 @@ public class ParserTest {
     public void formatDataAndCreateVolunteersArray() {
         List<Volunteer> volunteers = parser.format();
 
-        assertEquals("Guilloux", volunteers.get(0).name);
-        assertEquals("Sarah", volunteers.get(0).firstname);
+        assertEquals("Sarah", volunteers.get(0).name);
+        assertEquals("Guilloux", volunteers.get(0).firstname);
         assertEquals("", volunteers.get(0).nametag);
         assertEquals("camille_thevenet@example.net", volunteers.get(1).mail);
         assertEquals("+33075552706", volunteers.get(2).tel);
