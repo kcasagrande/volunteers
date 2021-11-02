@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -16,8 +17,16 @@ public class App {
             .sorted(Collections.reverseOrder())
             .collect(toList());
 
+        //FusesLastnameRegister
+        Duplicate duplicate = new Duplicate();
+        List<User> listUser = duplicate.mergeByName(lines);
+        List<User> listUserBis = duplicate.mergeByPhoneNumber(listUser);
+
+        /*HashMap<Integer, User> usersDict = new HashMap<>();
+
         HashMap<Integer, User> usersDict = new HashMap<>();
         HashMap<Header, Registre> registres = new HashMap<>();
+
 
         Registre lastnameRegistre = new Registre(Header.LASTNAME);
         Registre firstnameRegistre = new Registre(Header.FIRSTNAME);
@@ -44,6 +53,16 @@ public class App {
         System.out.println(newUsers.size());
         lines.forEach(System.out::println);
 
+
+
+        // Apply dark magic here...
+//        lines.forEach(System.out::println);
+//        lines.forEach(System.out::println);
+        System.out.println(lastnameRegistre);*/
+        /*listUser.forEach((System.out::println));
+        System.out.println(listUser.size());*/
+        listUserBis.forEach((System.out::println));
+        System.out.println(listUserBis.size());
 
     }
 

@@ -18,10 +18,6 @@ public class Registre {
         }
     }
 
-    public HashMap<String, ArrayList<Integer>> getDict() {
-        return dict;
-    }
-
     @Override
     public String toString() {
         String str = "Type: " + header + "\n";
