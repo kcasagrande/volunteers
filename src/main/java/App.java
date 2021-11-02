@@ -17,7 +17,7 @@ public class App {
     public static void main(String[] args) throws IOException {
          List<Map<PersonProperties, String>> parsedFile = parser.parseCsv("src/main/resources/data.csv",";");
 
-        List<Person> listPerson = personService.getListPersonWDuplicate(parsedFile);
+        List<Person> listPerson = personService.transformInPersonObject(parsedFile);
         System.out.println(listPerson);
 
         List<Person> listTest= personService.listSortByName(listPerson);

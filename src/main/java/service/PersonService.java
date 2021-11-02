@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 
 public class PersonService {
-    public List<Person> getListPersonWDuplicate(List<Map<PersonProperties, String>> listMap) {
+    public List<Person> transformInPersonObject(List<Map<PersonProperties, String>> listMap) {
         List<Person> listPersonWDuplicate = new ArrayList<>();
 
         for (int i = 0; i < listMap.size(); i++) {
