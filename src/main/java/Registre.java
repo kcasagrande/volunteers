@@ -18,8 +18,8 @@ public class Registre {
         }
     }
 
-    public boolean containsKey(String key){
-        return this.dict.containsKey(key.toUpperCase(Locale.ROOT));
+    public HashMap<String, ArrayList<Integer>> getDict() {
+        return dict;
     }
 
     @Override
@@ -34,4 +34,5 @@ public class Registre {
         }
         return str;
     }
+
 }

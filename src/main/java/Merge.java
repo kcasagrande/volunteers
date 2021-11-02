@@ -17,51 +17,51 @@ public class Merge {
     }
 
     public void mergeUsers(){
-//        User user = new User(key, getValue("firstname"), getValue("username"), getValue("email"), getValue("phone"));
-//        this.result.add(user);
-
-        HashMap<String, User> dict = new HashMap<>();
-
-        User buffUser = users.get(0);
-        dict.put(buffUser.firstname.toUpperCase(Locale.ROOT), buffUser);
-
-        for (int i = 1; i < users.size(); i++) {
-            String key = users.get(i).firstname.toUpperCase(Locale.ROOT);
-            int ld = Levenshtein.ld(key, buffUser.username.toUpperCase(Locale.ROOT));
-            if(ld <= 1){
-            }else{
-                dict.put(key, users.get(i));
-            }
-            buffUser = users.get(i);
-        }
-
-        for(User user: dict.values()){
-            this.result.add(user);
-        }
+        User user = new User(key, getValue(Header.FIRSTNAME), getValue(Header.USERNAME), getValue(Header.EMAIL), getValue(Header.PHONE));
+        this.result.add(user);
+//
+//        HashMap<String, User> dict = new HashMap<>();
+//
+//        User buffUser = users.get(0);
+//        dict.put(buffUser.firstname.toUpperCase(Locale.ROOT), buffUser);
+//
+//        for (int i = 1; i < users.size(); i++) {
+//            String key = users.get(i).firstname.toUpperCase(Locale.ROOT);
+//            int ld = Levenshtein.ld(key, buffUser.username.toUpperCase(Locale.ROOT));
+//            if(ld <= 1){
+//            }else{
+//                dict.put(key, users.get(i));
+//            }
+//            buffUser = users.get(i);
+//        }
+//
+//        for(User user: dict.values()){
+//            this.result.add(user);
+//        }
     }
 
     public ArrayList<User> getResult() {
         return result;
     }
 
-    private HashMap<String, Double> getPercentageByValue(String value){
+    private HashMap<String, Double> getPercentageByValue(Header value){
         HashMap<String, Double> dict = new HashMap<>();
         for(User user: users){
             String valueInUsers = "";
             switch (value){
-                case "lastname":
+                case LASTNAME:
                     valueInUsers = user.lastname;
                     break;
-                case "firstname":
+                case FIRSTNAME:
                     valueInUsers = user.firstname;
                     break;
-                case "username":
+                case USERNAME:
                     valueInUsers = user.username;
                     break;
-                case "email":
+                case EMAIL:
                     valueInUsers = user.email;
                     break;
-                case "phone":
+                case PHONE:
                     valueInUsers = user.phone;
                     break;
             }
@@ -79,7 +79,7 @@ public class Merge {
         return dict;
     }
 
-    private String getValue(String field){
+    private String getValue(Header field){
         String firstname = "";
         Double max = 0.;
         for (Map.Entry<String, Double> entry : getPercentageByValue(field).entrySet()) {
