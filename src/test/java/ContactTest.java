@@ -114,7 +114,6 @@ public class ContactTest {
             if(person != null) {
                 String phoneToCheck = person.phone;
                 System.out.println(String.format("The phone is: %s", phoneToCheck));
-
                 // Assert
                 assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), String.format("The phone is %s", phoneToCheck.toString()));
             }
