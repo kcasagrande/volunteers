@@ -3,13 +3,13 @@ import model.PersonProperties;
 import org.junit.jupiter.api.Test;
 import service.PersonService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PersonTest {
 
@@ -29,6 +29,7 @@ public class PersonTest {
     }
 
     @Test
+
     public void testPersonContent() {
         Person person = personService.transformInPersonObject(givenPersons()).get(0);
         assertEquals("+33085552814", person.phoneNumber);
@@ -36,6 +37,11 @@ public class PersonTest {
         assertEquals("", person.userName);
         assertEquals("Rébecca", person.firstName);
         assertEquals("Compere", person.lastName);
+    }
+
+
+    public void testTransformerReturnsWrongSize() {
+        assertNotEquals(1, personService.transformInPersonObject(givenPersons()).size());
     }
 
     public List<Map<PersonProperties, String>> givenPersons() {
@@ -58,6 +64,40 @@ public class PersonTest {
     }
 
     /**
+     * Tests FilterPersonDuplicateByName inside PersonService
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testFilterPersonDuplicateByName() throws IOException {
+        List<Person> personList = new ArrayList<Person>() {{
+            add(new Person(1, "Jean", "Bon", "Jean69", "jean.bon@example.com", "+33607080910"));
+            add(new Person(2, "Jean", "Bon", "Jean69", "jean.bon@example.org", "+33607080910"));
+            add(new Person(3, "Jean", "Bon", "Jean69", "jean_bon@example.com", "+33607080910"));
+            add(new Person(4, "James", "Bondes", "007", "james_bondes@example.com", "+33645787878"));
+            add(new Person(5, "James", "Bondes", "007", "james_bondes@example.com", "+33645787878"));
+        }};
+        List<Person> filteredPersonList = personService.listSortByName(personList);
+        assertEquals(2, filteredPersonList.size());
+    }
+
+    /**
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testFilterPersonDuplicateByNameWithoutName() throws IOException {
+        List<Person> personList = new ArrayList<Person>() {{
+            add(new Person(1, "Jean", "Bon", "Jean69", "jean.bon@example.com", "+33607080910"));
+            add(new Person(2, "Jean", "Bon", "Jean69", "jean.bon@example.org", "+33607080910"));
+            add(new Person(3, "", "", "Jean69", "jean_bon@example.com", "+33607080910"));
+        }};
+        List<Person> filteredPersonList = personService.listSortByName(personList);
+        assertEquals(2, filteredPersonList.size());
+    }
+
+
+    /**
      * Tests filterPersonDuplicateByEmail inside PersonService
      */
     @Test
@@ -71,6 +111,22 @@ public class PersonTest {
         }};
         List<Person> filteredPersonList = personService.filterPersonDuplicateByEmail(personList);
         assertEquals(2, filteredPersonList.size());
+    }
+
+    @Test
+    public void testListPersonContent() {
+        List<Person> personList = new ArrayList<Person>() {{
+            add(new Person(1, "Jean", "Bon", "Jean69", "jean.bon@example.com", "+33607080910"));
+            add(new Person(2, "Jean", "Bon", "Jean69", "jean.bon@example.org", "+33607080910"));
+            add(new Person(5, "James", "Bondes", "007", "james_bondes@example.com", "+33645787878"));
+        }};
+
+        Person person = personService.filterPersonDuplicateByEmail(personList).get(0);
+        assertEquals("+33607080910", person.phoneNumber);
+        assertEquals("jean.bon@example.com", person.email);
+        assertEquals("Jean69", person.userName);
+        assertEquals("Jean", person.firstName);
+        assertEquals("Bon", person.lastName);
     }
 
     /**
