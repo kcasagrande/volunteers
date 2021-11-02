@@ -14,7 +14,19 @@ public class PersonTest {
     private final PersonService personService = new PersonService();
 
     @Test
-    public void testTransformInPersonObject() {
+    public void testTransformCSVInPersonObject() {
+        List<Person> personsTransformed =  personService.transformInPersonObject(givenPersons());
+        for (Person personTransformed : personsTransformed) {
+            assertInstanceOf(Person.class, personTransformed);
+        }
+    }
+
+    @Test
+    public void testTransformatorReturnRightSize() {
+        assertEquals(2, personService.transformInPersonObject(givenPersons()).size());
+    }
+
+    public List<Map<PersonProperties, String>> givenPersons() {
         List<Map<PersonProperties, String>> persons = new ArrayList<Map<PersonProperties, String>>();
 
         Map<PersonProperties, String> person = new HashMap<PersonProperties, String>()
@@ -31,10 +43,6 @@ public class PersonTest {
         persons.add(person);
         persons.add(person);
 
-        List<Person> personsTransformed = personService.transformInPersonObject(persons);
-
-        for (Person personTransformed : personsTransformed) {
-            assertInstanceOf(Person.class, personTransformed);
-        }
+        return persons;
     }
 }
