@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ContactTest {
 
@@ -95,13 +98,14 @@ public class ContactTest {
             Contact person = getContactWithEmailNotEmpty(contact);
             if(person != null) {
                 String email = person.getEmail();
-                if(!email.isEmpty()){
+                String nickName = person.nickName;
+
+                if(!email.isEmpty() && nickName.length() > 1){
                     System.out.println(String.format("The email is: %s", email));
 
-                    String nickName = person.nickName;
                     System.out.println(String.format("The nickName is: %s", nickName));
 
-                    assertEquals(true, email.contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le nickName n'est pas dans le email");
+                    assertTrue(email.toLowerCase(Locale.ROOT).contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le nickName n'est pas dans l'email");
                 }
             }
         }
@@ -121,11 +125,26 @@ public class ContactTest {
         }
     }
 
+    @Test
     private Contact getContactWithEmailNotEmpty(Contact contact){
         Contact person = contact;
         if(!person.getEmail().isEmpty()){
             return person;
         }
         return null;
+	}
+
+    @Test
+    public void checkIfDuplicateRemains() {
+	// Arrange
+	//String PersonToCheck = getContactWithEmailNotEmpty().firstName;
+    //List<String> toCheck;
+    //    toCheck = contacts_test.stream().flatMap(List::stream).map(contacts_test::).collect(Collectors.toList());
+
+        // Assert
+	//System.out.println(PersonToCheck);
+	//int frequency = Collections.frequency(toCheck, PersonToCheck);
+	//assertEquals(1, frequency, "Il reste des doublons a retirer");
+
     }
 }
