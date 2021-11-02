@@ -136,5 +136,15 @@ class SearcherTest {
 
     }
 
+    @Test
+    public void createUniqueListFromSearchSimilarIndexListNullShouldReturnNoResultTest(){
+       
+        List<String[]> similarValueList = new ArrayList<>();
+        List<Integer> indexList =  new ArrayList<>();
+        indexList = null;
+        
+    // assert
+        assertEquals(indexList, null);
+    }
 
 }

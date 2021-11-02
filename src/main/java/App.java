@@ -16,10 +16,7 @@ public class App {
             .stream().map(string -> string.split(";", -1))
             .collect(toList());
 
-
-
         System.out.println("Result goes here");
-
 
         Searcher searcher = new Searcher();
         List<String[]> uniqueList = new ArrayList<>();
@@ -29,13 +26,14 @@ public class App {
             List<String[]> fusionList = searcher.createUniqueListFromSearchSimilarIndex(intList,lines);
             String[] fusionline = searcher.createUniqueUserFromSimilarList(fusionList);
             uniqueList.add(fusionline);
-            System.out.println(fusionline.toString());
+            System.out.println(Arrays.toString(fusionline));
 
             lines = searcher.deleteIndexesFromMainList(intList,lines);
         }
 
+       System.out.println(uniqueList.size());
+       System.out.println(Arrays.toString(uniqueList.toArray()));
 
-        System.out.println(uniqueList.size());
 
     }
 

@@ -93,11 +93,11 @@ public class Searcher {
     public List<String[]> deleteIndexesFromMainList(List<Integer> indexList, List<String[]> voluteerList)
     {
         for (int i = indexList.size()-1; i >= 0; i--) {
-            System.out.print("| Index a suppr : " + indexList.get(i));
+            //System.out.print("| Index a suppr : " + indexList.get(i));
             voluteerList.remove(indexList.get(i).intValue());
         }
 
-        System.out.println("taille liste : " + voluteerList.size());
+        //System.out.println("taille liste : " + voluteerList.size());
         return voluteerList;
     }
 

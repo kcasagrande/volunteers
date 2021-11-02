@@ -19,8 +19,7 @@ class VerificationTest {
         int num = verif.NumberParam(line);
         assertEquals(num, 5, "Ce message s'affiche si le testNumberParam échoue");
     }
+    
 
-
-
-
+    
 }
