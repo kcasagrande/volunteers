@@ -84,4 +84,24 @@ public class PersonTest {
         assertEquals(baseVariantsEmailList, variantsEmailList);
     }
 
+    @Test
+    public void testPhoneNumberFormatting() {
+        Map<String, String> nonFormattedAndFormattedMap = new HashMap<>();
+        nonFormattedAndFormattedMap.put("+33(0)0.75.55.99.79", "0075559979");
+        nonFormattedAndFormattedMap.put("+33(0)0-75-55-55-20", "0075555520");
+        nonFormattedAndFormattedMap.put("+33055587491", "0055587491");
+        nonFormattedAndFormattedMap.put("+33(0)0 85 55 67 37", "0085556737");
+        nonFormattedAndFormattedMap.put("+33(0)000555091", "0000555091");
+        nonFormattedAndFormattedMap.put("+330 00 55 52 25", "0000555225");
+        nonFormattedAndFormattedMap.put("+330-55-55-66-33", "0055556633");
+        nonFormattedAndFormattedMap.put("+330.00.55.52.42", "0000555242");
+        nonFormattedAndFormattedMap.put("00 00 55 55 33", "0000555533");
+        nonFormattedAndFormattedMap.put("00-35-55-85-21", "0035558521");
+        nonFormattedAndFormattedMap.put("00.45.55.63.57", "0045556357");
+        nonFormattedAndFormattedMap.put("0000555204", "0000555204");
+
+        nonFormattedAndFormattedMap.forEach((nonFormatted, formatted) -> {
+            assertEquals(this.personService.refactorPhoneNumber(nonFormatted), formatted);
+        });
+    }
 }

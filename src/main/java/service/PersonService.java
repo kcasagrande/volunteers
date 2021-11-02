@@ -109,6 +109,13 @@ public class PersonService {
         return emailVariants;
     }
 
+
+    /**
+     * Filter list of person, delete duplicates and refactor phone numbers
+     *
+     * @param personList person list
+     * @return list of filtered person by phone number
+     */
     public List<Person> filterPersonDuplicateByPhoneNUmber(List<Person> personList) {
         List<Person> formattedPhoneNumberPerson = new ArrayList<>();
         personList.forEach(person -> {
@@ -121,12 +128,25 @@ public class PersonService {
             person.setPhoneNumber(refactorPhoneNumber(person.getPhoneNumber()));
             formattedPhoneNumberPerson.add(person);
         });
-
-        return formattedPhoneNumberPerson.stream()
+        List<Person> emptyPhoneNumberList = new ArrayList<>();
+        formattedPhoneNumberPerson.forEach(person -> {
+            if (person.getPhoneNumber().equals("")) {
+                emptyPhoneNumberList.add(person);
+            }
+        });
+        List<Person> formattedPhoneNumberPersonWithEmpty = formattedPhoneNumberPerson.stream()
                 .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparing(Person::getPhoneNumber))),
                         ArrayList::new));
+        formattedPhoneNumberPersonWithEmpty.addAll(emptyPhoneNumberList);
+        return formattedPhoneNumberPersonWithEmpty;
     }
 
+    /**
+     * Formatted a given phone number
+     *
+     * @param phoneNumber phone number to be formated
+     * @return String phone number
+     */
     public String refactorPhoneNumber(String phoneNumber) {
         //+33(0)0.75.55.99.79
         if (phoneNumber.matches(PhoneNumberPattern.pattern1.toString())) {
@@ -165,7 +185,7 @@ public class PersonService {
 
         //+330.00.55.52.42
         if (phoneNumber.matches(PhoneNumberPattern.pattern8.toString())) {
-            return this.refactorPhoneNumberForSeparator(phoneNumber, "\\.");
+            return "00" + this.refactorPhoneNumberForSeparator(phoneNumber, "\\.");
         }
 
         //00 00 55 55 33
