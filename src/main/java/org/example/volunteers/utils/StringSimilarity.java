@@ -1,9 +1,11 @@
 package org.example.volunteers.utils;
 
+/**
+ * String similarity
+ * Works with Levenshtein
+ */
 public class StringSimilarity {
-
-    private StringSimilarity() {
-    }
+    private StringSimilarity() {}
 
     /**
      * Calculates the similarity (a number within 0 and 1) between two strings.

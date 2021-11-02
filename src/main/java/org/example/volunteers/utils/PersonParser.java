@@ -1,12 +1,21 @@
 package org.example.volunteers.utils;
+
 import org.example.volunteers.model.CustomParser;
 import org.example.volunteers.model.Person;
+import java.util.stream.Collectors;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * Parser to parse persons
+ */
 public class PersonParser implements CustomParser {
 
+    /**
+     * Parse input tab of string into list of persons
+     * @param inputRaw List of tab string to parse, from .csv file
+     * @return return list of persons
+     */
     @Override
     public List<Person> parse(List<String[]> inputRaw) {
         return inputRaw

@@ -1,5 +1,8 @@
 package org.example.volunteers.model;
 
+/**
+ * Person POJO
+ */
 public class Person {
     String name;
     String surname;
@@ -7,6 +10,14 @@ public class Person {
     String email;
     String phoneNumber;
 
+    /**
+     * Person constructor
+     * @param name Person's name
+     * @param surname Person's surname
+     * @param nickname Person's nickname
+     * @param email Person's mail address
+     * @param phoneNumber Person's phone number
+     */
     public Person(String name, String surname, String nickname, String email, String phoneNumber) {
         this.name = name;
         this.surname = surname;
@@ -15,6 +26,10 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Overrided toString method to print person in console
+     * @return Structured string to print fields value
+     */
     @Override
     public String toString() {
 

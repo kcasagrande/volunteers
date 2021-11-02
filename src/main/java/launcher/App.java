@@ -19,6 +19,7 @@ public class App {
             List<Person> personList = parser.parse(openedFile);
 
             var listWithoutDuplicate = DuplicateFinder.eliminateDuplicate(personList.stream().collect(Collectors.groupingBy(Person::getPhoneNumber)));
+
             listWithoutDuplicate = DuplicateFinder.eliminateDuplicate(listWithoutDuplicate.stream().collect(Collectors.groupingBy(Person::getName)));
 
             listWithoutDuplicate.sort(Comparator.comparing(Person::getName));
