@@ -4,18 +4,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.util.stream.Collectors.toList;
 
 public class App {
     public static void main(String[] args) throws IOException {
         List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/data.csv"))
-            .stream().map(string -> string.split(";"))
-            .collect(toList());
+                .stream().map(string -> string.split(";"))
+                .collect(toList());
 
         lines.sort(Comparator.comparing(strings -> strings[0]));
 
@@ -64,7 +61,7 @@ public class App {
         );
     }
 
-    public static void aggregateMailAndTel(List<User> users) {
+    public static HashMap<String,List<User>> aggregateMailAndTel(List<User> users) {
         users.forEach(
                 user -> {
                     if (user.mail.equals("")) user.mail = "noMail";
@@ -77,17 +74,31 @@ public class App {
 
         mailsMap.forEach(
                 (key, value) -> {
-                    if (key.equals("tel")) {
-
-                    }
+                    if (value.size() > 1 && (!key.equals("noMail"))) {
+                        final int[] i = {0};
+                        AtomicReference<User> finalUser = new AtomicReference<>(new User("", "", "", "", ""));
+                        value.forEach(
+                                (user) -> {
+                                    int j = 0;
+                                    if (!user.surname.equals(""))
+                                        j++;
+                                    if (!user.name.equals(""))
+                                        j++;
+                                    if (!user.pseudo.equals(""))
+                                        j++;
+                                    if (!user.tel.equals("noTel"))
+                                        j++;
+                                    if (j > i[0]){
+                                        i[0] = j;
+                                        finalUser.set(user);
+                                    }
+                                }
+                        );
+                        value.clear();
+                        value.add(finalUser.get());                    }
                 }
         );
-        telsMap.forEach(
-                (key, value) -> {
-                    System.out.println(key + ": " + value);
-                }
-        );
-
+        return mailsMap;
     }
 
     public static HashMap<String, List<User>> createMapMail(List<User> users) {

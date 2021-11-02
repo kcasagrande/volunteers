@@ -42,6 +42,25 @@ public class AppTest {
 
         users = App.filterNameAndSurname(users);
 
-        assertEquals(1 , users.size());
+        assertEquals(1, users.size());
+    }
+
+    @Test
+    public void checkOneUserPerLine() {
+        List<User> users = new ArrayList<>();
+        users.add(new User("", "", "", "test@test.com", ""));
+        users.add(new User("", "", "", "zeidbfuyzb@izybf.com", ""));
+        users.add(new User("dfafe", "", "", "test@test.com", ""));
+        users.add(new User("", "xdcvV", "", "test@test.com", "6914979"));
+        users.add(new User("feaz", "", "efafe", "zeidbfuyzb@izybf.com", "54956"));
+
+        HashMap<String, List<User>> map = App.aggregateMailAndTel(users);
+        map.forEach(
+                (key, value) -> {
+                    System.out.println(key + ":" + value);
+                    assertEquals(1, value.size());
+                }
+
+        );
     }
 }
