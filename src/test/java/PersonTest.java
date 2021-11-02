@@ -22,7 +22,7 @@ public class PersonTest {
     }
 
     @Test
-    public void testTransformatorReturnRightSize() {
+    public void testTransformatorReturnsRightSize() {
         assertEquals(2, personService.transformInPersonObject(givenPersons()).size());
     }
 
