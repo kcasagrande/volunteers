@@ -2,11 +2,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
@@ -40,12 +38,28 @@ public class ContactTest {
         assertEquals("rao", person.firstName.toLowerCase(Locale.ROOT), "Ce message s'affiche si le test échoue");
     }
 
+    public Contact getContactWithEmailNotEmpty(){
+        int i = 0;
+        boolean emailNotEmpty = false;
+        Contact person = null;
+
+        while(!emailNotEmpty){
+            if(!contacts_test.get(i).email.isEmpty()){
+                emailNotEmpty = true;
+                person = contacts_test.get(i);
+            }else{
+                i++;
+            }
+        }
+        return person;
+    }
+
     @Test
     public void checkIfEmailIsCorrect() {
         // Arrange
-        Contact person = contacts_test.get(0);
-        Contact person = contacts_test.get(0);
-        System.out.println(person.email);
+        int i = 0;
+        boolean emailNotEmpty = false;
+        Contact person = getContactWithEmailNotEmpty();
 
         // Assert
         assertEquals(true, Contact.isValidEmail(person.email), "Ce message s'affiche si le test échoue");
@@ -54,8 +68,11 @@ public class ContactTest {
     @Test
     public void checkIsNameInEmail(){
         // Arrange
-        String email = contacts_test.get(0).email;
-        String firstName = contacts_test.get(0).firstName;
+        String email = getContactWithEmailNotEmpty().email;
+        System.out.println(email);
+
+        String firstName = getContactWithEmailNotEmpty().firstName;
+        System.out.println(firstName);
 
         assertEquals(true, email.contains(Contact.removeDiacriticalMarks(firstName.toLowerCase(Locale.ROOT))), "Le firstName n'est pas dans le email");
     }
@@ -63,8 +80,11 @@ public class ContactTest {
     @Test
     public void checkIsLastNameInEmail(){
         // Arrange
-        String email = contacts_test.get(0).email;
-        String lastName = contacts_test.get(0).lastName;
+        String email = getContactWithEmailNotEmpty().email;
+        System.out.println(email);
+
+        String lastName = getContactWithEmailNotEmpty().lastName;
+        System.out.println(lastName);
 
         assertEquals(true, email.contains(Contact.removeDiacriticalMarks(lastName.toLowerCase(Locale.ROOT))), "Le lastName n'est pas dans le email");
     }
@@ -72,8 +92,12 @@ public class ContactTest {
     @Test
     public void checkIsNickNameInEmail(){
         // Arrange
-        String email = contacts_test.get(0).email;
-        String nickName = contacts_test.get(0).nickName;
+        String email = getContactWithEmailNotEmpty().email;
+        System.out.println(email);
+
+        String nickName = getContactWithEmailNotEmpty().nickName;
+        System.out.println("nickname: " + nickName);
+
 
         assertEquals(true, email.contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le lastName n'est pas dans le email");
     }
@@ -84,6 +108,7 @@ public class ContactTest {
         String phoneToCheck = contacts_test.get(0).phone;
 
         // Assert
+        System.out.println(phoneToCheck);
         assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), "Ce message s'affiche si le test échoue");
     }
 
