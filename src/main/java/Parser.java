@@ -15,9 +15,9 @@ public class Parser {
 
         for (String[] item : data) {
             Volunteer volunteer = new Volunteer();
-
-            volunteer.name = item[0].toString();
-            volunteer.firstname = item[1].toString();
+            volunteer.firstname = item[0].toString();
+            volunteer.name = item[1].toString();
+           
             volunteer.nametag = item[2].toString();
             volunteer.mail = item[3].toString();
 
