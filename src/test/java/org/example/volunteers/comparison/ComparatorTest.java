@@ -29,6 +29,7 @@ public class ComparatorTest {
         assertEquals("same", result);
     }
 
+    //Test pour verifier que le comparateur ignore les majuscules/minuscules
     @Test
     public void compareIgnoreUpper(){
         UserMock user1 = new UserMock("DUPONT", "JEAN");
