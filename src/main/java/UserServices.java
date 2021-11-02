@@ -28,15 +28,13 @@ public class UserServices {
             if (user.checkValidComboLastNameFirstNameOfUser(CleanListUser)
                     && user.checkValidEmailOfUser(CleanListUser)) {
                 CleanListUser.add(user);
-            } 
+            }
         }
     }
 
     public void ShowUserList() throws CsvNotExistException, CsvEmptyException, IOException {
         this.userCsvData();
-        //System.out.println(allUserUnfiltered);
         this.cleanUserList();
-        System.out.println(CleanListUser);
         for (User user: CleanListUser) {
             System.out.println(user.getFirstName() + " - " + user.getLastName() + " - " + user.getUserName() + " - " + user.getEmail() + " - " + user.getPhone());
             System.out.println("----------------------------------------------------------------");
