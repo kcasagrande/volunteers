@@ -3,7 +3,7 @@ package user;
 import java.text.Normalizer;
 import java.util.List;
 
-public class User {
+public class User implements Comparable<User> {
 
     private String firstName;
     private String lastName;
@@ -117,12 +117,16 @@ public class User {
     public boolean checkNullLastNameOfUser() {
         if (this.lastName == null) {
             return false;
+        } else if (this.lastName.isEmpty()) {
+            return false;
         }
         return true;
     }
 
     public boolean checkNullFirstNameOfUser() {
         if (this.firstName == null) {
+            return false;
+        } else if (this.firstName.isEmpty()) {
             return false;
         }
         return true;
@@ -131,12 +135,16 @@ public class User {
     public boolean checkNullUserNameOfUser() {
         if (this.userName == null) {
             return false;
+        } else if (this.userName.isEmpty()) {
+            return false;
         }
         return true;
     }
 
     public boolean checkNullEmailOfUser() {
         if (this.email == null) {
+            return false;
+        } else if (this.email.isEmpty()) {
             return false;
         }
         return true;
@@ -151,6 +159,7 @@ public class User {
 
     public boolean checkNullDataUser() {
         if (this.checkNullFirstNameOfUser() || this.checkNullLastNameOfUser() || this.checkNullUserNameOfUser() || this.checkNullPhoneOfUser()) {
+        } else if (this.phone.isEmpty()) {
             return false;
         }
         return true;
@@ -192,5 +201,13 @@ public class User {
 
     public void stripAccentUsername() {
         userName = Normalizer.normalize(userName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    @Override
+    public int compareTo(User o) {
+        if (getLastName() == null || o.getLastName() == null) {
+            return 0;
+        }
+        return getLastName().compareTo(o.getLastName());
     }
 }
