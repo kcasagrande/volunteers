@@ -5,17 +5,24 @@ import java.util.regex.Pattern;
 
 public class Contact
 {
-    public String firstName;
-    public String lastName;
-    public String nickName;
-    public String email;
-    public String phone;
+    private String firstName;
+    private String lastName;
+    private String nickName;
+    private String email;
+    private String phone;
 
-
-
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setNickName(String nickName) { this.nickName = nickName; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public String getFirstName() { return this.firstName; }
+    public String getLastName() { return lastName; }
+    public String getNickName() { return nickName; }
     public String getEmail(){
         return this.email;
     }
+    public String getPhone() { return phone; }
 
     public static String removeDiacriticalMarks(String string) {
         return Normalizer.normalize(string, Normalizer.Form.NFD)

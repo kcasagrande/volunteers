@@ -19,7 +19,7 @@ public class App {
         //System.out.println(setItems.size());
 
         for(Contact c : setItems){
-            System.out.println(c.firstName.concat(" " + c.lastName).concat(" " + c.nickName).concat(" " + c.getEmail()).concat(" " + c.phone));
+            System.out.println(c.getFirstName().concat(" " + c.getLastName()).concat(" " + c.getNickName()).concat(" " + c.getEmail()).concat(" " + c.getPhone()));
         }
         System.out.println("Nombre de Contacts de base: " + contacts.size());
         System.out.println("Nombre de Contacts après avoir enlevé les doublons: " + setItems.size());
@@ -42,13 +42,12 @@ public class App {
             ArrayList listContact = new ArrayList<>(Arrays.asList(_contact));
 
             if (isValidContact(listContact, contactList, _contact[contactList.indexOf("FirstName")].trim())){
-                Contact newContact = new Contact(){{
-                    firstName = _contact[contactList.indexOf("FirstName")].trim();
-                    lastName = _contact[contactList.indexOf("LastName")].trim();
-                    nickName = _contact[contactList.indexOf("NickName")].trim();
-                    email = _contact[contactList.indexOf("Email")].trim();
-                    phone = _contact[contactList.indexOf("Phone")].trim();
-                }};
+                Contact newContact = new Contact();
+                newContact.setFirstName(_contact[contactList.indexOf("FirstName")].trim());
+                newContact.setLastName(_contact[contactList.indexOf("LastName")].trim());
+                newContact.setNickName(_contact[contactList.indexOf("NickName")].trim());
+                newContact.setEmail(_contact[contactList.indexOf("Email")].trim());
+                newContact.setPhone(_contact[contactList.indexOf("Phone")].trim());
                 contacts.add(newContact);
             }
         }
@@ -66,7 +65,7 @@ public class App {
         contacts.sort(new ContactSorted());
         return contacts.stream().collect(
                 Collectors.toMap(
-                        obj -> obj.firstName,
+                        obj -> obj.getFirstName(),
                         Function.identity(),
                         (o1,o2) -> o1))
                 .values();

@@ -33,10 +33,10 @@ public class ContactTest {
         for (Contact contact: contacts_test) {
             Contact person = getContactWithEmailNotEmpty(contact);
             if(person != null){
-                System.out.println(person.firstName.concat(" " + person.lastName).concat(" " + person.email));
+                System.out.println(person.getFirstName().concat(" " + person.getLastName()).concat(" " + person.getEmail()));
 
                 // Assert
-                assertEquals(person.firstName.toLowerCase(Locale.ROOT).toString(), person.firstName.toLowerCase(Locale.ROOT), "The firstName is ok.");
+                assertEquals(person.getFirstName().toLowerCase(Locale.ROOT).toString(), person.getFirstName().toLowerCase(Locale.ROOT), "The firstName is ok.");
             }
         }
     }
@@ -62,7 +62,7 @@ public class ContactTest {
                 if(!email.isEmpty()){
                     System.out.println(String.format("The email is: %s", email));
 
-                    String firstName = person.firstName;
+                    String firstName = person.getNickName();
                     System.out.println(String.format("The firstName is: %s", firstName));
 
                     assertEquals(true, email.contains(Contact.removeDiacriticalMarks(firstName.toLowerCase(Locale.ROOT))), "Le firstName n'est pas dans le email");
@@ -80,7 +80,7 @@ public class ContactTest {
                 if(!email.isEmpty()){
                     System.out.println(String.format("The email is: %s", email));
 
-                    String lastName = person.lastName;
+                    String lastName = person.getLastName();
                     System.out.println(String.format("The lastName is: %s", lastName));
 
                     assertEquals(true, email.contains(Contact.removeDiacriticalMarks(lastName.toLowerCase(Locale.ROOT))), "Le lastName n'est pas dans le email");
@@ -98,7 +98,7 @@ public class ContactTest {
                 if(!email.isEmpty()){
                     System.out.println(String.format("The email is: %s", email));
 
-                    String nickName = person.nickName;
+                    String nickName = person.getNickName();
                     System.out.println(String.format("The nickName is: %s", nickName));
 
                     assertEquals(true, email.toLowerCase(Locale.ROOT).contains(Contact.removeDiacriticalMarks(nickName.toLowerCase(Locale.ROOT))), "Le nickName n'est pas dans le email");
@@ -112,7 +112,7 @@ public class ContactTest {
         for (Contact contact: contacts_test) {
             Contact person = getContactWithEmailNotEmpty(contact);
             if(person != null) {
-                String phoneToCheck = person.phone;
+                String phoneToCheck = person.getPhone();
                 System.out.println(String.format("The phone is: %s", phoneToCheck));
                 // Assert
                 assertEquals(true, Contact.checkIsValidNumberPhone(phoneToCheck), String.format("The phone is %s", phoneToCheck.toString()));
