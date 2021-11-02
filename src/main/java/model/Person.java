@@ -21,7 +21,10 @@ public class Person {
     public String phoneNumber;
 
     public String getSplitEmail() {
-        int i = email.lastIndexOf('.');
-        return new String[]{email.substring(0, i), email.substring(i)}[0];
+        if (!email.equals("")){
+            int i = email.lastIndexOf('.');
+            return new String[]{email.substring(0, i), email.substring(i)}[0];
+        }
+        return "";
     }
 }
