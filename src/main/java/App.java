@@ -19,6 +19,7 @@ public class App {
 
         Duplicate duplicate = new Duplicate();
         List<User> listUser = duplicate.mergeByName(lines);
+        List<User> listUserBis = duplicate.mergeByPhoneNumber(listUser);
 
         /*HashMap<Integer, User> usersDict = new HashMap<>();
 
@@ -61,6 +62,9 @@ public class App {
 //        lines.forEach(System.out::println);
         System.out.println(lastnameRegistre);*/
         listUser.forEach((System.out::println));
+        System.out.println(listUser.size());
+        /*listUserBis.forEach((System.out::println));
+        System.out.println(listUserBis.size());*/
     }
 
     public static Function<String, String[]> splitCSV = (row) -> row.split(";", -1);
