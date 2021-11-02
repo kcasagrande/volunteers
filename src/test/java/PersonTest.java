@@ -50,11 +50,9 @@ public class PersonTest {
 
     /**
      * Tests filterPersonDuplicateByEmail inside PersonService
-     *
-     * @throws IOException
      */
     @Test
-    public void testFilterPersonDuplicateByEmail() throws IOException {
+    public void testFilterPersonDuplicateByEmail() {
         List<Person> personList = new ArrayList<Person>() {{
             add(new Person(1, "Jean", "Bon", "Jean69", "jean.bon@example.com", "+33607080910"));
             add(new Person(2, "Jean", "Bon", "Jean69", "jean.bon@example.org", "+33607080910"));
@@ -68,11 +66,9 @@ public class PersonTest {
 
     /**
      * Tests filterGenerateEmailVariants inside PersonService
-     *
-     * @throws IOException
      */
     @Test
-    public void testGenerateEmailVariants() throws IOException {
+    public void testGenerateEmailVariants() {
         List<String> baseVariantsEmailList = new ArrayList<String>() {{
             add("jean_bon@example.com");
             add("jeanbon@example.com");
