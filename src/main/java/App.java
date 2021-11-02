@@ -14,13 +14,20 @@ public class App {
             .collect(toList());
 
         ArrayList<Contact> contacts = CreateContactList(personnes);
-        //System.out.println(contacts.size());
         Collection<Contact> setItems = removeDuplicates(contacts);
-        //System.out.println(setItems.size());
 
+        System.out.println("Contact List: ");
+        System.out.println("-------------------------");
+        int index = 1;
         for(Contact c : setItems){
-            System.out.println(c.getFirstName().concat(" " + c.getLastName()).concat(" " + c.getNickName()).concat(" " + c.getEmail()).concat(" " + c.getPhone()));
+            System.out.println(
+                    String.format("%s - %s",
+                            index,
+                            c.getFirstName().concat(" " + c.getLastName()).concat(" " + c.getNickName()).concat(" " + c.getEmail()).concat(" " + c.getPhone())
+                    ));
+            index++;
         }
+        System.out.println("\n");
         System.out.println("Nombre de Contacts de base: " + contacts.size());
         System.out.println("Nombre de Contacts après avoir enlevé les doublons: " + setItems.size());
 
