@@ -5,15 +5,14 @@ import user.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserServices {
 
     List<User> allUserUnfiltered;
-    List<User> CleanListUser;
-    List<User> DirtyListUser;
+    List<User> cleanListUser;
+    List<User> dirtyListUser;
 
     protected void userCsvData() throws CsvNotExistException, CsvEmptyException, IOException {
         CsvService csvService = new CsvService("src/main/resources/data.csv");
@@ -22,28 +21,28 @@ public class UserServices {
     }
 
     protected void cleanUserList() {
-        CleanListUser = new ArrayList<User>();
-        DirtyListUser = new ArrayList<User>();
+        cleanListUser = new ArrayList<User>();
+        dirtyListUser = new ArrayList<User>();
         for (User user: allUserUnfiltered) {
             user.trimAll();
             user.stripAccent();
             user.toLowerCase();
-            if (user.checkValidComboLastNameFirstNameOfUser(CleanListUser)
-                    && user.checkValidEmailOfUser(CleanListUser)
+            if (user.checkValidComboLastNameFirstNameOfUser(cleanListUser)
+                    && user.checkValidEmailOfUser(cleanListUser)
                     && user.checkNullFirstNameOfUser()
                     && user.checkNullLastNameOfUser()
 
             ) {
-                CleanListUser.add(user);
+                cleanListUser.add(user);
             } else {
-                DirtyListUser.add(user);
+                dirtyListUser.add(user);
             }
         }
     }
 
     protected void consolidationUserList() {
-        for (User userDirty: DirtyListUser) {
-            for (User userClean: CleanListUser) {
+        for (User userDirty: dirtyListUser) {
+            for (User userClean: cleanListUser) {
 
                 if (userClean.getPhone().equals(userDirty.getPhone())
                 || userClean.getEmail().equals(userDirty.getEmail())
@@ -69,11 +68,11 @@ public class UserServices {
         this.userCsvData();
         this.cleanUserList();
         this.consolidationUserList();
-        CleanListUser = CleanListUser.stream().sorted().collect(Collectors.toList());
-        for (User user: CleanListUser) {
+        cleanListUser = cleanListUser.stream().sorted().collect(Collectors.toList());
+        for (User user: cleanListUser) {
             System.out.println(user.getLastName() + " - " + user.getFirstName() + " - " + user.getUserName() + " - " + user.getEmail() + " - " + user.getPhone());
             System.out.println("----------------------------------------------------------------");
         }
-        System.out.println("Data : " + allUserUnfiltered.size() + " - Clean : " + CleanListUser.size() + " - Dirty : " + DirtyListUser.size());
+        System.out.println("Data : " + allUserUnfiltered.size() + " - Clean : " + cleanListUser.size() + " - Dirty : " + dirtyListUser.size());
     }
 }

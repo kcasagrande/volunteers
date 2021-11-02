@@ -39,16 +39,11 @@ public class CsvService {
     }
 
     public List<String[]> readAllLines() throws IOException, CsvNotExistException, CsvEmptyException {
-        // Check if csv file exists
         isCsvExists();
-
         lines = Files.readAllLines(Paths.get(csvPath))
                 .stream().map(string -> string.split(";", -1))
                 .collect(toList());
-
-        // Check if csv is empty
         isCsvEmpty();
-
         return lines;
     }
 
@@ -58,7 +53,6 @@ public class CsvService {
             User user = new User(lineString[1], lineString[0], lineString[2], lineString[3], lineString[4]);
             linesUser.add(user);
         }
-
         return linesUser;
     }
 
