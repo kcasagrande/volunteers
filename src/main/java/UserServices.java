@@ -17,9 +17,14 @@ public class UserServices {
         List<String[]> lines = csvService.readAllLines();
         allUserUnfiltered = csvService.convertListUser(lines);
     }
+
     protected void cleanUserList() {
         CleanListUser = new ArrayList<User>();
         for (User user: allUserUnfiltered) {
+            user.trimAll();
+            user.stripAccent();
+            user.toLowerCase();
+
             if (user.checkValidComboLastNameFirstNameOfUser(CleanListUser)
                     && user.checkValidEmailOfUser(CleanListUser)) {
                 CleanListUser.add(user);
