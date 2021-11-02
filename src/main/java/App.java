@@ -29,25 +29,11 @@ public class App {
                 usersDict.put(user.id, user);
             }
 
-            if(!(lastnameRegistre.containsKey(user.lastname))){
-                lastnameRegistre.put(user.lastname, user.id);
-            }
-
-            if(!(firstnameRegistre.containsKey(user.firstname.toUpperCase(Locale.ROOT)))){
-                firstnameRegistre.put(user.firstname, user.id);
-            }
-
-            if(!(usernameRegistre.containsKey(user.username))){
-                usernameRegistre.put(user.username, user.id);
-            }
-
-            if(!(emailRegistre.containsKey(user.email))){
-                emailRegistre.put(user.email, user.id);
-            }
-
-            if(!(phoneRegistre.containsKey(user.phone))){
-                phoneRegistre.put(user.phone, user.id);
-            }
+            lastnameRegistre.put(user.lastname, user.id);
+            firstnameRegistre.put(user.firstname, user.id);
+            usernameRegistre.put(user.username, user.id);
+            emailRegistre.put(user.email, user.id);
+            phoneRegistre.put(user.phone, user.id);
 
         }
 
