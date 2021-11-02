@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -134,17 +132,4 @@ public class ContactTest {
         return null;
 	}
 
-    @Test
-    public void checkIfDuplicateRemains() {
-	// Arrange
-	//String PersonToCheck = getContactWithEmailNotEmpty().firstName;
-    //List<String> toCheck;
-    //    toCheck = contacts_test.stream().flatMap(List::stream).map(contacts_test::).collect(Collectors.toList());
-
-        // Assert
-	//System.out.println(PersonToCheck);
-	//int frequency = Collections.frequency(toCheck, PersonToCheck);
-	//assertEquals(1, frequency, "Il reste des doublons a retirer");
-
-    }
 }

@@ -32,15 +32,9 @@ public class Contact
     }
 
     public static boolean checkIsValidNumberPhone(String phone){
-
-        int validLength = 12;
-        String regex = "^+(.+)$";
-
-        Pattern pattern = Pattern.compile(regex);
-
+        Pattern pattern = Pattern.compile("^\\+33\\(?\\d\\)?[\\s|\\d|\\-|\\.]+$");
         Matcher matcher = pattern.matcher(phone);
-
-        return matcher.matches() && phone.length() == validLength;
+        return matcher.matches();
 
     }
 }
