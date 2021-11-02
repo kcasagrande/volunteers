@@ -10,10 +10,8 @@ public class DuplicateFinder {
 
     }
 
-    public static List<Person> eliminateDuplicate(List<Person> userList){
+    public static List<Person> eliminateDuplicate(Map<String, List<Person>> personListGroupedWithPhoneNumber){
         List<Person> resultList = new ArrayList<>();
-
-        var personListGroupedWithPhoneNumber = userList.stream().collect(Collectors.groupingBy(Person::getPhoneNumber));
 
         personListGroupedWithPhoneNumber.forEach((n, personListToCompare) -> {
             List<Person> finalList = new ArrayList<>(personListToCompare);
