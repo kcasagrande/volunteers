@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.toList;
 public class App {
     public static void main(String[] args) throws IOException {
         List<String[]> lines = Files.readAllLines(Paths.get(args[0]))
-            .stream().map(string -> string.split(";"))
+            .stream().map(string -> string.split(";", -1))
             .collect(toList());
 
         // Apply dark magic here...
