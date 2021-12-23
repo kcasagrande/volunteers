@@ -7,7 +7,7 @@ import static java.util.stream.Collectors.toList;
 
 public class App {
     public static void main(String[] args) throws IOException {
-        List<String[]> lines = Files.readAllLines(Paths.get("src/main/resources/data.csv"))
+        List<String[]> lines = Files.readAllLines(Paths.get(args[0]))
             .stream().map(string -> string.split(";"))
             .collect(toList());
 
