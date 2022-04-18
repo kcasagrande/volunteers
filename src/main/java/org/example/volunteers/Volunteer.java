@@ -1,7 +1,8 @@
 package org.example.volunteers;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.joining;
 
 public final class Volunteer {
     public final String firstName;
@@ -28,6 +29,6 @@ public final class Volunteer {
     public String toString() {
         return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
             .map(attribute -> String.format("\"%s\"", attribute))
-            .collect(Collectors.joining(";"));
+            .collect(joining(";"));
     }
 }

@@ -18,14 +18,21 @@ public class App {
         Pattern quotes = Pattern.compile("^\"([^\"]*)\"$");
 
         List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get(args[0])).stream()
-            .map(string -> Arrays.stream(string.split(";", -1)).map(token -> quotes.matcher(token).replaceAll("$1")).collect(Collectors.toList()))
+            .map(string -> Arrays.stream(string.split(";", -1))
+            .map(token -> quotes.matcher(token).replaceAll("$1"))
+            .collect(toList()))
             .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
             .collect(toList());
 
-        // Apply dark magic here...
-        List<Volunteer> outputVolunteers = new ArrayList<>(inputVolunteers);
+        List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
 
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         writer.println(outputVolunteers);
+    }
+
+    private static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
+        // This function should contain your dark magic.
+        // For now, it simply returns a copy of the initial list.
+        return new ArrayList<>(volunteers);
     }
 }
