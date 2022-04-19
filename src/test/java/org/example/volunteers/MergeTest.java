@@ -46,7 +46,7 @@ public class MergeTest {
         List<Volunteer> finalListUser = duplicate.mergeByPhoneNumber(listUser);
 
         List<Volunteer> listExpected = new ArrayList<>();
-        listExpected.add(0, new Volunteer("MC","EV","Jojo","mark.evian@gmail.com","04697811"));
+        listExpected.add(0, new Volunteer("MC","EV","Jojo","mark.evian@gmail.com,john.doe@example.com","04697811"));
         listExpected.add(listExpected.size(), new Volunteer("DOe","DO","","do.doe@example.com","34423"));
         listExpected.add(listExpected.size(), new Volunteer("Mark","Evian","","mark.evian@gmail.com","54554"));
         listExpected.add(listExpected.size(), new Volunteer("","","","Maxhild@en","234234"));

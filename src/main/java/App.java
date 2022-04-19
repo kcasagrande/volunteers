@@ -28,8 +28,6 @@ public class App {
             .collect(toList());
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
-//        System.out.println(outputVolunteers.stream().map(String::valueOf).collect(Collectors.joining("\n")));
-
         try (BufferedWriter bf = Files.newBufferedWriter(Paths.get("src/main/resources/output.csv"), StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
             bf.write(outputVolunteers.stream().map(String::valueOf).collect(Collectors.joining("\n")));
         }
@@ -41,7 +39,7 @@ public class App {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
         Merge mg = new Merge();
-        List<Volunteer> listVolunteers = mg.mergeByPhoneNumber(volunteers);
+        List<Volunteer> listVolunteers = mg.mergeByName(volunteers);
         List<Volunteer> listVolunteersBis = mg.mergeByPhoneNumber(listVolunteers);
         return listVolunteersBis;
     }
