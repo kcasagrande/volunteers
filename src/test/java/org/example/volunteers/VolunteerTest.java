@@ -64,6 +64,14 @@ public class VolunteerTest {
     }
 
     @Test
+    public void formatPhoneScoreTest(){
+        Volunteer volunteer = new Volunteer("", "", "", "", "06.43.45.32");
+        String expected = "06434532";
+        assertEquals(expected, volunteer.formatPhone(volunteer.phone));
+    }
+
+
+    @Test
     public void formatPhonePlus33Test(){
         Volunteer volunteer = new Volunteer("", "", "", "", "+336434532");
         String expected = "06434532";
