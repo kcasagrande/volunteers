@@ -12,12 +12,11 @@ public final class Volunteer {
     public final String phone;
 
     public Volunteer(
-        String firstName,
-        String lastName,
-        String nickName,
-        String eMail,
-        String phone
-    ) {
+            String firstName,
+            String lastName,
+            String nickName,
+            String eMail,
+            String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickName = nickName;
@@ -25,10 +24,32 @@ public final class Volunteer {
         this.phone = phone;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    // generate all setters
+
     @Override
     public String toString() {
-        return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
-            .map(attribute -> String.format("\"%s\"", attribute))
-            .collect(joining(";"));
+        return Arrays.stream(new String[] { firstName, lastName, nickName, eMail, phone })
+                .map(attribute -> String.format("\"%s\"", attribute))
+                .collect(joining(";"));
     }
 }
