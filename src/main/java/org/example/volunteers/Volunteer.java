@@ -61,4 +61,20 @@ public final class Volunteer {
     public boolean compare(Volunteer user) {
         return this.sameNickname(user.nickName) || (this.sameFirstName(user.firstName) && this.sameLastName(user.lastName)) || this.samePhone(user.phone) || this.sameEmail(user.eMail);
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null) {
+            return false;
+        }
+        if(!(obj instanceof Volunteer)){
+            return false;
+        }
+        Volunteer user = (Volunteer) obj;
+        return lastName.equals(user.lastName) &&
+                firstName.equals(user.firstName) &&
+                nickName.equals(user.nickName) &&
+                eMail.equals(user.eMail) &&
+                phone.equals(user.phone);
+    }
 }

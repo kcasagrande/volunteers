@@ -1,15 +1,18 @@
+import org.example.volunteers.Merge;
 import org.example.volunteers.Volunteer;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -17,7 +20,7 @@ public class App {
     public static void main(String[] args) throws IOException {
         Pattern quotes = Pattern.compile("^\"([^\"]*)\"$");
 
-        List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get(args[0])).stream()
+        List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get("src/main/resources/data.csv")).stream()
             .map(string -> Arrays.stream(string.split(";", -1))
             .map(token -> quotes.matcher(token).replaceAll("$1"))
             .collect(toList()))
@@ -25,14 +28,21 @@ public class App {
             .collect(toList());
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
+//        System.out.println(outputVolunteers.stream().map(String::valueOf).collect(Collectors.joining("\n")));
 
-        PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
-        writer.println(outputVolunteers);
+        try (BufferedWriter bf = Files.newBufferedWriter(Paths.get("src/main/resources/output.csv"), StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
+            bf.write(outputVolunteers.stream().map(String::valueOf).collect(Collectors.joining("\n")));
+        }
     }
+
+
 
     private static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
-        return new ArrayList<>(volunteers);
+        Merge mg = new Merge();
+        List<Volunteer> listVolunteers = mg.mergeByPhoneNumber(volunteers);
+        List<Volunteer> listVolunteersBis = mg.mergeByPhoneNumber(listVolunteers);
+        return listVolunteersBis;
     }
 }
