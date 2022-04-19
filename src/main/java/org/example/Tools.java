@@ -19,7 +19,7 @@ public class Tools {
 
     String phoneRemoveChar = removeCaractereSpeciaux(volunteer.phone);
 
-    String phoneRemoveCountryIndex = removeCaractereSpeciaux(phoneRemoveChar);
+    String phoneRemoveCountryIndex = removeCountryIndex(phoneRemoveChar);
 
     String phoneFormat = countNumber(phoneRemoveCountryIndex);
 
