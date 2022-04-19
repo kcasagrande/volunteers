@@ -1,8 +1,8 @@
 import org.example.Format;
+import org.example.Sort;
 import org.example.volunteers.Volunteer;
 
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -32,7 +31,7 @@ public class App {
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
 
-        OutputStream os = new FileOutputStream("src/main/resources/output.csv");
+        OutputStream os = new FileOutputStream("src/main/resources/t.csv");
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
 
         outputVolunteers.forEach(volunteer -> {
@@ -64,6 +63,7 @@ public class App {
 
         formatListVolunteers.sort(comparator);
 
-        return new ArrayList<>(formatListVolunteers);
+        List<Volunteer> SortListVolunteers = Sort.removeDuplicate(formatListVolunteers);
+        return new ArrayList<>(SortListVolunteers);
     }
 }
