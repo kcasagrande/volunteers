@@ -26,13 +26,23 @@ public class App {
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
 
+
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         writer.println(outputVolunteers);
     }
 
-    private static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        // This function should contain your dark magic.
-        // For now, it simply returns a copy of the initial list.
-        return new ArrayList<>(volunteers);
+    public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
+        List<Volunteer> uniqueVolunteers = volunteers;
+        for (int i = 0; i < volunteers.size(); ++i) {
+            for (int u = i+1; u < volunteers.size(); ++u) {
+                if (!uniqueVolunteers.contains(volunteers.get(u))) {
+                    if (volunteers.get(i).compare(volunteers.get(u))) {
+                        uniqueVolunteers.remove(u);
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(uniqueVolunteers);
     }
+
 }
