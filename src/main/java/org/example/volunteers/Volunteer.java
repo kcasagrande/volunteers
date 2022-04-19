@@ -58,6 +58,11 @@ public final class Volunteer {
                 .replace("+33", "0");
     }
 
+    public String formatMail(String eMail){
+        return eMail
+                .toLowerCase();
+    }
+
     public boolean compare(Volunteer user) {
         return this.sameNickname(user.nickName) || (this.sameFirstName(user.firstName) && this.sameLastName(user.lastName)) || this.samePhone(user.phone) || this.sameEmail(user.eMail);
     }
