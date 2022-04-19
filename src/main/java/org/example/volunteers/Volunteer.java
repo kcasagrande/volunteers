@@ -48,4 +48,8 @@ public final class Volunteer {
     public boolean sameNickname(String nickName) {
         return Objects.equals(this.nickName, nickName);
     }
+
+    public boolean compare(Volunteer user) {
+        return this.sameNickname(user.nickName) || (this.sameFirstName(user.firstName) && this.sameLastName(user.lastName)) || this.samePhone(user.phone) || this.sameEmail(user.eMail);
+    }
 }
