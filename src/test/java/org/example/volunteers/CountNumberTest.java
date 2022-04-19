@@ -21,7 +21,8 @@ public class CountNumberTest {
 
   // test si chaine vide renvoi rien (ne doit pas lever d'erreur)..
 
-  // test si moins de 10 charactères mais > 0 => result doit mettre des 000000
+  // test si moins de 10 charactères mais > 8 => result doit mettre des 000 sinon
+  // on supprime
 
   // Suppression des caractères spéciaux des numéros (. , - () etc...)
 
