@@ -16,14 +16,83 @@ public class CountNumberTest {
     String result = Tools.countNumber(number);
 
     // Assert - Then
-    assertEquals(result, "4687946515");
+    assertEquals("4687946515", result);
   }
 
   // test si chaine vide renvoi rien (ne doit pas lever d'erreur)..
+  @Test
+  public void testCountNumber_Empty() {
+    // Arrange - Given
+    String number = "";
 
-  // test si moins de 10 charactères mais > 8 => result doit mettre des 000 sinon
-  // on supprime
+    // Act - When
+    String result = Tools.countNumber(number);
+
+    // Assert - Then
+    assertEquals("", result);
+  }
+
+  // test si moins de 10 charactères mais > 8 => mettre des 00
+  @Test
+  public void testCountNumber_GreaterEightCharButLesserTenChar() {
+    // Arrange - Given
+    String number = "12345678";
+
+    // Act - When
+    String result = Tools.countNumber(number);
+
+    // Assert - Then
+    assertEquals("0012345678", result);
+  }
+
+  // test si moins de 8 caractères => on supprime
+  @Test
+  public void testCountNumber_LesserEightCharRemove() {
+    // Arrange - Given
+    String number = "45678";
+
+    // Act - When
+    String result = Tools.countNumber(number);
+
+    // Assert - Then
+    assertEquals("", result);
+  }
 
   // Suppression des caractères spéciaux des numéros (. , - () etc...)
+  @Test
+  public void testCountNumber_RemoveCaracteres() {
+    // Arrange - Given
+    String number = "02564564,541.1541&&5-12154";
 
+    // Act - When
+    String result = Tools.removeCaractereSpeciaux(number);
+
+    // Assert - Then
+    assertEquals("025645645411541512154", result);
+  }
+
+  @Test
+  public void testCountNumber_RemoveEspaces() {
+    // Arrange - Given
+    String number = " 02564564 541  15415 12154";
+
+    // Act - When
+    String result = Tools.removeEspace(number);
+
+    // Assert - Then
+    assertEquals("025645645411541512154", result);
+  }
+
+  //
+  @Test
+  public void testCountNumber_RemoveCountryIndex() {
+    // Arrange - Given
+    String number = "330102030405";
+
+    // Act - When
+    String result = Tools.removeCountryIndex(number);
+
+    // Assert - Then
+    assertEquals("0102030405", result);
+  }
 }

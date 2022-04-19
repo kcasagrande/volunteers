@@ -1,8 +1,11 @@
 import org.example.Tools;
 import org.example.volunteers.Volunteer;
 
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 public class App {
     public static void main(String[] args) throws IOException {
         Pattern quotes = Pattern.compile("^\"([^\"]*)\"$");
-        Path path = Paths.get(args[0]);
+        Path path = Paths.get("src/main/resources/data.csv");
         List<Volunteer> inputVolunteers = Files.readAllLines(path).stream()
                 .map(string -> Arrays.stream(string.split(";", -1))
                         .map(token -> quotes.matcher(token).replaceAll("$1"))
@@ -27,7 +30,8 @@ public class App {
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
 
-        PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
+        OutputStream os = new FileOutputStream("src/main/resources/output.csv");
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
 
         outputVolunteers.forEach(volunteer -> {
             writer.println(volunteer);

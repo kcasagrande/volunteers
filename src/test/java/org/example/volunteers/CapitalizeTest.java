@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.Tools;
 
-
 import org.junit.jupiter.api.Test;
 
 public class CapitalizeTest {
@@ -24,11 +23,23 @@ public class CapitalizeTest {
     public void testCapitalizeFirstName_EmptyString() {
         // Arrange - Given
         String firstName = "";
-        
+
         // Act - When
         String result = Tools.toCapitalize(firstName);
 
         // Assert - Then
         assertEquals(result, "");
+    }
+
+    @Test
+    public void testCapitalizeFirstName_UppercaseToCapitalize() {
+        // Arrange - Given
+        String firstName = "JOSE";
+
+        // Act - When
+        String result = Tools.toCapitalize(firstName);
+
+        // Assert - Then
+        assertEquals(result, "Jose");
     }
 }

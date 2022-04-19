@@ -24,26 +24,6 @@ public final class Volunteer {
         this.phone = phone;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public String geteMail() {
-        return eMail;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
     // generate all setters
 
     @Override
@@ -51,5 +31,25 @@ public final class Volunteer {
         return Arrays.stream(new String[] { firstName, lastName, nickName, eMail, phone })
                 .map(attribute -> String.format("\"%s\"", attribute))
                 .collect(joining(";"));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Volunteer volunteer = (Volunteer) o;
+
+        if (!firstName.equals(volunteer.firstName))
+            return false;
+        if (!lastName.equals(volunteer.lastName))
+            return false;
+        if (!nickName.equals(volunteer.nickName))
+            return false;
+        if (!eMail.equals(volunteer.eMail))
+            return false;
+        return phone.equals(volunteer.phone);
     }
 }
