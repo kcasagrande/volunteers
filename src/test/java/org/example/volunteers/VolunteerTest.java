@@ -70,6 +70,13 @@ public class VolunteerTest {
         assertEquals(expected, volunteer.formatPhone(volunteer.phone));
     }
 
+    @Test
+    public void formatMailTest(){
+        Volunteer volunteer = new Volunteer("", "", "", "DidierTet@example.com", "");
+        String expected = "didiertet@example.com";
+        assertEquals(expected, volunteer.formatMail(volunteer.eMail));
+    }
+
     //    Line Creation
 
     @Test
