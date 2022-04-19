@@ -1,4 +1,4 @@
-import org.example.Tools;
+import org.example.Format;
 import org.example.volunteers.Volunteer;
 
 import java.io.FileOutputStream;
@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -25,7 +27,7 @@ public class App {
                 .map(string -> Arrays.stream(string.split(";", -1))
                         .map(token -> quotes.matcher(token).replaceAll("$1"))
                         .collect(toList()))
-                .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
+                .map(tokens -> new Volunteer(tokens.get(1), tokens.get(0), tokens.get(2), tokens.get(3), tokens.get(4)))
                 .collect(toList());
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
@@ -47,7 +49,7 @@ public class App {
 
         // format the output volunteer with Uppercase, ten phone number, etc ...
         volunteers.forEach(volunteer -> {
-            formatListVolunteers.add(Tools.toFormatVolunteer(volunteer));
+            formatListVolunteers.add(Format.toFormatVolunteer(volunteer));
         });
 
         // vérifie si plusieurs fois email
@@ -55,6 +57,12 @@ public class App {
         // vérifie si plusieurs fois téléphone
 
         // demandé si plusieurs fois le même nom prénom ?
+
+        Comparator<Volunteer> comparator = Comparator.comparing(Volunteer::getLastName)
+                .thenComparing(Volunteer::getFirstName)
+                .thenComparing(Volunteer::geteMail);
+
+        formatListVolunteers.sort(comparator);
 
         return new ArrayList<>(formatListVolunteers);
     }

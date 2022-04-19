@@ -3,7 +3,7 @@ package org.example.volunteers;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.example.Tools;
+import org.example.Format;
 
 public class CountNumberTest {
 
@@ -13,7 +13,7 @@ public class CountNumberTest {
     String number = "0325654687946515";
 
     // Act - When
-    String result = Tools.countNumber(number);
+    String result = Format.countNumber(number);
 
     // Assert - Then
     assertEquals("4687946515", result);
@@ -26,7 +26,7 @@ public class CountNumberTest {
     String number = "";
 
     // Act - When
-    String result = Tools.countNumber(number);
+    String result = Format.countNumber(number);
 
     // Assert - Then
     assertEquals("", result);
@@ -39,7 +39,7 @@ public class CountNumberTest {
     String number = "12345678";
 
     // Act - When
-    String result = Tools.countNumber(number);
+    String result = Format.countNumber(number);
 
     // Assert - Then
     assertEquals("0012345678", result);
@@ -52,7 +52,7 @@ public class CountNumberTest {
     String number = "45678";
 
     // Act - When
-    String result = Tools.countNumber(number);
+    String result = Format.countNumber(number);
 
     // Assert - Then
     assertEquals("", result);
@@ -65,7 +65,7 @@ public class CountNumberTest {
     String number = "02564564,541.1541&&5-12154";
 
     // Act - When
-    String result = Tools.removeCaractereSpeciaux(number);
+    String result = Format.removeCaractereSpeciaux(number);
 
     // Assert - Then
     assertEquals("025645645411541512154", result);
@@ -77,7 +77,7 @@ public class CountNumberTest {
     String number = " 02564564 541  15415 12154";
 
     // Act - When
-    String result = Tools.removeEspace(number);
+    String result = Format.removeEspace(number);
 
     // Assert - Then
     assertEquals("025645645411541512154", result);
@@ -90,7 +90,7 @@ public class CountNumberTest {
     String number = "330102030405";
 
     // Act - When
-    String result = Tools.removeCountryIndex(number);
+    String result = Format.removeCountryIndex(number);
 
     // Assert - Then
     assertEquals("0102030405", result);

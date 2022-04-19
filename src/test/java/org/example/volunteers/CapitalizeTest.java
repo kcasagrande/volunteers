@@ -2,7 +2,7 @@ package org.example.volunteers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.example.Tools;
+import org.example.Format;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ public class CapitalizeTest {
         // Arrange - Given
         String firstName = "john";
         // Act - When
-        String result = Tools.toCapitalize(firstName);
+        String result = Format.toCapitalize(firstName);
 
         // Assert - Then
         assertEquals(result, "John");
@@ -25,7 +25,7 @@ public class CapitalizeTest {
         String firstName = "";
 
         // Act - When
-        String result = Tools.toCapitalize(firstName);
+        String result = Format.toCapitalize(firstName);
 
         // Assert - Then
         assertEquals(result, "");
@@ -37,7 +37,7 @@ public class CapitalizeTest {
         String firstName = "JOSE";
 
         // Act - When
-        String result = Tools.toCapitalize(firstName);
+        String result = Format.toCapitalize(firstName);
 
         // Assert - Then
         assertEquals(result, "Jose");

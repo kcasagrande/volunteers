@@ -24,7 +24,22 @@ public final class Volunteer {
         this.phone = phone;
     }
 
-    // generate all setters
+    // generate all getters
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
 
     @Override
     public String toString() {

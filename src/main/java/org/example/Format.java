@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 import org.example.volunteers.Volunteer;
 
-public class Tools {
+public class Format {
 
   public static Volunteer toFormatVolunteer(Volunteer volunteer) {
 
