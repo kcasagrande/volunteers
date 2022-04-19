@@ -17,7 +17,9 @@ public class Tools {
     // mettre en forme l'email
     String emailFormat = volunteer.eMail.toLowerCase();
 
-    String phoneRemoveChar = removeCaractereSpeciaux(volunteer.phone);
+    String phoneRemoveEspace = removeEspace(volunteer.phone);
+
+    String phoneRemoveChar = removeCaractereSpeciaux(phoneRemoveEspace);
 
     String phoneRemoveCountryIndex = removeCountryIndex(phoneRemoveChar);
 
