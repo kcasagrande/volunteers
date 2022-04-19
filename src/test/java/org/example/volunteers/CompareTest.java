@@ -15,22 +15,6 @@ class CompareTest {
 	}
 
 	@Test
-	void compareSlightlySameEmails() {
-		String email1 = "Hugo@denis.fr";
-		String email2 = "Huga@denis.com";
-
-		Assertions.assertEquals(Compare.compareMails(email1, email2), true);
-	}
-
-	@Test
-	void compareSlightlyDifferentEmails() {
-		String email1 = "Hugo@denis.fr";
-		String email2 = "Hufa@denis.com";
-
-		Assertions.assertEquals(Compare.compareMails(email1, email2), false);
-	}
-
-	@Test
 	void compareStrictlyDifferentEmails() {
 		String email1 = "Hugo@denis.fr";
 		String email2 = "yhomas@Fiak.com";
@@ -72,14 +56,14 @@ class CompareTest {
 
 	@Test
 	void compareSlightlySameStrings() {
-		String string1 = "a string";
-		String string2 = "a ztrunk";
+		String string1 = "astring";
+		String string2 = "aSTRINg";
 
 		Assertions.assertEquals(Compare.compareStrings(string1, string2), true);
 	}
 
 	@Test
-	void compareSameStrings() {
+	void compareDifferentStrings() {
 		String string1 = "a string";
 		String string2 = "another string";
 

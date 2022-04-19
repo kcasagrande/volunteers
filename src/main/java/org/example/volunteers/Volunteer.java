@@ -2,6 +2,7 @@ package org.example.volunteers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.joining;
 
@@ -26,6 +27,19 @@ public final class Volunteer {
         this.phone = phone;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Volunteer volunteer = (Volunteer) o;
+        return firstName.equals(volunteer.firstName) && lastName.equals(volunteer.lastName) && nickName.equals(volunteer.nickName) && eMail.equals(volunteer.eMail) && phone.equals(volunteer.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, nickName, eMail, phone);
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -46,6 +60,7 @@ public final class Volunteer {
         return phone;
     }
 
+
     @Override
     public String toString() {
         return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
@@ -53,13 +68,16 @@ public final class Volunteer {
             .collect(joining(";"));
     }
 
-    public Boolean compare(Volunteer volunteer) {
-        return (
-            Compare.compareMails(this.eMail, volunteer.eMail) &&
-            Compare.comparePhones(this.phone, volunteer.phone) &&
-            Compare.compareStrings(this.firstName, volunteer.firstName) &&
-            Compare.compareStrings(this.lastName, volunteer.lastName) &&
-            Compare.compareStrings(this.nickName, volunteer.nickName)
-        );
+    public Boolean isSame(Volunteer volunteer) {
+
+        boolean infosAreTheSame = Compare.compareStrings(this.firstName, volunteer.firstName) &&
+                Compare.compareStrings(this.lastName, volunteer.lastName) &&
+                Compare.compareStrings(this.nickName, volunteer.nickName);
+
+        if (infosAreTheSame) {
+            return true;
+        } else {
+            return Compare.compareMails(this.eMail, volunteer.eMail) || Compare.comparePhones(this.phone, volunteer.phone);
+        }
     }
 }

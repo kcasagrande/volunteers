@@ -28,16 +28,17 @@ public class App {
 
 
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
-        writer.println(outputVolunteers);
+        outputVolunteers.forEach(writer::println);
+        writer.close();
     }
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        List<Volunteer> uniqueVolunteers = volunteers;
-        for (int i = 0; i < volunteers.size(); ++i) {
-            for (int u = i+1; u < volunteers.size(); ++u) {
-                if (!uniqueVolunteers.contains(volunteers.get(u))) {
-                    if (volunteers.get(i).compare(volunteers.get(u))) {
-                        uniqueVolunteers.remove(u);
+        List<Volunteer> uniqueVolunteers = new ArrayList<>(volunteers);
+        for (int i = 0; i < volunteers.size() - 1; i++) {
+            for (int u = i + 1; u < volunteers.size(); u++) {
+                if (uniqueVolunteers.contains(volunteers.get(u))) {
+                    if (volunteers.get(i).isSame(volunteers.get(u))) {
+                        uniqueVolunteers.remove(volunteers.get(u));
                     }
                 }
             }
