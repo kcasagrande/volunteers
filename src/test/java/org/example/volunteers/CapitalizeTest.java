@@ -1,8 +1,11 @@
 package org.example.volunteers;
 
-import org.junit.jupiter.api.*;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.example.Tools;
+
+
+import org.junit.jupiter.api.Test;
 
 public class CapitalizeTest {
 
@@ -10,7 +13,6 @@ public class CapitalizeTest {
     public void testCapitalizeFirstName() {
         // Arrange - Given
         String firstName = "john";
-
         // Act - When
         String result = Tools.toCapitalize(firstName);
 

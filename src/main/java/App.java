@@ -1,3 +1,4 @@
+import org.example.Tools;
 import org.example.volunteers.Volunteer;
 
 import java.io.FileWriter;
@@ -30,15 +31,21 @@ public class App {
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
 
         outputVolunteers.forEach(volunteer -> {
-            writer.println(Tools.toFormatVolunteer(volunteer));
+            writer.println(volunteer);
         });
-        // writer.println(outputVolunteers);
+
         writer.close();
     }
 
     private static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
-        return new ArrayList<>(volunteers);
+        List<Volunteer> formatListVolunteers = new ArrayList<Volunteer>();
+
+        volunteers.forEach(volunteer -> {
+            formatListVolunteers.add(Tools.toFormatVolunteer(volunteer));
+        });
+
+        return new ArrayList<>(formatListVolunteers);
     }
 }

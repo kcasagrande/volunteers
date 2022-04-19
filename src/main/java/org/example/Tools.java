@@ -1,3 +1,5 @@
+package org.example;
+
 import org.example.volunteers.Volunteer;
 
 public class Tools {
@@ -14,25 +16,28 @@ public class Tools {
     String emailFormat = volunteer.eMail.toLowerCase();
 
     // mettre en forme le nickName
+    String nickNameFormat = toCapitalize(volunteer.nickName);
 
-    String nickNameFormat = 
     // mettre en forme le phone
+    String phoneFormat = formatPhone(volunteer.phone);
 
-    String telFormat =
-
-    return new Volunteer(firstNameFormat, lastNameFormat, nickName, emailFormat, phone);
+    return new Volunteer(firstNameFormat, lastNameFormat, nickNameFormat, emailFormat, phoneFormat);
   }
 
   public static String toCapitalize(String text) {
     return text.substring(0, 1).toUpperCase() + text.substring(1);
   }
 
-  public static String toCapitalize(String text) {
-    return ""
+  public static String formatNickName(String nickName) {
+    return "";
   }
 
-  public static String toCapitalize(String text) {
-    return ""
+  public static String formatPhone(String phone) {
+    return "";
+  }
+
+  public static String countNumber(String numberString) {
+    return "";
   }
 
 }

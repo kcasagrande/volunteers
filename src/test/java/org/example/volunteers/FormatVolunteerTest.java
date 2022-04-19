@@ -13,6 +13,7 @@ public class FormatVolunteerTest {
     // Act - When
 
     // Assert - Then
-    assertEquals()  }
+
+  }
 
 }
