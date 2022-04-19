@@ -5,23 +5,34 @@ public class Tools {
   public static Volunteer toFormatVolunteer(Volunteer volunteer) {
 
     // mettre en forme le nom de famille
-    volunteer.lastName = volunteer.lastName.toUpperCase();
+    String lastNameFormat = volunteer.lastName.toUpperCase();
 
     // mettre en forme le prenom
-    volunteer.firstName = toCapitalize(volunteer.firstName);
+    String firstNameFormat = toCapitalize(volunteer.firstName);
 
     // mettre en forme l'email
-    volunteer.eMail = volunteer.eMail.toLowerCase();
+    String emailFormat = volunteer.eMail.toLowerCase();
 
     // mettre en forme le nickName
 
+    String nickNameFormat = 
     // mettre en forme le phone
 
-    return volunteer;
+    String telFormat =
+
+    return new Volunteer(firstNameFormat, lastNameFormat, nickName, emailFormat, phone);
   }
 
   public static String toCapitalize(String text) {
     return text.substring(0, 1).toUpperCase() + text.substring(1);
+  }
+
+  public static String toCapitalize(String text) {
+    return ""
+  }
+
+  public static String toCapitalize(String text) {
+    return ""
   }
 
 }
