@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -42,9 +41,16 @@ public class App {
         // For now, it simply returns a copy of the initial list.
         List<Volunteer> formatListVolunteers = new ArrayList<Volunteer>();
 
+        // format the output volunteer with Uppercase, ten phone number, etc ...
         volunteers.forEach(volunteer -> {
             formatListVolunteers.add(Tools.toFormatVolunteer(volunteer));
         });
+
+        // vérifie si plusieurs fois email
+
+        // vérifie si plusieurs fois téléphone
+
+        // demandé si plusieurs fois le même nom prénom ?
 
         return new ArrayList<>(formatListVolunteers);
     }

@@ -25,11 +25,9 @@ public class Tools {
   }
 
   public static String toCapitalize(String text) {
+    if (text.isBlank() || text.isEmpty())
+      return "";
     return text.substring(0, 1).toUpperCase() + text.substring(1);
-  }
-
-  public static String formatNickName(String nickName) {
-    return "";
   }
 
   public static String formatPhone(String phone) {
@@ -37,7 +35,7 @@ public class Tools {
   }
 
   public static String countNumber(String numberString) {
-    return "";
+    return numberString.substring(numberString.length() - 10);
   }
 
 }

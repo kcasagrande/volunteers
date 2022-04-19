@@ -20,4 +20,15 @@ public class CapitalizeTest {
         assertEquals(result, "John");
     }
 
+    @Test
+    public void testCapitalizeFirstName_EmptyString() {
+        // Arrange - Given
+        String firstName = "";
+        
+        // Act - When
+        String result = Tools.toCapitalize(firstName);
+
+        // Assert - Then
+        assertEquals(result, "");
+    }
 }

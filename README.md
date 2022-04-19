@@ -26,15 +26,15 @@ Fabrice
 
 1 - FORMATAGE DES DONNEES :
 
-- Formatter correctement chaque ligne
+- Formatter correctement chaque ligne ✔️
 
-- Récupère les noms on les mets en majuscules
+- Récupère les noms on les mets en majuscules ✔️
 
-- Récupère les prenoms on mets avec la premiere lettre en majuscule
+- Récupère les prenoms on mets avec la premiere lettre en majuscule ✔️
 
-- Nick name on mets  la premiere lettre en majuscule
+- Nick name on mets la premiere lettre en majuscule ✔️
 
-- on récupère les emails on met tout en minuscule
+- on récupère les emails on met tout en minuscule ✔️
 
 - récupère le numéro et on compte 10 chiffres à partir de la fin, si pas de chiffre complète par 0
 

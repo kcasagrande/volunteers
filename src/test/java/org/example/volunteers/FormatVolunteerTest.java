@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FormatVolunteerTest {
 
-  @Test
-  public void testCapitalizeFirstName() {
+  // @Test
+  public void testFormatVolunteer() {
     // Arrange - Given
 
     // Act - When
