@@ -1,6 +1,7 @@
 package org.example.volunteers;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.joining;
 
@@ -30,5 +31,21 @@ public final class Volunteer {
         return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
             .map(attribute -> String.format("\"%s\"", attribute))
             .collect(joining(";"));
+    }
+
+    public boolean sameEmail(String email) {
+        return Objects.equals(this.eMail, email);
+    }
+    public boolean sameFirstName(String firstName) {
+        return Objects.equals(this.firstName, firstName);
+    }
+    public boolean sameLastName(String lastName) {
+        return Objects.equals(this.lastName, lastName);
+    }
+    public boolean samePhone(String phone) {
+        return Objects.equals(this.phone, phone);
+    }
+    public boolean sameNickname(String nickName) {
+        return Objects.equals(this.nickName, nickName);
     }
 }
