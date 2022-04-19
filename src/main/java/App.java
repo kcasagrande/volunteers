@@ -1,3 +1,4 @@
+import org.example.volunteers.Cleaner;
 import org.example.volunteers.Volunteer;
 
 import java.io.FileWriter;
@@ -24,15 +25,10 @@ public class App {
             .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
             .collect(toList());
 
-        List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
+        List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
 
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
-        writer.println(outputVolunteers);
-    }
-
-    private static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        // This function should contain your dark magic.
-        // For now, it simply returns a copy of the initial list.
-        return new ArrayList<>(volunteers);
+        outputVolunteers.forEach(writer::println);
+        writer.close();
     }
 }
