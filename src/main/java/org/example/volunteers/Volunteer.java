@@ -13,8 +13,8 @@ public final class Volunteer {
     public final String phone;
 
     public Volunteer(
-        String firstName,
         String lastName,
+        String firstName,
         String nickName,
         String eMail,
         String phone
@@ -23,7 +23,7 @@ public final class Volunteer {
         this.lastName = lastName;
         this.nickName = nickName;
         this.eMail = eMail;
-        this.phone = phone;
+        this.phone = this.formatPhone(phone);
     }
 
     @Override
@@ -34,19 +34,28 @@ public final class Volunteer {
     }
 
     public boolean sameEmail(String email) {
-        return Objects.equals(this.eMail, email);
+        return this.eMail.equals(email);
     }
     public boolean sameFirstName(String firstName) {
-        return Objects.equals(this.firstName, firstName);
+        return this.firstName.equals(firstName);
     }
     public boolean sameLastName(String lastName) {
-        return Objects.equals(this.lastName, lastName);
+        return this.lastName.equals(lastName);
     }
     public boolean samePhone(String phone) {
-        return Objects.equals(this.phone, phone);
+        return Objects.equals(formatPhone(this.phone), formatPhone(phone));
     }
     public boolean sameNickname(String nickName) {
-        return Objects.equals(this.nickName, nickName);
+        return this.nickName.equals(nickName);
+    }
+
+    public String formatPhone(String phone){
+        return phone
+                .replace(" ", "")
+                .replace(".", "")
+                .replace("-", "")
+                .replace("+33(0)", "0")
+                .replace("+33", "0");
     }
 
     public boolean compare(Volunteer user) {
