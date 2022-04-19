@@ -19,10 +19,10 @@ public final class Volunteer {
         String eMail,
         String phone
     ) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.nickName = nickName;
-        this.eMail = eMail;
+        this.firstName = this.formatString(firstName);
+        this.lastName = this.formatString(lastName);
+        this.nickName = this.formatString(nickName);
+        this.eMail = this.formatString(eMail);
         this.phone = this.formatPhone(phone);
     }
 
@@ -34,19 +34,19 @@ public final class Volunteer {
     }
 
     public boolean sameEmail(String email) {
-        return this.eMail.equals(email);
+        return Objects.equals(formatString(this.eMail), formatString(email));
     }
     public boolean sameFirstName(String firstName) {
-        return this.firstName.equals(firstName);
+        return Objects.equals(formatString(this.firstName), formatString(firstName));
     }
     public boolean sameLastName(String lastName) {
-        return this.lastName.equals(lastName);
+        return Objects.equals(formatString(this.lastName), formatString(lastName));
     }
     public boolean samePhone(String phone) {
         return Objects.equals(formatPhone(this.phone), formatPhone(phone));
     }
     public boolean sameNickname(String nickName) {
-        return this.nickName.equals(nickName);
+        return Objects.equals(formatString(this.nickName), formatString(nickName));
     }
 
     public String formatPhone(String phone){
@@ -58,8 +58,8 @@ public final class Volunteer {
                 .replace("+33", "0");
     }
 
-    public String formatMail(String eMail){
-        return eMail
+    public String formatString(String string){
+        return string
                 .toLowerCase();
     }
 
