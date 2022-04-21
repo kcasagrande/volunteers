@@ -82,18 +82,6 @@ public class Duplicate {
                     v1.parsedPhoneNumber().equals(v2.parsedPhoneNumber())
                 )
                 {
-                    /*if(v1.eMail.equals("") && !v2.eMail.equals("")) {
-                        v1.eMail = v2.eMail;
-                    }
-                    if(!v1.eMail.equals("") && !v2.eMail.equals("")) {
-                        if (!v1.eMail.equals(v2.eMail)) {
-                            v1.eMail = v1.eMail + " " + v2.eMail;
-                        }
-                    }
-                    if(v1.nickName.equals("") && !v2.nickName.equals("")) {
-                        v1.nickName = v2.nickName;
-                    }*/
-
                     // add first instance if first duplicate
                     if (isFirst) {
                         currentSimilar.add(v1);
