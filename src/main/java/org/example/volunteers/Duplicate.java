@@ -63,22 +63,26 @@ public class Duplicate {
     public static List<Volunteer> duplicateByLevenshtein(List<Volunteer> volunteers)
     {
         List<Volunteer> newVolunteers = new ArrayList<>();
+        List<List<Volunteer>> similarVolunteers = new ArrayList<>();
 
         for (int i = 0; i < volunteers.size(); i++)
         {
             Volunteer v1 = volunteers.get(i);
+            List<Volunteer> currentSimilar = new ArrayList<>();
+            boolean isFirst = true;
+
             for (int j = i + 1; j < volunteers.size(); j++)
             {
                 Volunteer v2 = volunteers.get(j);
 
                 // check first name and last name similarities and phone numbers
                 if (
-                        Levenshtein.isSimilar(v1.firstName.toUpperCase(), v2.firstName.toUpperCase(), Volunteer.SIMILARITY_ACCEPTANCE) &&
-                                Levenshtein.isSimilar(v1.lastName.toUpperCase(), v2.lastName.toUpperCase(), Volunteer.SIMILARITY_ACCEPTANCE) &&
-                                v1.parsedPhoneNumber().equals(v2.parsedPhoneNumber())
+                    Levenshtein.isSimilar(v1.firstName.toUpperCase(), v2.firstName.toUpperCase(), Volunteer.SIMILARITY_ACCEPTANCE) &&
+                    Levenshtein.isSimilar(v1.lastName.toUpperCase(), v2.lastName.toUpperCase(), Volunteer.SIMILARITY_ACCEPTANCE) &&
+                    v1.parsedPhoneNumber().equals(v2.parsedPhoneNumber())
                 )
                 {
-                    if(v1.eMail.equals("") && !v2.eMail.equals("")) {
+                    /*if(v1.eMail.equals("") && !v2.eMail.equals("")) {
                         v1.eMail = v2.eMail;
                     }
                     if(!v1.eMail.equals("") && !v2.eMail.equals("")) {
@@ -88,17 +92,54 @@ public class Duplicate {
                     }
                     if(v1.nickName.equals("") && !v2.nickName.equals("")) {
                         v1.nickName = v2.nickName;
+                    }*/
+
+                    // add first instance if first duplicate
+                    if (isFirst) {
+                        currentSimilar.add(v1);
+                        isFirst = false;
                     }
+
+                    currentSimilar.add(v2);
                     volunteers.remove(v2);
-                    newVolunteers.add(v1);
-                    break;
-                }
-                else // not the same
-                {
-                    newVolunteers.add(v1);
+                    //break;
                 }
             }
+
+            if (currentSimilar.size() > 0)
+            {
+                similarVolunteers.add(currentSimilar);
+            }
+            else
+            {
+                newVolunteers.add(v1);
+            }
+
         }
+
+        for (List<Volunteer> listVolunteers : similarVolunteers)
+        {
+            Volunteer v = listVolunteers.get(0);
+            for (Volunteer volunteer : listVolunteers)
+            {
+                if (v.eMail.equals("") && !volunteer.eMail.equals("")) {
+                    v.eMail = volunteer.eMail;
+                }
+
+                if (!v.eMail.equals("") && !volunteer.eMail.equals("")) {
+                    if (!v.eMail.equals(volunteer.eMail)) {
+                        v.eMail = v.eMail + " " + volunteer.eMail;
+                    }
+                }
+
+                if (v.nickName.equals("") && !volunteer.nickName.equals("")) {
+                    v.nickName = volunteer.nickName;
+                }
+            }
+
+            newVolunteers.add(v);
+        }
+
         return newVolunteers;
     }
 }
