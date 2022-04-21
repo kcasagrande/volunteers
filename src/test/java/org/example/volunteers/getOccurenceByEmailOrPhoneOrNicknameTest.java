@@ -124,7 +124,7 @@ public class getOccurenceByEmailOrPhoneOrNicknameTest {
 
     List<Volunteer> volunteers = Arrays.asList(
         new Volunteer("Frog", "MAN", "Doujésu", "gaylord.manaudou@example.org", "0065555794"),
-        new Volunteer("Gayyyylord", "MANAU DOU", "", "gaylord.manaudou@example.fr", "0065555744"),
+        new Volunteer("Gayyyylord", "MANAU DOU", "", "bibi.lolo@example.fr", "0067555744"),
         new Volunteer("John", "DOE", "", "John.DOE@example.org", "0065555614"));
 
     // Act - When

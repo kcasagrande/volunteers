@@ -12,6 +12,9 @@ public class Compare {
 
   public static int compareTo(String strA, String strB) {
 
+    if (strA.isBlank() && strB.isBlank()) {
+      return 999999;
+    }
     strA = Format.removeEspace(strA);
     strB = Format.removeEspace(strB);
     LevenshteinDistance ld = new LevenshteinDistance();

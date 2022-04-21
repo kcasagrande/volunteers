@@ -3,6 +3,7 @@ package org.example;
 import java.util.List;
 import org.example.volunteers.Volunteer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Sort {
 
@@ -19,6 +20,8 @@ public class Sort {
   }
 
   public static List<Volunteer> getOccurenceByCompletName(Volunteer volunteer, List<Volunteer> volunteers) {
+    if (volunteer.firstName.isBlank() && volunteer.lastName.isBlank())
+      return Arrays.asList(volunteer);
     List<Volunteer> result = new ArrayList<>();
     for (Volunteer vol : volunteers) {
       if (Compare.compareTo(volunteer.firstName + volunteer.lastName, vol.firstName + vol.lastName) <= 2) {
@@ -34,13 +37,13 @@ public class Sort {
     List<Volunteer> result = new ArrayList<>();
     for (Volunteer vol : volunteers) {
       if (Compare.compareTo(volunteer.eMail, vol.eMail) <= NUMBER_OF_ERRORS_OF_EMAIL
-          || Compare.compareTo(volunteer.phone, vol.phone) == 0) {
-        // || Compare.compareTo(volunteer.nickName, vol.nickName) == 0) {
+          || Compare.compareTo(volunteer.phone, vol.phone) == 0
+          || Compare.compareTo(volunteer.nickName, vol.nickName) == 0) {
 
-        if (volunteer.eMail == "" && vol.eMail == "")
-          continue;
-        if (volunteer.phone == "" && vol.phone == "")
-          continue;
+        // if (volunteer.eMail == "" && vol.eMail == "")
+        // continue;
+        // if (volunteer.phone == "" && vol.phone == "")
+        // continue;
         // if (volunteer.nickName == "" && vol.nickName == "")
         // continue;
         result.add(vol);
@@ -71,11 +74,11 @@ public class Sort {
       List<Volunteer> volunteersByEmailOrPhone = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer,
           volunteersByCompletName);
       if (volunteersByEmailOrPhone.size() == 1) {
-        if (listVolunteerAlreadyAdd.contains(volunteersByEmailOrPhone.get(0)))
+        if (listVolunteerAlreadyAdd.contains(volunteer))
           return;
 
-        listVolunteerAlreadyAdd.add(volunteersByEmailOrPhone.get(0));
         listVolunteerAlreadyAdd.addAll(volunteersByCompletName);
+        result.add(volunteersByEmailOrPhone.get(0));
         return;
       }
 
@@ -88,6 +91,10 @@ public class Sort {
         return;
       listVolunteerAlreadyAdd.addAll(volunteersByCompletName);
       // si il existe on ne l'ajoute pas
+      if (volunteer.firstName.isBlank()
+          && volunteer.lastName.isBlank()) {
+        System.out.println("");
+      }
       result.add(volunterFusion);
     });
 
