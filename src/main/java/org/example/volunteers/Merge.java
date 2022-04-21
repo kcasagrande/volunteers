@@ -18,7 +18,11 @@ public class Merge {
             if (!searchedNames.contains(firstname + lastname)) {
                 while (i2 < users.size()) {
                     if (lastname.equalsIgnoreCase(users.get(i2).lastName)
-                            && firstname.equalsIgnoreCase(users.get(i2).firstName)) {
+                            && firstname.equalsIgnoreCase(users.get(i2).firstName)
+                            || JaroWinklerDistance.compute(firstname, users.get(i2).firstName) > 0.7 && JaroWinklerDistance.compute(lastname, users.get(i2).lastName) > 0.7
+                    ) {
+
+
                         if (username.equals("")) {
                             username = users.get(i2).nickName;
                         }
