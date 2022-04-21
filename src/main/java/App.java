@@ -51,22 +51,15 @@ public class App {
             formatListVolunteers.add(Format.toFormatVolunteer(volunteer));
         });
 
-        // vérifie si plusieurs fois email
-
-        // vérifie si plusieurs fois téléphone
-
-        // demandé si plusieurs fois le même nom prénom ?
-
         Comparator<Volunteer> comparator = Comparator.comparing(Volunteer::getLastName)
                 .thenComparing(Volunteer::getFirstName)
                 .thenComparing(Volunteer::geteMail);
 
         formatListVolunteers.sort(comparator);
 
-        // var UniqueVolunter= new List unique volontaire
-        // Sort.getUniqueVolunteer(UniqueVolunter,formatListVolunteers)
 
         List<Volunteer> SortListVolunteers = Sort.removeDuplicate(formatListVolunteers);
-        return new ArrayList<>(SortListVolunteers);
+        List<Volunteer> uniqueListVolunteers = Sort.getUniqueVolunteer(SortListVolunteers);
+        return Sort.removeDuplicate(uniqueListVolunteers);
     }
 }
