@@ -89,6 +89,13 @@ class AppTest {
 
 		List<Volunteer> cleanedList = App.cleanUp(testList);
 		testList.remove(1);
+		testList.set(0,new Volunteer(
+				"Hugo",
+				"Denis",
+				"Hugden",
+				"HUGO@denis.fr",
+				"+330645342321"
+		));
 		Assertions.assertEquals(testList, cleanedList);
 	}
 

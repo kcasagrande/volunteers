@@ -1,4 +1,5 @@
 import org.example.volunteers.VolunteerCompare;
+import org.example.volunteers.VolunteerMerge;
 import org.example.volunteers.entity.Volunteer;
 
 import java.io.FileWriter;
@@ -31,6 +32,15 @@ public class App {
         writer.close();
     }
 
+    private static int findIndex(List<Volunteer> list, Volunteer volunteer) {
+        for (int i = 0; i < list.size(); i++) {
+            if (VolunteerCompare.isSame(list.get(i), volunteer)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         List<Volunteer> uniqueVolunteers = new ArrayList<>(volunteers);
 
@@ -38,6 +48,10 @@ public class App {
             for (int u = i + 1; u < volunteers.size(); u++) {
                 if (uniqueVolunteers.contains(volunteers.get(u))) {
                     if (VolunteerCompare.isSame(volunteers.get(i), volunteers.get(u))) {
+                        uniqueVolunteers.set(
+                            findIndex(uniqueVolunteers, volunteers.get(i)),
+                            VolunteerMerge.merge(volunteers.get(u), volunteers.get(i))
+                        );
                         uniqueVolunteers.remove(volunteers.get(u));
                     }
                 }
