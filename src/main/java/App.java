@@ -1,4 +1,5 @@
-import org.example.volunteers.Volunteer;
+import org.example.volunteers.VolunteerCompare;
+import org.example.volunteers.entity.Volunteer;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -26,7 +26,6 @@ public class App {
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
 
-
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         outputVolunteers.forEach(writer::println);
         writer.close();
@@ -34,10 +33,11 @@ public class App {
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         List<Volunteer> uniqueVolunteers = new ArrayList<>(volunteers);
+
         for (int i = 0; i < volunteers.size() - 1; i++) {
             for (int u = i + 1; u < volunteers.size(); u++) {
                 if (uniqueVolunteers.contains(volunteers.get(u))) {
-                    if (volunteers.get(i).isSame(volunteers.get(u))) {
+                    if (VolunteerCompare.isSame(volunteers.get(i), volunteers.get(u))) {
                         uniqueVolunteers.remove(volunteers.get(u));
                     }
                 }

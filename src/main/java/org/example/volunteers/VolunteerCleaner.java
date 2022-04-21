@@ -1,19 +1,18 @@
 package org.example.volunteers;
 
+import org.example.volunteers.entity.Volunteer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class VolunteerCleaner {
-    private final Volunteer volunteer;
+	private final Volunteer volunteer;
 
-    public VolunteerCleaner(Volunteer volunteer) {
-        this.volunteer = volunteer;
-    }
+	public VolunteerCleaner(Volunteer volunteer) {
+		this.volunteer = volunteer;
+	}
 
-    public int countUsers(@NotNull List<String> usersList) {
-        return usersList.size();
-    }
-
-
+	public int countUsers(@NotNull List<String> usersList) {
+		return usersList.size();
+	}
 }
