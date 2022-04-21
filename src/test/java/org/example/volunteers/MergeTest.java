@@ -95,4 +95,15 @@ public class MergeTest {
         listExpected.add(listExpected.size(), new Volunteer("To","To","Max","erg@fe.com",""));
         assertEquals(listExpected, finalListUser);
     }
+    @Test
+    public void mergeBlankNameTest() {
+        List<Volunteer> listUser = new ArrayList<>();
+        listUser.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org","3307837821"));
+        listUser.add(listUser.size(), new Volunteer("","Laurens","","muriel.laurens@example.org","3307837821"));
+        Merge duplicate = new Merge();
+        List<Volunteer> finalListUser = duplicate.mergeByName(listUser);
+        List<Volunteer> listExpected = new ArrayList<>();
+        listExpected.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org","3307837821"));
+        assertEquals(listExpected, finalListUser);
+    }
 }

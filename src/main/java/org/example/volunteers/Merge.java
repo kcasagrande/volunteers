@@ -5,19 +5,50 @@ import java.util.*;
 public class Merge {
 
     public List<Volunteer> mergeByName(List<Volunteer> users) {
-        List<Volunteer> newUsers = new ArrayList<>();
         Map<String,Volunteer> newUsersMap = new LinkedHashMap<>();
         List<Map<String,String>> searchedNames = new ArrayList<>();
+        List<String> searchedPhones = new ArrayList<>();
+        List<String> searchedEmails = new ArrayList<>();
 
         for (int i = 0; i < users.size(); i++) {
             int i2 = i;
             String lastname = users.get(i).lastName.toLowerCase(Locale.ROOT);
             String firstname = users.get(i).firstName.toLowerCase(Locale.ROOT);
             String username = users.get(i).nickName;
-            ArrayList<String> emailList = !users.get(i).eMail.equals("") ? new ArrayList<>(Collections.singleton(users.get(i).eMail)) : new ArrayList<>();
-            ArrayList<String> phoneList = !users.get(i).phone.equals("") ? new ArrayList<>(Collections.singleton(users.get(i).phone)) : new ArrayList<>();
+            ArrayList<String> emailList = !users.get(i).eMail.isEmpty() ? new ArrayList<>(Collections.singleton(users.get(i).eMail)) : new ArrayList<>();
+            ArrayList<String> phoneList = !users.get(i).phone.isEmpty() ? new ArrayList<>(Collections.singleton(users.get(i).phone)) : new ArrayList<>();
             boolean isDuplicate = false;
-            for(Map searchedName : searchedNames) {
+            if (firstname.isEmpty() || lastname.isEmpty()){
+                if(searchedPhones.contains(users.get(i).phone) || searchedEmails.contains(users.get(i).eMail)) {
+                    for(Map.Entry<String, Volunteer> entry : newUsersMap.entrySet())
+                    {
+                        if (username.isEmpty()) {
+                            username = entry.getValue().nickName;
+                        }
+                        ArrayList<String> volunteerEmails = new ArrayList<>(Arrays.asList(entry.getValue().eMail.split(",")));
+                        ArrayList<String> volunteerPhones = new ArrayList<>(Arrays.asList(entry.getValue().phone.split(",")));
+                        if(volunteerPhones.contains(users.get(i).phone)) {
+                            if (!volunteerEmails.contains(users.get(i).eMail)) {
+                                volunteerEmails.add(users.get(i).eMail);
+                            }
+                            isDuplicate = true;
+                            newUsersMap.put(
+                                    entry.getValue().firstName+entry.getValue().lastName,
+                                    new Volunteer(entry.getValue().lastName,entry.getValue().firstName,username,String.join(",", volunteerEmails),String.join(",", volunteerPhones)));
+                        } else if (volunteerEmails.contains(users.get(i).eMail)){
+                            if (!volunteerPhones.contains(users.get(i).phone)) {
+                                volunteerPhones.add(users.get(i).phone);
+                            }
+                            isDuplicate = true;
+                            newUsersMap.put(
+                                    entry.getValue().firstName+entry.getValue().lastName,
+                                    new Volunteer(entry.getValue().lastName,entry.getValue().firstName,username,String.join(",", volunteerEmails),String.join(",", volunteerPhones)));
+                        }
+
+                    }
+                }
+            }
+            for(Map<String, String>  searchedName : searchedNames) {
                 if (
                         JaroWinklerDistance.round(JaroWinklerDistance.jaro_distance(firstname + lastname, searchedName.get("firstName").toString() + searchedName.get("lastName").toString()), 1) > 0.8
                 || JaroWinklerDistance.round(JaroWinklerDistance.jaro_distance(lastname+firstname, searchedName.get("firstName").toString()+searchedName.get("lastName").toString()), 1) > 0.8
@@ -41,7 +72,7 @@ public class Merge {
                             new Volunteer(searchedName.get("lastName").toString(),searchedName.get("firstName").toString(),username,String.join(",", emailArray),String.join(",", phoneArray)));
                 }
             }
-            Map initMap = new HashMap();
+            Map<String, String> initMap = new HashMap<>();
             initMap.put("firstName", firstname);
             initMap.put("lastName", lastname);
             if (!searchedNames.contains(initMap) && !isDuplicate) {
@@ -49,22 +80,24 @@ public class Merge {
                     if (lastname.equalsIgnoreCase(users.get(i2).lastName)
                             && firstname.equalsIgnoreCase(users.get(i2).firstName)
                     ) {
-                        if (username.equals("")) {
+                        if (username.isEmpty()) {
                             username = users.get(i2).nickName;
                         }
-                        if (!emailList.contains(users.get(i2).eMail) && !users.get(i2).eMail.equals("")) {
+                        if (!emailList.contains(users.get(i2).eMail) && !users.get(i2).eMail.isEmpty()) {
                             emailList.add(users.get(i2).eMail);
                         }
-                        if (!phoneList.contains(users.get(i2).phone) && !users.get(i2).phone.equals("")) {
+                        if (!phoneList.contains(users.get(i2).phone) && !users.get(i2).phone.isEmpty()) {
                             phoneList.add(users.get(i2).phone);
                         }
                     }
                     i2++;
                 }
-                Map nameMap = new HashMap<String, String>();
+                Map<String,String> nameMap = new HashMap<String, String>();
                 nameMap.put("firstName", firstname);
                 nameMap.put("lastName", lastname);
                 searchedNames.add(nameMap);
+                searchedEmails.addAll(emailList);
+                searchedPhones.addAll(phoneList);
                 newUsersMap.put(firstname+lastname, new Volunteer(lastname,firstname,username,String.join(",", emailList),String.join(",", phoneList)));
             }
         }
