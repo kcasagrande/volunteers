@@ -20,31 +20,24 @@ public class Merge {
             boolean isDuplicate = false;
             if (firstname.isEmpty() || lastname.isEmpty()){
                 if(searchedPhones.contains(users.get(i).phone) || searchedEmails.contains(users.get(i).eMail)) {
-                    for(Map.Entry<String, Volunteer> entry : newUsersMap.entrySet())
-                    {
+                    for(Map.Entry<String, Volunteer> entry : newUsersMap.entrySet()) {
                         if (username.isEmpty()) {
                             username = entry.getValue().nickName;
                         }
                         ArrayList<String> volunteerEmails = new ArrayList<>(Arrays.asList(entry.getValue().eMail.split(",")));
                         ArrayList<String> volunteerPhones = new ArrayList<>(Arrays.asList(entry.getValue().phone.split(",")));
-                        if(volunteerPhones.contains(users.get(i).phone)) {
+                        if (volunteerPhones.contains(users.get(i).phone) || volunteerEmails.contains(users.get(i).eMail)) {
                             if (!users.get(i).eMail.isEmpty() && !volunteerEmails.contains(users.get(i).eMail)) {
                                 volunteerEmails.add(users.get(i).eMail);
                             }
-                            isDuplicate = true;
-                            newUsersMap.put(
-                                    entry.getValue().firstName+entry.getValue().lastName,
-                                    new Volunteer(entry.getValue().lastName,entry.getValue().firstName,username,String.join(",", volunteerEmails),String.join(",", volunteerPhones)));
-                        } else if (volunteerEmails.contains(users.get(i).eMail)){
                             if (!users.get(i).phone.isEmpty() && !volunteerPhones.contains(users.get(i).phone)) {
                                 volunteerPhones.add(users.get(i).phone);
                             }
                             isDuplicate = true;
                             newUsersMap.put(
-                                    entry.getValue().firstName+entry.getValue().lastName,
-                                    new Volunteer(entry.getValue().lastName,entry.getValue().firstName,username,String.join(",", volunteerEmails),String.join(",", volunteerPhones)));
+                                    entry.getValue().firstName + entry.getValue().lastName,
+                                    new Volunteer(entry.getValue().lastName, entry.getValue().firstName, username, String.join(",", volunteerEmails), String.join(",", volunteerPhones)));
                         }
-
                     }
                 }
             }
