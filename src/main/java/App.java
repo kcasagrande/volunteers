@@ -1,4 +1,5 @@
 import org.example.volunteers.Merge;
+import org.example.volunteers.Cleaner;
 import org.example.volunteers.Volunteer;
 
 import java.io.*;
@@ -32,8 +33,6 @@ public class App {
             bf.write(outputVolunteers.stream().map(String::valueOf).collect(Collectors.joining("\n")));
         }
     }
-
-
 
     private static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         // This function should contain your dark magic.
