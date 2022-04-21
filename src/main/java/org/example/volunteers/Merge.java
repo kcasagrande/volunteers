@@ -1,9 +1,6 @@
 package org.example.volunteers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class Merge {
 
@@ -16,8 +13,8 @@ public class Merge {
             String lastname = users.get(i).lastName.toLowerCase(Locale.ROOT);
             String firstname = users.get(i).firstName.toLowerCase(Locale.ROOT);
             String username = users.get(i).nickName;
-            ArrayList<String> emailList = new ArrayList<>(Collections.singleton(users.get(i).eMail));
-            ArrayList<String> phoneList = new ArrayList<>(Collections.singleton(users.get(i).phone));
+            ArrayList<String> emailList = !users.get(i).eMail.equals("") ? new ArrayList<>(Collections.singleton(users.get(i).eMail)) : new ArrayList<>();
+            ArrayList<String> phoneList = !users.get(i).phone.equals("") ? new ArrayList<>(Collections.singleton(users.get(i).phone)) : new ArrayList<>();
             if (!searchedNames.contains(firstname + lastname)) {
                 while (i2 < users.size()) {
                     if (lastname.equalsIgnoreCase(users.get(i2).lastName)
@@ -28,7 +25,7 @@ public class Merge {
                         if (!emailList.contains(users.get(i2).eMail) && !users.get(i2).eMail.equals("")) {
                             emailList.add(users.get(i2).eMail);
                         }
-                        if (!phoneList.contains(users.get(i2).eMail) && !users.get(i2).phone.equals("")) {
+                        if (!phoneList.contains(users.get(i2).phone) && !users.get(i2).phone.equals("")) {
                             phoneList.add(users.get(i2).phone);
                         }
                     }

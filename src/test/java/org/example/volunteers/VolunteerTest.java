@@ -9,6 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VolunteerTest {
 
+    @Test
+    public void volunteerToExcelString(){
+        String expected_string = "\"damien\";\"max\";\"maxi\";\"max.dam@example.net\";\"00984567\"";
+        Volunteer volunteer = new Volunteer("Max", "Damien", "Maxi", "max.dam@example.net", "+330984567");
+        assertEquals(expected_string, volunteer.toString());
+    }
+
     //* COMPARAISON
 
     //? COMPARAISON NOM
@@ -47,7 +54,7 @@ public class VolunteerTest {
         assertFalse(userA.compare(userB));
     }
 
-    //? COMPAARAISON PHONE
+    //? COMPARAISON PHONE
     @Test
     public void compareVolunteersByPhoneShouldBeTrue(){
         Volunteer userA = new Volunteer("Body", "Tcheque", "Loc", "body@move.co", "+33000555019");
@@ -89,6 +96,27 @@ public class VolunteerTest {
     @Test
     public void formatPhonePlus33Test(){
         Volunteer volunteer = new Volunteer("", "", "", "", "+336434532");
+        String expected = "06434532";
+        assertEquals(expected, volunteer.formatPhone(volunteer.phone));
+    }
+
+    @Test
+    public void formatPhonePlus33ZeroTest(){
+        Volunteer volunteer = new Volunteer("", "", "", "", "+33(0)6434532");
+        String expected = "06434532";
+        assertEquals(expected, volunteer.formatPhone(volunteer.phone));
+    }
+
+    @Test
+    public void formatPhonePlus33DotTest(){
+        Volunteer volunteer = new Volunteer("", "", "", "", "+33.64.34.53.2");
+        String expected = "06434532";
+        assertEquals(expected, volunteer.formatPhone(volunteer.phone));
+    }
+
+    @Test
+    public void formatPhonePlus33DashTest(){
+        Volunteer volunteer = new Volunteer("", "", "", "", "+33-64-34-53-2");
         String expected = "06434532";
         assertEquals(expected, volunteer.formatPhone(volunteer.phone));
     }
