@@ -31,7 +31,7 @@ public class App {
 
         List<Volunteer> outputVolunteers = cleanUp(inputVolunteers);
 
-        OutputStream os = new FileOutputStream("src/main/resources/t.csv");
+        OutputStream os = new FileOutputStream("src/main/resources/output.csv");
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
 
         outputVolunteers.forEach(volunteer -> {
