@@ -30,7 +30,6 @@ public class Duplicate {
         return listOfVolunteer;
     }
 
-
     public static List<Volunteer> regroupByName(List<Volunteer> volunteers) {
         List<List<Volunteer>> listOfVolunteer = triByName(volunteers);
         List<Volunteer> newVolunteers = new ArrayList<>();
@@ -59,6 +58,59 @@ public class Duplicate {
         }
         return newVolunteers;
     }
+
+    public static List<List<Volunteer>> triByEmail(List<Volunteer> volunteers) {
+        List<List<Volunteer>> listOfVolunteer =  new ArrayList<>();
+
+        for (int i = 0; i < volunteers.size() ; i++) {
+            List<Volunteer> newVolunteers = new ArrayList<>();
+            newVolunteers.add(new Volunteer (volunteers.get(i).firstName, volunteers.get(i).lastName, volunteers.get(i).nickName, volunteers.get(i).eMail, volunteers.get(i).phone));
+            for (int j = i + 1; j < volunteers.size(); j++) {
+                if(volunteers.get(i).eMail.equals(volunteers.get(j).eMail) &&!volunteers.get(i).eMail.equals(""))
+                {
+                    newVolunteers.add(new Volunteer (volunteers.get(j).firstName, volunteers.get(j).lastName, volunteers.get(j).nickName, volunteers.get(j).eMail, volunteers.get(j).phone));
+                    volunteers.remove(j);
+                }
+            }
+            listOfVolunteer.add(newVolunteers);
+        }
+        return listOfVolunteer;
+    }
+
+    public static List<Volunteer> regroupByEmail(List<Volunteer> volunteers) {
+        List<List<Volunteer>> listOfVolunteer = triByEmail(volunteers);
+        List<Volunteer> newVolunteers = new ArrayList<>();
+
+        for (int i = 0; i < listOfVolunteer.size(); i++) {
+            if (listOfVolunteer.get(i).size() > 1) {
+                String lastName = listOfVolunteer.get(i).get(0).lastName;
+                String firstName = listOfVolunteer.get(i).get(0).firstName;
+                String nickname = listOfVolunteer.get(i).get(0).nickName;
+                String phone = listOfVolunteer.get(i).get(0).phone;
+                for (int j = 1; j < listOfVolunteer.get(i).size();  j++) {
+                    if(!listOfVolunteer.get(i).get(j).lastName.equals("") ) {
+                        lastName = lastName + " " + listOfVolunteer.get(i).get(j).lastName;
+                    }
+                    if(!listOfVolunteer.get(i).get(j).firstName.equals("")) {
+                        firstName = firstName + " " + listOfVolunteer.get(i).get(j).firstName;
+                    }
+                    if(!listOfVolunteer.get(i).get(j).phone.equals("")) {
+                        phone = phone + " " + listOfVolunteer.get(i).get(j).phone;
+                    }
+                    if(!listOfVolunteer.get(i).get(j).nickName.equals("")) {
+                        nickname = nickname + " " + listOfVolunteer.get(i).get(j).nickName;
+                    }
+                }
+                newVolunteers.add(new Volunteer(firstName, lastName, nickname, listOfVolunteer.get(i).get(0).eMail, phone));
+            }
+            else {
+                newVolunteers.add(new Volunteer(listOfVolunteer.get(i).get(0).firstName, listOfVolunteer.get(i).get(0).lastName, listOfVolunteer.get(i).get(0).nickName, listOfVolunteer.get(i).get(0).eMail, listOfVolunteer.get(i).get(0).phone));
+            }
+        }
+        return newVolunteers;
+    }
+
+
 
     public static List<Volunteer> duplicateByLevenshtein(List<Volunteer> volunteers)
     {

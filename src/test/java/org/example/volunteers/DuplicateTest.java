@@ -50,6 +50,41 @@ public class DuplicateTest  {
     }
 
     @Test
+    public void trieByPhone() {
+        List<Volunteer> listVolunteers = new ArrayList<>();
+        listVolunteers.add(new Volunteer("Miler", "Julie", "", "juju02@gmail.com", "0600000000"));
+        listVolunteers.add(new Volunteer("", "", "Juju", "juju02@gmail.com", ""));
+
+        List<List<Volunteer>> finalListVolunteers = Duplicate.triByEmail(listVolunteers);
+        List<List<Volunteer>> listOfResultat = new ArrayList<>();
+        List<Volunteer> listResultat = new ArrayList<>();
+
+        listResultat.add(new Volunteer("Miler", "Julie", "", "juju02@gmail.com", "0600000000"));
+        listResultat.add(new Volunteer("", "", "Juju", "juju02@gmail.com", ""));
+        listOfResultat.add(listResultat);
+
+        assertArrayEquals(finalListVolunteers.toArray(), listOfResultat.toArray());
+    }
+
+    @Test
+    public void testDuplicateByEmail() {
+        List<Volunteer> listVolunteers = new ArrayList<>();
+        listVolunteers.add(new Volunteer("Miler", "Julie", "Juju", "juju02@gmail.com", "0600000000"));
+        listVolunteers.add(new Volunteer("", "", "ju", "juju02@gmail.com", ""));
+
+        listVolunteers.add(new Volunteer("Blanc", "Jean", "", "jean@gmail.com", ""));
+        listVolunteers.add(new Volunteer("", "Jean", "", "jean@gmail.com", ""));
+
+        List<Volunteer> finalListVolunteers = Duplicate.regroupByEmail(listVolunteers);
+
+        List<Volunteer> listResultat = new ArrayList<>();
+        listResultat.add(new Volunteer("Miler", "Julie", "Juju ju", "juju02@gmail.com", "0600000000"));
+        listResultat.add(new Volunteer("Blanc", "Jean Jean", "", "jean@gmail.com", ""));
+
+        assertArrayEquals(finalListVolunteers.toArray(), listResultat.toArray());
+    }
+
+    @Test
     public void testDuplicateByName() {
         List<Volunteer> listVolunteers = new ArrayList<>();
         listVolunteers.add(new Volunteer("Miler", "Julie", "Juju", "juju02@gmail.com", "0600000000"));
