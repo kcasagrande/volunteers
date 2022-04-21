@@ -56,7 +56,7 @@ public class MergeTest {
     }
 
     @Test
-    public void mergeMispelledNameTest() {
+    public void mergeMispelledNameEmailTest() {
         List<Volunteer> listUser = new ArrayList<>();
         listUser.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org","3309847821"));
         listUser.add(listUser.size(), new Volunteer("Murriel","Laurens","","muriel.laurens@example.net","3309847821"));
@@ -65,6 +65,33 @@ public class MergeTest {
         List<Volunteer> finalListUser = duplicate.mergeByName(listUser);
         List<Volunteer> listExpected = new ArrayList<>();
         listExpected.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org,muriel.laurens@example.net","3309847821"));
+        listExpected.add(listExpected.size(), new Volunteer("To","To","Max","erg@fe.com",""));
+        assertEquals(listExpected, finalListUser);
+    }
+
+    @Test
+    public void mergeMispelledNamePhoneTest() {
+        List<Volunteer> listUser = new ArrayList<>();
+        listUser.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org","3307837821"));
+        listUser.add(listUser.size(), new Volunteer("Murriel","Laurens","","muriel.laurens@example.org","3309847821"));
+        listUser.add(listUser.size(), new Volunteer("To","To","Max","erg@fe.com",""));
+        Merge duplicate = new Merge();
+        List<Volunteer> finalListUser = duplicate.mergeByName(listUser);
+        List<Volunteer> listExpected = new ArrayList<>();
+        listExpected.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org","3307837821,3309847821"));
+        listExpected.add(listExpected.size(), new Volunteer("To","To","Max","erg@fe.com",""));
+        assertEquals(listExpected, finalListUser);
+    }
+    @Test
+    public void mergeMispelledNamePhoneAndEmailTest() {
+        List<Volunteer> listUser = new ArrayList<>();
+        listUser.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org","3307837821"));
+        listUser.add(listUser.size(), new Volunteer("Murriel","Laurens","","muriel.laurens@example.net","3309847821"));
+        listUser.add(listUser.size(), new Volunteer("To","To","Max","erg@fe.com",""));
+        Merge duplicate = new Merge();
+        List<Volunteer> finalListUser = duplicate.mergeByName(listUser);
+        List<Volunteer> listExpected = new ArrayList<>();
+        listExpected.add(0, new Volunteer("Muriel","Laurens","","muriel.laurens@example.org,muriel.laurens@example.net","3307837821,3309847821"));
         listExpected.add(listExpected.size(), new Volunteer("To","To","Max","erg@fe.com",""));
         assertEquals(listExpected, finalListUser);
     }
