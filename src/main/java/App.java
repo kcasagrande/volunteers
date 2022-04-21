@@ -40,7 +40,9 @@ public class App {
         // For now, it simply returns a copy of the initial list.
         Merge mg = new Merge();
         List<Volunteer> listVolunteers = mg.mergeByName(volunteers);
-        List<Volunteer> listVolunteersBis = mg.mergeByPhoneNumber(listVolunteers);
-        return listVolunteersBis;
+//        List<Volunteer> listVolunteersBis = mg.mergeByPhoneNumber(listVolunteers);
+//        List<Volunteer> listVolunteersBisBis = mg.mergeByEmail(listVolunteersBis);
+//        return listVolunteersBisBis;
+        return listVolunteers;
     }
 }
