@@ -3,6 +3,7 @@ package org.example;
 import java.util.List;
 import org.example.volunteers.Volunteer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Sort {
 
@@ -19,6 +20,8 @@ public class Sort {
   }
 
   public static List<Volunteer> getOccurenceByCompletName(Volunteer volunteer, List<Volunteer> volunteers) {
+    if (volunteer.firstName.isBlank() && volunteer.lastName.isBlank())
+      return Arrays.asList(volunteer);
     List<Volunteer> result = new ArrayList<>();
     for (Volunteer vol : volunteers) {
       if (Compare.compareTo(volunteer.firstName + volunteer.lastName, vol.firstName + vol.lastName) <= 2) {
@@ -28,27 +31,25 @@ public class Sort {
     return result;
   }
 
-  public static List<Volunteer> getOccurenceByEmailOrPhone(Volunteer volunteer, List<Volunteer> volunteers) {
+  public static List<Volunteer> getOccurenceByEmailOrPhoneOrNickname(Volunteer volunteer,
+      List<Volunteer> volunteers) {
 
     List<Volunteer> result = new ArrayList<>();
     for (Volunteer vol : volunteers) {
       if (Compare.compareTo(volunteer.eMail, vol.eMail) <= NUMBER_OF_ERRORS_OF_EMAIL
-          || Compare.compareTo(volunteer.phone, vol.phone) == 0) {
+          || Compare.compareTo(volunteer.phone, vol.phone) == 0
+          || Compare.compareTo(volunteer.nickName, vol.nickName) == 0) {
 
-        if (volunteer.eMail == "" && vol.eMail == "")
-          continue;
-        if (volunteer.phone == "" && vol.phone == "")
-          continue;
+        // if (volunteer.eMail == "" && vol.eMail == "")
+        // continue;
+        // if (volunteer.phone == "" && vol.phone == "")
+        // continue;
+        // if (volunteer.nickName == "" && vol.nickName == "")
+        // continue;
         result.add(vol);
       }
     }
     return result;
-  }
-
-  public static Volunteer fusion(List<Volunteer> volunteers) {
-
-    // return le volunteer fusionner
-    return new Volunteer("", "", "nickName", "eMail", "phone");
   }
 
   public static List<Volunteer> getUniqueVolunteer(List<Volunteer> formatListVolunteer) {
@@ -70,24 +71,30 @@ public class Sort {
       }
 
       // Si il y a plusieurs volontaires avec le même nom -> ["Gayylord", "Gaylord"]
-      List<Volunteer> volunteersByEmailOrPhone = Sort.getOccurenceByEmailOrPhone(volunteer, volunteersByCompletName);
+      List<Volunteer> volunteersByEmailOrPhone = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer,
+          volunteersByCompletName);
       if (volunteersByEmailOrPhone.size() == 1) {
-        if (listVolunteerAlreadyAdd.contains(volunteersByEmailOrPhone.get(0)))
+        if (listVolunteerAlreadyAdd.contains(volunteer))
           return;
 
-        listVolunteerAlreadyAdd.add(volunteersByEmailOrPhone.get(0));
+        listVolunteerAlreadyAdd.addAll(volunteersByCompletName);
         result.add(volunteersByEmailOrPhone.get(0));
         return;
       }
 
       // vérifie si les les utilisateurs ayant le meme nom et (email ou tel)
       // existe dans la liste des utilisateurs déja fusionner ?
-      Volunteer volunterFusion = fusion(volunteersByEmailOrPhone);
+      Volunteer volunterFusion = Compare.fusion(volunteersByEmailOrPhone);
 
       // si l'utilisateur fusionné existe dans la bdd :
-      if (listVolunteerAlreadyAdd.contains(volunterFusion))
+      if (listVolunteerAlreadyAdd.contains(volunteer))
         return;
+      listVolunteerAlreadyAdd.addAll(volunteersByCompletName);
       // si il existe on ne l'ajoute pas
+      if (volunteer.firstName.isBlank()
+          && volunteer.lastName.isBlank()) {
+        System.out.println("");
+      }
       result.add(volunterFusion);
     });
 

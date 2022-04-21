@@ -8,11 +8,11 @@ import java.util.List;
 import org.example.Sort;
 import org.junit.jupiter.api.Test;
 
-public class getOccurenceByEmailOrPhoneTest {
+public class getOccurenceByEmailOrPhoneOrNicknameTest {
 
-  // create test for the function getOccurenceByEmailOrPhone
+  // create test for the function getOccurenceByEmailOrPhoneOrNickname
   @Test
-  public void getOccurenceByEmailOrPhone_WithSameEmail() {
+  public void getOccurenceByEmailOrPhoneOrNickname_WithSameEmail() {
     // Arrange - Given
     Volunteer volunteer = new Volunteer("Gaylord", "MANAUDOU", "", "gaylord.manaudou@example.org", "0065555734");
 
@@ -22,14 +22,14 @@ public class getOccurenceByEmailOrPhoneTest {
         new Volunteer("John", "DOE", "", "John.DOE@example.org", "0065555614"));
 
     // Act - When
-    List<Volunteer> result = Sort.getOccurenceByEmailOrPhone(volunteer, volunteers);
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
 
     // Assert - Then
     assertEquals(2, result.size());
   }
 
   @Test
-  public void getOccurenceByEmailOrPhone_WithSameEmailResult() {
+  public void getOccurenceByEmailOrPhoneOrNickname_WithSameEmailResult() {
     // Arrange - Given
     Volunteer volunteer = new Volunteer("Gaylord", "MANAUDOU", "", "gaylord.manaudou@example.org", "0065555734");
 
@@ -39,7 +39,7 @@ public class getOccurenceByEmailOrPhoneTest {
         new Volunteer("John", "DOE", "", "John.DOE@example.org", "0065555614"));
 
     // Act - When
-    List<Volunteer> result = Sort.getOccurenceByEmailOrPhone(volunteer, volunteers);
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
     List<Volunteer> resultExpected = Arrays.asList(
         new Volunteer("Frog", "MAN", "", "gaylord.manaudou@example.org", "0065555794"),
         new Volunteer("Gayyyylord", "MANAU DOU", "", "gaylord.manaudou@example.fr", "0065555744"));
@@ -48,7 +48,7 @@ public class getOccurenceByEmailOrPhoneTest {
   }
 
   @Test
-  public void getOccurenceByEmailOrPhone_WithSamePhone() {
+  public void getOccurenceByEmailOrPhoneOrNickname_WithSamePhone() {
     // Arrange - Given
     Volunteer volunteer = new Volunteer("Bibi", "dodo", "", "Bibi.dodo@example.lala", "0065555734");
 
@@ -58,14 +58,14 @@ public class getOccurenceByEmailOrPhoneTest {
         new Volunteer("John", "DOE", "", "John.DOE@example.org", "0908070605"));
 
     // Act - When
-    List<Volunteer> result = Sort.getOccurenceByEmailOrPhone(volunteer, volunteers);
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
 
     // Assert - Then
     assertEquals(1, result.size());
   }
 
   @Test
-  public void getOccurenceByEmailOrPhone_WithSamePhoneResult() {
+  public void getOccurenceByEmailOrPhoneOrNickname_WithSamePhoneResult() {
     // Arrange - Given
     Volunteer volunteer = new Volunteer("Bibi", "dodo", "", "Bibi.dodo@example.lala", "0065555734");
 
@@ -75,7 +75,7 @@ public class getOccurenceByEmailOrPhoneTest {
         new Volunteer("John", "DOE", "", "John.DOE@example.org", "0908070605"));
 
     // Act - When
-    List<Volunteer> result = Sort.getOccurenceByEmailOrPhone(volunteer, volunteers);
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
     List<Volunteer> resultExpected = Arrays.asList(
         new Volunteer("Frog", "MAN", "", "gaylord.manaudou@example.org", "0065555734"));
 
@@ -84,7 +84,7 @@ public class getOccurenceByEmailOrPhoneTest {
   }
 
   @Test
-  public void getOccurenceByEmailOrPhone_WithEmptyEmail() {
+  public void getOccurenceByEmailOrPhoneOrNickname_WithEmptyEmail() {
     // Arrange - Given
     Volunteer volunteer = new Volunteer("Bibi", "DODO", "", "", "0065555734");
 
@@ -94,14 +94,14 @@ public class getOccurenceByEmailOrPhoneTest {
         new Volunteer("John", "DOE", "", "John.DOE@example.org", "0908070605"));
 
     // Act - When
-    List<Volunteer> result = Sort.getOccurenceByEmailOrPhone(volunteer, volunteers);
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
 
     // Assert - Then
     assertEquals(0, result.size());
   }
 
   @Test
-  public void getOccurenceByEmailOrPhone_WithEmptyPhone() {
+  public void getOccurenceByEmailOrPhoneOrNickname_WithEmptyPhone() {
     // Arrange - Given
     Volunteer volunteer = new Volunteer("Bibi", "DODO", "", "bobo.bi@example.fr", "");
 
@@ -111,7 +111,41 @@ public class getOccurenceByEmailOrPhoneTest {
         new Volunteer("Bibi", "DODO", "", "John.DOE@example.org", "0908070605"));
 
     // Act - When
-    List<Volunteer> result = Sort.getOccurenceByEmailOrPhone(volunteer, volunteers);
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
+
+    // Assert - Then
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  public void getOccurenceByEmailOrPhoneOrNickname_WithSameNickname() {
+    // Arrange - Given
+    Volunteer volunteer = new Volunteer("Gaylord", "MANAUDOU", "Doujésu", "gaylord.manaudou@example.org", "0065555734");
+
+    List<Volunteer> volunteers = Arrays.asList(
+        new Volunteer("Frog", "MAN", "Doujésu", "gaylord.manaudou@example.org", "0065555794"),
+        new Volunteer("Gayyyylord", "MANAU DOU", "", "bibi.lolo@example.fr", "0067555744"),
+        new Volunteer("John", "DOE", "", "John.DOE@example.org", "0065555614"));
+
+    // Act - When
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
+
+    // Assert - Then
+    assertEquals(1, result.size());
+  }
+
+  @Test
+  public void getOccurenceByEmailOrPhoneOrNickname_WithEmptyNickname() {
+    // Arrange - Given
+    Volunteer volunteer = new Volunteer("Bibi", "DODO", "", "", "0065555734");
+
+    List<Volunteer> volunteers = Arrays.asList(
+        new Volunteer("Frog", "MAN", "Didoudou", "gaylord.manaudou@example.org", "0065555739"),
+        new Volunteer("Bibi", "DODO", "Didoudou", "", "0102030405"),
+        new Volunteer("John", "DOE", "", "John.DOE@example.org", "0908070605"));
+
+    // Act - When
+    List<Volunteer> result = Sort.getOccurenceByEmailOrPhoneOrNickname(volunteer, volunteers);
 
     // Assert - Then
     assertEquals(0, result.size());

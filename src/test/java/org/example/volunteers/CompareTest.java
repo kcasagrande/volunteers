@@ -91,7 +91,7 @@ public class CompareTest {
     int difference = Compare.compareTo(orderName, customerName);
 
     // Assert - Then
-    assertEquals(0, difference);
+    assertEquals(999999, difference);
 
   }
 }
