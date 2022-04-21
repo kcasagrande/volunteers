@@ -6,7 +6,7 @@ public class Merge {
 
     public List<Volunteer> mergeByName(List<Volunteer> users) {
         List<Volunteer> newUsers = new ArrayList<>();
-        List<String> searchedNames = new ArrayList<>();
+        List<Map<String,String>> searchedNames = new ArrayList<>();
 
         for (int i = 0; i < users.size(); i++) {
             int i2 = i;
@@ -15,19 +15,38 @@ public class Merge {
             String username = users.get(i).nickName;
             ArrayList<String> emailList = !users.get(i).eMail.equals("") ? new ArrayList<>(Collections.singleton(users.get(i).eMail)) : new ArrayList<>();
             ArrayList<String> phoneList = !users.get(i).phone.equals("") ? new ArrayList<>(Collections.singleton(users.get(i).phone)) : new ArrayList<>();
-            if (!searchedNames.contains(firstname + lastname)) {
+            boolean isDuplicate = false;
+            for(Map searchedName : searchedNames) {
+                if (
+                        JaroWinklerDistance.round(JaroWinklerDistance.jaro_distance(firstname + lastname, searchedName.get("firstName").toString() + searchedName.get("lastName").toString()), 1) > 0.8
+                || JaroWinklerDistance.round(JaroWinklerDistance.jaro_distance(lastname+firstname, searchedName.get("firstName").toString()+searchedName.get("lastName").toString()), 1) > 0.8
+                ) {
+                    isDuplicate = true;
+                    if (username.equals("")) {
+                        username = users.get(i).nickName;
+                    }
+                    if (!emailList.contains(users.get(i).eMail) && !users.get(i).eMail.equals("")) {
+                        emailList.add(users.get(i).eMail);
+                    }
+                    if (!phoneList.contains(users.get(i).phone) && !users.get(i).phone.equals("")) {
+                        phoneList.add(users.get(i).phone);
+                    }
+                }
+            }
+            Map initMap = new HashMap();
+            initMap.put("firstName", firstname);
+            initMap.put("lastName", lastname);
+            if (!searchedNames.contains(initMap) && !isDuplicate) {
                 while (i2 < users.size()) {
                     if (lastname.equalsIgnoreCase(users.get(i2).lastName)
                             && firstname.equalsIgnoreCase(users.get(i2).firstName)
-                            || JaroWinklerDistance.compute(firstname, users.get(i2).firstName) > 0.7 && JaroWinklerDistance.compute(lastname, users.get(i2).lastName) > 0.7
                     ) {
-
-
                         if (username.equals("")) {
                             username = users.get(i2).nickName;
                         }
                         if (!emailList.contains(users.get(i2).eMail) && !users.get(i2).eMail.equals("")) {
                             emailList.add(users.get(i2).eMail);
+
                         }
                         if (!phoneList.contains(users.get(i2).phone) && !users.get(i2).phone.equals("")) {
                             phoneList.add(users.get(i2).phone);
@@ -35,7 +54,10 @@ public class Merge {
                     }
                     i2++;
                 }
-                searchedNames.add(firstname + lastname);
+                Map nameMap = new HashMap<String, String>();
+                nameMap.put("firstName", firstname);
+                nameMap.put("lastName", lastname);
+                searchedNames.add(nameMap);
                 newUsers.add(newUsers.size(), new Volunteer(lastname,firstname,username,String.join(",", emailList),String.join(",", phoneList)));
             }
         }

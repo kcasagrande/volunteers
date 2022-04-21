@@ -21,4 +21,10 @@ public class JaroWinklerTest {
         assertEquals(0.9, JaroWinklerDistance.compute("accomodate", "accomodsme"));
         assertEquals(0.0, JaroWinklerDistance.compute("accomodate", "collable"));
     }
+
+    @Test
+    public void testJaroWinklerAbadie() {
+        assertEquals(1, JaroWinklerDistance.round(JaroWinklerDistance.jaro_distance("abadie", "abbadie"), 1));
+        assertEquals(0.9, JaroWinklerDistance.compute("abadie", "abbadie"));
+    }
 }
