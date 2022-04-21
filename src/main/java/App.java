@@ -18,7 +18,7 @@ public class App {
     public static void main(String[] args) throws IOException {
         Pattern quotes = Pattern.compile("^\"([^\"]*)\"$");
 
-        List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get(args[0])).stream()
+        List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get("src/main/resources/data.csv")).stream()
             .map(string -> Arrays.stream(string.split(";", -1))
             .map(token -> quotes.matcher(token).replaceAll("$1"))
             .collect(toList()))
