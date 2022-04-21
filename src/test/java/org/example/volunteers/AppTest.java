@@ -3,6 +3,7 @@ package org.example.volunteers;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +20,11 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Allard;michel;michelx;michel_guilloux@example.org;+33085552877"));
-        assertEquals(2, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(2, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -27,7 +32,11 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;michel;michelx;michel_guilloux@example.org;+33085552877"));
-        assertEquals(2, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1,result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -35,7 +44,11 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;Sarah;;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;Sarah;;sarah_guilloux@example.org;+33085552877"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -43,7 +56,12 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("guilloux;SArah;;sarah_guilloux@example.org;+33085552877"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        //assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -51,24 +69,42 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;sara;;sarah_guilloux@example.org;+33085552877"));
-        //System.out.println(Cleaner.cleanUp(volunteers));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
     public void ShouldConcatenateWithBlankLastname(){
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
+
         volunteers.add(Volunteer.fromString(";sarah;sarax;sarah_guilloux@example.org;+33085552877"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
+
     }
+
+
 
     @Test
     public void ShouldConcatenateWithBlankFirstName(){
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
+
         volunteers.add(Volunteer.fromString("Guilloux;;sarax;sarah_guilloux@example.org;+33085552877"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -76,7 +112,12 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;sarah;;sarah_guilloux@example.org;+33085552877"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        //assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -84,7 +125,12 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;;+33085552877"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        //assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -92,7 +138,12 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        //assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -119,7 +170,9 @@ public class AppTest {
         volunteers.add(Volunteer.fromString("Guilloux;Sarah;;sarah_guilloux@example.org;+33 0-855-528 77"));
         volunteers.add(Volunteer.fromString("Sarah;Guilloux;;sarah_guilloux@example.org;+33 0-656-528 77"));
 
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -127,7 +180,10 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Clothilde;Guilloux;;sarah_guilloux@example.org;+33 0-855-528 77"));
         volunteers.add(Volunteer.fromString("Sarah;Guilloux;;sarah_guilloux@example.org;+33 0-656-528 77"));
-        assertEquals(2, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(2, result.size());
     }
 
     @Test
@@ -135,7 +191,11 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Choffard;Ameline;amelinechoffad;amelinechoffard@example.org;+33055532252"));
         volunteers.add(Volunteer.fromString(";Ameline;;ameline.choffard@example.org;+33055532252"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        //assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -143,7 +203,10 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         Volunteer volunteer1 = Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877");
         Volunteer volunteer2 = Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085551888");
-        assertEquals(true, volunteer1.MatchingMailNickName(volunteer2));
+
+        boolean ismatching = volunteer1.MatchingMailNickName(volunteer2);
+
+        assertEquals(true,ismatching);
     }
 
 
@@ -169,8 +232,10 @@ public class AppTest {
         volunteers.add(Volunteer.fromString("Sarah;Guilou;;sarah_guilloux@example.org;+33 0-855-528 77"));
         volunteers.add(Volunteer.fromString("Guilloux;Sara;;sarah_guillou@example.org;+33 0-855-528 77"));
 
-        assertEquals( 1,  Cleaner.cleanUp(volunteers).size());
-        //assertEquals(true,volunteer1.VolunteerLaststnameEqual(volunteer2.lastName) );
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+        assertEquals(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"), result.get(0));
     }
 
     @Test
@@ -178,7 +243,10 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552890"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -186,7 +254,10 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.com;+33085552877"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -194,6 +265,10 @@ public class AppTest {
         ArrayList<Volunteer> volunteers= new ArrayList<>();
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.org;+33085552877"));
         volunteers.add(Volunteer.fromString("Guilloux;sarah;sarax;sarah_guilloux@example.com;+33085552890"));
-        assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        //assertEquals(1, Cleaner.cleanUp(volunteers).size());
+        List<Volunteer> result = Cleaner.cleanUp(volunteers);
+
+        assertEquals(1, result.size());
+
     }
 }

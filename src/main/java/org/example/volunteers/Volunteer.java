@@ -177,58 +177,42 @@ public final class Volunteer {
     public void retreiveDataFromMail(String email){
 
         String wDomaine = email.split("@")[0];
-        if(!wDomaine.equals(cleanNickName)){
-            String[] retreivedInfo;
-            retreivedInfo = wDomaine.split(Pattern.quote("."));
+        String[] retreivedInfo = wDomaine.split(Pattern.quote("."));
+        if(retreivedInfo.length == 1){
+            retreivedInfo = retreivedInfo[0].split("_");
+        }
+        if(retreivedInfo.length > 1){
 
-            if(retreivedInfo.length == 1){
-                retreivedInfo = retreivedInfo[0].split("_");
+            if(cleanFirstName.contains(retreivedInfo[1]) && cleanLastName.isEmpty()){
+                cleanLastName = retreivedInfo[1];
+                lastName = retreivedInfo[1];
             }
-            if(retreivedInfo.length > 1){
-
-                if(cleanFirstName.equals(retreivedInfo[0]) && cleanLastName.isEmpty()){
-                    cleanLastName = retreivedInfo[1];
-                    lastName = retreivedInfo[1];
-                }
-                if(cleanLastName.equals(retreivedInfo[1]) && cleanFirstName.isEmpty()){
-                    cleanFirstName = retreivedInfo[0];
-                    firstName = retreivedInfo[0];
-                }
-
-                if(cleanLastName.isEmpty() && cleanFirstName.isEmpty()){
-                    cleanFirstName = retreivedInfo[0];
-                    firstName = retreivedInfo[0];
-
-                    cleanLastName = retreivedInfo[1];
-                    lastName = retreivedInfo[1];
-                }
-            }else {
-
-                if(retreivedInfo[0].contains(cleanFirstName) || retreivedInfo[0].contains(cleanLastName) || retreivedInfo[0].contains(cleanNickName)){
-                    /*if(retreivedInfo[0].contains(cleanFirstName)){
-
-                        String[] potentialLastName = retreivedInfo[0].split(String.valueOf(cleanFirstName.charAt(cleanFirstName.length()-1)));
-                        lastName = potentialLastName[0];
-                        cleanLastName = potentialLastName[0];
-                    }
-                    if(retreivedInfo[0].contains(cleanLastName)){
-                        String[] potentialFirstName = retreivedInfo[0].split(String.valueOf(cleanLastName.charAt(cleanLastName.length()-1)));
-                        firstName = potentialFirstName[1];
-                        cleanFirstName = potentialFirstName[1];
-                    }
-                    if(retreivedInfo[0].contains(cleanNickName)){
-                        String[] potentialNickname = retreivedInfo[0].split(String.valueOf(cleanNickName.charAt(cleanNickName.length()-1)));
-                        nickName = potentialNickname[0];
-                        cleanNickName = potentialNickname[0];
-                    }*/
-
-                }else{
-                    cleanNickName = retreivedInfo[0];
-                    nickName = retreivedInfo[0];
-                }
-
+            if(cleanFirstName.contains(retreivedInfo[1]) && cleanLastName.isEmpty()){
+                cleanLastName = retreivedInfo[1];
+                lastName = retreivedInfo[1];
+            }
+            if(cleanLastName.equals(retreivedInfo[0]) && cleanFirstName.isEmpty()){
+                cleanFirstName = retreivedInfo[0];
+                firstName = retreivedInfo[0];
             }
 
+            if(cleanLastName.isEmpty() && cleanFirstName.isEmpty()){
+                cleanFirstName = retreivedInfo[0];
+                firstName = retreivedInfo[0];
+
+                cleanLastName = retreivedInfo[1];
+                lastName = retreivedInfo[1];
+            }
+
+        } else{
+            if(!this.firstName.isEmpty() && retreivedInfo[0].contains(this.firstName)){
+                lastName = retreivedInfo[0].substring(firstName.length());
+                cleanLastName = retreivedInfo[0].substring(firstName.length());
+            } else if(!this.lastName.isEmpty() && retreivedInfo[0].contains(this.lastName)){
+                firstName = retreivedInfo[0].substring(lastName.length());
+                cleanFirstName = retreivedInfo[0].substring(lastName.length());
+            }
+            
         }
     }
 
