@@ -36,8 +36,8 @@ public class Merge {
                                 volunteerPhones.add(users.get(i).phone);
                             }
                             isDuplicate = true;
-                            volunteerEmails.removeAll(Arrays.asList("", null));
                             volunteerPhones.removeAll(Arrays.asList("", null));
+                            volunteerEmails.removeAll(Arrays.asList("", null));
                             newUsersMap.put(
                                     entry.getValue().firstName + entry.getValue().lastName,
                                     new Volunteer(entry.getValue().lastName.isEmpty() ? lastname : entry.getValue().lastName, entry.getValue().firstName.isEmpty() ? firstname: entry.getValue().firstName, username, String.join(",", volunteerEmails), String.join(",", volunteerPhones)));
