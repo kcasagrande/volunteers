@@ -17,9 +17,11 @@ public class Merge {
             String username = users.get(i).nickName;
             ArrayList<String> emailList = !users.get(i).eMail.isEmpty() ? new ArrayList<>(Collections.singleton(users.get(i).eMail)) : new ArrayList<>();
             ArrayList<String> phoneList = !users.get(i).phone.isEmpty() ? new ArrayList<>(Collections.singleton(users.get(i).phone)) : new ArrayList<>();
+            Map<String, String> initMap = new HashMap<>();
+            initMap.put("firstName", firstname);
+            initMap.put("lastName", lastname);
             boolean isDuplicate = false;
-            if (firstname.isEmpty() || lastname.isEmpty()){
-                if(searchedPhones.contains(users.get(i).phone) || searchedEmails.contains(users.get(i).eMail)) {
+            if (searchedNames.contains(initMap) ||searchedPhones.contains(users.get(i).phone) || (searchedEmails.contains(users.get(i).eMail))){
                     for(Map.Entry<String, Volunteer> entry : newUsersMap.entrySet()) {
                         if (username.isEmpty()) {
                             username = entry.getValue().nickName;
@@ -27,19 +29,20 @@ public class Merge {
                         ArrayList<String> volunteerEmails = new ArrayList<>(Arrays.asList(entry.getValue().eMail.split(",")));
                         ArrayList<String> volunteerPhones = new ArrayList<>(Arrays.asList(entry.getValue().phone.split(",")));
                         if (volunteerPhones.contains(users.get(i).phone) || volunteerEmails.contains(users.get(i).eMail)) {
-                            if (!users.get(i).eMail.isEmpty() && !volunteerEmails.contains(users.get(i).eMail)) {
+                            if (!volunteerEmails.contains(users.get(i).eMail)) {
                                 volunteerEmails.add(users.get(i).eMail);
                             }
-                            if (!users.get(i).phone.isEmpty() && !volunteerPhones.contains(users.get(i).phone)) {
+                            if (!volunteerPhones.contains(users.get(i).phone)) {
                                 volunteerPhones.add(users.get(i).phone);
                             }
                             isDuplicate = true;
+                            volunteerEmails.removeAll(Arrays.asList("", null));
+                            volunteerPhones.removeAll(Arrays.asList("", null));
                             newUsersMap.put(
                                     entry.getValue().firstName + entry.getValue().lastName,
-                                    new Volunteer(entry.getValue().lastName, entry.getValue().firstName, username, String.join(",", volunteerEmails), String.join(",", volunteerPhones)));
+                                    new Volunteer(entry.getValue().lastName.isEmpty() ? lastname : entry.getValue().lastName, entry.getValue().firstName.isEmpty() ? firstname: entry.getValue().firstName, username, String.join(",", volunteerEmails), String.join(",", volunteerPhones)));
                         }
                     }
-                }
             }
             for(Map<String, String>  searchedName : searchedNames) {
                 if (
@@ -65,9 +68,7 @@ public class Merge {
                             new Volunteer(searchedName.get("lastName").toString(),searchedName.get("firstName").toString(),username,String.join(",", emailArray),String.join(",", phoneArray)));
                 }
             }
-            Map<String, String> initMap = new HashMap<>();
-            initMap.put("firstName", firstname);
-            initMap.put("lastName", lastname);
+
             if (!searchedNames.contains(initMap) && !isDuplicate) {
                 while (i2 < users.size()) {
                     if (lastname.equalsIgnoreCase(users.get(i2).lastName)
