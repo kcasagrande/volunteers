@@ -28,7 +28,7 @@ public class Merge {
                         ArrayList<String> volunteerEmails = new ArrayList<>(Arrays.asList(entry.getValue().eMail.split(",")));
                         ArrayList<String> volunteerPhones = new ArrayList<>(Arrays.asList(entry.getValue().phone.split(",")));
                         if(volunteerPhones.contains(users.get(i).phone)) {
-                            if (!volunteerEmails.contains(users.get(i).eMail)) {
+                            if (!users.get(i).eMail.isEmpty() && !volunteerEmails.contains(users.get(i).eMail)) {
                                 volunteerEmails.add(users.get(i).eMail);
                             }
                             isDuplicate = true;
@@ -36,7 +36,7 @@ public class Merge {
                                     entry.getValue().firstName+entry.getValue().lastName,
                                     new Volunteer(entry.getValue().lastName,entry.getValue().firstName,username,String.join(",", volunteerEmails),String.join(",", volunteerPhones)));
                         } else if (volunteerEmails.contains(users.get(i).eMail)){
-                            if (!volunteerPhones.contains(users.get(i).phone)) {
+                            if (!users.get(i).phone.isEmpty() && !volunteerPhones.contains(users.get(i).phone)) {
                                 volunteerPhones.add(users.get(i).phone);
                             }
                             isDuplicate = true;
