@@ -1,7 +1,6 @@
 package org.example.volunteers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PhoneConverter {
@@ -240,14 +239,36 @@ public class PhoneConverter {
     if(str.startsWith("+")) {
       str = str.substring(1);
 
-      // black magic right there !
       String finalStr = str;
 
-      return phones.stream().anyMatch(n -> {
-        return finalStr.startsWith(String.valueOf(n));
-      });
-    }else {
+      return phones.stream().anyMatch(n -> finalStr.startsWith(String.valueOf(n)));
+    }
+    else {
       return false;
     }
+  }
+
+  public static String convertPhoneNumberWithHyphen(String str) {
+    return str.replaceAll("-", "");
+  }
+
+  public static String removeAllNonIntegerCharacter(String str) {
+    str = str.replaceFirst("[+]", "");
+    return "+" + str.replaceAll("[^0-9]", "");
+  }
+
+  public static String deleteContentInsideParenthesis(String str) {
+    return str.replaceAll("([(].*[)])", "");
+  }
+
+  public static String toUniversalFormat(String str){
+    if(!PhoneConverter.hasPrefixeIndicatorValid(str)){
+      if(str.charAt(0) == '0'){
+        str = "+33" + str.substring(1);
+      }
+    }
+    str = PhoneConverter.deleteContentInsideParenthesis(str);
+    str = PhoneConverter.removeAllNonIntegerCharacter(str);
+    return str;
   }
 }

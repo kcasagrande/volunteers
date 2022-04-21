@@ -1,24 +1,21 @@
-package org.example.volunteers;
+package org.example.volunteers.cleaner;
 
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
-import org.example.volunteers.cleanup.CleanUp;
+import org.example.volunteers.Cleaner;
+import org.example.volunteers.Volunteer;
 import org.example.volunteers.utils.VolunteerParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(DataProviderRunner.class)
-public class DedupeAndMergeTest {
+public class CleanByAllTest {
   @DataProvider
   public static Object[][] dataProviderVolunteers() {
     String data1 = """
@@ -48,7 +45,7 @@ public class DedupeAndMergeTest {
 
     String data2 = """
         Benoît;Beaudouin;;benoit_beaudouin@example.net;+33099395922
-        ;Beaudouin;"EdgeLordDu38";benoit_beaudouin@example.net;+0099395922
+        Benoît;Beaudouin;"EdgeLordDu38";benoit_beaudouin@example.net;+0099395922
         LESLY;LOZÉ;Fledgling;Fledgling4390@example.org;+33045550388
         """;
 
@@ -72,7 +69,7 @@ public class DedupeAndMergeTest {
     String data3 = """
         Nicolas;Abbadie;;nicolasabbadie@example.com;
         Nicolas;;;nicolasabbadie@example.com;
-        ;Abbadie;;nicolasabbadie@example.com;+33012345678
+        Nicolas;Abbadie;;nicolasabbadie@example.com;+33012345678
         """;
 
     List<Volunteer> volunteers3 = new ArrayList<>(List.of(
@@ -100,11 +97,11 @@ public class DedupeAndMergeTest {
       List<Volunteer> expectedDedupedAndMergedList
   ) {
     // When
-    Map<String, Volunteer> cleanedList = CleanUp.clean2(volunteers);
+    ArrayList<Volunteer> cleanedList = Cleaner.clean(volunteers);
 
     // Then
     int volunteerIndex = 0;
-    for(Volunteer cleanedVolunteer : cleanedList.values()) {
+    for(Volunteer cleanedVolunteer : cleanedList) {
       assertThat(expectedDedupedAndMergedList.get(volunteerIndex)).usingRecursiveComparison().isEqualTo(cleanedVolunteer);
       volunteerIndex++;
     }

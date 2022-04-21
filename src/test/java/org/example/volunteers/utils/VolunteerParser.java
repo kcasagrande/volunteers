@@ -9,6 +9,21 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toList;
 
 public class VolunteerParser {
+  public static Volunteer volunteerFromStringArray(String[] volunteer) {
+    return new Volunteer(
+        volunteer[0],
+        volunteer[1],
+        volunteer[2],
+        volunteer[3],
+        volunteer[4]
+    );
+  }
+
+  public static List<Volunteer> parseVolunteersFromStringArray(String[][] volunteers) {
+    return Arrays.stream(volunteers)
+        .map(VolunteerParser::volunteerFromStringArray)
+        .collect(toList());
+  }
 
   public static List<Volunteer> listFromString(String volunteerString) {
     Pattern quotes = Pattern.compile("^\"([^\"]*)\"$");

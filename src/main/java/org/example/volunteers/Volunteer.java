@@ -24,15 +24,34 @@ public final class Volunteer {
         this.email = email;
         this.phone = phone;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
+    
     @Override
     public String toString() {
         return Arrays.stream(new String[]{firstName,lastName,nickName, email,phone})
             .map(attribute -> String.format("\"%s\"", attribute))
             .collect(joining(";"));
+    }
+
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
+
+    public Boolean hasName() {
+        return !this.firstName.isBlank() || !this.lastName.isBlank();
+    }
+
+    public boolean hasSameName(Volunteer volunteerToCompare) {
+        return (
+            this.firstName.equals(volunteerToCompare.firstName) && this.lastName.equals(volunteerToCompare.lastName)
+                || this.firstName.equals(volunteerToCompare.lastName) && this.lastName.equals(volunteerToCompare.firstName)
+        );
+    }
+
+    public boolean hasSameCredentials(Volunteer volunteerToCompare) {
+        return (
+            this.nickName.equals(volunteerToCompare.nickName)
+                || this.email.equals(volunteerToCompare.email)
+                || this.phone.equals(volunteerToCompare.phone)
+        );
     }
 }

@@ -1,6 +1,5 @@
 import org.example.volunteers.Cleaner;
 import org.example.volunteers.Volunteer;
-import org.example.volunteers.cleanup.CleanUp;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -24,12 +22,12 @@ public class App {
         .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
         .collect(toList());
 
-    Map<String, Volunteer> outputVolunteers = CleanUp.clean2(inputVolunteers);
+    ArrayList<Volunteer> outputVolunteers = Cleaner.clean(inputVolunteers);
 
     PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
 
     try (writer) {
-      writer.println(outputVolunteers.values().toString()
+      writer.println(outputVolunteers.toString()
           .replaceAll("\\[|\\]", "")
           .replaceAll(", ", "\r\n")
       );
