@@ -25,15 +25,12 @@ public class App {
             .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
             .collect(toList());
 
-        // List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
-        List<Volunteer> outputVolunteers = Cleaner.cleanVolunteers(inputVolunteers);
-
+        List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
 
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         for(Volunteer volunteer : outputVolunteers) {
             writer.println(volunteer.toString());
         }
         writer.close();
-        //writer.println(outputVolunteers);
     }
 }
