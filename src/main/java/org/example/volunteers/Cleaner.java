@@ -49,35 +49,8 @@ public class Cleaner {
 
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-
-        /*
-        // User properties : Firstname, Lastname, Username, Email, Phone
-
-        // This function should contain your dark magic.
-        // For now, it simply returns a copy of the initial list.
-        List<Volunteer> volunteerList;
-        Volunteer volunteerNew;
         Volunteer volunteerOne;
         Volunteer volunteerToCompare;
-        String phoneFirstVolunteer;
-        String phoneVolunteerToCompare;
-
-        for(Volunteer volunteer : volunteers) {
-            volunteerNew = new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.email, volun);
-            for(Volunteer volunteerBis : volunteers) {
-                if(!volunteer.equals(volunteerBis)) {
-                    phoneFirstVolunteer = Utils.convertPhone(volunteer.phone);
-                    phoneVolunteerToCompare = Utils.convertPhone(volunteerBis.phone);
-                    if(phoneFirstVolunteer.equalsIgnoreCase(phoneVolunteerToCompare)) {
-
-                    }
-                }
-            }
-        }*/
-        Volunteer volunteerOne;
-        Volunteer volunteerToCompare;
-        String phoneFirstVolunteer;
-        String phoneVolunteerToCompare;
         List<Integer> indiceExclue = new ArrayList<>();
         List<Volunteer> volunteerMerge = new ArrayList<>();
 
@@ -86,7 +59,7 @@ public class Cleaner {
             if(!indiceExclue.contains(i)) {
                 for(int j = 0; j < volunteers.size(); j++) {
                     volunteerToCompare = volunteers.get(j);
-                    if(i != j && !indiceExclue.contains(i) && volunteerOne.isSameThan(volunteerToCompare)) {
+                    if(i != j && !indiceExclue.contains(i) && volunteerOne.isSameThan(volunteerToCompare)){
                         //On a trouvé quelqu'un qui lui ressemble on peut donc compléter leurs informations
                         volunteerOne.fillInformations(volunteerToCompare);
                         indiceExclue.add(j);
@@ -100,31 +73,6 @@ public class Cleaner {
                 volunteerMerge.add(volunteers.get(i));
             }
         }
-
-        /*HashMap<String, List<Volunteer>> volunteerSharePhone = new HashMap<>();
-        HashMap<String, List<Volunteer>> volunteerShareMail = new HashMap<>();
-        // vérifier
-        for(Volunteer volunteer : volunteers) {
-            String phoneNumber = Utils.convertPhone(volunteer.phone);
-            if(!phoneNumber.equalsIgnoreCase("")) {
-                if(volunteerSharePhone.get(volunteer.phone) != null) {
-                    volunteerList = volunteerSharePhone.get(volunteer.phone);
-                } else {
-                    volunteerList = new ArrayList<>();
-                }
-                volunteerList.add(volunteer);
-                volunteerSharePhone.put(volunteer.phone, volunteerList);
-            } else {
-                //Mail
-
-            }
-        }
-        */
-
-        /**
-         * Check phone number
-         * Liste de volontaire
-         */
 
         return volunteerMerge;
     }
