@@ -27,7 +27,10 @@ public class App {
 
         List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
 
+        //System.out.println(outputVolunteers.size());
+
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
-        writer.println(outputVolunteers);
+        outputVolunteers.forEach(writer::println);
+        writer.close();
     }
 }
