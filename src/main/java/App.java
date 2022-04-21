@@ -63,6 +63,9 @@ public class App {
 
         formatListVolunteers.sort(comparator);
 
+        // var UniqueVolunter= new List unique volontaire
+        // Sort.getUniqueVolunteer(UniqueVolunter,formatListVolunteers)
+
         List<Volunteer> SortListVolunteers = Sort.removeDuplicate(formatListVolunteers);
         return new ArrayList<>(SortListVolunteers);
     }
