@@ -6,6 +6,7 @@ public class Merge {
 
     public List<Volunteer> mergeByName(List<Volunteer> users) {
         List<Volunteer> newUsers = new ArrayList<>();
+        Map<String,Volunteer> newUsersMap = new LinkedHashMap<>();
         List<Map<String,String>> searchedNames = new ArrayList<>();
 
         for (int i = 0; i < users.size(); i++) {
@@ -22,15 +23,22 @@ public class Merge {
                 || JaroWinklerDistance.round(JaroWinklerDistance.jaro_distance(lastname+firstname, searchedName.get("firstName").toString()+searchedName.get("lastName").toString()), 1) > 0.8
                 ) {
                     isDuplicate = true;
+                    Volunteer dupUser = newUsersMap.get(searchedName.get("firstName").toString() + searchedName.get("lastName").toString());
+                    username = dupUser.nickName;
                     if (username.equals("")) {
-                        username = users.get(i).nickName;
+                        username = users.get(i2).nickName;
                     }
-                    if (!emailList.contains(users.get(i).eMail) && !users.get(i).eMail.equals("")) {
-                        emailList.add(users.get(i).eMail);
+                    List<String> emailArray = new ArrayList<>(Arrays.asList(dupUser.eMail.split(",")));
+                    if (!emailArray.contains(users.get(i).eMail) && !users.get(i).eMail.equals("")) {
+                        emailArray.add(users.get(i).eMail);
                     }
-                    if (!phoneList.contains(users.get(i).phone) && !users.get(i).phone.equals("")) {
-                        phoneList.add(users.get(i).phone);
+                    List<String> phoneArray = new ArrayList<>(Arrays.asList(dupUser.phone.split(",")));
+                    if (!phoneArray.contains(users.get(i).phone) && !users.get(i).phone.equals("")) {
+                        phoneArray.add(users.get(i).phone);
                     }
+                    newUsersMap.put(
+                            searchedName.get("firstName").toString()+searchedName.get("lastName").toString(),
+                            new Volunteer(searchedName.get("lastName").toString(),searchedName.get("firstName").toString(),username,String.join(",", emailArray),String.join(",", phoneArray)));
                 }
             }
             Map initMap = new HashMap();
@@ -46,7 +54,6 @@ public class Merge {
                         }
                         if (!emailList.contains(users.get(i2).eMail) && !users.get(i2).eMail.equals("")) {
                             emailList.add(users.get(i2).eMail);
-
                         }
                         if (!phoneList.contains(users.get(i2).phone) && !users.get(i2).phone.equals("")) {
                             phoneList.add(users.get(i2).phone);
@@ -58,10 +65,10 @@ public class Merge {
                 nameMap.put("firstName", firstname);
                 nameMap.put("lastName", lastname);
                 searchedNames.add(nameMap);
-                newUsers.add(newUsers.size(), new Volunteer(lastname,firstname,username,String.join(",", emailList),String.join(",", phoneList)));
+                newUsersMap.put(firstname+lastname, new Volunteer(lastname,firstname,username,String.join(",", emailList),String.join(",", phoneList)));
             }
         }
-        return newUsers;
+        return new ArrayList<>(newUsersMap.values());
     }
 
     public List<Volunteer> mergeByPhoneNumber(List<Volunteer> users) {
