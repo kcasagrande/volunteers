@@ -31,6 +31,7 @@ public class App {
         for(Volunteer volunteer : outputVolunteers) {
             writer.println(volunteer.toString());
         }
+
         writer.close();
     }
 }
