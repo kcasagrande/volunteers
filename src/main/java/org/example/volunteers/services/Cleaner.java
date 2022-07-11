@@ -2,6 +2,7 @@ package org.example.volunteers.services;
 
 import org.example.volunteers.models.Volunteer;
 import org.example.volunteers.models.VolunteerEmailError;
+import org.example.volunteers.models.VolunteerPhoneNumberError;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ public class Cleaner {
 
     private Validations validators;
     public VolunteerEmailError emailValidator;
+    public VolunteerPhoneNumberError phoneNumberValidator;
     public List<Volunteer> allVolunteers;
     public Cleaner(List<Volunteer> volunteers){
         this.validators = new Validations();
@@ -22,10 +24,16 @@ public class Cleaner {
         // For now, it simply returns a copy of the initial list.
         Set<Volunteer> volunteersToRemove = new HashSet<>();
         this.checkEmails();
+        this.checkPhoneNumbers();
         volunteersToRemove.addAll(this.emailValidator.noEmail);
+        volunteersToRemove.addAll(this.phoneNumberValidator.noPhoneNumber);
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
+        volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
         for (String email : this.emailValidator.duplicateEmail.keySet()){
             volunteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
+        }
+        for (String phoneNumber : this.phoneNumberValidator.duplicatePhoneNumber.keySet()){
+            volunteersToRemove.addAll(this.phoneNumberValidator.duplicatePhoneNumber.get(phoneNumber));
         }
         List<Volunteer> allVolunteersCorrect = this.allVolunteers;
         allVolunteersCorrect.removeAll(volunteersToRemove);
@@ -61,6 +69,36 @@ public class Cleaner {
                 .filter(x-> x.getValue().stream().count() > 1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
         this.emailValidator= new VolunteerEmailError(checkVolunteersWithNoEmail , mapDuplicateEmailVolunteers , volunteersWithBadEmails);
+    }
+
+    public void checkPhoneNumbers(){
+        ArrayList<Volunteer> checkVolunteersWithNoPhoneNumbers = new ArrayList();
+        HashMap<String , List<Volunteer>> mapPhoneNumberVolunteers = new HashMap<>();
+        ArrayList<Volunteer> volunteersWithBadPhoneNumbers =new ArrayList<>();
+
+        for(Volunteer volunteer : this.allVolunteers){
+            if(volunteer.getEmail() == null || volunteer.getEmail().isEmpty()){
+                checkVolunteersWithNoPhoneNumbers.add(volunteer);
+                continue;
+            }
+            if(!this.validators.validatePhoneNumber(volunteer.getPhone())){
+                checkVolunteersWithNoPhoneNumbers.add(volunteer);
+                continue;
+            }
+            if(mapPhoneNumberVolunteers.containsKey(volunteer.getPhone())){
+                List<Volunteer> phoneNumberVolunteers = mapPhoneNumberVolunteers.get(volunteer.getPhone());
+                phoneNumberVolunteers.add(volunteer);
+                mapPhoneNumberVolunteers.put(volunteer.getPhone() , phoneNumberVolunteers);
+            } else {
+                mapPhoneNumberVolunteers.put(volunteer.getPhone() , new ArrayList<>(Arrays.asList(volunteer)));
+            }
+        }
+        HashMap<String , List<Volunteer>> mapDuplicatePhoneNumberVolunteers = mapPhoneNumberVolunteers
+                .entrySet()
+                .stream()
+                .filter(x-> x.getValue().stream().count() > 1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
+        this.phoneNumberValidator= new VolunteerPhoneNumberError(checkVolunteersWithNoPhoneNumbers, mapDuplicatePhoneNumberVolunteers, volunteersWithBadPhoneNumbers);
     }
 
     public static List<Volunteer> removeDuplicateByFullName() throws Exception{
