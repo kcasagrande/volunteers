@@ -1,14 +1,13 @@
 package org.example.volunteers.services;
 
 import org.example.volunteers.models.Volunteer;
-
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
-public class Cleaner {
 
-    public static String regex_pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,24}$";
+public class Cleaner {
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         // This function should contain your dark magic.
@@ -16,13 +15,40 @@ public class Cleaner {
         return new ArrayList<>(volunteers);
     }
 
-    public static List<Volunteer> removeDuplicateByEmail() throws Exception{
-        throw new Exception("not implemented");
+    public static List<Volunteer> checkVolunteersWithNoEmail(List<Volunteer> volunteers){
+        return volunteers.stream().filter(x-> x.getEmail() == null || x.getEmail().isEmpty()).collect(Collectors.toList());
+    }
+
+    public static HashMap<String,List<Volunteer>> checkDuplicateEmail(List<Volunteer> volunteers){
+        HashMap<String , List<Volunteer>> mapEmailVolunteers = new HashMap<>();
+        List<String> emails = volunteers.stream().map(x-> x.getEmail()).collect(Collectors.toList());
+        emails.remove(null);
+        for(String email : emails){
+            int occurrences = Collections.frequency(emails, email);
+            if(occurrences > 1 && !mapEmailVolunteers.containsKey(email)){
+                mapEmailVolunteers.put(email,volunteers.stream().filter(x->x.getEmail() == email).collect(Collectors.toList()));
+            }
+        }
+        return mapEmailVolunteers;
+    }
+
+    public static List<Volunteer> checkBadEmail(List<Volunteer> volunteers){
+        List<Volunteer> volunteersWithBadEmails =new ArrayList<>();
+        Validations validator = new Validations();
+        for (Volunteer volunteer : volunteers) {
+            if (volunteer.getEmail() == null || volunteer.getEmail().isEmpty()) {
+                continue;
+            }
+            if (!validator.validateEmailAddress(volunteer.getEmail())) {
+                volunteersWithBadEmails.add(volunteer);
+            }
+        }
+        return volunteersWithBadEmails;
     }
 
     public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers) throws Exception{
         Volunteer volunteerTest = volunteers.get(0);
-        Pattern pattern = Pattern.compile(Cleaner.regex_pattern);
+        //Pattern pattern = Pattern.compile(Cleaner.regex_pattern);
         int index = 0;
         for(Volunteer volunteer : volunteers){
             if(true){
@@ -32,7 +58,7 @@ public class Cleaner {
                 throw new Exception("Malformed name for user "+volunteer.getFirstName());
             }
 
-            if(volunteer.firstName.equals(volunteerTest.firstName) && volunteer.lastName.equals(volunteerTest.lastName)){
+            if(volunteer.getFirstName().equals(volunteerTest.getFirstName()) && volunteer.getLastName().equals(volunteerTest.getLastName())){
                 volunteers.remove(index);
             }
             index++;
@@ -43,4 +69,6 @@ public class Cleaner {
     public  static List<Volunteer> removeDuplicateByPhoneNumber() throws Exception{
         throw new Exception("not implemented");
     }
+
+
 }
