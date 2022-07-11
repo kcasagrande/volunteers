@@ -1,4 +1,4 @@
-package org.example.volunteers;
+package org.example.volunteers.models;
 
 import java.util.Arrays;
 
