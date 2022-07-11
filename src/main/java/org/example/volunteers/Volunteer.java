@@ -7,7 +7,7 @@ import static java.util.stream.Collectors.joining;
 public final class Volunteer {
     public final String firstName;
     public final String lastName;
-    public final String nickName;
+    public String nickName;
     public final String eMail;
     public final String phone;
 
