@@ -7,6 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Cette classe est une suite de tests servant d'exemple et d'aide-mémoire de la syntaxe Java et JUnit.
@@ -94,10 +97,20 @@ public class DemoTest {
     }
 
     @Test
-    public void shouldFindNullOrEmptyFields() {
+    public void shouldBeAGoodNumber() {
+        List<Volunteer> volunteers = new ArrayList<Volunteer>();
+        Volunteer v = new Volunteer("Nom", "Prenom", "Surnom", "email1@gmail.com", "+33645784578");
+        volunteers.add(v);
+//        List<Volunteer> newVolunteer = c::cleanUp(volunteers);
+        List<Volunteer> newVolunteers = Cleaner.cleanUp(volunteers);
+//        assertArrayEquals(volunteers, newVolunteers);
 
     }
 
+    @Test
+    public void shouldFindNullOrEmptyFields() {
+
+    }
     @AfterEach
     public void tearDown() {
         System.out.println("Ce code est exécuté après chaque test");

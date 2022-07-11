@@ -61,7 +61,7 @@ public final class Volunteer {
         return nickName;
     }
 
-    public String geteMail() {
+    public String getEMail() {
         return eMail;
     }
 
