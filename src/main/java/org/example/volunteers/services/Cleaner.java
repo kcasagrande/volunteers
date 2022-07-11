@@ -28,10 +28,12 @@ public class Cleaner {
         Set<Volunteer> volunteersToRemove = new HashSet<>();
         this.checkEmails();
         this.checkPhoneNumbers();
+        this.checkNames();
         volunteersToRemove.addAll(this.emailValidator.noEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.noPhoneNumber);
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
+        volunteersToRemove.addAll(this.nameValidator.malformedNames);
         for (String email : this.emailValidator.duplicateEmail.keySet()){
             volunteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
         }

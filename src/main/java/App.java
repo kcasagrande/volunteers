@@ -36,6 +36,10 @@ public class App {
         cleaner.phoneNumberValidator.print(phoneNumberErrorsWriter);
         phoneNumberErrorsWriter.close();
 
+        PrintWriter NamesErrorsWriter = new PrintWriter("src/main/resources/badNames.txt");
+        cleaner.nameValidator.print(NamesErrorsWriter);
+        NamesErrorsWriter.close();
+
         writer.close();
     }
 }
