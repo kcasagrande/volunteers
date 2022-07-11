@@ -25,10 +25,15 @@ public final class Volunteer {
         this.phone = phone;
     }
 
+    public String geteMail() {
+        return eMail;
+    }
+
     @Override
     public String toString() {
         return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
             .map(attribute -> String.format("\"%s\"", attribute))
             .collect(joining(";"));
     }
+
 }

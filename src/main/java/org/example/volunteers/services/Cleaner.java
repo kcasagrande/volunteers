@@ -16,8 +16,17 @@ public class Cleaner {
         throw new Exception("not implemented");
     }
 
-    public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers) throws Exception{
-        throw new Exception("not implemented");
+    public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers){
+        Volunteer volunteerTest = volunteers.get(0);
+        int index = 0;
+        for(Volunteer volunteer : volunteers){
+            if(volunteer.firstName.equals(volunteerTest.firstName) && volunteer.lastName.equals(volunteerTest.lastName)){
+                volunteers.remove(index);
+            }
+            index++;
+        }
+
+        return volunteers;
     }
 
     public  static List<Volunteer> removeDuplicateByPhoneNumber() throws Exception{

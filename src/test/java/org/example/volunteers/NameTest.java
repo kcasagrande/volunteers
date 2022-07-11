@@ -37,13 +37,28 @@ public class NameTest {
     @Test
     public void shouldRemoveWithDuplicateFullName() throws Exception {
 
-        List<Volunteer> volunteersWithDuplicateFName = new ArrayList<>();
-        volunteersWithDuplicateFName.add(new Volunteer("Marine", "Dupont", "MD", "marine.dupont@test.fr", "+33600000000"));
-        volunteersWithDuplicateFName.add(new Volunteer("Marine", "Dupont", "MDP", "marine.dupont@test.fr", "+33670000000"));
+        List<Volunteer> volunteers = new ArrayList<>();
+        Volunteer duplicateVolunteerFName = new Volunteer("Marine", "Dupont", "MDP", "marine.dupont@test.fr", "+33670000000");
 
-        List<Volunteer> results = Cleaner.removeDuplicateByFullName(volunteersWithDuplicateFName);
+        volunteers.add(new Volunteer("Marine", "Dupont", "MD", "marine.dupont@test.fr", "+33600000000"));
+        volunteers.add(duplicateVolunteerFName);
+
+        List<Volunteer> results = Cleaner.removeDuplicateByFullName(volunteers);
 
         Assertions.assertEquals(results.size(), 1);
+
+    }
+
+    @Test
+    public void shouldThrowExceptionForMalformedNames() throws Exception {
+
+        List<Volunteer> volunteers = new ArrayList<>();
+        Volunteer malformedVolunteerFName = new Volunteer("Marine", "Dupont?", "MD", "marine.dupont@test.fr", "+33600000000");
+
+        volunteers.add(new Volunteer("Marine", "Dupont", "MDP", "marine.dupont@test.fr", "+33670000000"));
+        volunteers.add(malformedVolunteerFName);
+
+        Assertions.assertThrows(Exception.class, () -> Cleaner.removeDuplicateByFullName(volunteers), "Malformed name for user "+malformedVolunteerFName.geteMail());
 
     }
 
