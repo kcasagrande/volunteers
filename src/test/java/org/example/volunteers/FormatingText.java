@@ -38,4 +38,14 @@ public class FormatingText {
 
         assertEquals(expectedResult, actualResult, "Le texte doit retourner une majuscule en premier caractère puis des minuscules");
     }
+    @Test
+    public void checkFormatTextFromMultipleNames(){
+        String testText = "De villePin";
+
+        String expectedResult = "De Villepin";
+
+        String actualResult = Cleaner.formatText(testText);
+
+        assertEquals(expectedResult, actualResult, "Le texte doit retourner une majuscule en premier caractère puis des minuscules pour chaque nom");
+    }
 }
