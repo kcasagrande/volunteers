@@ -1,12 +1,14 @@
 package org.example.volunteers;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class Cleaner {
+    private static final String[][] UMLAUT_REPLACEMENTS = { { "É", "E" }, { "é", "e" }, { "È", "E" }, { "è", "e" }, { "'", " " }, { "-", " " } };
+
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         return new ArrayList<Volunteer>(volunteers);
     }
@@ -34,7 +36,6 @@ public class Cleaner {
         LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
         for (Volunteer volunteer: volunteers) {
-
             String volunteerStringTest = volunteer.eMail + ";" + volunteer.phone;
 
             if(!linkedsetVolunteers.contains(volunteerStringTest)) {
@@ -44,6 +45,24 @@ public class Cleaner {
         }
 
         return uniqueVolunteers;
+    }
+
+    public static List<Volunteer> removeSpecialCharacters(List<Volunteer> volunteers) {
+        List<Volunteer> cleanedVolunteers = new ArrayList<>();
+
+        for (Volunteer volunteer: volunteers) {
+            String firstName = volunteer.firstName;
+            String lastName = volunteer.lastName;
+
+            for (String[] umlautReplacement : UMLAUT_REPLACEMENTS) {
+                firstName = firstName.replaceAll(umlautReplacement[0], umlautReplacement[1]);
+                lastName = lastName.replaceAll(umlautReplacement[0], umlautReplacement[1]);
+            }
+
+            cleanedVolunteers.add(new Volunteer(firstName, lastName, volunteer.nickName, volunteer.eMail, volunteer.phone));
+        }
+
+        return cleanedVolunteers;
     }
 
     public static Volunteer convertDashesFromPhoneNumber(Volunteer volunteer) {

@@ -26,9 +26,9 @@ public class CleanerTest {
     @Test
     public void testRemovedDuplicateVerifyFirstNameLastNameNicknamePseudoMailPhone() {
         List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
-        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
-        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo2", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
 
         List<Volunteer> result = Cleaner.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
 
@@ -38,13 +38,26 @@ public class CleanerTest {
     @Test
     public void testRemovedDuplicateVerifyMailPhone() {
         List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo2", "john@mail.com", "+33698675434"));
         volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
-        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675439"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675439"));
 
         List<Volunteer> result = Cleaner.removeDuplicateMailPhone(volunteers);
 
         assertEquals(2, result.size());
+    }
+
+    @Test
+    public void removeSpecialCharacters() {
+        List<Volunteer> volunteersA = new ArrayList<>();
+        volunteersA.add(new Volunteer("john'doe", "doé", "jojo", "john@mail.com", "+33698675434"));
+        volunteersA.add(new Volunteer("john-doe", "doe", "jojo", "john@mail.com", "+33698675434"));
+
+        List<Volunteer> result = Cleaner.removeSpecialCharacters(volunteersA);
+
+        assertEquals(result.get(0).firstName, "john doe");
+        assertEquals(result.get(0).lastName, "doe");
+        assertEquals(result.get(1).firstName, "john doe");
     }
 
     @Test
