@@ -18,11 +18,11 @@ public class Cleaner {
             String lastName = volunteer.lastName;
 
             // first & last names
-            if (firstName != "" && Objects.equals(firstName.substring(1), firstName.substring(1).toUpperCase())) {
+            if (firstName != "" && !Objects.equals(firstName.substring(1), firstName.substring(1).toUpperCase())) {
                 volunteer.firstName = formatName(firstName);
             }
 
-            if (lastName != "" && Objects.equals(lastName.substring(1), lastName.substring(1).toUpperCase())) {
+            if (lastName != "" && !Objects.equals(lastName.substring(1), lastName.substring(1).toUpperCase())) {
                 volunteer.lastName = formatName(lastName);
             }
 
