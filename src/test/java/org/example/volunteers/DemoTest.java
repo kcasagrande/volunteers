@@ -2,6 +2,11 @@ package org.example.volunteers;
 
 import org.junit.jupiter.api.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.*;
@@ -57,13 +62,33 @@ public class DemoTest {
     }
 
     @Test
-    public void fileShouldContainAtLeastOneLine() throws IOException, URISyntaxException {
+    public void fileShouldContainAtLeastOneLine() throws IOException {
         System.out.println("Vérification du nombre de lignes du fichier");
 
         Path path = Paths.get("src/main/resources/output.csv");
         Long nbLines = Files.lines(path).skip(1L).count();
 
         assertEquals(true, nbLines >= 1, "Le fichier devrait contenir plus d'une ligne");
+    }
+
+    @Test
+    public void shouldFormatFirstName() {
+        System.out.println("Formattage du prénom");
+
+        String firstName = "LouIs++e";
+        String formattedFirstName = Cleaner.formatFirstName(firstName);
+
+        assertEquals("Louise", formattedFirstName, "Le prénom doit être formatté");
+    }
+
+    @Test
+    public void shouldFormatLastName() {
+        System.out.println("Formattage du nom");
+
+        String lastName = "BourdIN!!";
+        String formattedLastName = Cleaner.formatLastName(lastName);
+
+        assertEquals("BOURDIN", formattedLastName, "Le nom doit être formatté");
     }
 
     @AfterEach
