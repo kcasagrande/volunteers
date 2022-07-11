@@ -32,7 +32,7 @@ public class CleanerTest {
 
         List<Volunteer> result = Cleaner.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
 
-        assertEquals(2, result.size());
+        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon avec le nickName jojo");
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CleanerTest {
 
         List<Volunteer> result = Cleaner.removeDuplicateMailPhone(volunteers);
 
-        assertEquals(2, result.size());
+        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon sur le téléphone +33698675434");
     }
 
     @Test
@@ -55,9 +55,9 @@ public class CleanerTest {
 
         List<Volunteer> result = Cleaner.removeSpecialCharacters(volunteersA);
 
-        assertEquals(result.get(0).firstName, "john doe");
-        assertEquals(result.get(0).lastName, "doe");
-        assertEquals(result.get(1).firstName, "john doe");
+        assertEquals(result.get(0).firstName, "john doe", "Les apostrophes doivent être supprimés");
+        assertEquals(result.get(0).lastName, "doe", "Les accents doivent être remplacés par des caractères classiques");
+        assertEquals(result.get(1).firstName, "john doe", "Les tirets doivent être supprimés");
     }
 
     @Test
