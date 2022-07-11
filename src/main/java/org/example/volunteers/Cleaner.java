@@ -1,9 +1,12 @@
 package org.example.volunteers;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Cleaner {
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
@@ -91,5 +94,36 @@ public class Cleaner {
         } else {
             return "";
         }
+    }
+
+    public static List<Duplicate> extractDuplicated (List<Volunteer> volunteers) {
+        List<Duplicate> duplicatedVolunteers = new ArrayList<>();
+
+        for (Volunteer v : volunteers) {
+            // System.out.println(v.getFullName());
+            String phone = v.phone.toLowerCase(Locale.ROOT).trim();
+            String email = v.eMail.toLowerCase(Locale.ROOT).trim();
+            String firstName = v.firstName.toLowerCase(Locale.ROOT).trim();
+            String lastName = v.lastName.toLowerCase(Locale.ROOT).trim();
+            String nickName = v.nickName.toLowerCase(Locale.ROOT).trim();
+
+            List<Volunteer> duplicates = volunteers.stream()
+                    .filter((volunteer) -> !volunteer.id.equals(v.id))
+                    .filter((volunteer) -> (
+                            volunteer.eMail.toLowerCase(Locale.ROOT).trim().equals(email)
+                                    || volunteer.phone.toLowerCase(Locale.ROOT).trim().equals(phone))
+                            && (volunteer.firstName.toLowerCase(Locale.ROOT).trim().equals(firstName)
+                                || volunteer.lastName.toLowerCase(Locale.ROOT).trim().equals(lastName))
+                    )
+                    .filter((volunteer) -> duplicatedVolunteers.stream().noneMatch(vol -> vol.volunteerId.equals(volunteer.id)))
+                    .collect(Collectors.toList());
+
+            if (duplicates.size() > 0) {
+                Duplicate duplicate = new Duplicate(v.id, duplicates, duplicates.size());
+                duplicatedVolunteers.add(duplicate);
+            }
+        }
+
+        return duplicatedVolunteers;
     }
 }

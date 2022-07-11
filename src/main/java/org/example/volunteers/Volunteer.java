@@ -1,10 +1,12 @@
 package org.example.volunteers;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import static java.util.stream.Collectors.joining;
 
 public final class Volunteer {
+    private Number id;
     private String firstName;
     private String lastName;
     private String nickName;
@@ -14,17 +16,23 @@ public final class Volunteer {
     public int score = 0;
 
     public Volunteer(
-        String firstName,
-        String lastName,
-        String nickName,
-        String eMail,
-        String phone
+            Number id,
+            String firstName,
+            String lastName,
+            String nickName,
+            String eMail,
+            String phone
     ) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.nickName = nickName;
         this.eMail = eMail;
         this.phone = phone;
+    }
+
+    public String getFullName () {
+        return this.firstName.toLowerCase(Locale.ROOT).trim() + this.lastName.toLowerCase(Locale.ROOT).trim();
     }
 
     @Override

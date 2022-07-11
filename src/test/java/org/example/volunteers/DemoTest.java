@@ -3,9 +3,10 @@ package org.example.volunteers;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +28,37 @@ public class DemoTest {
     }
 
     @Test
-    public void shouldAlwaysPass() {
-        assertTrue(true);
-    }
+    public void showDuplicatedVolunteers() throws IOException {
+        Volunteer volunteer1 = new Volunteer(1, "Gregg", "Sanchez", "gsanchez", "gsanchez@ynov.com", "0123456789");
+        Volunteer volunteer2 = new Volunteer(2, "Aimée", "Ritleng", "aritleng", "aritleng@ynov.com", "0123456789");
+        Volunteer volunteer3 = new Volunteer(3, "Nicolas", "Notararigo", "nnotararigo", "nnotararigo@ynov.com", "0123456789");
+        Volunteer volunteer7 = new Volunteer(7, "Nicolas", "Notararigo", "nnotararigo", "nnotararigo@ynov.com", "+33123456789");
+        Volunteer volunteer4 = new Volunteer(4, "Romain", "Frechet", "rfrechet", "rfrechet@ynov.com", "0123456789");
+        Volunteer volunteer5 = new Volunteer(5, "Louise", "Baulan", "lbaulan", "lbaulan@ynov.com", "0123456789");
+        Volunteer volunteer6 = new Volunteer(6, "Louise", "Baulan", "lbaulan", "gsanchez@ynov.com", "0123456789");
 
-    @Test
-    public void shouldComputeTheSumOfTwoNumbers() {
-        // Arrange
-        int a = 1;
-        int b = 2;
+        List<Volunteer> volunteersList = new ArrayList<>();
+        volunteersList.add(volunteer1);
+        volunteersList.add(volunteer2);
+        volunteersList.add(volunteer3);
+        volunteersList.add(volunteer4);
+        volunteersList.add(volunteer5);
+        volunteersList.add(volunteer6);
+        volunteersList.add(volunteer7);
 
-        // Act
-        int actualResult = a + b;
+        List<Duplicate> duplicatedVolunteers = Cleaner.extractDuplicated(volunteersList);
+        System.out.println(duplicatedVolunteers.size());
 
-        // Assert
-        int expectedResult = 3;
-        assertEquals(expectedResult, actualResult, "La somme de 1 et 2 devrait être 3");
+        for (Duplicate duplicate : duplicatedVolunteers) {
+            System.out.println("Volunteer ID : " + duplicate.volunteerId);
+            System.out.println(duplicate.duplicates);
+            System.out.println("Nombre de duplications : " + duplicate.count);
+        }
+
+        List<Volunteer> uniqueVolunteers = volunteersList.stream()
+                .filter(v -> duplicatedVolunteers.stream().noneMatch(volunteer -> volunteer.volunteerId.equals(v.id)))
+                .collect(Collectors.toList());
+        System.out.println(uniqueVolunteers.size());
     }
 
     @Test
