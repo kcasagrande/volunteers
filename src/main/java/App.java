@@ -25,11 +25,9 @@ public class App {
 
         Cleaner cleaner = new Cleaner(inputVolunteers);
         cleaner.checkEmails();
+        cleaner.emailValidator.print(new PrintWriter("src/main/resources/badEmail.txt"));
 
-        PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.txt"));
-        cleaner.emailValidator.print(writer);
-
-        writer.println("Records corrects :");
+        PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         cleaner.cleanUp().forEach(writer::println);
 
         writer.close();

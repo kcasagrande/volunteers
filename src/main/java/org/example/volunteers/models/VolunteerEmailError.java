@@ -18,7 +18,6 @@ public class VolunteerEmailError {
     }
 
     public void print(PrintWriter writer){
-        writer.println("Partie avec de mauvais emails : ");
         this.printNoEmail(writer);
         this.printBadFormatEmail(writer);
         this.printDuplicateEmail(writer);
@@ -26,34 +25,37 @@ public class VolunteerEmailError {
 
     public void printNoEmail(PrintWriter writer){
         if(this.noEmail.size()>0){
-            writer.println("Records sans emails");
+            writer.println("Records sans email : ");
             this.noEmail.forEach(writer::println);
             writer.println();
         }else{
-            writer.println("Il n\'y a pas de record sans email");
+            writer.println("Il n\'y a pas de record sans email : ");
+            writer.println();
         }
     }
 
     public void printDuplicateEmail(PrintWriter writer){
         if(this.duplicateEmail.size()>0){
-            writer.println("Records avec des doublons d'emails");
+            writer.println("Records avec des doublons d'emails : ");
             for(String email : this.duplicateEmail.keySet()){
                 writer.println("Pour l\'email \""+email+"\" :");
                 this.duplicateEmail.get(email).forEach(writer::println);
             }
             writer.println();
         }else{
-            writer.println("Il n\'y a pas de doublons d'email");
+            writer.println("Il n\'y a pas de doublons d'email ");
+            writer.println();
         }
     }
 
     public void printBadFormatEmail(PrintWriter writer){
         if(this.badFormatEmail.size()>0){
-            writer.println("Records avec un mauvais format d'email");
+            writer.println("Records avec un mauvais format d'email:");
             this.badFormatEmail.forEach(writer::println);
             writer.println();
         }else{
             writer.println("Il n\'y a pas de record sans mauvais format d\'email");
+            writer.println();
         }
     }
 
