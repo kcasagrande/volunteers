@@ -36,8 +36,7 @@ public class Cleaner {
 
         for (Volunteer volunteer: volunteers) {
 
-            List<String> volunteerSplit = Arrays.asList(volunteer.toString().split(";"));
-            String volunteerStringTest = volunteerSplit.get(3) + ";" + volunteerSplit.get(4);
+            String volunteerStringTest = volunteer.eMail + ";" + volunteer.phone;
 
             if(!linkedsetVolunteers.contains(volunteerStringTest)) {
                 linkedsetVolunteers.add(volunteerStringTest);
