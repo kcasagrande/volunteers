@@ -14,16 +14,25 @@ public class Cleaner {
     private Validations validators;
     public VolunteerEmailError emailValidator;
     public VolunteerNameError nameValidator;
-    public List<Volunteer> allVolonteers;
+    public List<Volunteer> allVolunteers;
     public Cleaner(List<Volunteer> volunteers){
         this.validators = new Validations();
-        this.allVolonteers = volunteers;
+        this.allVolunteers = volunteers;
     }
 
-    public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
+    public List<Volunteer> cleanUp() {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
-        return new ArrayList<>(volunteers);
+        Set<Volunteer> volunteersToRemove = new HashSet<>();
+        this.checkEmails();
+        volunteersToRemove.addAll(this.emailValidator.noEmail);
+        volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
+        for (String email : this.emailValidator.duplicateEmail.keySet()){
+            volunteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
+        }
+        List<Volunteer> allVolunteersCorrect = this.allVolunteers;
+        allVolunteersCorrect.removeAll(volunteersToRemove);
+        return allVolunteersCorrect;
     }
 
 
@@ -32,7 +41,7 @@ public class Cleaner {
         HashMap<String , List<Volunteer>> mapEmailVolunteers = new HashMap<>();
         ArrayList<Volunteer> volunteersWithBadEmails =new ArrayList<>();
 
-        for(Volunteer volunteer : this.allVolonteers){
+        for(Volunteer volunteer : this.allVolunteers){
             if(volunteer.getEmail() == null || volunteer.getEmail().isEmpty()){
                 checkVolunteersWithNoEmail.add(volunteer);
                 continue;
@@ -63,7 +72,7 @@ public class Cleaner {
         HashMap<String , List<Volunteer>> mapVolunteerNames = new HashMap<>();
         ArrayList<Volunteer> volunteersWithMalformedNames = new ArrayList<>();
 
-        for(Volunteer volunteer : this.allVolonteers){
+        for(Volunteer volunteer : this.allVolunteers){
 
             if(volunteer.getFirstName() == null || volunteer.getFirstName().isEmpty()){
                 volunteersWithMalformedNames.add(volunteer);
@@ -105,8 +114,6 @@ public class Cleaner {
             }else{
                 mapVolunteerNames.put(volunteer.getFirstName()+"."+volunteer.getLastName() , new ArrayList<>(Arrays.asList(volunteer)));
             }
-
-
         }
 
         HashMap<String , List<Volunteer>> mapDuplicateNamesVolunteers = mapVolunteerNames
@@ -117,10 +124,7 @@ public class Cleaner {
         this.nameValidator= new VolunteerNameError(mapDuplicateNamesVolunteers, volunteersWithMalformedNames);
     }
 
-
     public  static List<Volunteer> removeDuplicateByPhoneNumber() throws Exception{
         throw new Exception("not implemented");
     }
-
-
 }

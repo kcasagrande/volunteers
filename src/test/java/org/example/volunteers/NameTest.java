@@ -9,9 +9,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class NameTest {
     @BeforeAll
     public static void globalSetUp() {
@@ -113,14 +110,4 @@ public class NameTest {
         Assertions.assertEquals(0, result.size(), "Aucun doublon n'a été trouvé");
 
     }
-
-//    @AfterEach
-//    public void tearDown() {
-//        System.out.println("Ce code est exécuté après chaque test");
-//    }
-//
-//    @AfterAll
-//    public static void globalTearDown() {
-//        System.out.println("Ce code est exécuté une seule fois après l'ensemble des tests");
-//    }
 }
