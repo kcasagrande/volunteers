@@ -24,19 +24,18 @@ public class App {
             .collect(toList());
 
         Cleaner cleaner = new Cleaner(inputVolunteers);
-        cleaner.checkEmails();
+
+        PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
+        cleaner.cleanUp().forEach(writer::println);
 
         PrintWriter emailErrorsWriter = new PrintWriter("src/main/resources/badEmail.txt");
         cleaner.emailValidator.print(emailErrorsWriter);
         emailErrorsWriter.close();
 
-        PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
-        cleaner.cleanUp().forEach(writer::println);
+        PrintWriter phoneNumberErrorsWriter = new PrintWriter("src/main/resources/badPhoneNumbers.txt");
+        cleaner.phoneNumberValidator.print(phoneNumberErrorsWriter);
+        phoneNumberErrorsWriter.close();
 
         writer.close();
-    }
-
-    public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers){
-        return null;
     }
 }
