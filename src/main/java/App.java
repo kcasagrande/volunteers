@@ -1,6 +1,5 @@
 import org.example.volunteers.Cleaner;
 import org.example.volunteers.Volunteer;
-import org.w3c.dom.css.RGBColor;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 
 import static java.util.stream.Collectors.toList;
@@ -112,23 +110,6 @@ public class App {
             }
         }
         return duplicates;
-    }
-
-    public static Boolean ensurePhoneNumber(String phoneNumber) {
-        System.out.println("Ensure phone number is valid format function");
-        String phoneRegex = "^(?:(?:\\+|00)33[\\s.-]{0,3}(?:\\(0\\)[\\s.-]{0,3})?|0)[1-9](?:(?:[\\s.-]?\\d{2}){4}|\\d{2}(?:[\\s.-]?\\d{3}){2})$";
-        Pattern pattern = Pattern.compile(phoneRegex);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        System.out.println(phoneNumber + " : " + matcher.matches());
-        if (matcher.matches()) {
-            String firstCharacter = phoneNumber.substring(0, 1);
-            System.out.println("First character is : " + firstCharacter);
-            if (firstCharacter.equals("0")) {
-                String newPhoneNumber = firstCharacter.replace('0', '+') + "33" + phoneNumber.substring(1);
-                System.out.println(newPhoneNumber);
-            }
-        }
-        return matcher.matches();
     }
 
     public static Boolean toTitleCase(String name) {

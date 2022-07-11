@@ -1,3 +1,4 @@
+import org.example.volunteers.Cleaner;
 import org.example.volunteers.Volunteer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -81,13 +82,6 @@ public class VolunteersTest {
     }
 
     @Test
-    public void isPhoneNumber() {
-        String phoneNumber = "0123456789";
-        Boolean isPhoneNumber = App.ensurePhoneNumber(phoneNumber);
-        assertTrue(isPhoneNumber, "Le numéro de téléphone n'est pas valide");
-    }
-
-    @Test
     public void isUpperCaseAndLowerCase() {
         String name = "qfsdGGDFgee";
         Boolean toTitleCase = App.toTitleCase(name);
@@ -101,5 +95,13 @@ public class VolunteersTest {
         List<Volunteer> volunteers = Arrays.asList(vol1, vol2);
         int nbrCompletedForm = App.getCompletedForms(volunteers);
         assertEquals(1, nbrCompletedForm);
+    }
+
+    @Test
+    public void ensurePhoneNumberIsValid(){
+        String phone = "+33(0)000555196";
+        String expectedPhoneNumber = "+330000555196";
+        String actualPhoneNumber = Cleaner.formatPhoneNumber(phone);
+        assertEquals(expectedPhoneNumber, actualPhoneNumber, "Le numéro de téléphone doit etre valide");
     }
 }
