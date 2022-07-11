@@ -52,9 +52,13 @@ public final class Volunteer {
     public void formatPhoneNumber() {
         String phoneNumber = this.phone;
 
-        Pattern pattern = Pattern.compile("-| |\\.|\\(|\\)", Pattern.MULTILINE);
-        Matcher matcher = pattern.matcher(phoneNumber);
-        String formatedPhoneNumber = matcher.replaceAll("");
+        String formatedPhoneNumber = phoneNumber.replace(" ", "");
+        formatedPhoneNumber = formatedPhoneNumber.replace("-", "");
+        formatedPhoneNumber = formatedPhoneNumber.replace("(", "");
+        formatedPhoneNumber = formatedPhoneNumber.replace(")", "");
+        formatedPhoneNumber = formatedPhoneNumber.replace("\\", "");
+        formatedPhoneNumber = formatedPhoneNumber.replace("/", "");
+        formatedPhoneNumber = formatedPhoneNumber.replace(".", "");
 
         if (formatedPhoneNumber.matches("/^\\+33/gm")) {
             if (!formatedPhoneNumber.matches("/^33/gm")){
