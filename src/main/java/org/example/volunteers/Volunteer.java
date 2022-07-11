@@ -6,14 +6,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.joining;
 
 public final class Volunteer {
-	private final String firstName;
-	private final String lastName;
-	private final String nickName;
-	private final String eMail;
-	private final String phone;
+	private String firstName;
+	private String lastName;
+	private String nickName;
+	private String eMail;
+	private String phone;
 
 	private Set<String> emails = new HashSet<>();
 	private Set<String> phones = new HashSet<>();
@@ -70,6 +71,34 @@ public final class Volunteer {
 
 	public Set<String> getPhones() {
 		return this.phones;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setEmails(Set<String> emails) {
+		this.emails = emails;
+	}
+
+	public void setPhones(Set<String> phones) {
+		this.phones = phones;
 	}
 
 	public static String formatNames(String input) {
@@ -130,16 +159,71 @@ public final class Volunteer {
 		return this.eMail != null || this.phone != null;
 	}
 
-
-	public boolean isFirstNameAndLastnameEquals(Volunteer vol) {
-		if (this.firstName == null || vol.firstName == null || this.lastName == null || vol.lastName == null) return false;
-		return this.firstName.equals(vol.firstName) && this.lastName.equals(vol.lastName);
+	public boolean isFirstnameEquals(Volunteer vol) {
+		if (this.firstName == null || vol.firstName == null) return false;
+		return this.firstName.equals(vol.firstName);
 	}
 
-	public boolean isFullyEqual(Volunteer vol) {
-		if (!this.isFirstNameAndLastnameEquals(vol)) return false;
-		if (this.nickName == null && vol.nickName == null) return true;
-		if (this.nickName == null || vol.nickName == null) return false;
-		return vol.nickName.equals(this.nickName);
+	public boolean isLastnameEquals(Volunteer vol) {
+		if (this.lastName == null || vol.lastName == null) return false;
+		return this.lastName.equals(vol.lastName);
 	}
+
+
+	public boolean hasCommonEmails(Volunteer vol) {
+		for (String email : this.getEmails()) {
+			for (String volEmail : vol.getEmails()) {
+				if (volEmail.equals(email)) return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasCommonPhones(Volunteer vol) {
+
+		for (String phone : this.getPhones()) {
+			for (String volPhone : vol.getPhones()) {
+				if (volPhone.equals(phone))
+					return true;
+				;
+			}
+		}
+		return false;
+	}
+
+
+	public void mergeVolunteerIdentities(Volunteer volunteer) {
+		this.setFirstName(getNotNullString(getFirstName(), volunteer.getFirstName()));
+		this.setLastName(getNotNullString(getLastName(), volunteer.getLastName()));
+		this.setNickName(getNotNullString(getNickName(), volunteer.getNickName()));
+		this.phones.addAll(volunteer.phones);
+		this.emails.addAll(volunteer.emails);
+	}
+
+	private String getNotNullString(String st1, String st2) {
+		if (st1 == null && st2 == null) return null;
+		if (st1 != null) return st1;
+		return st2;
+	}
+
+	private static boolean bothEntryAreNotNull(Volunteer v1, Volunteer v2) {
+		return v1.getLastName() != null && v2.getLastName() != null && v1.getFirstName() != null && v2.getFirstName() != null;
+	}
+
+	public boolean isSamePerson(Volunteer volunteer) {
+		if (StringUtils.bothStringsAreNull(getLastName(), volunteer.getLastName())) return false;
+		if (bothEntryAreNotNull(this, volunteer)
+				&& getLastName().equals(volunteer.getFirstName())
+				&& getFirstName().equals(volunteer.getLastName()))
+			return true;
+		if (!isLastnameEquals(volunteer)) return false;
+		if (StringUtils.hasJustOneNull(getFirstName(), volunteer.getFirstName())) return true;
+		if (!isFirstnameEquals(volunteer)) return false;
+		return true;
+	}
+
+
+//	(volunteer1.isLastnameEquals(volunteer2) || StringUtils.bothStringsAreNull(volunteer1.getLastName(), volunteer2.getLastName())) ||
+//			(volunteer1.isFirstnameEquals(volunteer2) || StringUtils.hasJustOneNull(volunteer1.getFirstName(), volunteer2.getFirstName()))) {
+
 }
