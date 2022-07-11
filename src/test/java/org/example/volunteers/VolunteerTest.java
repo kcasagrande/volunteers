@@ -144,10 +144,7 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+3305-2658-575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
 
     @Test
@@ -156,10 +153,7 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+33052658575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
     @Test
     public void shouldFormatPhoneNumberOpenParenthesis() {
@@ -167,10 +161,7 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+3305(2658(575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
 
     @Test
@@ -179,10 +170,7 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+3305)2658)575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
     @Test
     public void shouldFormatPhoneNumberSlash() {
@@ -190,10 +178,7 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+3305/2658/575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
 
     @Test
@@ -202,10 +187,7 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+3305\\2658\\575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
 
     @Test
@@ -214,10 +196,7 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+3305.2658.575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
 
     @Test
@@ -226,12 +205,99 @@ public class VolunteerTest {
                 "matli", "matisse.livain@gmail.com"
                 , "+3305 2658 575");
         testVolunteer.formatPhoneNumber();
-        Volunteer verifyVolunteer = new Volunteer("Matisse", "LIVAIN",
-                "matli", "matisse.livain@gmail.com"
-                , "+33052658575");
-        assertEquals(verifyVolunteer, testVolunteer);
+        assertEquals("+33052658575", testVolunteer.phone);
     }
 
+
+    @Test
+    public void shouldNotFormatFirstNameAlreadyFormated() {
+        Volunteer testVolunteer = new Volunteer("Matisse", "Livain",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatFirstName();
+        assertEquals("Matisse", testVolunteer.firstName);
+    }
+
+    @Test
+    public void shouldNotFormatFirstNameAlreadyFormatedWithHyphens() {
+        Volunteer testVolunteer = new Volunteer("Henry-Matisse", "Livain",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatFirstName();
+        assertEquals("Henry-Matisse", testVolunteer.firstName);
+    }
+
+    @Test
+    public void shouldFormatFirstNameNormal() {
+        Volunteer testVolunteer = new Volunteer("matiSse", "Livain",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatFirstName();
+        assertEquals("Matisse", testVolunteer.firstName);
+    }
+
+    @Test
+    public void shouldFormatFirstNameWithHyphens() {
+        Volunteer testVolunteer = new Volunteer("henry-matiSse", "Livain",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatLastName();
+        assertEquals("Henry-Matisse", testVolunteer.firstName);
+    }
+
+    @Test
+    public void shouldFormatFirstNameWithSpaces() {
+        Volunteer testVolunteer = new Volunteer("henry matiSse", "Livain",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatLastName();
+        assertEquals("Henry Matisse", testVolunteer.firstName);
+    }
+
+    @Test
+    public void shouldNotFormatLastNameAlreadyFormated() {
+        Volunteer testVolunteer = new Volunteer("Matisse", "Livain",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatLastName();
+        assertEquals("Livain", testVolunteer.lastName);
+    }
+
+    @Test
+    public void shouldNotFormatLastNameAlreadyFormatedWithHyphens() {
+        Volunteer testVolunteer = new Volunteer("Henry-Matisse", "Livain-Henry",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatLastName();
+        assertEquals("Livain-Henry", testVolunteer.lastName);
+    }
+
+    @Test
+    public void shouldFormatLastNameNormal() {
+        Volunteer testVolunteer = new Volunteer("Matisse", "liVain",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatLastName();
+        assertEquals("Livain", testVolunteer.lastName);
+    }
+
+    @Test
+    public void shouldFormatLastNameWithHyphens() {
+        Volunteer testVolunteer = new Volunteer("Matisse", "Livain-hEnry",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatLastName();
+        assertEquals("Livain-Henry", testVolunteer.lastName);
+    }
+
+    @Test
+    public void shouldFormatLastNameWithSpaces() {
+        Volunteer testVolunteer = new Volunteer("Matisse", "livain henRy",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        testVolunteer.formatLastName();
+        assertEquals("Livain Henry", testVolunteer.lastName);
+    }
 
     @AfterEach
     public void tearDown() {

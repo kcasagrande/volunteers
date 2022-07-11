@@ -2,6 +2,7 @@ package org.example.volunteers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Cleaner {
     public static boolean handleDuplicates(List<Volunteer> volunteers) {
@@ -10,19 +11,51 @@ public class Cleaner {
         // Autre fonction pour formater par famille
 
         List<Volunteer> singles = new ArrayList<>();
-        List<Volunteer> hasDuplicates = new ArrayList<>();
+        List<Group> groups = new ArrayList<>();
+        Integer groupIndex = 0;
 
         for ( int i = 0; i < volunteers.size(); i++ ) {
             Volunteer item = volunteers.get(i);
-            boolean sameMail = volunteers.stream().filter(o -> o.eMail.equals(item.eMail)).count() > 1;
+            boolean sameMail = volunteers.stream().filter(o -> o.email.equals(item.email)).count() > 1;
             boolean samePhone = volunteers.stream().filter(o -> o.phone.equals(item.phone)).count() > 1;
 
-            if ( sameMail || samePhone ) hasDuplicates.add(item);
-            else singles.add(item);
-        }
+            if ( item.phone == "+33045558312") {
+                System.out.println(samePhone);
+            }
+            if ((sameMail) || ( samePhone )) {
+                List<Group> currentGroup = null;
+                if ( sameMail && item.email != "" ) {
+                     currentGroup = groups.stream().filter(o -> o.volunteers.stream().anyMatch(v -> v.email.equals(item.email)) ).collect(Collectors.toList());
+                } else if ( samePhone && item.phone != "" ) {
+                    currentGroup = groups.stream().filter(o -> o.volunteers.stream().anyMatch(v -> v.phone.equals(item.phone)) ).collect(Collectors.toList());
+                }
 
+                if ( currentGroup != null  && currentGroup.size() > 0) {
+                    currentGroup.get(0).volunteers.add(item);
+                }
+                else {
+                    List<Volunteer> list = new ArrayList<Volunteer>();
+                    list.add(item);
+                    Group group = new Group(groupIndex, list);
+                    groupIndex ++;
+                    groups.add(group);
+                }
+            /*}
+            else if ( item.email == "" || item.phone == "" ) {
+                List<Volunteer> list = new ArrayList<Volunteer>();
+                list.add(item);
+                Group group = new Group(groupIndex, list);
+                groupIndex ++;
+                groups.add(group);*/
+            } else singles.add(item);
+        }
         System.out.println(singles);
-        System.out.println(hasDuplicates);
+        System.out.println(groups);
+
+        /*for ( int i = 0; i < hasDuplicates.size(); i++ ) {
+            Volunteer item = hasDuplicates.get(i);
+
+        }*/
 
         // vérifier si mail ou tel similaire si le nom correspond aussi ou si les infos sont complémentaires ( donc à regrouper )
         // Lequel garder entre les deux doublons ? ( celui qui a le plus d'infos ? )
@@ -43,9 +76,7 @@ public class Cleaner {
             boolean hasFullName = volunteer.hasFullName();
             boolean hasPseudo = (volunteer.nickName == null || volunteer.nickName == "");
 
-            if (!hasValidPhone && volunteer.phone != null) {
-                volunteer.formatPhoneNumber();
-            }
+            //volunteer.format();
 
             if (hasFullName && hasValidEmail && hasValidPhone) {
                 volunteer.level = 1;
