@@ -43,6 +43,13 @@ public class Cleaner {
                 }
                 correctedPhoneNumber = "+33" + correctedPhoneNumber;
                 volunteer.phone = correctedPhoneNumber;
+
+            if (Objects.equals(volunteer.nickName, "")) {
+                volunteer.nickName = volunteer.firstName;
+            String emailRegex = "^(.+)@$";
+            String emailRegex = "^(.+)@(\\S+)$";
+            if (!Pattern.compile(emailRegex).matcher(volunteer.eMail).matches()) {
+                volunteer.eMail = "";
             }
         }
 

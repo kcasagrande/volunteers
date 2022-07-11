@@ -76,7 +76,21 @@ public class CleanerTest {
         whenCleaningUpVolunteers();
         thenPhoneIs("");
     }
-    
+
+	@Test
+    public void removeEmailAdressIfNoSymbol() {
+        givenVolunteer("test", "test", "test", "test.test", "");
+        whenCleaningUpVolunteers();
+        thenMailIs("");
+    }
+
+    @Test
+    public void removeEmailAdressIfNoDomain() {
+        givenVolunteer("test", "test", "test", "test@", "");
+        whenCleaningUpVolunteers();
+        thenMailIs("");
+    }
+
     private void givenVolunteer(String firstName, String lastName, String nickname, String eMail, String phone) {
         volunteers.add(new Volunteer(firstName, lastName, nickname, eMail, phone));
     }

@@ -8,7 +8,7 @@ public final class Volunteer {
     public String firstName;
     public String lastName;
     public String nickName;
-    public final String eMail;
+    public String eMail;
     public String phone;
 
     public Volunteer(
