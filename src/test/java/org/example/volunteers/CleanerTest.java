@@ -24,10 +24,12 @@ public class CleanerTest {
         thenLastNameIs("Bordais");
     }
 
+    @Test
     private void givenVolunteer(Volunteer volunteer) {
         volunteers.add(volunteer);
     }
-    
+
+    @Test
     public void transformPhoneNumberInFrenchFormat() {
         givenVolunteer("test", "test", "test", "test@test.test", "00-55-51-64-64");
         whenCleaningUpVolunteers();
