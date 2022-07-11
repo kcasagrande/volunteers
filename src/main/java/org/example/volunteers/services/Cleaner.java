@@ -11,25 +11,25 @@ public class Cleaner {
 
     private Validations validators;
     public VolunteerEmailError emailValidator;
-    public List<Volunteer> allVolonteers;
+    public List<Volunteer> allVolunteers;
     public Cleaner(List<Volunteer> volunteers){
         this.validators = new Validations();
-        this.allVolonteers = volunteers;
+        this.allVolunteers = volunteers;
     }
 
     public List<Volunteer> cleanUp() {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
-        Set<Volunteer> volonteersToRemove = new HashSet<>();
+        Set<Volunteer> volunteersToRemove = new HashSet<>();
         this.checkEmails();
-        volonteersToRemove.addAll(this.emailValidator.noEmail);
-        volonteersToRemove.addAll(this.emailValidator.badFormatEmail);
+        volunteersToRemove.addAll(this.emailValidator.noEmail);
+        volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         for (String email : this.emailValidator.duplicateEmail.keySet()){
-            volonteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
+            volunteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
         }
-        List<Volunteer> allVolonteersCoorect = this.allVolonteers;
-        allVolonteersCoorect.removeAll(volonteersToRemove);
-        return allVolonteersCoorect;
+        List<Volunteer> allVolunteersCorrect = this.allVolunteers;
+        allVolunteersCorrect.removeAll(volunteersToRemove);
+        return allVolunteersCorrect;
     }
 
 
@@ -38,7 +38,7 @@ public class Cleaner {
         HashMap<String , List<Volunteer>> mapEmailVolunteers = new HashMap<>();
         ArrayList<Volunteer> volunteersWithBadEmails =new ArrayList<>();
 
-        for(Volunteer volunteer : this.allVolonteers){
+        for(Volunteer volunteer : this.allVolunteers){
             if(volunteer.getEmail() == null || volunteer.getEmail().isEmpty()){
                 checkVolunteersWithNoEmail.add(volunteer);
                 continue;
