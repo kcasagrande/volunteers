@@ -27,11 +27,10 @@ public class VolunteerEmailError {
         if(this.noEmail.size()>0){
             writer.println("Records sans email : ");
             this.noEmail.forEach(writer::println);
-            writer.println();
         }else{
             writer.println("Il n\'y a pas de record sans email : ");
-            writer.println();
         }
+        writer.println();
     }
 
     public void printDuplicateEmail(PrintWriter writer){
@@ -41,22 +40,20 @@ public class VolunteerEmailError {
                 writer.println("Pour l\'email \""+email+"\" :");
                 this.duplicateEmail.get(email).forEach(writer::println);
             }
-            writer.println();
         }else{
             writer.println("Il n\'y a pas de doublons d'email ");
-            writer.println();
         }
+        writer.println();
     }
 
     public void printBadFormatEmail(PrintWriter writer){
         if(this.badFormatEmail.size()>0){
             writer.println("Records avec un mauvais format d'email:");
             this.badFormatEmail.forEach(writer::println);
-            writer.println();
         }else{
             writer.println("Il n\'y a pas de record sans mauvais format d\'email");
-            writer.println();
         }
+        writer.println();
     }
 
 }
