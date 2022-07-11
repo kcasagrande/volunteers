@@ -2,6 +2,7 @@ package org.example.volunteers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Cleaner {
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
@@ -14,7 +15,8 @@ public class Cleaner {
             String firstName = formatText(volunteer.firstName);
             String lastName = formatText(volunteer.lastName);
             String phone = formatPhone(volunteer.phone);
-            Volunteer newVolunteer = new Volunteer(firstName, lastName, volunteer.nickName, volunteer.eMail, phone);
+            String email = formatEmail(volunteer.eMail);
+            Volunteer newVolunteer = new Volunteer(firstName, lastName, volunteer.nickName, email, phone);
             newVolunteers.add(newVolunteer);
         }
 
@@ -46,6 +48,17 @@ public class Cleaner {
         }
 
         return phone;
+    }
+
+    public static String formatEmail (String email){
+
+        // Delete email if wrongly formatted
+        if(!Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$").matcher(email).matches()){
+            return "";
+        }
+        // LowerCase email
+        email = email.toLowerCase();
+        return email;
     }
 
 }
