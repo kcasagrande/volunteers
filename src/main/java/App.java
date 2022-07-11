@@ -31,4 +31,9 @@ public class App {
         outputVolunteers.forEach(writer::println);
         writer.close();
     }
+
+    public static Boolean ensureFieldIsNotEmpty(String field)
+    {
+        return field.isEmpty();
+    }
 }
