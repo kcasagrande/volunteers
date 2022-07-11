@@ -31,4 +31,20 @@ public final class Volunteer {
             .map(attribute -> String.format("\"%s\"", attribute))
             .collect(joining(";"));
     }
+
+    @Override
+    public int hashCode() {
+        return (this.firstName.hashCode() + this.lastName.hashCode() + this.nickName.hashCode() + this.eMail.hashCode() + this.phone.hashCode());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Volunteer)
+        {
+            Volunteer temp = (Volunteer) obj;
+            if(this.firstName.equals(temp.firstName) && this.lastName.equals(temp.lastName) && this.nickName.equals(temp.nickName) && this.eMail.equals(temp.eMail) && this.phone.equals(temp.phone))
+                return true;
+        }
+        return false;
+    }
 }

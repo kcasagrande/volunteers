@@ -1,7 +1,9 @@
 package org.example.volunteers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Cleaner {
@@ -9,7 +11,7 @@ public class Cleaner {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
 
-        List<Volunteer> newVolunteers = new ArrayList<Volunteer>();
+        List<Volunteer> formatedVolunteers = new ArrayList<Volunteer>();
 
         for (Volunteer volunteer : volunteers) {
             String firstName = formatText(volunteer.firstName);
@@ -17,11 +19,13 @@ public class Cleaner {
             String phone = formatPhone(volunteer.phone);
             String email = formatEmail(volunteer.eMail);
             Volunteer newVolunteer = new Volunteer(firstName, lastName, volunteer.nickName, email, phone);
-            newVolunteers.add(newVolunteer);
+            formatedVolunteers.add(newVolunteer);
         }
 
+        List<Volunteer> reducedVolunteers = removeDuplicates(formatedVolunteers);
 
-        return new ArrayList<>(newVolunteers);
+
+        return new ArrayList<>(reducedVolunteers);
     }
 
     public static String formatText(String text){
@@ -61,7 +65,6 @@ public class Cleaner {
 
         return phone;
     }
-
     public static String formatEmail (String email){
 
         // Delete email if wrongly formatted
@@ -71,6 +74,17 @@ public class Cleaner {
         // LowerCase email
         email = email.toLowerCase();
         return email;
+    }
+
+    public static List<Volunteer> removeDuplicates (List<Volunteer> volunteers){
+        System.out.println("Taille initiale : "+ volunteers.size() );
+
+        // Utilisation d'un HashSet pour la suppression des doublons parfait
+        Set<Volunteer> volunteerSet = new HashSet<>(volunteers);
+        volunteers = new ArrayList<>(volunteerSet);
+
+        System.out.println("Taille finale : "+volunteers.size());
+        return volunteers;
     }
 
 }
