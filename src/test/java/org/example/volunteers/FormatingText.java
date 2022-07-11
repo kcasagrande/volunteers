@@ -40,9 +40,9 @@ public class FormatingText {
     }
     @Test
     public void checkFormatTextFromMultipleNames(){
-        String testText = "De villePin";
+        String testText = "De ville pin";
 
-        String expectedResult = "De Villepin";
+        String expectedResult = "De Ville Pin";
 
         String actualResult = Cleaner.formatText(testText);
 
@@ -57,5 +57,15 @@ public class FormatingText {
         String actualResult = Cleaner.formatText(testText);
 
         assertEquals(expectedResult, actualResult, "Le texte doit retourner une majuscule en premier caractère puis des minuscules pour chaque nom séparés par des tirets");
+    }
+    @Test
+    public void checkFormatTextWithApostrophe(){
+        String testText = "D'l'arcours";
+
+        String expectedResult = "D'L'Arcours";
+
+        String actualResult = Cleaner.formatText(testText);
+
+        assertEquals(expectedResult, actualResult, "Le texte doit retourner une majuscule en premier caractère puis des minuscules pour chaque nom séparés par des apostrophes");
     }
 }

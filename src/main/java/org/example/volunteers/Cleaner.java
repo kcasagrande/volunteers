@@ -29,21 +29,19 @@ public class Cleaner {
         if (text.length() < 1){
             return text;
         }
-        text = text.toLowerCase();
-        String newTextWithSpace = "";
-        String[] splits = text.split(" ");
-        // For each name, first letter in uppercase and others in lowercase
-        for (String split:splits) {
-            newTextWithSpace += split.substring(0,1).toUpperCase()+split.substring(1) + " ";
-        }
-        String newTextWithDash = "";
-        String[] splits2 = newTextWithSpace.split("-");
-        // For each name, first letter in uppercase and others in lowercase
-        for (String split2:splits2) {
-            newTextWithDash += split2.substring(0,1).toUpperCase()+split2.substring(1) + "-";
+        text = text.substring(0,1).toUpperCase()+text.substring(1).toLowerCase();
+        // Characters before uppercase
+        char[] chars = {'-', ' ', '\''};
+        for (int i = 0; i < text.length(); i++) {
+            // If a character if found
+            int index = (new String(chars)).indexOf(text.charAt(i));
+            if(index>=0){
+                // We get the text before and after, and put in uppercase the letter after the character
+                text = text.substring(0, i+1)+(new String(text.charAt(i+1)+"")).toUpperCase()+text.substring(i+2);
+            }
         }
 
-         return newTextWithDash.replaceAll("-+$", "").replaceAll("\\s+$", "");
+         return text;
     }
     public static String formatPhone(String phone){
         // Return null phone number
