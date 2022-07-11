@@ -1,6 +1,7 @@
 package org.example.volunteers;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 
 import static java.util.stream.Collectors.joining;
@@ -11,7 +12,9 @@ public final class Volunteer {
     public final String lastName;
     public final String nickName;
     public final String eMail;
-    public final String phone;
+    public String phone;
+
+    public Integer level;
 
     public Volunteer(
         String firstName,
@@ -29,7 +32,7 @@ public final class Volunteer {
 
     @Override
     public String toString() {
-        return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
+        return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone, String.valueOf(level)})
             .map(attribute -> String.format("\"%s\"", attribute))
             .collect(joining(";"));
     }
@@ -46,5 +49,17 @@ public final class Volunteer {
 
     public boolean hasFullName() {
         return this.firstName != null  && this.lastName != null && this.firstName != ""  && this.lastName != "";
+    }
+
+    public void formatPhoneNumber() {
+        String phoneNumber = this.phone;
+        String formatedPhoneNumber = phoneNumber.replaceAll("/-| |\\.|\\(|\\)/gm", "");
+        if (!formatedPhoneNumber.matches("/^33/gm")){
+            formatedPhoneNumber = "33" + formatedPhoneNumber;
+        }
+        if (!formatedPhoneNumber.matches("/^\\+/gm")) {
+            formatedPhoneNumber = "+" + formatedPhoneNumber;
+        }
+        this.phone = formatedPhoneNumber;
     }
 }
