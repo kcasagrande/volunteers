@@ -1,13 +1,22 @@
 package org.example.volunteers.services;
 
 import org.example.volunteers.models.Volunteer;
+import org.example.volunteers.models.VolunteerEmailError;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 
 public class Cleaner {
+
+    private Validations validators;
+    public VolunteerEmailError emailValidator;
+    public List<Volunteer> allVolonteers;
+    public Cleaner(List<Volunteer> volunteers){
+        this.validators = new Validations();
+        this.allVolonteers = volunteers;
+    }
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         // This function should contain your dark magic.
@@ -15,37 +24,36 @@ public class Cleaner {
         return new ArrayList<>(volunteers);
     }
 
-    public static List<Volunteer> checkVolunteersWithNoEmail(List<Volunteer> volunteers){
-        return volunteers.stream().filter(x-> x.getEmail() == null || x.getEmail().isEmpty()).collect(Collectors.toList());
-    }
 
-    public static HashMap<String,List<Volunteer>> checkDuplicateEmail(List<Volunteer> volunteers){
+    public void checkEmails(){
+        ArrayList<Volunteer> checkVolunteersWithNoEmail = new ArrayList();
         HashMap<String , List<Volunteer>> mapEmailVolunteers = new HashMap<>();
-        List<String> emails = volunteers.stream().map(x-> x.getEmail()).collect(Collectors.toList());
-        emails.remove(null);
-        for(String email : emails){
-            int occurrences = Collections.frequency(emails, email);
-            if(occurrences > 1 && !mapEmailVolunteers.containsKey(email)){
-                mapEmailVolunteers.put(email,volunteers.stream().filter(x->x.getEmail() == email).collect(Collectors.toList()));
-            }
-        }
-        return mapEmailVolunteers;
-    }
+        ArrayList<Volunteer> volunteersWithBadEmails =new ArrayList<>();
 
-    public static List<Volunteer> checkBadEmail(List<Volunteer> volunteers){
-        List<Volunteer> volunteersWithBadEmails =new ArrayList<>();
-        Validations validator = new Validations();
-        for (Volunteer volunteer : volunteers) {
-            if (volunteer.getEmail() == null || volunteer.getEmail().isEmpty()) {
+        for(Volunteer volunteer : this.allVolonteers){
+            if(volunteer.getEmail() == null || volunteer.getEmail().isEmpty()){
+                checkVolunteersWithNoEmail.add(volunteer);
                 continue;
             }
-            if (!validator.validateEmailAddress(volunteer.getEmail())) {
+            if(!this.validators.validateEmailAddress(volunteer.getEmail())){
                 volunteersWithBadEmails.add(volunteer);
+                continue;
+            }
+            if(mapEmailVolunteers.containsKey(volunteer.getEmail())){
+                List<Volunteer> emailVolunteers = mapEmailVolunteers.get(volunteer.getEmail());
+                emailVolunteers.add(volunteer);
+                mapEmailVolunteers.put(volunteer.getEmail() , emailVolunteers);
+            }else{
+                mapEmailVolunteers.put(volunteer.getEmail() , new ArrayList<>(Arrays.asList(volunteer)));
             }
         }
-        return volunteersWithBadEmails;
+        HashMap<String , List<Volunteer>> mapDuplicateEmailVolunteers = mapEmailVolunteers
+                .entrySet()
+                .stream()
+                .filter(x-> x.getValue().stream().count() > 1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
+        this.emailValidator= new VolunteerEmailError(checkVolunteersWithNoEmail , mapDuplicateEmailVolunteers , volunteersWithBadEmails);
     }
-
 
 
     public static Volunteer checkMalformedNames(Volunteer volunteer){
