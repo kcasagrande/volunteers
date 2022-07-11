@@ -46,7 +46,6 @@ public class Cleaner {
         return uniqueVolunteers;
     }
 
-
     public static Volunteer convertDashesFromPhoneNumber(Volunteer volunteer) {
         String cleanPhone = volunteer.phone.replace("-", "");
         return new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.eMail, cleanPhone);
