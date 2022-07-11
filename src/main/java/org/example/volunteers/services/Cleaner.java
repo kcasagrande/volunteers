@@ -17,10 +17,19 @@ public class Cleaner {
         this.allVolonteers = volunteers;
     }
 
-    public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
+    public List<Volunteer> cleanUp() {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
-        return new ArrayList<>(volunteers);
+        Set<Volunteer> volonteersToRemove = new HashSet<>();
+        this.checkEmails();
+        volonteersToRemove.addAll(this.emailValidator.noEmail);
+        volonteersToRemove.addAll(this.emailValidator.badFormatEmail);
+        for (String email : this.emailValidator.duplicateEmail.keySet()){
+            volonteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
+        }
+        List<Volunteer> allVolonteersCoorect = this.allVolonteers;
+        allVolonteersCoorect.removeAll(volonteersToRemove);
+        return allVolonteersCoorect;
     }
 
 
