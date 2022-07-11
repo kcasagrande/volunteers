@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CleanerTest {
@@ -16,6 +15,7 @@ public class CleanerTest {
         boolean isEmail = Cleaner.isValidEmail(volunteer);
         assertTrue(isEmail, "Une adresse email valide est validée");
     }
+
     @Test
     public void invalidEmailShouldNotBeValidated() {
         Volunteer volunteer = new Volunteer("firstName", "lastName", "nickname", "adresse.mailmailcom", "123456");
@@ -23,11 +23,8 @@ public class CleanerTest {
         assertFalse(isEmail, "Une adresse email invalide n'est pas validée");
     }
 
-
-
     @Test
     public void testRemovedDuplicateVerifyFirstNameLastNameNicknamePseudoMailPhone() {
-
         List<Volunteer> volunteers = new ArrayList<>();
         volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
         volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
@@ -38,4 +35,15 @@ public class CleanerTest {
         assertEquals(2, result.size());
     }
 
+    @Test
+    public void testRemovedDuplicateVerifyMailPhone() {
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675439"));
+
+        List<Volunteer> result = Cleaner.removeDuplicateMailPhone(volunteers);
+
+        assertEquals(2, result.size());
+    }
 }
