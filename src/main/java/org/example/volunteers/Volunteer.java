@@ -9,7 +9,7 @@ public final class Volunteer {
     public final String lastName;
     public String nickName;
     public final String eMail;
-    public final String phone;
+    public String phone;
 
     public Volunteer(
         String firstName,
