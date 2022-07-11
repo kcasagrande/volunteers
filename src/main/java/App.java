@@ -143,5 +143,44 @@ public class App {
         }
         return completedVolunteer.size();
     }
+
+    public static int getUncompletedForms(List<Volunteer> volunteers) {
+        List<Volunteer> uncompletedVolunteer = new ArrayList<>();
+        for (int i = 0; i < volunteers.size(); i++) {
+            if (
+                    volunteers.get(i).nickName.isEmpty()
+                            || volunteers.get(i).firstName.isEmpty()
+                            || volunteers.get(i).lastName.isEmpty()
+                            || volunteers.get(i).phone.isEmpty()
+                            || volunteers.get(i).eMail.isEmpty()
+            ) {
+                uncompletedVolunteer.add(volunteers.get(i));
+            }
+        }
+        return uncompletedVolunteer.size();
+    }
+
+    public static void deleteDuplicates(List<Volunteer> volunteers) {
+        // find solution to delete element of list.
+        for (int i = 0; i < volunteers.size(); i++){
+            if (Collections.frequency(volunteers, volunteers.get(i)) > 1) {
+                volunteers.removeAll(Collections.singleton(volunteers.get(i)));
+            }
+        }
+        System.out.println(volunteers);
+    }
+
+    public static int getVolunteerContactPseudoOnly(List<Volunteer> volunteers) {
+        List<Volunteer> volunteerContactPseudoOnly = new ArrayList<>();
+        for (int i = 0; i < volunteers.size(); i++) {
+            if (volunteers.get(i).eMail.isEmpty()
+                    && volunteers.get(i).phone.isEmpty()
+                    && !volunteers.get(i).nickName.isEmpty()
+            ){
+                volunteerContactPseudoOnly.add(volunteers.get(i));
+            }
+        }
+        return volunteerContactPseudoOnly.size();
+    }
 }
 

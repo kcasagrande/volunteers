@@ -1,6 +1,7 @@
 package org.example.volunteers;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.joining;
 
@@ -30,5 +31,18 @@ public final class Volunteer {
         return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
             .map(attribute -> String.format("\"%s\"", attribute))
             .collect(joining(";"));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Volunteer volunteer = (Volunteer) o;
+        return Objects.equals(firstName, volunteer.firstName) && Objects.equals(lastName, volunteer.lastName) && Objects.equals(nickName, volunteer.nickName) && Objects.equals(eMail, volunteer.eMail) && Objects.equals(phone, volunteer.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, nickName, eMail, phone);
     }
 }

@@ -98,10 +98,41 @@ public class VolunteersTest {
     }
 
     @Test
+    public void countUncompletedForm(){
+        Volunteer vol1 = new Volunteer("Florian", "Mousset", "FloursWrap", "azertyuio@aa.com", "123456890");
+        Volunteer vol2 = new Volunteer("Gerard", "", "nrgix", "ui@aa.com", "123456890");
+        Volunteer vol3 = new Volunteer("Antoine", "Mousset", "", "uaai@aa.com", "123456890");
+        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
+        int nbrUncompletedForm = App.getUncompletedForms(volunteers);
+        assertEquals(2, nbrUncompletedForm);
+    }
+
+    @Test
     public void ensurePhoneNumberIsValid(){
         String phone = "+33(0)000555196";
         String expectedPhoneNumber = "+330000555196";
         String actualPhoneNumber = Cleaner.formatPhoneNumber(phone);
         assertEquals(expectedPhoneNumber, actualPhoneNumber, "Le numéro de téléphone doit etre valide");
+    }
+
+    @Test
+    public void ensurePerfectDuplicatesAreRemoved(){
+        Volunteer vol1 = new Volunteer("Florian", "Mousset", "FloursWrap", "azertyuio@aa.com", "123456890");
+        Volunteer vol2 = new Volunteer("Florian", "Mousset", "FloursWrap", "azertyuio@aa.com", "123456890");
+        Volunteer vol3 = new Volunteer("Antoine", "Mousset", "", "uaai@aa.com", "123456890");
+        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
+
+        App.deleteDuplicates(volunteers);
+        System.out.println(volunteers);
+    }
+
+    @Test
+    public void countVolunteerContactPseudoOnly(){
+        Volunteer vol1 = new Volunteer("Florian", "Mousset", "", "", "");
+        Volunteer vol2 = new Volunteer("Gerard", "", "nrgix", "", "");
+        Volunteer vol3 = new Volunteer("Antoine", "Mousset", "test", "uaai@aa.com", "123456890");
+        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
+        int nbrUncompletedForm = App.getVolunteerContactPseudoOnly(volunteers);
+        assertEquals(1, nbrUncompletedForm);
     }
 }

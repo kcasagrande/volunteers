@@ -14,7 +14,7 @@ public class Cleaner {
 
     public static String formatPhoneNumber(String name) {
         String nameRegex = "[^0-9a-zA-Z]+";
-        String newPhoneNumber =  name.replaceAll("[^0-9a-zA-Z]+", "");
+        String newPhoneNumber =  name.replaceAll(nameRegex, "");
         System.out.println(newPhoneNumber.substring(0, 2));
         if (newPhoneNumber.startsWith("33"))
             newPhoneNumber = "+" + newPhoneNumber;
