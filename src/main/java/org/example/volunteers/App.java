@@ -1,3 +1,5 @@
+package org.example.volunteers;
+
 import org.example.volunteers.Cleaner;
 import org.example.volunteers.Volunteer;
 
