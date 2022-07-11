@@ -16,7 +16,7 @@ public class Cleaner {
         throw new Exception("not implemented");
     }
 
-    public static List<Volunteer> removeDuplicateByFullName() throws Exception{
+    public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers) throws Exception{
         throw new Exception("not implemented");
     }
 
