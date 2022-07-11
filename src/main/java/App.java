@@ -1,16 +1,14 @@
-import org.example.volunteers.Cleaner;
-import org.example.volunteers.Volunteer;
+import org.example.volunteers.services.Cleaner;
+import org.example.volunteers.models.Volunteer;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
