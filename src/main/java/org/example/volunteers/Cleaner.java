@@ -2,6 +2,7 @@ package org.example.volunteers;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -30,9 +31,23 @@ public class Cleaner {
     }
 
     public static List<Volunteer> removeDuplicateMailPhone(List<Volunteer> volunteers) {
-        List<Volunteer> uniqueVolunteer = new ArrayList<>();
+        List<Volunteer> uniqueVolunteers = new ArrayList<>();
+        LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
-        return volunteers;
+        for (Volunteer volunteer: volunteers) {
+
+            List<String> volunteerSplit = Arrays.asList(volunteer.toString().split(";"));
+            String volunteerStringTest = volunteerSplit.get(3) + ";" + volunteerSplit.get(4);
+
+            if(!linkedsetVolunteers.contains(volunteerStringTest)) {
+                linkedsetVolunteers.add(volunteerStringTest);
+                uniqueVolunteers.add(volunteer);
+            }
+        }
+
+        return uniqueVolunteers;
     }
+
+
 
 }
