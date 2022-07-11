@@ -2,6 +2,7 @@ package org.example.volunteers.services;
 
 import org.example.volunteers.models.Volunteer;
 import org.example.volunteers.models.VolunteerEmailError;
+import org.example.volunteers.models.VolunteerNameError;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ public class Cleaner {
 
     private Validations validators;
     public VolunteerEmailError emailValidator;
+    public VolunteerNameError nameValidator;
     public List<Volunteer> allVolonteers;
     public Cleaner(List<Volunteer> volunteers){
         this.validators = new Validations();
@@ -56,13 +58,63 @@ public class Cleaner {
     }
 
 
-    public static Volunteer checkMalformedNames(Volunteer volunteer){
-        Validations checkFormat = new Validations();
+    public void checkNames(){
 
-        if(checkFormat.validateFirstName(volunteer.getFirstName()) || checkFormat.validateLastName(volunteer.getLastName())){
-            return volunteer;
+        HashMap<String , List<Volunteer>> mapVolunteerNames = new HashMap<>();
+        ArrayList<Volunteer> volunteersWithMalformedNames = new ArrayList<>();
+
+        for(Volunteer volunteer : this.allVolonteers){
+
+            if(volunteer.getFirstName() == null || volunteer.getFirstName().isEmpty()){
+                volunteersWithMalformedNames.add(volunteer);
+                continue;
+            }
+
+            if(volunteer.getLastName() == null || volunteer.getLastName().isEmpty()){
+                volunteersWithMalformedNames.add(volunteer);
+            }
+
+            if(this.validators.validateFirstName(volunteer.getFirstName()) || this.validators.validateLastName(volunteer.getLastName())){
+                volunteersWithMalformedNames.add(volunteer);
+            }
+
+            if(mapVolunteerNames.containsKey(volunteer.getFirstName()+"."+volunteer.getLastName())){
+                List<Volunteer> storedDuplicateVolunteers = mapVolunteerNames.get(volunteer.getFirstName()+"."+volunteer.getLastName());
+                int originalSize = storedDuplicateVolunteers.size();
+
+                if(storedDuplicateVolunteers.size() > 0){
+                    boolean isDuplicated = false;
+                    for(Volunteer storedVolunteer : storedDuplicateVolunteers){
+                        if (storedVolunteer.getEmail().equals(volunteer.getEmail())) {
+                            isDuplicated = true;
+
+                            break;
+                        }
+                    }
+                    if(isDuplicated){
+                        storedDuplicateVolunteers.add(volunteer);
+                    }
+                }else{
+                    storedDuplicateVolunteers.add(volunteer);
+                }
+
+                if(originalSize != storedDuplicateVolunteers.size()){
+                    mapVolunteerNames.put(volunteer.getFirstName()+"."+volunteer.getLastName() , storedDuplicateVolunteers);
+                }
+
+            }else{
+                mapVolunteerNames.put(volunteer.getFirstName()+"."+volunteer.getLastName() , new ArrayList<>(Arrays.asList(volunteer)));
+            }
+
+
         }
-        return null;
+
+        HashMap<String , List<Volunteer>> mapDuplicateNamesVolunteers = mapVolunteerNames
+                .entrySet()
+                .stream()
+                .filter(x-> x.getValue().stream().count() > 1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
+        this.nameValidator= new VolunteerNameError(mapDuplicateNamesVolunteers, volunteersWithMalformedNames);
     }
 
 

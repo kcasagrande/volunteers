@@ -31,24 +31,6 @@ public class App {
     }
 
     public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers){
-        try{
-            //===================================================================================
-            //Utiliser les streams pour traiter les occurences
-            Volunteer volunteerTest = volunteers.get(0);
-            int index = 0;
-
-            for(Volunteer volunteer : volunteers){
-                Cleaner.checkMalformedNames(volunteer);
-                if(volunteer.getFirstName().equals(volunteerTest.getFirstName()) && volunteer.getLastName().equals(volunteerTest.getLastName())){
-                    volunteers.remove(index);
-                }
-                index++;
-            }
-
-        }catch (Exception e){
-            e.getMessage();
-        }finally {
-            return volunteers;
-        }
+        return null;
     }
 }
