@@ -126,7 +126,7 @@ public class DemoTest {
     public void calculateFiabilityScore() {
         System.out.println("Calcul de la fiabilité du volontaire");
 
-        Volunteer buddy = new Volunteer("BOURDIN", "Mickael", "BouBouMi", "", "");
+        Volunteer buddy = new Volunteer(1, "BOURDIN", "Mickael", "BouBouMi", "", "");
         int buddyScore = buddy.fiabilityScore();
 
         assertEquals(3, buddyScore, "Le score doit être de 3");
