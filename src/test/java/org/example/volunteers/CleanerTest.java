@@ -16,6 +16,14 @@ public class CleanerTest {
         thenNickNameIs("Hugo");
     }
 
+    @Test
+    public void firstLetterOfFirstNameOrLastNameIsUppercase() {
+        givenVolunteer(new Volunteer("hugo", "bordais", "", "hugo.bordais@cuck.com", "0700000000"));
+        whenCleaningUpVolunteers();
+        thenFirstNameIs("Hugo");
+        thenLastNameIs("Bordais");
+    }
+
     private void givenVolunteer(Volunteer volunteer) {
         volunteers.add(volunteer);
     }
