@@ -10,6 +10,14 @@ public class Cleaner {
         // For now, it simply returns a copy of the initial list.
 
         for (Volunteer volunteer : volunteers) {
+            String firstName = volunteer.firstName;
+            System.out.println(firstName);
+            if (Objects.equals(firstName.substring(1), firstName.substring(1).toUpperCase())) {
+                String result = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
+                System.out.println(result);
+                volunteer.firstName = result;
+            }
+
             if (Objects.equals(volunteer.nickName, "")) {
                 volunteer.nickName = volunteer.firstName;
             }

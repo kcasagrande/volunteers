@@ -5,7 +5,7 @@ import java.util.Arrays;
 import static java.util.stream.Collectors.joining;
 
 public final class Volunteer {
-    public final String firstName;
+    public String firstName;
     public final String lastName;
     public String nickName;
     public final String eMail;
