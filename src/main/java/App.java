@@ -16,17 +16,23 @@ public class App {
     public static void main(String[] args) throws IOException {
         Pattern quotes = Pattern.compile("^\"([^\"]*)\"$");
 
-        List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get(args[0])).stream()
+        List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get("src/main/resources/data.csv")).stream()
             .map(string -> Arrays.stream(string.split(";", -1))
             .map(token -> quotes.matcher(token).replaceAll("$1"))
             .collect(toList()))
             .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
             .collect(toList());
 
-        List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
+        Cleaner cleaner = new Cleaner(inputVolunteers);
+        cleaner.checkEmails();
+
+        PrintWriter emailErrorsWriter = new PrintWriter("src/main/resources/badEmail.txt");
+        cleaner.emailValidator.print(emailErrorsWriter);
+        emailErrorsWriter.close();
 
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
-        outputVolunteers.forEach(writer::println);
+        cleaner.cleanUp().forEach(writer::println);
+
         writer.close();
     }
 }
