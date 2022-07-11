@@ -17,10 +17,16 @@ public class CleanerTest {
     }
 
     @Test
-    public void firstLetterOfFirstNameOrLastNameIsUppercase() {
-        givenVolunteer(new Volunteer("hugo", "bordais", "", "hugo.bordais@cuck.com", "0700000000"));
+    public void firstNameIsFormatted() {
+        givenVolunteer(new Volunteer("hugo", "Bordais", "", "hugo.bordais@cuck.com", "0700000000"));
         whenCleaningUpVolunteers();
         thenFirstNameIs("Hugo");
+    }
+
+    @Test
+    public void lastNameIsFormatted() {
+        givenVolunteer(new Volunteer("Hugo", "bordais", "", "hugo.bordais@cuck.com", "0700000000"));
+        whenCleaningUpVolunteers();
         thenLastNameIs("Bordais");
     }
 

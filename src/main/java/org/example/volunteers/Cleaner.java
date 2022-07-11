@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Cleaner {
-    public static String formatName(String input) {
-        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    private static String formatName(String input) {
+        if (!Objects.equals(input, "") && !Objects.equals(input.substring(1), input.substring(1).toUpperCase())) {
+            input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+        }
+        return input;
     }
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
@@ -14,17 +17,10 @@ public class Cleaner {
         // For now, it simply returns a copy of the initial list.
 
         for (Volunteer volunteer : volunteers) {
-            String firstName = volunteer.firstName;
-            String lastName = volunteer.lastName;
 
-            // first & last names
-            if (firstName != "" && !Objects.equals(firstName.substring(1), firstName.substring(1).toUpperCase())) {
-                volunteer.firstName = formatName(firstName);
-            }
-
-            if (lastName != "" && !Objects.equals(lastName.substring(1), lastName.substring(1).toUpperCase())) {
-                volunteer.lastName = formatName(lastName);
-            }
+            // first & last name
+            volunteer.firstName = formatName(volunteer.firstName);
+            volunteer.lastName = formatName(volunteer.lastName);
 
             if (Objects.equals(volunteer.nickName, "")) {
                 volunteer.nickName = volunteer.firstName;
