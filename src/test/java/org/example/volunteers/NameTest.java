@@ -50,7 +50,7 @@ public class NameTest {
     }
 
     @Test
-    public void shouldThrowExceptionForMalformedNames() throws Exception {
+    public void shouldThrowExceptionForMalformedFName() throws Exception {
 
         List<Volunteer> volunteers = new ArrayList<>();
         Volunteer malformedVolunteerFName = new Volunteer("Marine", "Dupont?", "MD", "marine.dupont@test.fr", "+33600000000");
@@ -58,7 +58,7 @@ public class NameTest {
         volunteers.add(new Volunteer("Marine", "Dupont", "MDP", "marine.dupont@test.fr", "+33670000000"));
         volunteers.add(malformedVolunteerFName);
 
-        Assertions.assertThrows(Exception.class, () -> Cleaner.removeDuplicateByFullName(volunteers), "Malformed name for user "+malformedVolunteerFName.geteMail());
+        Assertions.assertThrows(Exception.class, () -> Cleaner.removeDuplicateByFullName(volunteers), "Malformed name for user "+malformedVolunteerFName.getFirstName());
 
     }
 

@@ -25,6 +25,18 @@ public final class Volunteer {
         this.phone = phone;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
     public String geteMail() {
         return eMail;
     }
