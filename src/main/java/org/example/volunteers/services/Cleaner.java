@@ -47,20 +47,27 @@ public class Cleaner {
     }
 
     public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers) throws Exception{
+        Validations checkFormat = new Validations();
+
+        //===================================================================================
+        //Utiliser les streams pour traiter les occurences
         Volunteer volunteerTest = volunteers.get(0);
-        //Pattern pattern = Pattern.compile(Cleaner.regex_pattern);
         int index = 0;
+
         for(Volunteer volunteer : volunteers){
-            if(true){
+            //===================================================================================
+            //A regrouper dans methode externe pour les verif
+            if(checkFormat.validateFirstName(volunteer.getFirstName())){
                 throw new Exception("Malformed name for user "+volunteer.getFirstName());
             }
-            if(true){
+            if(checkFormat.validateLastName(volunteer.getLastName())){
                 throw new Exception("Malformed name for user "+volunteer.getFirstName());
             }
 
             if(volunteer.getFirstName().equals(volunteerTest.getFirstName()) && volunteer.getLastName().equals(volunteerTest.getLastName())){
                 volunteers.remove(index);
             }
+            //===================================================================================
             index++;
         }
         return volunteers;
