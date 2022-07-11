@@ -4,6 +4,13 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 // Cette classe est une suite de tests servant d'exemple et d'aide-mémoire de la syntaxe Java et JUnit.
 // Elle n'est pas nécessaire à la réalisation de l'exercice.
 public class DemoTest {
@@ -35,6 +42,17 @@ public class DemoTest {
         // Assert
         int expectedResult = 3;
         assertEquals(expectedResult, actualResult, "La somme de 1 et 2 devrait être 3");
+    }
+
+    @Test
+    public void shouldGenerateFile() throws IOException {
+        System.out.println("Génération du fichier");
+        String[] strArray = new String[] {"src/main/resources/data.csv"};
+        App.main(strArray);
+
+        Path path = Paths.get("src/main/resources/output.csv");
+        boolean fileExists = Files.exists(path);
+        assertEquals(true, fileExists, "Le fichier devrait exister");
     }
 
     @AfterEach
