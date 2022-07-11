@@ -23,31 +23,19 @@ public class CleanerTest {
         assertFalse(isEmail, "Une adresse email invalide n'est pas validée");
     }
 
+
+
     @Test
-    public void shouldRemoveDuplicateWhenAllDataAreTheSame() {
+    public void testRemovedDuplicateVerifyFirstNameLastNameNicknamePseudoMailPhone() {
+
         List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("Nom", "Prenom", "pseudo", "email@gmail.com", "+33600000000"));
-        volunteers.add(new Volunteer("Nom", "Prenom", "pseudo", "email@gmail.com", "+33600000000"));
-        volunteers.add(new Volunteer("Nom2", "Prenom2", "pseudo2", "email2@gmail.com", "+33600000002"));
-        volunteers.add(new Volunteer("Nom3", "Prenom3", "pseudo3", "email3@gmail.com", "+33600000003"));
-        volunteers.add(new Volunteer("Nom2", "Prenom2", "pseudo2", "email2@gmail.com", "+33600000002"));
+        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
 
-        List<Volunteer> cleanedVolunteers = Cleaner.removeDuplicate(volunteers);
+        List<Volunteer> result = Cleaner.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
 
-        assertEquals(3, cleanedVolunteers.size(), "La liste nettoyée doit être de taille 3");
+        assertEquals(2, result.size());
     }
-
-//    @Test
-//    public void testRemovedDuplicateVerifyFirstNameLastNameNicknamePseudoMailPhone() {
-//
-//        List<Volunteer> volunteers = new ArrayList<>();
-//        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
-//        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
-//        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
-//
-//        List<Volunteer> result = Cleaner.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
-//
-//        assertEquals(2, result.size());
-//    }
 
 }
