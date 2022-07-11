@@ -99,4 +99,32 @@ public class VolunteerTest {
 			Arguments.of("+3301234567", null)
 		);
 	}
+
+	@ParameterizedTest
+	@MethodSource("isFullyEqualTrueInputs")
+	public void testIsFullyEqualTrue(Volunteer vol1,Volunteer vol2) {
+		assertTrue(vol2.isFullyEqual(vol1));
+	}
+
+	public static Stream<Arguments> isFullyEqualTrueInputs() {
+		return Stream.of(
+				Arguments.of(new Volunteer("test","test2","nickName", null, null),new Volunteer("test","test2","nickName", null, null)),
+				Arguments.of(new Volunteer("test","test2",null, null, null),new Volunteer("test","test2",null, null, null))
+
+		);
+	}
+
+	@ParameterizedTest
+	@MethodSource("isFullyEqualFalseInputs")
+	public void testIsFullyEqualFalse(Volunteer vol1,Volunteer vol2) {
+		assertFalse(vol2.isFullyEqual(vol1));
+	}
+
+	public static Stream<Arguments> isFullyEqualFalseInputs() {
+		return Stream.of(
+				Arguments.of(new Volunteer("test",null,"nickName", null, null),new Volunteer("test","test2","nickName", null, null)),
+				Arguments.of(new Volunteer("test","test2","nickname", null, null),new Volunteer("test","test2",null, null, null))
+
+		);
+	}
 }

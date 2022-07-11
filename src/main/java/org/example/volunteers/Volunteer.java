@@ -29,18 +29,18 @@ public final class Volunteer {
 		this.lastName = formatNames(lastName);
 		this.nickName = formatNames(nickName);
 		this.eMail = formatEmail(eMail);
-		this.emails.add(this.eMail);
+		this.addEmail(this.eMail);
 		this.phone = formatPhone(phone);
-		this.phones.add(this.phone);
+		this.addPhone(this.phone);
 	}
 
 	public void addEmail(String email) {
-		if(email == null) return;
+		if (email == null) return;
 		this.emails.add(email);
 	}
 
 	public void addPhone(String phone) {
-		if(phone == null) return;
+		if (phone == null) return;
 		this.phones.add(phone);
 	}
 
@@ -115,9 +115,15 @@ public final class Volunteer {
 
 	@Override
 	public String toString() {
-		return Arrays.stream(new String[]{firstName, lastName, nickName, eMail, phone})
+		String csvLine = Arrays.stream(new String[]{firstName, lastName, nickName})
 				.map(attribute -> String.format("\"%s\"", attribute))
 				.collect(joining(";"));
+
+		StringBuilder builder = new StringBuilder(csvLine);
+
+		builder.append(";").append(emails.stream().collect(joining(","))).append(";").append(phones.stream().collect(joining(",")));
+
+		return builder.toString();
 	}
 
 	public boolean isContactable() {
@@ -130,10 +136,10 @@ public final class Volunteer {
 		return this.firstName.equals(vol.firstName) && this.lastName.equals(vol.lastName);
 	}
 
-	public boolean isEmailAndPhoneTheSame(Volunteer vol) {
-		return (this.eMail != null && vol.eMail != null && this.eMail.equals(vol.eMail))
-				|| (this.phone != null && vol.phone != null && this.phone.equals(vol.phone));
+	public boolean isFullyEqual(Volunteer vol) {
+		if (!this.isFirstNameAndLastnameEquals(vol)) return false;
+		if (this.nickName == null && vol.nickName == null) return true;
+		if (this.nickName == null || vol.nickName == null) return false;
+		return vol.nickName.equals(this.nickName);
 	}
-
-
 }

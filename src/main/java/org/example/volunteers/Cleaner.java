@@ -34,9 +34,7 @@ public class Cleaner {
 			Volunteer volunteer1 = volunteers.get(i);
 			for (int j = i + 1; j < volunteers.size(); j++) {
 				Volunteer volunteer2 = volunteers.get(j);
-				System.out.println(volunteer1);
-				System.out.println(volunteer2);
-				if (volunteer1.isFirstNameAndLastnameEquals(volunteer2)) {
+				if (volunteer1.isFullyEqual(volunteer2)) {
 					//System.out.println(volunteer1 + " (" + i + ") " + " -> " + volunteer2 + " (" + j + ")");
 					volunteer1.addEmail(volunteer2.geteMail());
 					volunteer1.addPhone(volunteer2.getPhone());

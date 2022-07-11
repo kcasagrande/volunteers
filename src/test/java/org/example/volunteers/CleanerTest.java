@@ -59,17 +59,17 @@ public class CleanerTest {
 		list.add(defaultVolunteer);
 		list.add(volunteer);
 		List<Volunteer> cleanedList = Cleaner.cleanDuplicates(list);
-		assert(cleanedList.get(0).getEmails().size() == numbersOfPhones);
+		assert(cleanedList.get(0).getPhones().size() == numbersOfPhones);
 	}
 
 	public static Stream<Arguments> cleanDuplicatesInputs(){
 		return Stream.of(
-			Arguments.of(new Volunteer("test","test2",null, "aba.ava@amamama.com", null), 1, 2,1),
-			Arguments.of(new Volunteer("test","test2","nicknametest", "test@test.com", "0612345678"), 1, 1, 2),
+			Arguments.of(new Volunteer("test","test2",null, "aba.ava@amamama.com", "0687654321"), 1, 2, 2),
+			Arguments.of(new Volunteer("test","test2","nicknametest", "test@test.com", "0612345678"), 1, 1, 1),
 			Arguments.of(new Volunteer("test4","test2",null, "test@test.com", null), 2, 1, 1),
-			Arguments.of(new Volunteer("test5","test5","nicknametest", null, "0605040302"), 2, 1, 2),
-			Arguments.of(new Volunteer("test",null,null, null, "0612345678"), 2, 1, 2),
-				Arguments.of(new Volunteer("test",null,null, null, "0612345678"), 2, 1, 2)
+			Arguments.of(new Volunteer("test5","test5","nicknametest", null, "0605040302"), 2, 1, 1),
+			Arguments.of(new Volunteer("test",null,null, null, "0612345678"), 2, 1, 1),
+			Arguments.of(new Volunteer("test","test2",null, "ploof@plooof.com", "061234567"), 1, 2, 1)
 		);
 	}
 }
