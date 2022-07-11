@@ -120,11 +120,12 @@ public class CleanerTest {
         Volunteer vol3 = new Volunteer("first3", "last3" , "nick3" ,"email3" , "phone3");
         Volunteer vol4 = new Volunteer("first4", "last4" , "nick4" ,null , "phone4");
         outputVolunteers.addAll(new ArrayList<>(Arrays.asList(vol1,vol3,vol4,vol2)));
+        Cleaner c = new Cleaner(outputVolunteers);
+        c.checkEmails();
 
-        List<Volunteer> nullEmails = Cleaner.checkVolunteersWithNoEmail(outputVolunteers);
-        assertEquals( nullEmails.size(), 2);
-        assertTrue(nullEmails.stream().anyMatch(x-> x.getNickName() == "nick1" && x.getFirstName()=="first1" && x.getLastName() == "last1"));
-        assertTrue(nullEmails.stream().anyMatch(x-> x.getNickName() == "nick4" && x.getFirstName()=="first4" && x.getLastName() == "last4"));
+        assertEquals( c.emailValidator.noEmail.size(), 2);
+        assertTrue(c.emailValidator.noEmail.stream().anyMatch(x-> x.getNickName() == "nick1" && x.getFirstName()=="first1" && x.getLastName() == "last1"));
+        assertTrue(c.emailValidator.noEmail.stream().anyMatch(x-> x.getNickName() == "nick4" && x.getFirstName()=="first4" && x.getLastName() == "last4"));
     }
 
     @Test
@@ -137,7 +138,10 @@ public class CleanerTest {
         Volunteer vol5 = new Volunteer("first5", "last5" , "nick5" , null , "phone5");
         outputVolunteers.addAll(new ArrayList<>(Arrays.asList(vol1,vol3,vol4,vol2,vol5)));
 
-       HashMap<String,List<Volunteer>> duplicateEmails = Cleaner.checkDuplicateEmail(outputVolunteers);
+        Cleaner c = new Cleaner(outputVolunteers);
+        c.checkEmails();
+
+       HashMap<String,List<Volunteer>> duplicateEmails =c.emailValidator.duplicateEmail;
        assertEquals(duplicateEmails.size() , 2);
        List<Volunteer> email1Data = duplicateEmails.get("email1@email.com");
        List<Volunteer> email3Data = duplicateEmails.get("email3@email.com");
@@ -159,11 +163,12 @@ public class CleanerTest {
         Volunteer vol4 = new Volunteer("first4", "last4" , "nick4" ,"email4@email.com" , "phone4");
         Volunteer vol5 = new Volunteer("first5", "last5" , "nick5" , null , "phone5");
         outputVolunteers.addAll(new ArrayList<>(Arrays.asList(vol1,vol3,vol4,vol2,vol5)));
+        Cleaner c = new Cleaner(outputVolunteers);
+        c.checkEmails();
 
-        List<Volunteer> badEmails = Cleaner.checkBadEmail(outputVolunteers);
-        assertEquals(badEmails.size() , 2);
-        assertTrue(badEmails.stream().anyMatch(x->x.getNickName() == "nick3" && x.getFirstName() == "first3" && x.getLastName() == "last3"));
-        assertTrue(badEmails.stream().anyMatch(x->x.getNickName() == "nick2" && x.getFirstName() == "first2" && x.getLastName() == "last2"));
+        assertEquals(c.emailValidator.badFormatEmail.size() , 2);
+        assertTrue(c.emailValidator.badFormatEmail.stream().anyMatch(x->x.getNickName() == "nick3" && x.getFirstName() == "first3" && x.getLastName() == "last3"));
+        assertTrue(c.emailValidator.badFormatEmail.stream().anyMatch(x->x.getNickName() == "nick2" && x.getFirstName() == "first2" && x.getLastName() == "last2"));
     }
 
 }
