@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,6 +54,16 @@ public class DemoTest {
         Path path = Paths.get("src/main/resources/output.csv");
         boolean fileExists = Files.exists(path);
         assertEquals(true, fileExists, "Le fichier devrait exister");
+    }
+
+    @Test
+    public void fileShouldContainAtLeastOneLine() throws IOException, URISyntaxException {
+        System.out.println("Vérification du nombre de lignes du fichier");
+
+        Path path = Paths.get("src/main/resources/output.csv");
+        Long nbLines = Files.lines(path).skip(1L).count();
+
+        assertEquals(true, nbLines >= 1, "Le fichier devrait contenir plus d'une ligne");
     }
 
     @AfterEach
