@@ -23,20 +23,6 @@ public class DemoTest {
         assertTrue(true);
     }
 
-    @Test
-    public void shouldComputeTheSumOfTwoNumbers() {
-        // Arrange
-        int a = 1;
-        int b = 2;
-
-        // Act
-        int actualResult = a + b;
-
-        // Assert
-        int expectedResult = 3;
-        assertEquals(expectedResult, actualResult, "La somme de 1 et 2 devrait être 3");
-    }
-
     @AfterEach
     public void tearDown() {
         System.out.println("Ce code est exécuté après chaque test");
