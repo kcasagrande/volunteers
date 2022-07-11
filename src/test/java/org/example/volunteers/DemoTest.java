@@ -91,6 +91,16 @@ public class DemoTest {
         assertEquals("BOURDIN-MICHEL", formattedLastName, "Le nom doit être formatté");
     }
 
+    @Test
+    public void calculateFiabilityScore() {
+        System.out.println("Calcul de la fiabilité du volontaire");
+
+        Volunteer buddy = new Volunteer("BOURDIN", "Mickael", "BouBouMi", "", "");
+        int buddyScore = buddy.fiabilityScore();
+
+        assertEquals(3, buddyScore, "Le score doit être de 3");
+    }
+
     @AfterEach
     public void tearDown() {
         System.out.println("Ce code est exécuté après chaque test");

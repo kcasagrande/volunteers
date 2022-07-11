@@ -11,6 +11,8 @@ public final class Volunteer {
     public final String eMail;
     public final String phone;
 
+    public int score = 0;
+
     public Volunteer(
         String firstName,
         String lastName,
@@ -30,5 +32,20 @@ public final class Volunteer {
         return Arrays.stream(new String[]{firstName,lastName,nickName,eMail,phone})
             .map(attribute -> String.format("\"%s\"", attribute))
             .collect(joining(";"));
+    }
+
+    public int fiabilityScore() {
+        int currentScore = this.score;
+        int newScore = 0;
+
+        if(this.firstName != "") newScore++;
+        if(this.lastName != "") newScore++;
+        if(this.nickName != "") newScore++;
+        if(this.eMail != "") newScore++;
+        if(this.phone != "") newScore++;
+
+        this.score = newScore;
+
+        return this.score;
     }
 }
