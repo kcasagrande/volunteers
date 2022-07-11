@@ -53,25 +53,46 @@ public class Cleaner {
     }
 
     public  static String formatPhoneNumber(String phoneNumber){
-        String result = phoneNumber.replaceFirst("\\+\\d{2}","0")
+        return phoneNumber.replaceFirst("\\+\\d{2}","0")
                 .replaceFirst("\\(0\\)", "")
                 .replace(".", "")
                 .replace("-", "")
                 .replace(" ", "");
-        System.out.println(result);
-        return result;
     }
 
-    public  static boolean hasDuplicatePhoneNumber(ArrayList<Volunteer> volunteersList){
-        if (volunteersList.size() == 0) {
-            return false;
-        }
+    public static List<Volunteer> checkVolunteersWithNoPhoneNumber(List<Volunteer> volunteers){
+        return volunteers.stream().filter(x-> x.getPhone() == null || x.getPhone().isEmpty()).collect(Collectors.toList());
+    }
 
-        for (int i = 0; i < volunteersList.size(); i++) {
-            Volunteer volA = volunteersList.get(i);
-            Volunteer volB = volunteersList.get(i + 1);
+    public static HashMap<String,List<Volunteer>> checkDuplicatePhoneNumbers(List<Volunteer> volunteers){
+        HashMap<String , List<Volunteer>> mapPhoneNumbersVolunteers = new HashMap<>();
+        List<String> phoneNumbers = volunteers
+                .stream().map(x-> formatPhoneNumber(x.getPhone()))
+                .collect(Collectors.toList());
+        phoneNumbers.remove(null);
+        for(String phoneNumber : phoneNumbers){
+            int occurrences = Collections.frequency(phoneNumbers, phoneNumber);
+            if(occurrences > 1 && !mapPhoneNumbersVolunteers.containsKey(phoneNumber)){
+                mapPhoneNumbersVolunteers
+                        .put(phoneNumber,volunteers.stream()
+                        .filter(x-> formatPhoneNumber(x.getPhone()) == phoneNumber).collect(Collectors.toList()));
+            }
         }
-        return true;
+        return mapPhoneNumbersVolunteers;
+    }
+
+    public static List<Volunteer> checkBadPhoneNumber(List<Volunteer> volunteers){
+        List<Volunteer> volunteersWithBadPhoneNumbers = new ArrayList<>();
+        Validations validator = new Validations();
+        for (Volunteer volunteer : volunteers) {
+            if (volunteer.getPhone() == null || volunteer.getPhone().isEmpty()) {
+                continue;
+            }
+            if (!validator.validatePhoneNumber(volunteer.getPhone())) {
+                volunteersWithBadPhoneNumbers.add(volunteer);
+            }
+        }
+        return volunteersWithBadPhoneNumbers;
     }
 
 }

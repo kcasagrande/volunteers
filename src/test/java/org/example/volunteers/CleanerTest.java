@@ -73,15 +73,43 @@ public class CleanerTest {
 
     @Test
     public void checkHasDuplicatePhoneNumber() {
-        List<Volunteer> outputVolunteers = new ArrayList<Volunteer>();
+        List<Volunteer> outputVolunteers = new ArrayList<>();
         Volunteer vol1 = new Volunteer("first1", "last1" , "nick1" ,"email1@email.com" , "+33652675155");
         Volunteer vol2 = new Volunteer("first2", "last2" , "nick2" ,"email1@email" , "06 52 67 51 55");
         Volunteer vol3 = new Volunteer("first3", "last3" , "nick3" ,"email3" , "+33752678164");
-        Volunteer vol4 = new Volunteer("first4", "last4" , "nick4" ,"email4@email.com" , "phone4");
-        Volunteer vol5 = new Volunteer("first5", "last5" , "nick5" , null , "phone5");
+        Volunteer vol4 = new Volunteer("first4", "last4" , "nick4" ,"email4@email.com" , "+33(0)7.52.67.81.64");
+        Volunteer vol5 = new Volunteer("first5", "last5" , "nick5" , null , "00-52-53-44-90");
         outputVolunteers.addAll(new ArrayList<>(Arrays.asList(vol1,vol3,vol4,vol2,vol5)));
-        boolean result = Cleaner.hasDuplicatePhoneNumber((ArrayList<Volunteer>) outputVolunteers);
-        Assertions.assertTrue(result == true);
+        HashMap duplicatePhoneNumbers = Cleaner.checkDuplicatePhoneNumbers(outputVolunteers);
+        assertEquals(duplicatePhoneNumbers.size() , 2);
+    }
+
+    @Test
+    public void testNoPhoneNumber(){
+        List<Volunteer> outputVolunteers = new ArrayList<>();
+        Volunteer vol1 = new Volunteer("first1", "last1" , "nick1" ,"email1@email.com" , "+33652675155");
+        Volunteer vol2 = new Volunteer("first2", "last2" , "nick2" ,"email1@email" , "06 52 67 51 55");
+        Volunteer vol3 = new Volunteer("first3", "last3" , "nick3" ,"email3" , null);
+        Volunteer vol4 = new Volunteer("first4", "last4" , "nick4" ,"email4@email.com" , "+33(0)7.52.67.81.64");
+        Volunteer vol5 = new Volunteer("first5", "last5" , "nick5" , null , null);
+        outputVolunteers.addAll(new ArrayList<>(Arrays.asList(vol1,vol3,vol4,vol2,vol5)));
+
+        List<Volunteer> nullPhoneNumbers = Cleaner.checkVolunteersWithNoPhoneNumber(outputVolunteers);
+        assertEquals( nullPhoneNumbers.size(), 2);
+    }
+
+    @Test
+    public void testBadPhoneNumbers(){
+        List<Volunteer> outputVolunteers = new ArrayList<>();
+        Volunteer vol1 = new Volunteer("first1", "last1" , "nick1" ,"email1@email.com" , "+33652675155");
+        Volunteer vol2 = new Volunteer("first2", "last2" , "nick2" ,"email1@email" , "06 52 67 51 55");
+        Volunteer vol3 = new Volunteer("first3", "last3" , "nick3" ,"email3" , "+33752678164");
+        Volunteer vol4 = new Volunteer("first4", "last4" , "nick4" ,"email4@email.com" , "+33(0)7.52.67.81.64");
+        Volunteer vol5 = new Volunteer("first5", "last5" , "nick5" , null , "0052534490");
+        outputVolunteers.addAll(new ArrayList<>(Arrays.asList(vol1,vol3,vol4,vol2,vol5)));
+
+        List<Volunteer> badPhoneNumbers = Cleaner.checkBadPhoneNumber(outputVolunteers);
+        assertEquals(badPhoneNumbers.size() , 2);
     }
 
     @Test

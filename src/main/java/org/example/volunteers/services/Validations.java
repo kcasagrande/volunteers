@@ -12,4 +12,10 @@ public class Validations {
         regMatcher = regexPattern.matcher(emailAddress);
         return regMatcher.matches();
     }
+
+    public Boolean validatePhoneNumber(String phoneNumber) {
+        regexPattern = Pattern.compile("(\\+\\d{2}|0|\\+\\d{2}\\(0\\))\\d{9}");
+        regMatcher = regexPattern.matcher(phoneNumber);
+        return regMatcher.matches();
+    }
 }
