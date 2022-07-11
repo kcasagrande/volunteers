@@ -5,11 +5,11 @@ import java.util.Arrays;
 import static java.util.stream.Collectors.joining;
 
 public final class Volunteer {
-    public final String firstName;
-    public final String lastName;
-    public final String nickName;
-    public final String eMail;
-    public final String phone;
+    private String firstName;
+    private String lastName;
+    private String nickName;
+    private String eMail;
+    private String phone;
 
     public int score = 0;
 
@@ -38,14 +38,54 @@ public final class Volunteer {
         int currentScore = this.score;
         int newScore = 0;
 
-        if(this.firstName != "") newScore++;
-        if(this.lastName != "") newScore++;
-        if(this.nickName != "") newScore++;
-        if(this.eMail != "") newScore++;
-        if(this.phone != "") newScore++;
+        if (this.firstName != "") newScore++;
+        if (this.lastName != "") newScore++;
+        if (this.nickName != "") newScore++;
+        if (this.eMail != "") newScore++;
+        if (this.phone != "") newScore++;
 
         this.score = newScore;
 
         return this.score;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setFirstName(String firstname){
+        this.firstName = firstname;
+    }
+
+    public void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+
+    public void setNickName(String nickName){
+        this.nickName = nickName;
+    }
+
+    public void setEMail(String email){
+        this.eMail = email;
+    }
+
+    public void setPhone(String phone){
+        this.phone = phone;
     }
 }

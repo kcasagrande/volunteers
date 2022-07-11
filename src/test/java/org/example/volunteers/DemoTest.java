@@ -9,14 +9,6 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.*;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 // Cette classe est une suite de tests servant d'exemple et d'aide-mémoire de la syntaxe Java et JUnit.
 // Elle n'est pas nécessaire à la réalisation de l'exercice.
 public class DemoTest {
@@ -99,6 +91,11 @@ public class DemoTest {
         int buddyScore = buddy.fiabilityScore();
 
         assertEquals(3, buddyScore, "Le score doit être de 3");
+    }
+
+    @Test
+    public void shouldFindNullOrEmptyFields() {
+
     }
 
     @AfterEach
