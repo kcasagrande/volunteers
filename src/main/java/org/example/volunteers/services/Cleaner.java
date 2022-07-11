@@ -46,32 +46,17 @@ public class Cleaner {
         return volunteersWithBadEmails;
     }
 
-    public static List<Volunteer> removeDuplicateByFullName(List<Volunteer> volunteers) throws Exception{
+
+
+    public static Volunteer checkMalformedNames(Volunteer volunteer){
         Validations checkFormat = new Validations();
 
-        //===================================================================================
-        //Utiliser les streams pour traiter les occurences
-        Volunteer volunteerTest = volunteers.get(0);
-        int index = 0;
-
-        for(Volunteer volunteer : volunteers){
-            //===================================================================================
-            //A regrouper dans methode externe pour les verif
-            if(checkFormat.validateFirstName(volunteer.getFirstName())){
-                throw new Exception("Malformed name for user "+volunteer.getFirstName());
-            }
-            if(checkFormat.validateLastName(volunteer.getLastName())){
-                throw new Exception("Malformed name for user "+volunteer.getFirstName());
-            }
-
-            if(volunteer.getFirstName().equals(volunteerTest.getFirstName()) && volunteer.getLastName().equals(volunteerTest.getLastName())){
-                volunteers.remove(index);
-            }
-            //===================================================================================
-            index++;
+        if(checkFormat.validateFirstName(volunteer.getFirstName()) || checkFormat.validateLastName(volunteer.getLastName())){
+            return volunteer;
         }
-        return volunteers;
+        return null;
     }
+
 
     public  static List<Volunteer> removeDuplicateByPhoneNumber() throws Exception{
         throw new Exception("not implemented");
