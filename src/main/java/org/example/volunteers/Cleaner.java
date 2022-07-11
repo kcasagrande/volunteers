@@ -18,10 +18,33 @@ public class Cleaner {
                 volunteer.firstName = result;
             }
 
+
             if (Objects.equals(volunteer.nickName, "")) {
                 volunteer.nickName = volunteer.firstName;
             }
+            //nickname
+
+            //phone
+
+            if (!volunteer.phone.isEmpty()) {
+                String correctedPhoneNumber = volunteer.phone.replaceAll("[^0-9]", "");
+
+                if(correctedPhoneNumber.charAt(1) == '3') {
+                    correctedPhoneNumber = correctedPhoneNumber.substring(2);
+                } else {
+                    correctedPhoneNumber = correctedPhoneNumber.substring(1);
+                }
+
+                if (correctedPhoneNumber.length() == 10) {
+                    correctedPhoneNumber = correctedPhoneNumber.substring(1);
+                }
+                correctedPhoneNumber = "+33" + correctedPhoneNumber;
+                volunteer.phone = correctedPhoneNumber;
+            }
         }
+
+
+
         return new ArrayList<>(volunteers);
     }
 }
