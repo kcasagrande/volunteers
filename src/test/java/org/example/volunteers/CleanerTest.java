@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CleanerTest {
 
     @Test
-    public void useNameAsNickname() {
+    public void doesNothingIfNicknameIsEmpty() {
         givenVolunteer("Hugo", "Bordais", "", "hugo.bordais@cuck.com", "+33070000000");
         whenCleaningUpVolunteers();
-        thenNickNameIs("Hugo");
+        thenNickNameIs("");
     }
 
     @Test
@@ -51,6 +51,12 @@ public class CleanerTest {
         thenPhoneIs("+33045556906");
     }
 
+    @Test
+    public void doesNotTransformPhoneNumberWhenEmpty() {
+        givenVolunteer("test", "test", "test", "test@test.test", "");
+        whenCleaningUpVolunteers();
+        thenPhoneIs("");
+    }
     private void givenVolunteer(String firstName, String lastName, String nickname, String eMail, String phone) {
         volunteers.add(new Volunteer(firstName, lastName, nickname, eMail, phone));
     }
