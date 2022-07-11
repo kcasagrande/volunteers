@@ -75,20 +75,20 @@ public class DemoTest {
     public void shouldFormatFirstName() {
         System.out.println("Formattage du prénom");
 
-        String firstName = "LouIs++e";
+        String firstName = "LouIs++e Anne";
         String formattedFirstName = Cleaner.formatFirstName(firstName);
 
-        assertEquals("Louise", formattedFirstName, "Le prénom doit être formatté");
+        assertEquals("Louise-Anne", formattedFirstName, "Le prénom doit être formatté");
     }
 
     @Test
     public void shouldFormatLastName() {
         System.out.println("Formattage du nom");
 
-        String lastName = "BourdIN!!";
+        String lastName = "BourdIN!!-Michel";
         String formattedLastName = Cleaner.formatLastName(lastName);
 
-        assertEquals("BOURDIN", formattedLastName, "Le nom doit être formatté");
+        assertEquals("BOURDIN-MICHEL", formattedLastName, "Le nom doit être formatté");
     }
 
     @AfterEach
