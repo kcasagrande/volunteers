@@ -1,3 +1,4 @@
 /.idea/
 /target/
 /tags
+/src/main/resources/output.csv
