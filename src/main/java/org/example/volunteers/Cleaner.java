@@ -30,13 +30,10 @@ public class Cleaner {
 			Volunteer volunteer1 = volunteers.get(i);
 			for (int j = i + 1; j < volunteers.size(); j++) {
 				Volunteer volunteer2 = volunteers.get(j);
-				if (volunteer1.hasCommonEmails(volunteer2) || volunteer1.hasCommonPhones(volunteer2)) {
-					if (volunteer1.isSamePerson(volunteer2)) {
-						System.out.println(volunteer1 + " (" + i + ") " + " -> " + volunteer2 + " (" + j + ")");
-						volunteer1.mergeVolunteerIdentities(volunteer2);
-						volunteers.remove(volunteer2);
-						j--;
-					}
+				if (volunteer1.isSamePerson(volunteer2)) {
+					volunteer1.mergeVolunteerIdentities(volunteer2);
+					volunteers.remove(volunteer2);
+					j--;
 				}
 			}
 		}

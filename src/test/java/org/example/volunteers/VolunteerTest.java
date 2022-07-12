@@ -11,91 +11,58 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VolunteerTest {
 
 	@ParameterizedTest
-	@MethodSource("provideNamesInputs")
-	public void testFormatName(String name, String expected) {
-		if (expected == null) {
-			assertNull(Volunteer.formatNames(name));
-			return;
-		}
-		assert (Volunteer.formatNames(name).equals(expected));
-	}
-
-	public static Stream<Arguments> provideNamesInputs() {
-		return Stream.of(
-				Arguments.of("", null),
-				Arguments.of("test", "TEST"),
-				Arguments.of("TeSt", "TEST"),
-				Arguments.of("tést", "TEST"),
-				Arguments.of("Clément", "CLEMENT"),
-				Arguments.of("azerty123", "AZERTY123"),
-				Arguments.of("Édouard", "EDOUARD"),
-				Arguments.of("Jéan-Louis", "JEAN-LOUIS")
-		);
-	}
-
-
-	@ParameterizedTest
-	@MethodSource("provideInvalidEmailInputs")
-	public void testFormatEmailNull(String email) {
-		assertNull(Volunteer.formatEmail(email));
+	@MethodSource("isSamePersonTrueInputs")
+	public void testIsSamePersonTrue(Volunteer vol2) {
+		Volunteer vol1 = new Volunteer("test","test2",null, "elisabeth_rigal@example.com", null);
+		assertTrue(vol1.isSamePerson(vol2));
 	}
 
 	@ParameterizedTest
-	@MethodSource("provideValidEmailInputs")
-	public void testFormatEmailNotNull(String email) {
-		assertNotNull(Volunteer.formatEmail(email));
+	@MethodSource("isSamePersonFalseInputs")
+	public void testIsSamePersonFalse(Volunteer vol2) {
+		Volunteer vol1 = new Volunteer("test","test2",null, "elisabeth_rigal@example.com", null);
+		assertFalse(vol1.isSamePerson(vol2));
 	}
 
-	public static Stream<Arguments> provideInvalidEmailInputs() {
+	public static Stream<Arguments> isSamePersonTrueInputs() {
 		return Stream.of(
-				Arguments.of("elisabeth_rigalexample.com"),
-				Arguments.of("elisabeth_rigal@examplecom"),
-				Arguments.of("elisabeth_rigal?@example.com"),
-				Arguments.of("élisabeth_rigal@example.com"),
-				Arguments.of("")
-		);
+				Arguments.of(new Volunteer("test","test2",null, "elisabeth_rigal@example.com", null)),
+				Arguments.of(new Volunteer("test2","test",null, "elisabeth_rigal@example.com", null)),
+				Arguments.of(new Volunteer(null,"test2",null, "elisabeth_rigal@example.com", null))
+				);
 	}
 
-	public static Stream<Arguments> provideValidEmailInputs() {
+	public static Stream<Arguments> isSamePersonFalseInputs() {
 		return Stream.of(
-				Arguments.of("elisabeth_rigal@example.com"),
-				Arguments.of("ouais@re.com"),
-				Arguments.of("ouais.bou@re.com")
+				Arguments.of(new Volunteer("test",null,null, "elisabeth_rigal@example.com", null)),
+				Arguments.of(new Volunteer("test2","testazeaze",null, "elisabeth_rigal@example.com", null)),
+				Arguments.of(new Volunteer("testazeaze","test2",null, "elisabeth_rigal@example.com", null))
 		);
 	}
 
 	@ParameterizedTest
-	@MethodSource("providePhoneInputs")
-	public void testFormatPhone(String phone, String expected) {
-		assert (Volunteer.formatPhone(phone).equals(expected));
+	@MethodSource("mergeVolunteerIdentitiesInputs")
+	public void testMergeVolunteerIdentities(Volunteer vol2,Volunteer expected) {
+		Volunteer vol1 = new Volunteer("test4",null,null, "lisabeth_rigal@example.com", null);
+		vol1.mergeVolunteerIdentities(vol2);
+		assertEquals(vol1.getFirstName(),expected.getFirstName());
+		assertEquals(vol1.getLastName(),expected.getLastName());
+		assertEquals(vol1.getNickName(),expected.getNickName());
+		vol2.getEmails().forEach(email -> {
+			assert(vol1.getEmails().contains(email));
+		});
+		vol2.getPhones().forEach(phone -> {
+			assert(vol1.getPhones().contains(phone));
+		});
 	}
 
-	@ParameterizedTest
-	@MethodSource("provideNullPhoneInputs")
-	public void testFormatPhoneNull(String phone) {
-		assertNull(Volunteer.formatPhone(phone));
-	}
-
-	public static Stream<Arguments> providePhoneInputs() {
+	public static Stream<Arguments> mergeVolunteerIdentitiesInputs() {
 		return Stream.of(
-				Arguments.of("+33000555882", "+33000555882"),
-				Arguments.of("+33(0)0.75.55.99.79", "+330075559979"),
-				Arguments.of("+33(0)0 00 55 52 26", "+330000555226"),
-				Arguments.of("+330 00 55 57 66", "+33000555766"),
-				Arguments.of("+33(0)0-00-55-50-28", "+330000555028"),
-				Arguments.of("00-55-52-89-61", "+330055528961"),
-				Arguments.of("+330-55-59-77-78", "+33055597778"),
-				Arguments.of("00-55-59-77-78", "+330055597778")
+				Arguments.of(new Volunteer("test","test2",null, "lisabeth_rigal@example.com", null),new Volunteer("test4","test2",null, "lisabeth_rigal@example.com", null)),
+				Arguments.of(new Volunteer("test2","test2","hello", "lisabeth@example.com", null),new Volunteer("test4","test2","hello", "lisabeth@example.com", null)),
+				Arguments.of(new Volunteer(null,"test2",null, null, null),new Volunteer("test4","test2",null, null, null)),
+				Arguments.of(new Volunteer("test8","test2","coucou", null, "0612345678"),new Volunteer("test4","test2","coucou", null, null))
 		);
 	}
 
-	public static Stream<Arguments> provideNullPhoneInputs() {
-		return Stream.of(
-				Arguments.of(null, null),
-				Arguments.of("123456798789789465467", null),
-				Arguments.of("00", null),
-				Arguments.of("", null),
-				Arguments.of("+3301234567", null)
-		);
-	}
 }

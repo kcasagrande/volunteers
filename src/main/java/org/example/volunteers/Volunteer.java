@@ -26,12 +26,12 @@ public final class Volunteer {
 			String eMail,
 			String phone
 	) {
-		this.firstName = formatNames(firstName);
-		this.lastName = formatNames(lastName);
-		this.nickName = formatNames(nickName);
-		this.eMail = formatEmail(eMail);
+		this.firstName = StringUtils.formatNames(firstName);
+		this.lastName = StringUtils.formatNames(lastName);
+		this.nickName = StringUtils.formatNames(nickName);
+		this.eMail = StringUtils.formatEmail(eMail);
 		this.addEmail(this.eMail);
-		this.phone = formatPhone(phone);
+		this.phone = StringUtils.formatPhone(phone);
 		this.addPhone(this.phone);
 	}
 
@@ -101,46 +101,6 @@ public final class Volunteer {
 		this.phones = phones;
 	}
 
-	public static String formatNames(String input) {
-		if (input == null || input.length() == 0) return null;
-		String upperCasedString = input.toUpperCase();
-		return Normalizer.normalize(upperCasedString, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-	}
-
-	public static String formatEmail(String input) {
-		if (input == null || input.length() == 0) return null;
-
-		boolean isValid = Pattern.
-				compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
-				.matcher(input).matches();
-		if (!isValid) return null;
-		return input;
-	}
-
-	public static String formatPhone(String input) {
-		if (input == null || input.length() == 0) return null;
-
-		String validString = input
-				.replace(".", "")
-				.replace("-", "")
-				.replace(" ", "")
-				.replace("(", "")
-				.replace(")", "")
-				.replace("_", "");
-
-
-		if (validString.length() < 10) return null;
-
-		if (!validString.startsWith("+")) {
-			validString = "+33" + validString;
-		}
-
-		if (validString.length() > 13 || validString.length() < 12) return null;
-
-
-		return validString;
-	}
-
 
 	@Override
 	public String toString() {
@@ -148,82 +108,71 @@ public final class Volunteer {
 				.map(attribute -> String.format("\"%s\"", attribute))
 				.collect(joining(";"));
 
-		StringBuilder builder = new StringBuilder(csvLine);
-
-		builder.append(";").append(emails.stream().collect(joining(","))).append(";").append(phones.stream().collect(joining(",")));
-
-		return builder.toString();
+		return csvLine +
+				";" +
+				String.format("\"%s\"", String.join(",", emails)) +
+				";" +
+				String.format("\"%s\"", String.join(",", phones));
 	}
 
 	public boolean isContactable() {
 		return this.eMail != null || this.phone != null;
 	}
 
-	public boolean isFirstnameEquals(Volunteer vol) {
+	private boolean isFirstnameEquals(Volunteer vol) {
 		if (this.firstName == null || vol.firstName == null) return false;
 		return this.firstName.equals(vol.firstName);
 	}
 
-	public boolean isLastnameEquals(Volunteer vol) {
+	private boolean isLastnameEquals(Volunteer vol) {
 		if (this.lastName == null || vol.lastName == null) return false;
 		return this.lastName.equals(vol.lastName);
 	}
 
 
-	public boolean hasCommonEmails(Volunteer vol) {
+	private boolean hasCommonEmails(Volunteer vol) {
 		for (String email : this.getEmails()) {
-			for (String volEmail : vol.getEmails()) {
-				if (volEmail.equals(email)) return true;
+			if (vol.getEmails().contains(email)) {
+				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean hasCommonPhones(Volunteer vol) {
-
+	private boolean hasCommonPhones(Volunteer vol) {
 		for (String phone : this.getPhones()) {
-			for (String volPhone : vol.getPhones()) {
-				if (volPhone.equals(phone))
-					return true;
-				;
+			if (vol.getPhones().contains(phone)) {
+				return true;
 			}
 		}
 		return false;
 	}
 
 
-	public void mergeVolunteerIdentities(Volunteer volunteer) {
-		this.setFirstName(getNotNullString(getFirstName(), volunteer.getFirstName()));
-		this.setLastName(getNotNullString(getLastName(), volunteer.getLastName()));
-		this.setNickName(getNotNullString(getNickName(), volunteer.getNickName()));
-		this.phones.addAll(volunteer.phones);
-		this.emails.addAll(volunteer.emails);
+	public void mergeVolunteerIdentities(Volunteer vol) {
+		this.setFirstName(StringUtils.getNotNullString(getFirstName(), vol.getFirstName()));
+		this.setLastName(StringUtils.getNotNullString(getLastName(), vol.getLastName()));
+		this.setNickName(StringUtils.getNotNullString(getNickName(), vol.getNickName()));
+		this.phones.addAll(vol.phones);
+		this.emails.addAll(vol.emails);
 	}
 
-	private String getNotNullString(String st1, String st2) {
-		if (st1 == null && st2 == null) return null;
-		if (st1 != null) return st1;
-		return st2;
-	}
 
 	private static boolean bothEntryAreNotNull(Volunteer v1, Volunteer v2) {
-		return v1.getLastName() != null && v2.getLastName() != null && v1.getFirstName() != null && v2.getFirstName() != null;
+		return v1.getLastName() != null && v2.getLastName() != null
+				&& v1.getFirstName() != null && v2.getFirstName() != null;
 	}
 
-	public boolean isSamePerson(Volunteer volunteer) {
-		if (StringUtils.bothStringsAreNull(getLastName(), volunteer.getLastName())) return false;
-		if (bothEntryAreNotNull(this, volunteer)
-				&& getLastName().equals(volunteer.getFirstName())
-				&& getFirstName().equals(volunteer.getLastName()))
+	public boolean isSamePerson(Volunteer vol) {
+		if (!(this.hasCommonEmails(vol) || this.hasCommonPhones(vol))) return false;
+		if (getNickName() != null && vol.getNickName() != null && getNickName().equals(vol.getNickName())) return true;
+		if (StringUtils.bothStringsAreNull(getLastName(), vol.getLastName())) return false;
+		if (bothEntryAreNotNull(this, vol)
+				&& getLastName().equals(vol.getFirstName())
+				&& getFirstName().equals(vol.getLastName()))
 			return true;
-		if (!isLastnameEquals(volunteer)) return false;
-		if (StringUtils.hasJustOneNull(getFirstName(), volunteer.getFirstName())) return true;
-		if (!isFirstnameEquals(volunteer)) return false;
-		return true;
+		if (!isLastnameEquals(vol)) return false;
+		if (StringUtils.hasJustOneNull(getFirstName(), vol.getFirstName())) return true;
+		return isFirstnameEquals(vol);
 	}
-
-
-//	(volunteer1.isLastnameEquals(volunteer2) || StringUtils.bothStringsAreNull(volunteer1.getLastName(), volunteer2.getLastName())) ||
-//			(volunteer1.isFirstnameEquals(volunteer2) || StringUtils.hasJustOneNull(volunteer1.getFirstName(), volunteer2.getFirstName()))) {
-
 }
