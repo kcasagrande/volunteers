@@ -10,8 +10,9 @@ public class Cleaner {
     private static final String[][] UMLAUT_REPLACEMENTS = { { "É", "E" }, { "é", "e" }, { "È", "E" }, { "è", "e" } };
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        List<Volunteer> cleanVolunteers = removeDuplicateFirstNameLastNamePseudoMailPhone(cleanupMailAddresses(volunteers));
-        return new ArrayList<Volunteer>(cleanVolunteers);
+        List<Volunteer> cleanedVolunteersAdresses = cleanupMailAddresses(volunteers);
+        List<Volunteer> cleanedVolunteersDuplicate = removeDuplicateFirstNameLastNamePseudoMailPhone(cleanedVolunteersAdresses);
+        return new ArrayList<Volunteer>(cleanedVolunteersDuplicate);
     }
 
     public static Boolean isValidEmail(String email) {
