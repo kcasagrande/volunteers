@@ -1,6 +1,5 @@
 package org.example.volunteers;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -71,9 +70,23 @@ public class Cleaner {
     }
 
     public static List<Volunteer> sanitizeEmailInsteadOfPhone(List<Volunteer> volunteers) {
+        List<Volunteer> volunteersSanitized = new ArrayList<>();
+        LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
+        for (Volunteer volunteer: volunteers) {
 
-        return volunteers;
+            if (testIsPhone(volunteer.eMail) && isValidEmail(volunteer)) {
+                String oldMailHasPhone = volunteer.phone;
+                String oldPhoneHasMail = volunteer.eMail;
+                volunteer.phone = oldMailHasPhone;
+                volunteer.eMail = oldPhoneHasMail;
+            } else if (testIsPhone(volunteer.eMail) && volunteer.phone == null) {
+                volunteer.phone = volunteer.eMail;
+            }
+
+        }
+
+        return volunteersSanitized;
     }
 
     public static Volunteer convertDotsFromPhoneNumber(Volunteer volunteer) {
@@ -101,5 +114,13 @@ public class Cleaner {
             cleanPhone = "+33" + volunteer.phone;
         }
         return new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.eMail, cleanPhone);
+    }
+
+    public static boolean testIsPhone(String phonetets) {
+        return true;
+    }
+
+    public static boolean testIsMail(String mail) {
+        return true;
     }
 }

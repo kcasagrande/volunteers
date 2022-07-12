@@ -69,9 +69,9 @@ public class CleanerTest {
 
         List<Volunteer> result = Cleaner.sanitizeEmailInsteadOfPhone(volunteers);
 
-        List<Volunteer> resultExpected = Cleaner.sanitizeEmailInsteadOfPhone(volunteers);
-        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
+        List<Volunteer> resultExpected = new ArrayList<>();
+        resultExpected.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
 
-        assertEquals(resultExpected, result.size());
+        assertEquals(resultExpected.toString(), result.toString());
     }
 }
