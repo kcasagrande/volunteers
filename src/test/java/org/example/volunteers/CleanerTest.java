@@ -171,4 +171,33 @@ public class CleanerTest {
         assertTrue(c.emailValidator.badFormatEmail.stream().anyMatch(x->x.getNickName() == "nick2" && x.getFirstName() == "first2" && x.getLastName() == "last2"));
     }
 
+    @Test
+    public void testMergeSameEmail(){
+        List<Volunteer> outputVolunteers = new ArrayList<>();
+        Volunteer vol1 = new Volunteer("first1", "last1" , "nick1" ,"email1@email.com" , "phone1");
+        Volunteer vol2 = new Volunteer("first1", "last1" , "nick1" ,"email1@email.com" , "phone1");
+        Volunteer vol3 = new Volunteer("FIRST1", "LAST1" , "NICK1" ,"email1@email.com" , "PHONE1");
+        Volunteer vol4 = new Volunteer("first4", "last4" , "nick4" ,"email4" , "phone4");
+        Volunteer vol5 = new Volunteer("first5", "last5" , "nick5" , "dsdsdds" , "phone5");
+        Volunteer vol6 = new Volunteer("first6", "last6" , "nick6" , "email6@email.com" , "phone6");
+        Volunteer vol7 = new Volunteer("first7", "last7" , "nick7" , "email6@email.com" , "phone7");
+        outputVolunteers.addAll(new ArrayList<>(Arrays.asList(vol1,vol3,vol4,vol2,vol5,vol6,vol7)));
+        Cleaner c = new Cleaner(outputVolunteers);
+        c.checkEmails();
+        List<Volunteer> badEmail = c.emailValidator.badFormatEmail;
+        HashMap<Boolean,List<Volunteer>> mapCleean = c.emailValidator.cleanDuplicateEmail();
+        List<Volunteer> emailDuplicatedClean = mapCleean.get(true);
+        List<Volunteer> emailDuplicatedNotClean = mapCleean.get(false);
+        assertEquals(emailDuplicatedClean.size() , 1);
+        assertEquals(badEmail.size() , 2);
+        assertEquals(emailDuplicatedNotClean.size() , 4);
+        assertTrue(emailDuplicatedClean.stream().anyMatch(x->x.equals(vol1)));
+        assertTrue(emailDuplicatedClean.stream().anyMatch(x->x.equals(vol2)));
+        assertTrue(emailDuplicatedClean.stream().anyMatch(x->x.equals(vol3)));
+        assertTrue(badEmail.stream().anyMatch(x->x.equals(vol4)));
+        assertTrue(badEmail.stream().anyMatch(x->x.equals(vol5)));
+        assertTrue(emailDuplicatedNotClean.stream().anyMatch(x->x.equals(vol6)));
+        assertTrue(emailDuplicatedNotClean.stream().anyMatch(x->x.equals(vol7)));
+        assertTrue(emailDuplicatedNotClean.stream().anyMatch(x->x.equals(vol1)));
+    }
 }

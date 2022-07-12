@@ -17,6 +17,7 @@ public class Cleaner {
     public VolunteerNameError nameValidator;
     public VolunteerPhoneNumberError phoneNumberValidator;
     public List<Volunteer> allVolunteers;
+
     public Cleaner(List<Volunteer> volunteers){
         this.validators = new Validations();
         this.allVolunteers = volunteers;
@@ -34,14 +35,18 @@ public class Cleaner {
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
         volunteersToRemove.addAll(this.nameValidator.malformedNames);
-        for (String email : this.emailValidator.duplicateEmail.keySet()){
-            volunteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
-        }
+
+        HashMap<Boolean,List<Volunteer>> cleanDuplicateEmail = this.emailValidator.cleanDuplicateEmail();
+        volunteersToRemove.addAll(cleanDuplicateEmail.get(false));
+
         for (String phoneNumber : this.phoneNumberValidator.duplicatePhoneNumber.keySet()){
             volunteersToRemove.addAll(this.phoneNumberValidator.duplicatePhoneNumber.get(phoneNumber));
         }
+
         List<Volunteer> allVolunteersCorrect = this.allVolunteers;
         allVolunteersCorrect.removeAll(volunteersToRemove);
+
+        allVolunteersCorrect.addAll(cleanDuplicateEmail.get(true));
         return allVolunteersCorrect;
     }
 

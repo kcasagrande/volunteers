@@ -52,4 +52,21 @@ public final class Volunteer {
         return phone;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Volunteer currentVolunteer = (Volunteer) o;
+        return this.getEmail().equalsIgnoreCase(currentVolunteer.getEmail()) &&
+                this.getLastName().equalsIgnoreCase(currentVolunteer.getLastName()) &&
+                this.getFirstName().equalsIgnoreCase(currentVolunteer.getFirstName()) &&
+                this.getNickName().equalsIgnoreCase(currentVolunteer.getNickName()) &&
+                this.getPhone().equalsIgnoreCase(currentVolunteer.getPhone());
+    }
+
 }
