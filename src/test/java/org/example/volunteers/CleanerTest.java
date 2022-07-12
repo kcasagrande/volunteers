@@ -206,8 +206,15 @@ public class CleanerTest {
 
         assertEquals(badEmail.size() , 2);
         assertEquals(emailDuplicatedNotClean.size() , 5);
-        assertEquals(emailDuplicatedClean.size() , 1);
+        assertEquals(emailDuplicatedClean.size() , 2);
         assertTrue(emailDuplicatedClean.stream().anyMatch(x->x.equals(vol1)));
+        assertTrue(emailDuplicatedClean.stream().anyMatch(x->x.getEmail().equals("email6@email.com")
+                && x.getPhone().contains("phone6")
+                && x.getPhone().contains("phone7")
+                && x.getPhone().contains(";")
+                && x.getNickName().contains("nick6")
+                && x.getNickName().contains("nick7")
+                && x.getNickName().contains(";")));
         assertTrue(badEmail.stream().anyMatch(x->x.equals(vol4)));
         assertTrue(badEmail.stream().anyMatch(x->x.equals(vol5)));
         assertTrue(emailDuplicatedNotClean.stream().anyMatch(x->x.equals(vol6)));

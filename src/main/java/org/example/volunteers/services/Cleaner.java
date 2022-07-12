@@ -35,7 +35,7 @@ public class Cleaner {
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
         volunteersToRemove.addAll(this.nameValidator.malformedNames);
-        HashMap<Boolean,Set<Volunteer>> duplicateVolunteers = this.cleanDuplicate();
+        HashMap<Boolean,Set<Volunteer>> duplicateVolunteers = this.cleanAndMergeDuplicate();
         volunteersToRemove.addAll(duplicateVolunteers.get(false));
 
         List<Volunteer> allVolunteersCorrect = this.allVolunteers;
@@ -44,15 +44,15 @@ public class Cleaner {
         return allVolunteersCorrect;
     }
 
-    public HashMap<Boolean,Set<Volunteer>> cleanDuplicate(){
+    public HashMap<Boolean,Set<Volunteer>> cleanAndMergeDuplicate() {
         HashMap<Boolean,Set<Volunteer>> mapResult = new HashMap<>();
         HashSet<Volunteer> badVolunteers = new HashSet<>();
 
-        HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>());
+        HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanAndMergeDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>(), new String[]{"email"});
         badVolunteers.addAll(mapEmail.get(false));
-        HashMap<Boolean,List<Volunteer>> mapPhone = this.cleanDuplicate(this.phoneNumberValidator.duplicatePhoneNumber, mapEmail.get(true));
+        HashMap<Boolean,List<Volunteer>> mapPhone = this.cleanAndMergeDuplicate(this.phoneNumberValidator.duplicatePhoneNumber, mapEmail.get(true), new String[]{"phone"});
         badVolunteers.addAll(mapPhone.get(false));
-        HashMap<Boolean,List<Volunteer>> mapName = this.cleanDuplicate(this.nameValidator.duplicateName, mapPhone.get(true));
+        HashMap<Boolean,List<Volunteer>> mapName = this.cleanAndMergeDuplicate(this.nameValidator.duplicateName, mapPhone.get(true) , new String[]{"firstName","lastName"});
         badVolunteers.addAll(mapName.get(false));
 
         mapResult.put(false,badVolunteers);
@@ -60,9 +60,10 @@ public class Cleaner {
         return mapResult;
     }
 
-    private HashMap<Boolean,List<Volunteer>> cleanDuplicate(HashMap<String,List<Volunteer>> mapToRemoveEquals ,List<Volunteer> cleanVolunteer){
+    private HashMap<Boolean,List<Volunteer>> cleanAndMergeDuplicate(HashMap<String,List<Volunteer>> mapToRemoveEquals ,List<Volunteer> cleanVolunteer , String[] fieldNames) {
         HashMap<Boolean,List<Volunteer>> mapToRemove = new HashMap<>();
         List<Volunteer> badVolunteer = new ArrayList<>();
+        List<Volunteer> volunteersPassed = new ArrayList<>();
 
         for ( String condition : mapToRemoveEquals.keySet()){
             List<Volunteer> volunteers = mapToRemoveEquals.get(condition);
@@ -71,6 +72,23 @@ public class Cleaner {
                     List<Volunteer> sameVolunteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
                     if(sameVolunteers.size() > 1){
                         cleanVolunteer.add(volunteer);
+                    }else if (!volunteersPassed.stream().anyMatch(x-> x.equals(volunteer))){
+                        List<Volunteer> sameVolunteersByProperty =  volunteers.stream().filter(x-> {
+                            try {
+                                for(String fieldName : fieldNames){
+                                    if(!x.get(fieldName).equalsIgnoreCase(volunteer.get(fieldName))){
+                                        return false;
+                                    }
+                                }
+                                return true;
+                            } catch (Exception e) {
+                               return false;
+                            }
+                        }).collect(Collectors.toList());
+                        if(sameVolunteersByProperty.size() > 1){
+                            cleanVolunteer.add(Volunteer.concatMultiple(sameVolunteersByProperty));
+                            volunteersPassed.addAll(sameVolunteersByProperty);
+                        }
                     }
                 }
                 badVolunteer.add(volunteer);
