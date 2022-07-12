@@ -35,43 +35,50 @@ public class Cleaner {
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
         volunteersToRemove.addAll(this.nameValidator.malformedNames);
-        volunteersToRemove.addAll(this.getDuplicateToRemove());
+        HashMap<Boolean,Set<Volunteer>> duplicateVolunteers = this.cleanDuplicate();
+        volunteersToRemove.addAll(duplicateVolunteers.get(false));
 
         List<Volunteer> allVolunteersCorrect = this.allVolunteers;
         allVolunteersCorrect.removeAll(volunteersToRemove);
-
+        allVolunteersCorrect.addAll(duplicateVolunteers.get(true));
         return allVolunteersCorrect;
     }
 
-    public List<Volunteer> getDuplicateToRemove(){
-        Set<Volunteer> volunteersToRemove = new HashSet<>();
-        volunteersToRemove.addAll(this.getDuplicateToRemove( this.emailValidator.duplicateEmail));
-        volunteersToRemove.addAll(this.getDuplicateToRemove(this.phoneNumberValidator.duplicatePhoneNumber));
-        volunteersToRemove.addAll(this.getDuplicateToRemove(this.nameValidator.duplicateName));
-        return volunteersToRemove.stream().collect(Collectors.toList());
+    public HashMap<Boolean,Set<Volunteer>> cleanDuplicate(){
+        HashMap<Boolean,Set<Volunteer>> mapResult = new HashMap<>();
+        HashSet<Volunteer> badVolunteers = new HashSet<>();
+
+        HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>());
+        badVolunteers.addAll(mapEmail.get(false));
+        HashMap<Boolean,List<Volunteer>> mapPhone = this.cleanDuplicate(this.phoneNumberValidator.duplicatePhoneNumber, mapEmail.get(true));
+        badVolunteers.addAll(mapPhone.get(false));
+        HashMap<Boolean,List<Volunteer>> mapName = this.cleanDuplicate(this.nameValidator.duplicateName, mapPhone.get(true));
+        badVolunteers.addAll(mapName.get(false));
+
+        mapResult.put(false,badVolunteers);
+        mapResult.put(true,mapName.get(true).stream().collect(Collectors.toSet()));
+        return mapResult;
     }
 
-    private List<Volunteer> getDuplicateToRemove(HashMap<String,List<Volunteer>> mapToRemoveEquals){
-
+    private HashMap<Boolean,List<Volunteer>> cleanDuplicate(HashMap<String,List<Volunteer>> mapToRemoveEquals ,List<Volunteer> cleanVolunteer){
+        HashMap<Boolean,List<Volunteer>> mapToRemove = new HashMap<>();
         List<Volunteer> badVolunteer = new ArrayList<>();
-        List<Volunteer> cleanVolunteer = new ArrayList<>();
 
         for ( String condition : mapToRemoveEquals.keySet()){
             List<Volunteer> volunteers = mapToRemoveEquals.get(condition);
             for(Volunteer volunteer : volunteers){
                 if(!cleanVolunteer.stream().anyMatch(x-> x.equals(volunteer))){
-                    List<Volunteer> sameVolonteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
-                    if(sameVolonteers.size() < 2){
-                        badVolunteer.add(volunteer);
-                    }else{
+                    List<Volunteer> sameVolunteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
+                    if(sameVolunteers.size() > 1){
                         cleanVolunteer.add(volunteer);
                     }
-                }else{
-                    badVolunteer.add(volunteer);
                 }
+                badVolunteer.add(volunteer);
             }
         }
-        return badVolunteer;
+        mapToRemove.put(false,badVolunteer);
+        mapToRemove.put(true,cleanVolunteer);
+        return mapToRemove;
     }
 
 
