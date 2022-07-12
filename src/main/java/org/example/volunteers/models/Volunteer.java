@@ -1,6 +1,9 @@
 package org.example.volunteers.models;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
@@ -50,6 +53,44 @@ public final class Volunteer {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String get(String fieldName) throws Exception{
+        Field field = this.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        Object value = field.get(this);
+        return value.toString();
+    }
+
+    public String[] getByList(String[] fieldNames) throws Exception{
+        String[] values = new String[fieldNames.length];
+        for(int i = 0 ; i < fieldNames.length ; i++){
+            values[i] = get(fieldNames[i]);
+        }
+        return values;
+    }
+
+    public static Volunteer concatMultiple(List<Volunteer> volunteers) {
+
+        String email = volunteers.stream()
+            .map(Volunteer::getEmail)
+            .collect(Collectors.toSet())
+            .stream()
+            .collect(joining(";"));
+
+        String phone = volunteers.stream()
+                .map(Volunteer::getPhone)
+                .collect(Collectors.toSet())
+                .stream()
+                .collect(joining(";"));
+
+        String nickName = volunteers.stream()
+                .map(Volunteer::getNickName)
+                .collect(Collectors.toSet())
+                .stream()
+                .collect(joining(";"));
+
+        return new Volunteer(volunteers.get(0).getFirstName(), volunteers.get(0).getLastName(), nickName, email, phone);
     }
 
 
