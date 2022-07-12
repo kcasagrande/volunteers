@@ -46,6 +46,10 @@ public class Cleaner {
         return uniqueVolunteers;
     }
 
+    public static Boolean isValidPhoneNumber(Volunteer volunteer) {
+        return Pattern.matches("^[\\+]?[0-9]{1,3}[0-9]{9}$", volunteer.phone);
+    }
+
     public static Volunteer convertDashesFromPhoneNumber(Volunteer volunteer) {
         String cleanPhone = volunteer.phone.replace("-", "");
         return new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.eMail, cleanPhone);

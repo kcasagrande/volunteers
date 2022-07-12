@@ -5,6 +5,58 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PhoneTest {
     @Test
+    public void shouldIsValidPhoneNumber() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "0612345678");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer);
+
+        // Assert
+        Boolean expectedResult = true;
+        assertEquals(expectedResult, isValidNumber, "Le telephone devrait etre valide");
+    }
+
+    @Test
+    public void shouldIsValidPhoneNumberWithParenthesis() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+33(0)000555091");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer);
+
+        // Assert
+        Boolean expectedResult = true;
+        assertEquals(expectedResult, isValidNumber, "Le telephone ne devrait pas etre valide");
+    }
+
+    @Test
+    public void shouldIsNotValidPhoneNumberWithParenthesis() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+33(0)000555091");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer);
+
+        // Assert
+        Boolean expectedResult = true;
+        assertEquals(expectedResult, isValidNumber, "Le telephone ne devrait pas etre valide");
+    }
+
+    @Test
+    public void shouldIsNotValidPhoneNumber() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "612345678");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer);
+
+        // Assert
+        Boolean expectedResult = false;
+        assertEquals(expectedResult, isValidNumber, "Le telephone ne devrait pas etre valide");
+    }
+
+    @Test
     public void shouldRemoveDashesFromPhoneNumber() {
         // Arrange
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06-12-34-56-78");
