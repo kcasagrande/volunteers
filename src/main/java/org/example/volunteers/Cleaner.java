@@ -13,20 +13,19 @@ public class Cleaner {
         List<Volunteer> singles = new ArrayList<>();
         List<Group> groups = new ArrayList<>();
         Integer groupIndex = 0;
+        List<Volunteer> v2 = volunteers.stream().filter(v -> v.phone.equals("+33055511986")).collect(Collectors.toList());
 
         for ( int i = 0; i < volunteers.size(); i++ ) {
             Volunteer item = volunteers.get(i);
-            boolean sameMail = volunteers.stream().filter(o -> o.email.equals(item.email)).count() > 1;
-            boolean samePhone = volunteers.stream().filter(o -> o.phone.equals(item.phone)).count() > 1;
+            boolean sameMail = !item.email.equals("") && volunteers.stream().filter(o -> o.email.equals(item.email)).count() > 1;
+            boolean samePhone = !item.phone.equals("") && volunteers.stream().filter(o -> o.phone.equals(item.phone)).count() > 1;
 
-            if ( item.phone == "+33045558312") {
-                System.out.println(samePhone);
-            }
             if ((sameMail) || ( samePhone )) {
                 List<Group> currentGroup = null;
-                if ( sameMail && item.email != "" ) {
-                     currentGroup = groups.stream().filter(o -> o.volunteers.stream().anyMatch(v -> v.email.equals(item.email)) ).collect(Collectors.toList());
-                } else if ( samePhone && item.phone != "" ) {
+                if ( sameMail) {
+                    currentGroup = groups.stream().filter(o -> o.volunteers.stream().anyMatch(v -> v.email.equals(item.email)) ).collect(Collectors.toList());
+                }
+                if ( (currentGroup == null || currentGroup.size() == 0) && samePhone) {
                     currentGroup = groups.stream().filter(o -> o.volunteers.stream().anyMatch(v -> v.phone.equals(item.phone)) ).collect(Collectors.toList());
                 }
 
@@ -40,6 +39,7 @@ public class Cleaner {
                     groupIndex ++;
                     groups.add(group);
                 }
+
             /*}
             else if ( item.email == "" || item.phone == "" ) {
                 List<Volunteer> list = new ArrayList<Volunteer>();
@@ -52,10 +52,13 @@ public class Cleaner {
         System.out.println(singles);
         System.out.println(groups);
 
-        /*for ( int i = 0; i < hasDuplicates.size(); i++ ) {
-            Volunteer item = hasDuplicates.get(i);
-
-        }*/
+        for ( int i = 0; i < groups.size(); i++ ) {
+            if (groups.get(i).volunteers.size() < 2) {
+                Group g = groups.get(i);
+                //System.out.println(g);
+                // TODO : debug
+            }
+        }
 
         // vérifier si mail ou tel similaire si le nom correspond aussi ou si les infos sont complémentaires ( donc à regrouper )
         // Lequel garder entre les deux doublons ? ( celui qui a le plus d'infos ? )
