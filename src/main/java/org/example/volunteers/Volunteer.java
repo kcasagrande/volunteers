@@ -60,7 +60,7 @@ public final class Volunteer {
         formatedPhoneNumber = formatedPhoneNumber.replace("/", "");
         formatedPhoneNumber = formatedPhoneNumber.replace(".", "");
 
-        if (formatedPhoneNumber.matches("/^\\+33/gm")) {
+        if (!formatedPhoneNumber.contains("+33")) {
             if (!formatedPhoneNumber.matches("/^33/gm")){
                 formatedPhoneNumber = "33" + formatedPhoneNumber;
             }
