@@ -1,20 +1,50 @@
 package org.example.volunteers.models;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VolunteerEmailError {
 
     public List<Volunteer> noEmail ;
-    public HashMap<String , List<Volunteer>> duplicateEmail ;
+    public HashMap<String , List<Volunteer>> duplicateEmail;
     public List<Volunteer> badFormatEmail ;
 
-    public VolunteerEmailError( List<Volunteer> noEmail ,HashMap<String , List<Volunteer>> duplicateEmail  ,   List<Volunteer> badFormatEmail){
+    public VolunteerEmailError( List<Volunteer> noEmail ,HashMap<String , List<Volunteer>> duplicateEmail  ,  List<Volunteer> badFormatEmail){
         this.noEmail = noEmail;
         this.duplicateEmail = duplicateEmail;
         this.badFormatEmail = badFormatEmail;
     }
+
+
+    public HashMap<Boolean,List<Volunteer>> cleanDuplicateEmail(){
+        HashMap<Boolean,List<Volunteer>> cleanDuplicateEmail = new HashMap<>();
+        List<Volunteer> cleanEmails = new ArrayList<>();
+        List<Volunteer> badEmails = new ArrayList<>();
+
+        for ( String email : this.duplicateEmail.keySet()){
+              List<Volunteer> volunteers = this.duplicateEmail.get(email);
+              for(Volunteer volunteer : volunteers){
+                  if(!cleanEmails.stream().anyMatch(x-> x.equals(volunteer))){
+                      List<Volunteer> sameVolonteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
+                      if(sameVolonteers.size()>1){
+                          cleanEmails.add(volunteer);
+                          volunteers.remove(sameVolonteers);
+                      }else{
+                          badEmails.add(volunteer);
+                      }
+                  }else{
+                      badEmails.add(volunteer);
+                  }
+              }
+        }
+        cleanDuplicateEmail.put(true,cleanEmails);
+        cleanDuplicateEmail.put(false,badEmails);
+        return cleanDuplicateEmail;
+    }
+
 
     public void print(PrintWriter writer){
         this.printNoEmail(writer);
