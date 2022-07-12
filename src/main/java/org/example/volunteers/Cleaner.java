@@ -133,6 +133,22 @@ public class Cleaner {
         return Pattern.matches("^[\\+][1-9][0-9]?[0-9]?[0-9]{9}$", phoneNumber);
     }
 
+    public static String cleanPhone(String phoneNumber) {
+        phoneNumber = phoneNumber.replace("-", "");
+        phoneNumber = phoneNumber.replace(".", "");
+        phoneNumber = phoneNumber.replace(" ", "");
+        phoneNumber = phoneNumber.replace("(", "").replace(")", "");
+
+        if (phoneNumber.length() == 10) {
+            if (phoneNumber.charAt(0) == '0') {
+                phoneNumber = phoneNumber.replaceFirst("0", "+33");
+            }
+        } else if (phoneNumber.length() == 9 && phoneNumber.charAt(0) != '+') {
+            phoneNumber = "+33" + phoneNumber;
+        }
+        return phoneNumber;
+    }
+
     public static Volunteer convertDashesFromPhoneNumber(Volunteer volunteer) {
         String cleanPhone = volunteer.phone.replace("-", "");
         return new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.eMail, cleanPhone);
