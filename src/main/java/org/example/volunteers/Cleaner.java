@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Cleaner {
-    private static final String[][] UMLAUT_REPLACEMENTS = { { "É", "E" }, { "é", "e" }, { "È", "E" }, { "è", "e" }, { "'", " " }, { "-", " " } };
+    private static final String[][] UMLAUT_REPLACEMENTS = { { "É", "E" }, { "é", "e" }, { "È", "E" }, { "è", "e" } };
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         return new ArrayList<Volunteer>(volunteers);
