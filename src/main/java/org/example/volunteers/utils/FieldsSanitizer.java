@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 
 public class FieldsSanitizer {
 
-    public static String clearName(String name) {
+    public String clearName(String name) {
         return name.replaceAll("[^\\p{L} ,.'-]", "");
     }
 
-    public static String clearPhone(String phone) {
+    public String clearPhone(String phone) {
         String result = phone.replaceAll("[^\\d.]|\\.", "");
 
         result = result.substring(Math.max(result.length() - 9, 0));
@@ -18,7 +18,7 @@ public class FieldsSanitizer {
         return result.length() == 9 ? "0" + result : "";
     }
 
-    public static String clearEmail(String email) {
+    public String clearEmail(String email) {
         if (email == null || email.isEmpty()) {
             return "";
         }

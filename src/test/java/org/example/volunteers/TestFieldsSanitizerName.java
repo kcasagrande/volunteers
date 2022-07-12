@@ -5,28 +5,29 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class TestFieldsSanitizerName {
+    FieldsSanitizer fieldsSanitizer = new FieldsSanitizer();
 
     @Test
     public void shouldKeepLatinSpecialChar() {
-        Assertions.assertEquals("Léo", FieldsSanitizer.clearName("Léo"));
-        Assertions.assertEquals("Raphaël", FieldsSanitizer.clearName("Raphaël"));
-        Assertions.assertEquals("Владимир", FieldsSanitizer.clearName("Владимир"));
+        Assertions.assertEquals("Léo", fieldsSanitizer.clearName("Léo"));
+        Assertions.assertEquals("Raphaël", fieldsSanitizer.clearName("Raphaël"));
+        Assertions.assertEquals("Владимир", fieldsSanitizer.clearName("Владимир"));
     }
 
     @Test
     public void digitsShouldBeRemoved() {
-        Assertions.assertEquals("Mathieu", FieldsSanitizer.clearName("Mathieu69"));
+        Assertions.assertEquals("Mathieu", fieldsSanitizer.clearName("Mathieu69"));
     }
 
     @Test
     public void specialCharsShouldBeRemoved() {
-        Assertions.assertEquals("Math", FieldsSanitizer.clearName("Math@"));
-        Assertions.assertEquals("", FieldsSanitizer.clearName("[][;$]"));
+        Assertions.assertEquals("Math", fieldsSanitizer.clearName("Math@"));
+        Assertions.assertEquals("", fieldsSanitizer.clearName("[][;$]"));
     }
 
     @Test
     public void emptyNameShouldStayEmpty() {
-        Assertions.assertEquals("", FieldsSanitizer.clearName(""));
+        Assertions.assertEquals("", fieldsSanitizer.clearName(""));
     }
 
 }
