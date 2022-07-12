@@ -79,4 +79,17 @@ public class Cleaner {
 
         return matcher4.replaceAll("+33");
     }
+
+    public static String formatEmail(String email){
+        email = email.toLowerCase().trim().replaceAll(" ", "");
+        // If string does not contain @ symbol, returns nothing
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        if(m.matches()){
+            return email;
+        } else {
+            return "";
+        }
+    }
 }

@@ -86,6 +86,26 @@ public class DemoTest {
         assertEquals("BOURDIN-MICHEL", formattedLastName, "Le nom doit être formatté");
     }
 
+    @Test 
+    public void shouldFormatEmail(){
+        System.out.println("Formattage du mail");
+
+        String email = "loUI se-aNNe-bo urdin-MICHEL@gmail.COM";
+        String formattedEmail = Cleaner.formatEmail(email);
+
+        assertEquals("louise-anne-bourdin-michel@gmail.com", formattedEmail, "Le mail doit être formatté");
+    }
+
+    @Test 
+    public void shouldReturnsNoEmail(){
+        System.out.println("Formattage du mail");
+
+        String email = "loUI se-aNN!!!!e-bo urdin-MICHEL@.COM";
+        String formattedEmail = Cleaner.formatEmail(email);
+
+        assertEquals("", formattedEmail, "Le mail n'est normalement pas valide");
+    }
+
     @Test
     public void calculateFiabilityScore() {
         System.out.println("Calcul de la fiabilité du volontaire");

@@ -35,7 +35,6 @@ public final class Volunteer {
     }
 
     public int fiabilityScore() {
-        int currentScore = this.score;
         int newScore = 0;
 
         if (this.firstName != "") newScore++;
