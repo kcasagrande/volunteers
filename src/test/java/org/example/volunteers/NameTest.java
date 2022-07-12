@@ -4,7 +4,6 @@ import org.example.volunteers.models.Volunteer;
 import org.example.volunteers.services.Cleaner;
 import org.junit.jupiter.api.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -93,28 +92,13 @@ public class NameTest {
 
         Volunteer normalVolunteer = new Volunteer("Marine", "Dupont", "MDP", "mdp@test.fr", "+33670000000");
         Volunteer duplicateVolunteerWIthDifferentEmail = new Volunteer("Marine", "Dupont", "MD", "marine.dupont@test.fr", "+33600000000");
-        List<Volunteer> volunteers = Arrays.asList(duplicateVolunteerWIthDifferentEmail, normalVolunteer);
+        Volunteer volunteerWithFNameAndLNameReversed = new Volunteer("Dupont", "Marine", "MD", "marine.dupont@test.fr", "+33600000000");
+        List<Volunteer> volunteers = Arrays.asList(duplicateVolunteerWIthDifferentEmail, normalVolunteer, volunteerWithFNameAndLNameReversed);
 
         Cleaner c = new Cleaner(volunteers);
         c.checkNames();
-        HashMap<String, List<Volunteer>> result = c.nameValidator.duplicateName;
+        List<Volunteer> result = c.nameValidator.duplicateName.get("Marine.Dupont");
 
-        Assertions.assertEquals(0, result.size(), "Aucun doublon n'a été trouvé");
-    }
-
-    @Test
-    public void shouldRemoveDuplicateVolunteerWithExactDataFields(){
-
-        Volunteer normalVolunteer = new Volunteer("Marine", "Dupont", "MDP", "marine.dupont@test.fr", "+33670000000");
-        Volunteer duplicateVolunteer = new Volunteer("Marine", "Dupont", "MDP", "marine.dupont@test.fr", "+33670000000");
-        Volunteer duplicateVolunteerWithDifferentPhone = new Volunteer("Marine", "Dupont", "MDP", "marine.dupont@test.fr", "+33690000000");
-
-        List<Volunteer> volunteers = Arrays.asList(duplicateVolunteer, normalVolunteer, duplicateVolunteerWithDifferentPhone);
-
-        Cleaner c = new Cleaner(volunteers);
-        c.checkNames();
-        List<Volunteer> result = c.nameValidator.identicalVolunteers;
-
-        Assertions.assertEquals(1, result.size(), "Un doublon a été trouvé");
+        Assertions.assertEquals(2, result.size(), "Des doublons ont été trouvés");
     }
 }

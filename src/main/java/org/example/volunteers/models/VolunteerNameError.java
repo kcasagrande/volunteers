@@ -10,20 +10,16 @@ public class VolunteerNameError {
     public List<Volunteer> noNames ;
     public List<Volunteer> malformedNames ;
 
-    public List<Volunteer> identicalVolunteers ;
-
-    public VolunteerNameError(HashMap<String, List<Volunteer>> duplicateName, List<Volunteer> malformedNames, List<Volunteer> noNames, List<Volunteer> identicalVolunteers) {
+    public VolunteerNameError(HashMap<String, List<Volunteer>> duplicateName, List<Volunteer> malformedNames, List<Volunteer> noNames) {
         this.duplicateName = duplicateName;
         this.malformedNames = malformedNames;
         this.noNames = noNames;
-        this.identicalVolunteers = identicalVolunteers;
     }
 
     public void print(PrintWriter writer){
         this.printDuplicateName(writer);
         this.printMalformedNames(writer);
         this.printNoName(writer);
-        this.printIdenticalVolunteers(writer);
     }
 
     public void printMalformedNames(PrintWriter writer){
@@ -56,16 +52,6 @@ public class VolunteerNameError {
             this.noNames.forEach(writer::println);
         }else{
             writer.println("Il n'y a pas de record sans nom : ");
-        }
-        writer.println();
-    }
-
-    public void printIdenticalVolunteers(PrintWriter writer){
-        if(this.identicalVolunteers.size()>0){
-            writer.println("Records identiques : ");
-            this.identicalVolunteers.forEach(writer::println);
-        }else{
-            writer.println("Il n'y a pas de record identique : ");
         }
         writer.println();
     }
