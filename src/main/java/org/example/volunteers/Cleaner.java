@@ -83,6 +83,17 @@ public class Cleaner {
     public static List<Volunteer> removeDuplicates (List<Volunteer> volunteers){
         System.out.println("Taille initiale : "+ volunteers.size() );
 
+        // On fait gère les doublons ayant les memes firstname, lastname et email
+        List<Volunteer> completedVolunteers = filterByFirstnameLastnameAndEmail(volunteers);
+
+        completedVolunteers = filterByFirstnameLastnameAndNickname(completedVolunteers);
+
+        System.out.println("Taille finale : " + completedVolunteers.size());
+
+        return completedVolunteers;
+    }
+
+    private static List<Volunteer> filterByFirstnameLastnameAndEmail(List<Volunteer> volunteers){
         // Supprime les doublons ayant le meme firstname, lastname et email
         List<Volunteer> volunteersFiltered = getUniqueFilteredDatasByFirstnameLastnameAndEmail(volunteers);
 
@@ -111,20 +122,18 @@ public class Cleaner {
 
         }
 
-        System.out.println("Taille finale : " + completedVolunteers.size());
-
         return completedVolunteers;
     }
 
     private static List<Volunteer> getUniqueFilteredDatasByFirstnameLastnameAndEmail(List<Volunteer> volunteers){
         Set<Volunteer> volunteersFiltered = volunteers.stream().map(
-                        volunteer -> volunteers.stream().filter(data ->
-                                        data.firstName.equals(volunteer.firstName)
-                                                && data.lastName.equals(volunteer.lastName)
-                                                && data.eMail.equals(volunteer.eMail)
-                                )
-                                .findFirst()
-                                .get()
+                volunteer -> volunteers.stream().filter(data ->
+                        data.firstName.equals(volunteer.firstName)
+                        && data.lastName.equals(volunteer.lastName)
+                        && data.eMail.equals(volunteer.eMail)
+                    )
+                    .findFirst()
+                    .get()
                 )
                 .collect(Collectors.toSet());
         return new ArrayList<>(volunteersFiltered);
@@ -132,12 +141,69 @@ public class Cleaner {
 
     private static List<Volunteer> getFilteredDatasByFirstnameLastnameAndEmail(List<Volunteer> volunteers, Volunteer volunteer){
         Set<Volunteer> volunteersFiltered = volunteers.stream().filter(data ->
-                                        data.firstName.equals(volunteer.firstName)
-                                                && data.lastName.equals(volunteer.lastName)
-                                                && data.eMail.equals(volunteer.eMail)
-                                )
-                .collect(Collectors.toSet());
+            data.firstName.equals(volunteer.firstName)
+            && data.lastName.equals(volunteer.lastName)
+            && data.eMail.equals(volunteer.eMail)
+        )
+        .collect(Collectors.toSet());
         return new ArrayList<>(volunteersFiltered);
     }
+
+    private static List<Volunteer> filterByFirstnameLastnameAndNickname(List<Volunteer> volunteers){
+        // Supprime les doublons ayant le meme firstname, lastname et nickname
+        List<Volunteer> volunteersFiltered = getUniqueFilteredDatasByFirstnameLastnameAndNickname(volunteers);
+
+        // Ensuite on parcours la liste des elements pour remplir les champs phone et nickname différents
+        List<Volunteer> completedVolunteers = new ArrayList<Volunteer>();
+        for (Volunteer volunteer : volunteersFiltered) {
+            List<Volunteer> dataToTransfer = getFilteredDatasByFirstnameLastnameAndNickname(volunteers, volunteer);
+            if(dataToTransfer.size()>1){
+                String email = "";
+                String phone = "";
+                for (Volunteer data : dataToTransfer) {
+                    if (data.eMail.length()>0 && email.length()>0){
+                        email += ", ";
+                    }
+                    if (data.phone.length()>0 && phone.length()>0){
+                        phone += ", ";
+                    }
+                    email += data.eMail;
+                    phone += data.phone;
+                }
+                Volunteer newVolunteer = new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, email, phone);
+                completedVolunteers.add(newVolunteer);
+            }else{
+                completedVolunteers.add(volunteer);
+            }
+
+        }
+
+        return completedVolunteers;
+    }
+
+    private static List<Volunteer> getUniqueFilteredDatasByFirstnameLastnameAndNickname(List<Volunteer> volunteers){
+        Set<Volunteer> volunteersFiltered = volunteers.stream().map(
+            volunteer -> volunteers.stream().filter(data ->
+                data.firstName.equals(volunteer.firstName)
+                && data.lastName.equals(volunteer.lastName)
+                && data.nickName.equals(volunteer.nickName)
+            )
+            .findFirst()
+            .get()
+            )
+        .collect(Collectors.toSet());
+        return new ArrayList<>(volunteersFiltered);
+    }
+
+    private static List<Volunteer> getFilteredDatasByFirstnameLastnameAndNickname(List<Volunteer> volunteers, Volunteer volunteer){
+        Set<Volunteer> volunteersFiltered = volunteers.stream().filter(data ->
+            data.firstName.equals(volunteer.firstName)
+            && data.lastName.equals(volunteer.lastName)
+            && data.nickName.equals(volunteer.nickName)
+        )
+        .collect(Collectors.toSet());
+        return new ArrayList<>(volunteersFiltered);
+    }
+
 
 }

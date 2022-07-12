@@ -26,7 +26,7 @@ public class DuplicationChecker {
     public void removeDuplicatesByNameAndPseudo(){
         Volunteer v1 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupadzadzond@gmail.com", "+330987654345");
         Volunteer v2 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com", "+33012345678");
-        Volunteer v3 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com, jean.dupadzadzond@gmail.com", "+33012345678, +33098765434");
+        Volunteer v3 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com, jean.dupadzadzond@gmail.com", "+33012345678, +330987654345");
         List<Volunteer> testList = Arrays.asList(new Volunteer[]{v1, v2});
 
         List<Volunteer> expectedResult = Arrays.asList(new Volunteer[]{v3});
