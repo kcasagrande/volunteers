@@ -56,8 +56,8 @@ public class Cleaner {
         List<Volunteer> badEmails = new ArrayList<>();
         List<Volunteer> cleanEmails = new ArrayList<>();
 
-        for ( String phoneNumber : mapToRemoveEquals.keySet()){
-            List<Volunteer> volunteers = mapToRemoveEquals.get(phoneNumber);
+        for ( String condition : mapToRemoveEquals.keySet()){
+            List<Volunteer> volunteers = mapToRemoveEquals.get(condition);
             for(Volunteer volunteer : volunteers){
                 if(!cleanEmails.stream().anyMatch(x-> x.equals(volunteer))){
                     List<Volunteer> sameVolonteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
