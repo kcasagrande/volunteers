@@ -8,14 +8,9 @@ import java.util.stream.Collectors;
 
 public class Cleaner {
     public static List<Volunteer> handleDuplicates(List<Volunteer> volunteers) {
-        // supprimer tous les doublons identiques
-        // assigner un familly id à ceux qui sont identique ( par mail ou phone similaire mais nom différent )
-        // Autre fonction pour formater par famille
-
         List<Volunteer> singles = new ArrayList<>();
         List<Group> groups = new ArrayList<>();
         Integer groupIndex = 0;
-        List<Volunteer> v2 = volunteers.stream().filter(v -> v.phone.equals("+33055511986")).collect(Collectors.toList());
 
         for ( int i = 0; i < volunteers.size(); i++ ) {
             Volunteer item = volunteers.get(i);
@@ -41,29 +36,13 @@ public class Cleaner {
                     groupIndex ++;
                     groups.add(group);
                 }
-
-            /*}
-            else if ( item.email == "" || item.phone == "" ) {
-                List<Volunteer> list = new ArrayList<Volunteer>();
-                list.add(item);
-                Group group = new Group(groupIndex, list);
-                groupIndex ++;
-                groups.add(group);*/
             } else singles.add(item);
         }
-        //System.out.println(singles);
-        //System.out.println(groups);
 
         List<Volunteer> result = new ArrayList<>();
         result.addAll(singles);
 
         for ( int i = 0; i < groups.size(); i++ ) {
-            /*if (groups.get(i).volunteers.size() < 2) {
-                Group g = groups.get(i);
-                //System.out.println(g);
-                // TODO : debug
-            }*/
-            // On merge tout
             List<Volunteer> listV = new ArrayList<>();
             listV.add(groups.get(i).volunteers.get(0));
 
@@ -74,10 +53,6 @@ public class Cleaner {
                         (o.lastName.equals(current.lastName) && o.firstName.equals(current.firstName)) ||
                         (o.firstName.equals(current.lastName) && o.lastName.equals(current.firstName))
                 )).collect(Collectors.toList());
-
-                /*if ( (current.firstName.equals(baseV.firstName) && current.lastName.equals(baseV.lastName)) ||
-                     (current.firstName.equals(baseV.lastName) && current.lastName.equals(baseV.firstName))
-                ) {*/
 
                 if (vFind != null && vFind.size() > 0) {
                     Volunteer baseV = vFind.get(0);
@@ -91,23 +66,13 @@ public class Cleaner {
                     listV.add(current);
                 }
 
-                groups.get(i).volunteers = listV;
             }
+            groups.get(i).volunteers = listV;
 
             Group item = groups.get(i);
             result.addAll(item.volunteers);
         }
         System.out.println(result);
-
-
-        // vérifier si mail ou tel similaire si le nom correspond aussi ou si les infos sont complémentaires ( donc à regrouper )
-        // Lequel garder entre les deux doublons ? ( celui qui a le plus d'infos ? )
-        // assigner à une famille si plusieurs personnes avec le même nom de famille mais pas même prénom
-        /*
-         * Pour merge règles :
-         * Si nom et prénom sont les même on fusionne et on fait la liste des mail / phone si besoin
-         * Si nom et prénom son inversé on choisit un des deux
-         * */
 
         return result;
     }
@@ -125,8 +90,6 @@ public class Cleaner {
     }
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        // This function should contain your dark magic.
-        // For now, it simply returns a copy of the initial list.
         List<Volunteer> finalVolunteers = new ArrayList<Volunteer>();
 
         for (int i = 0; i < volunteers.size(); i++) {
@@ -153,18 +116,7 @@ public class Cleaner {
             finalVolunteers.add(volunteer);
         }
 
-
         List<Volunteer> list = Cleaner.handleDuplicates(finalVolunteers);
-        Collections.sort(list, (o1, o2) -> o1.level.compareTo(o2.level));
         return list;
     }
 }
-
-
-/*
-*
-- Vérifier si il n’y a pas de doublon
-    - Par mail
-    - Par numéro
-- Formater les numéros
-* */

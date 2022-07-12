@@ -114,4 +114,24 @@ public final class Volunteer {
         }
         return String.valueOf(chars);
     }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (obj == this)
+            return true;
+
+        if (obj == null || !(obj instanceof Volunteer))
+            return false;
+
+        Volunteer otherVolunteer = (Volunteer) obj;
+
+        if (!otherVolunteer.firstName.equals(this.firstName))       return false;
+        if (!otherVolunteer.lastName.equals(this.lastName))     return false;
+        if (!otherVolunteer.nickName.equals(this.nickName))     return false;
+        if (!otherVolunteer.email.equals(this.email))     return false;
+        if (!otherVolunteer.phone.equals(this.phone))     return false;
+
+        return true;
+    }
 }
