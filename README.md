@@ -13,6 +13,7 @@ Members :
     - [testCleanDuplicates](#testCleanDuplicates)
     - [testCleanDuplicatesEmailsNumber](#testCleanDuplicatesEmailsNumber)
     - [testCleanDuplicatesPhonesNumber](#testCleanDuplicatesPhonesNumber)
+    - [testCleanUp](#testCleanUp)
 - [StringUtilsTest](#StringUtilsTest)
     - [testHasJustOneNull](#testHasJustOneNull)
     - [testBothStringsAreNull](#testBothStringsAreNull)
@@ -50,6 +51,12 @@ Members :
 | Méthode testée | `Cleaner.cleanDuplicates`                                                   |
 |----------------|-----------------------------------------------------------------------------|
 | Intérêt        | On teste si deux volontaires identiques ont leur numéro de téléphone réunis |
+
+### testCleanUp
+
+| Méthode testée | `Cleaner.cleanUp`                                                           |
+|----------------|-----------------------------------------------------------------------------|
+| Intérêt        | On teste le nombre de résultats en sortie par rapport à un fichier d'entrée |
 
 
 ## StringUtilsTest
