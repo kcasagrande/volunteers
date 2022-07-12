@@ -8,6 +8,7 @@ public class Cleaner {
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         volunteers = Email.cleanupMailAddresses(volunteers);
+        volunteers = Phone.cleanupPhoneNumber(volunteers);
         volunteers = Duplicate.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
         return new ArrayList<Volunteer>(volunteers);
     }
