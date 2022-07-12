@@ -1,87 +1,87 @@
 package org.example.volunteers;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StringUtilsTest {
 	@ParameterizedTest
 	@MethodSource("provideStringsOneNull")
-	public void testHasJustOneNull(String st1, String st2, Boolean expected) {
-		assert(StringUtils.hasJustOneNull(st1, st2) == expected);
+	public void testHasJustOneNull(String st1, String st2, Boolean expected,String message) {
+		assertEquals(StringUtils.hasJustOneNull(st1, st2), expected, message);
 	}
 
 	public static Stream<Arguments> provideStringsOneNull() {
 		return Stream.of(
-				Arguments.of("test", "test", false),
-				Arguments.of("", "", false),
-				Arguments.of("test", null, true),
-				Arguments.of(null, "test", true),
-				Arguments.of(null, null, false)
+			Arguments.of("test", "test", false, "We check that no value is null"),
+			Arguments.of("", "", false, "We check that no value is null even with empty fields"),
+			Arguments.of("test", null, true, "We check that if the name is detected as null"),
+			Arguments.of(null, "test", true, "We check that the first name is detected as null"),
+			Arguments.of(null, null, false, "We check that if the two values are null we return false")
 		);
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideStringsAllNull")
-	public void testBothStringsAreNull(String st1, String st2, Boolean expected) {
-		assert(StringUtils.bothStringsAreNull(st1, st2) == expected);
+	public void testBothStringsAreNull(String st1, String st2, Boolean expected,String message) {
+		assertEquals(StringUtils.bothStringsAreNull(st1, st2), expected, message);
 	}
 
 	public static Stream<Arguments> provideStringsAllNull() {
 		return Stream.of(
-				Arguments.of("test", "test", false),
-				Arguments.of("", "", false),
-				Arguments.of("test", null, false),
-				Arguments.of(null, "test", false),
-				Arguments.of(null, null, true)
+				Arguments.of("test", "test", false,"We test if the 2 values are not null"),
+				Arguments.of("", "", false, "We test if the 2 values are not null"),
+				Arguments.of("test", null, false,"We test if the 2 values are not null"),
+				Arguments.of(null, "test", false, "We test if the 2 values are not null"),
+				Arguments.of(null, null, true , "We test if the 2 values are null")
 		);
+	}
+
+	@Test
+	public void testFormatNameIsNull() {
+		assertNull(StringUtils.formatNames(""),"We test that if we fill an empty field the return is null");
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideNamesInputs")
-	public void testFormatName(String name, String expected) {
-		if (expected == null) {
-			assertNull(StringUtils.formatNames(name));
-			return;
-		}
-		assert (StringUtils.formatNames(name).equals(expected));
+	public void testFormatName(String name, String expected, String message) {
+		assertEquals(StringUtils.formatNames(name),(expected),message);
 	}
 
 	public static Stream<Arguments> provideNamesInputs() {
 		return Stream.of(
-				Arguments.of("", null),
-				Arguments.of("test", "TEST"),
-				Arguments.of("TeSt", "TEST"),
-				Arguments.of("tést", "TEST"),
-				Arguments.of("Clément", "CLEMENT"),
-				Arguments.of("azerty123", "AZERTY123"),
-				Arguments.of("Édouard", "EDOUARD"),
-				Arguments.of("Jéan-Louis", "JEAN-LOUIS")
+				Arguments.of("test", "TEST","We test that the function puts the string in upper case"),
+				Arguments.of("TeSt", "TEST","We test that the function puts the string in upper case"),
+				Arguments.of("tést", "TEST","We test that the function capitalizes the string and removes the accents"),
+				Arguments.of("Clément", "CLEMENT","We test that the function capitalizes the string and removes the accents"),
+				Arguments.of("azerty123", "AZERTY123","We test that the function puts the string in uppercase even if there are numbers"),
+				Arguments.of("Édouard", "EDOUARD","We test that the function puts the whole string in uppercase even if there is an accent on a capital letter"),
+				Arguments.of("Jéan-Louis", "JEAN-LOUIS","We test that the function capitalizes the string even if there is a dash in the name")
 		);
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideInvalidEmailInputs")
-	public void testFormatEmailNull(String email) {
-		assertNull(StringUtils.formatEmail(email));
+	public void testFormatEmailNull(String email, String message) {
+		assertNull(StringUtils.formatEmail(email), message);
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideValidEmailInputs")
-	public void testFormatEmailNotNull(String email) {
-		assertNotNull(StringUtils.formatEmail(email));
+	public void testFormatEmailNotNull(String email, String message) {
+		assertNotNull(StringUtils.formatEmail(email), message);
 	}
 
 	public static Stream<Arguments> provideInvalidEmailInputs() {
 		return Stream.of(
-				Arguments.of("elisabeth_rigalexample.com"),
-				Arguments.of("elisabeth_rigal@examplecom"),
-				Arguments.of("elisabeth_rigal?@example.com"),
+				Arguments.of("elisabeth_rigalexample.com", "Vérifie que l'email sans le @ sous incorect"),
+				Arguments.of("elisabeth_rigal@examplecom", "Vérifie que l'email sans le . index après le @ sous incorect"),
+				Arguments.of("elisabeth_rigal?@example.com", "Vérifie que l'email sans le @ sous incorect"),
 				Arguments.of("élisabeth_rigal@example.com"),
 				Arguments.of("")
 		);

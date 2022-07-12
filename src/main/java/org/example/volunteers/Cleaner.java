@@ -6,12 +6,10 @@ import java.util.stream.Collectors;
 
 public class Cleaner {
 	public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-		// This function should contain your dark magic.
 
 		volunteers = cleanNotContactable(volunteers);
 		volunteers = cleanDuplicates(volunteers);
 
-		// For now, it simply returns a copy of the initial list.
 		return new ArrayList<>(volunteers);
 	}
 
