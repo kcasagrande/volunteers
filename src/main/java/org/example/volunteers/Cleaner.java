@@ -11,6 +11,7 @@ public class Cleaner {
         volunteers = sanitizeEmailInsteadOfPhone(volunteers);
         volunteers = Email.cleanupMailAddresses(volunteers);
         volunteers = Phone.cleanupPhoneNumber(volunteers);
+        volunteers = updateCaseInNames(volunteers);
         volunteers = Duplicate.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
         volunteers = Duplicate.removeDuplicateMailPhone(volunteers);
         return new ArrayList<Volunteer>(volunteers);
@@ -47,5 +48,19 @@ public class Cleaner {
         }
 
         return volunteers;
+    }
+
+    public static List<Volunteer> updateCaseInNames(List<Volunteer> volunteers) {
+        List<Volunteer> cleanedVolunteers = new ArrayList<>();
+
+        for (Volunteer volunteer: volunteers) {
+            String cleanedVolunteerFirstName = volunteer.firstName.substring(0, 1).toUpperCase() + volunteer.firstName.substring(1).toLowerCase();
+            String cleanedVolunteerLastName = volunteer.lastName.substring(0, 1).toUpperCase() + volunteer.lastName.substring(1).toLowerCase();
+            String cleanedVolunteerNickName = volunteer.nickName.toLowerCase();
+
+            cleanedVolunteers.add(new Volunteer(cleanedVolunteerFirstName, cleanedVolunteerLastName, cleanedVolunteerNickName, volunteer.eMail, volunteer.phone));
+        }
+
+        return cleanedVolunteers;
     }
 }

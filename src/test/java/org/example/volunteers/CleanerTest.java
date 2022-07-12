@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CleanerTest {
     @Test
     public void removeAccents() {
-        List<Volunteer> volunteersA = new ArrayList<>();
-        volunteersA.add(new Volunteer("Éric", "Doé", "jojoé", "johné@mail.com", "+3369867543é"));
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Éric", "Doé", "jojoé", "johné@mail.com", "+3369867543é"));
 
-        List<Volunteer> result = Cleaner.removeAccents(volunteersA);
+        List<Volunteer> result = Cleaner.removeAccents(volunteers);
 
         assertEquals(result.get(0).firstName, "Eric", "Les accents doivent être remplacés par des caractères classiques dans les prénoms");
         assertEquals(result.get(0).lastName, "Doe", "Les accents doivent être remplacés par des caractères classiques dans les noms");
@@ -35,5 +35,17 @@ public class CleanerTest {
         resultExpected.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675487"));
 
         assertEquals(resultExpected.toString(), result.toString(), "Les adresses mail mis à la place des téléphones doivent être changé et remis à leur place");
+    }
+
+    @Test
+    public void updateCaseInNames() {
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("jEaN", "DUJARDiN", "jeANnotD", "+33000000000", "jean@dujardin.com"));
+
+        List<Volunteer> result = Cleaner.updateCaseInNames(volunteers);
+
+        assertEquals(result.get(0).firstName, "Jean", "Le prénom doit avoir une casse avec le premier caractère en majuscule et le reste en minuscule");
+        assertEquals(result.get(0).lastName, "Dujardin", "Le nom doit avoir une casse avec le premier caractère en majuscule et le reste en minuscule");
+        assertEquals(result.get(0).nickName, "jeannotd", "Le surnom doit être entièrement en minuscule");
     }
 }
