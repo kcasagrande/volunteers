@@ -46,13 +46,10 @@ public class DemoTest {
     @Test
     public void showDuplicatedVolunteers() {
         int index = 0;
-        System.out.println(volunteerService.getVolunteers().size());
         Volunteer volunteer = volunteerService.getVolunteers().get(index);
         List<Integer> indexes = VolunteerService.retrieveDuplicatesVolunteersIndex(volunteer, index + 1);
 
-        System.out.println(indexes);
-
-        assertEquals(indexes.size(), 11);
+        assertEquals(indexes.size(), 11, "Le nombre de doublons n'est pas correct !");
     }
 
     @Test
