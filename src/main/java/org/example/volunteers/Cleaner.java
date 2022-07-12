@@ -13,6 +13,7 @@ public class Cleaner {
         volunteers = Phone.cleanupPhoneNumber(volunteers);
         volunteers = updateCaseInNames(volunteers);
         volunteers = Duplicate.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
+        volunteers = Duplicate.removeDuplicateMailPhone(volunteers);
         return new ArrayList<Volunteer>(volunteers);
     }
 
@@ -23,7 +24,7 @@ public class Cleaner {
         volunteers = Phone.cleanupPhoneNumber(volunteers);
         volunteers = updateCaseInNames(volunteers);
         volunteers = Duplicate.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
-        volunteers = Duplicate.removeDuplicateMailPhone(volunteers);
+        volunteers = Duplicate.concatDuplicateMailPhone(volunteers);
         return new ArrayList<Volunteer>(volunteers);
     }
 
