@@ -143,8 +143,8 @@ public class VolunteersTest {
         Volunteer vol3 = new Volunteer("Antoine", "Mousset", "test", "uaai@aa.com", "123456890");
         List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
         List<Volunteer> expectedVolunteer = Arrays.asList(vol1, vol2);
-        List<Volunteer> nbrInvalidAddresses = App.getInvalidEmailAddresses(volunteers);
-        assertEquals(expectedVolunteer, nbrInvalidAddresses);
+        List<Volunteer> invalidAddresses = App.getInvalidEmailAddresses(volunteers);
+        assertEquals(expectedVolunteer, invalidAddresses, "Les adresses mails doivent être invalides");
     }
 
     @Test
@@ -155,7 +155,7 @@ public class VolunteersTest {
         Volunteer vol4 = new Volunteer("Antoine", "", "test", "uaai@aa.com", "123456890");
         List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3, vol4);
         int nbrVolunteerQuickContact = App.getVolunteerQuickContact(volunteers);
-        assertEquals(3, nbrVolunteerQuickContact);
+        assertEquals(2, nbrVolunteerQuickContact, "Nombre de volotaire avec seulement numéro et email incorrect");
     }
 
     @Test
@@ -167,6 +167,6 @@ public class VolunteersTest {
         List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
         List<Volunteer> expectedList = List.of(expectedResult);
         List<Volunteer> actualResult = App.removeDuplicateByNameAndNickName(volunteers);
-        assertEquals(expectedList, actualResult);
+        assertEquals(expectedList, actualResult, "Le nom, le prénom et le pseudo doivent etre identiques");
     }
 }
