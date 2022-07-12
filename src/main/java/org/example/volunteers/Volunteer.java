@@ -84,7 +84,7 @@ public final class Volunteer {
     }
 
     public void format() {
-        if(!this.hasValidMail() && this.email != null && this.email != "") {
+        if(this.email != null && this.email != "") {
             formatEmail();
         }
 
