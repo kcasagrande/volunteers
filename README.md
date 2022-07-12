@@ -30,7 +30,6 @@ Members :
 |----------------|-------------------------------------------|
 | Intérêt        | On teste si le volontaire est contactable |
 
-<hr/>
 
 ### testCleanDuplicates
 
@@ -38,7 +37,6 @@ Members :
 |----------------|-------------------------------------------------------------------------|
 | Intérêt        | On teste si deux volontaires identiques sont réunis en une seule entrée |
 
-<hr/>
 
 ### testCleanDuplicatesEmailsNumber
 
@@ -46,7 +44,6 @@ Members :
 |----------------|---------------------------------------------------------------|
 | Intérêt        | On teste si deux volontaires identiques ont leur mails réunis |
 
-<hr/>
 
 ### testCleanDuplicatesPhonesNumber
 
@@ -54,7 +51,6 @@ Members :
 |----------------|-----------------------------------------------------------------------------|
 | Intérêt        | On teste si deux volontaires identiques ont leur numéro de téléphone réunis |
 
-<hr/>
 
 ## StringUtilsTest
 
@@ -64,7 +60,6 @@ Members :
 |----------------|---------------------------------------------------|
 | Intérêt        | On teste si uniquement une des entrées est `null` |
 
-<hr/>
 
 ### testBothStringsAreNull
 
@@ -72,7 +67,6 @@ Members :
 |----------------|------------------------------------------|
 | Intérêt        | On teste si les deux entrées sont `null` |
 
-<hr/>
 
 ### testFormatName
 
@@ -80,7 +74,6 @@ Members :
 |----------------|--------------------------------------------------------|
 | Intérêt        | On teste si le formattage du nom et prénom est correct |
 
-<hr/>
 
 ### testFormatEmailNull
 
@@ -88,7 +81,6 @@ Members :
 |----------------|------------------------------------------------------------------------------|
 | Intérêt        | On teste si le formattage de l'email renvoit bien `null` dans les cas testés |
 
-<hr/>
 
 ### testFormatEmailNotNull
 
@@ -96,7 +88,6 @@ Members :
 |----------------|---------------------------------------------------------------------------|
 | Intérêt        | On teste si le formattage de l'email n'est pas `null` dans les cas testés |
 
-<hr/>
 
 ### testFormatPhone
 
@@ -104,7 +95,6 @@ Members :
 |----------------|---------------------------------------------------------------------------------------------------|
 | Intérêt        | On teste si le formattage du téléphone renvoit bien la bonne valeur formattée dans les cas testés |
 
-<hr/>
 
 ### testFormatPhoneNull
 
@@ -112,7 +102,6 @@ Members :
 |----------------|--------------------------------------------------------------------------------|
 | Intérêt        | On teste si le formattage du téléphone renvoit bien `null` dans les cas testés |
 
-<hr/>
 
 ## VolunteerTest
 
@@ -122,7 +111,6 @@ Members :
 |----------------|--------------------------------------------------------------------------|
 | Intérêt        | On teste si les personnes testées sont bien considérées comme identiques |
 
-<hr/>
 
 ### testIsSamePersonFalse
 
@@ -130,12 +118,9 @@ Members :
 |----------------|---------------------------------------------------------------------------|
 | Intérêt        | On teste si les personnes testées sont bien considérées comme différentes |
 
-<hr/>
 
 ### testMergeVolunteerIdentities
 
 | Méthode testée | `Volunteer.mergeVolunteerIdentities` |
 |----------------|-------------------------------------|
 | Intérêt        | On teste le merge entre 2 personnes |
-
-<hr/>
