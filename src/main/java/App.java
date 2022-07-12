@@ -44,7 +44,6 @@ public class App {
     }
 
     public static List<Volunteer> findDuplicatesByFirstname(List<Volunteer> volunteers) {
-        System.out.println("Find duplicates function");
         List<Volunteer> duplicates = new ArrayList<>();
         for (int i = 0; i < volunteers.size(); i++) {
             for (int j = i + 1; j < volunteers.size(); j++) {
@@ -58,7 +57,6 @@ public class App {
     }
 
     public static List<Volunteer> findDuplicatesByLastname(List<Volunteer> volunteers) {
-        System.out.println("Find duplicates function");
         List<Volunteer> duplicates = new ArrayList<>();
         for (int i = 0; i < volunteers.size(); i++) {
             for (int j = i + 1; j < volunteers.size(); j++) {
@@ -72,7 +70,6 @@ public class App {
     }
 
     public static List<Volunteer> findDuplicatesByEmail(List<Volunteer> volunteers) {
-        System.out.println("Find duplicates function");
         List<Volunteer> duplicates = new ArrayList<>();
         for (int i = 0; i < volunteers.size(); i++) {
             for (int j = i + 1; j < volunteers.size(); j++) {
@@ -86,7 +83,6 @@ public class App {
     }
 
     public static List<Volunteer> findDuplicatesByPhone(List<Volunteer> volunteers) {
-        System.out.println("Find duplicates function");
         List<Volunteer> duplicates = new ArrayList<>();
         for (int i = 0; i < volunteers.size(); i++) {
             for (int j = i + 1; j < volunteers.size(); j++) {
@@ -100,7 +96,6 @@ public class App {
     }
 
     public static List<Volunteer> findDuplicatesByNickname(List<Volunteer> volunteers) {
-        System.out.println("Find duplicates function");
         List<Volunteer> duplicates = new ArrayList<>();
         for (int i = 0; i < volunteers.size(); i++) {
             for (int j = i + 1; j < volunteers.size(); j++) {
@@ -113,21 +108,6 @@ public class App {
         return duplicates;
     }
 
-    public static Boolean toTitleCase(String name) {
-        String[] words = name.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (String w : words) {
-            sb.append(Character.toUpperCase(w.charAt(0)))
-                    .append(w.substring(1).toLowerCase())
-                    .append(" ");
-        }
-        String nameRegex = "^[A-Z][a-z]*$";
-        Pattern pattern = Pattern.compile(nameRegex);
-        String nameTransformed = sb.toString().trim();
-        Matcher matcher = pattern.matcher(nameTransformed);
-        System.out.println(nameTransformed + " : " + matcher.matches());
-        return matcher.matches();
-    }
 
     public static int getCompletedForms(List<Volunteer> volunteers) {
         List<Volunteer> completedVolunteer = new ArrayList<>();
@@ -181,16 +161,6 @@ public class App {
             }
         }
         return volunteerContactPseudoOnly.size();
-    }
-
-    public static List<Volunteer> getInvalidEmailAddresses(List<Volunteer> volunteers) {
-        List<Volunteer> invalidEmailAddresses = new ArrayList<>();
-        for (Volunteer volunteer : volunteers) {
-            if (!volunteer.eMail.contains("@")) {
-                invalidEmailAddresses.add(volunteer);
-            }
-        }
-        return invalidEmailAddresses;
     }
 
     public static int getVolunteerQuickContact(List<Volunteer> volunteers) {

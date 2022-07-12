@@ -82,13 +82,6 @@ public class VolunteersTest {
     }
 
     @Test
-    public void isUpperCaseAndLowerCase() {
-        String name = "qfsdGGDFgee";
-        Boolean toTitleCase = App.toTitleCase(name);
-        assertTrue(toTitleCase, "Non valide");
-    }
-
-    @Test
     public void countCompletedForm(){
         Volunteer vol1 = new Volunteer("Florian", "Mousset", "FloursWrap", "azertyuio@aa.com", "123456890");
         Volunteer vol2 = new Volunteer("Gerard", "", "nrgix", "ui@aa.com", "123456890");
@@ -105,14 +98,6 @@ public class VolunteersTest {
         List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
         int nbrUncompletedForm = App.getUncompletedForms(volunteers);
         assertEquals(2, nbrUncompletedForm);
-    }
-
-    @Test
-    public void ensurePhoneNumberIsValid(){
-        String phone = "+33(0)000555196";
-        String expectedPhoneNumber = "+330000555196";
-        String actualPhoneNumber = Cleaner.formatPhoneNumber(phone);
-        assertEquals(expectedPhoneNumber, actualPhoneNumber, "Le numéro de téléphone doit etre valide");
     }
 
     @Test
@@ -137,17 +122,6 @@ public class VolunteersTest {
     }
 
     @Test
-    public void getInvalidAddresses(){
-        Volunteer vol1 = new Volunteer("Florian", "Mousset", "", "aa.com", "");
-        Volunteer vol2 = new Volunteer("Gerard", "", "nrgix", "aa.com", "");
-        Volunteer vol3 = new Volunteer("Antoine", "Mousset", "test", "uaai@aa.com", "123456890");
-        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
-        List<Volunteer> expectedVolunteer = Arrays.asList(vol1, vol2);
-        List<Volunteer> invalidAddresses = App.getInvalidEmailAddresses(volunteers);
-        assertEquals(expectedVolunteer, invalidAddresses, "Les adresses mails doivent être invalides");
-    }
-
-    @Test
     public void countVolunteerQuickContact(){
         Volunteer vol1 = new Volunteer("Florian", "Mousset", "kik", "test@test.com", "123456890");
         Volunteer vol2 = new Volunteer("", "", "", "test1@test.com", "");
@@ -168,15 +142,5 @@ public class VolunteersTest {
         List<Volunteer> expectedList = List.of(expectedResult);
         List<Volunteer> actualResult = App.removeDuplicateByNameAndNickName(volunteers);
         assertEquals(expectedList, actualResult, "Le nom, le prénom et le pseudo doivent etre identiques");
-    }
-
-    @Test
-    public void ensureEmailAddressIsCorrected() {
-        String invalidEmail = "fdpgmail.com";
-        String expectedEmail = "fdp@gmail.com";
-
-        String actualEmail = Cleaner.correctEmail(invalidEmail);
-
-        assertEquals(expectedEmail, actualEmail, "Email should have @ in");
     }
 }

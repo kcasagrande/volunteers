@@ -42,4 +42,31 @@ public class Cleaner {
         }
         return correctedEmail;
     }
+
+
+    public static List<Volunteer> getInvalidEmailAddresses(List<Volunteer> volunteers) {
+        List<Volunteer> invalidEmailAddresses = new ArrayList<>();
+        for (Volunteer volunteer : volunteers) {
+            if (!volunteer.eMail.contains("@")) {
+                invalidEmailAddresses.add(volunteer);
+            }
+        }
+        return invalidEmailAddresses;
+    }
+
+    public static Boolean toTitleCase(String name) {
+        String[] words = name.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (String w : words) {
+            sb.append(Character.toUpperCase(w.charAt(0)))
+                    .append(w.substring(1).toLowerCase())
+                    .append(" ");
+        }
+        String nameRegex = "^[A-Z][a-z]*$";
+        Pattern pattern = Pattern.compile(nameRegex);
+        String nameTransformed = sb.toString().trim();
+        Matcher matcher = pattern.matcher(nameTransformed);
+        System.out.println(nameTransformed + " : " + matcher.matches());
+        return matcher.matches();
+    }
 }
