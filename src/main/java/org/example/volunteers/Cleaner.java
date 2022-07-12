@@ -92,7 +92,7 @@ public class Cleaner {
 
     // Phone
     public static Boolean isValidPhoneNumber(String phoneNumber) {
-        return Pattern.matches("^[\\+][0-9]{1,3}[0-9]{9}$", phoneNumber);
+        return Pattern.matches("^[\\+][1-9][0-9]?[0-9]?[0-9]{9}$", phoneNumber);
     }
 
     public static Volunteer convertDashesFromPhoneNumber(Volunteer volunteer) {
