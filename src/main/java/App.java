@@ -25,6 +25,8 @@ public class App {
             .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
             .collect(toList());
 
+
+
         List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
         System.out.println(outputVolunteers);
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
