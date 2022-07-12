@@ -18,10 +18,6 @@ public class Cleaner {
         return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", volunteer.eMail);
     }
 
-    public static boolean testIsMail(String mail) {
-        return true;
-    }
-
     public static List<Volunteer> removeDuplicateFirstNameLastNamePseudoMailPhone(List<Volunteer> volunteers) {
         List<Volunteer> uniqueVolunteers = new ArrayList<>();
         LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
@@ -73,21 +69,20 @@ public class Cleaner {
     }
 
     public static List<Volunteer> sanitizeEmailInsteadOfPhone(List<Volunteer> volunteers) {
-        List<Volunteer> volunteersSanitized = new ArrayList<>();
-        LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
+        //List<Volunteer> volunteersSanitized = new ArrayList<>();
+        //LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
         for (Volunteer volunteer: volunteers) {
-            if (testIsPhone(volunteer.eMail) && isValidEmail(volunteer)) {
-                String oldMailHasPhone = volunteer.phone;
-                String oldPhoneHasMail = volunteer.eMail;
+
+            if (isValidPhoneNumber(volunteer.eMail)) {
+                String oldMailHasPhone = volunteer.eMail;
+                String oldPhoneHasMail = volunteer.phone;
                 volunteer.phone = oldMailHasPhone;
                 volunteer.eMail = oldPhoneHasMail;
-            } else if (testIsPhone(volunteer.eMail) && volunteer.phone == null) {
-                volunteer.phone = volunteer.eMail;
             }
         }
 
-        return volunteersSanitized;
+        return volunteers;
     }
 
     // Phone
@@ -127,7 +122,4 @@ public class Cleaner {
         return new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.eMail, cleanPhone);
     }
 
-    public static boolean testIsPhone(String phonetets) {
-        return true;
-    }
 }
