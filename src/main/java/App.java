@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.stream.Stream;
 
 
 import static java.util.stream.Collectors.toList;
@@ -190,6 +191,39 @@ public class App {
             }
         }
         return invalidEmailAddresses;
+    }
+
+    public static int getVolunteerQuickContact(List<Volunteer> volunteers) {
+        List<Volunteer> volunteerQuickContact = new ArrayList<>();
+        for (int i = 0; i < volunteers.size(); i++) {
+            if ((volunteers.get(i).nickName.isEmpty()
+                    && volunteers.get(i).firstName.isEmpty()
+                    && volunteers.get(i).lastName.isEmpty())
+                    && (!volunteers.get(i).phone.isEmpty() || !volunteers.get(i).eMail.isEmpty())
+            ){
+                volunteerQuickContact.add(volunteers.get(i));
+            }
+        }
+        return volunteerQuickContact.size();
+    }
+
+    public static List<Volunteer> removeDuplicateByNameAndNickName(List<Volunteer> volunteers) {
+        List<Volunteer> duplicatesCompleted = new ArrayList<>();
+        for (int i = 0; i < volunteers.size(); i++) {
+            for (int j = i + 1; j < volunteers.size(); j++) {
+                if (volunteers.get(i).firstName.equals(volunteers.get(j).firstName) && volunteers.get(i).lastName.equals(volunteers.get(j).lastName) && volunteers.get(i).nickName.equals(volunteers.get(j).nickName)) {
+                    Volunteer mergeVolunteer = new Volunteer(
+                            volunteers.get(i).firstName,
+                            volunteers.get(i).lastName,
+                            volunteers.get(i).nickName,
+                            volunteers.get(i).eMail + ',' + volunteers.get(j).eMail,
+                            volunteers.get(i).phone + ',' + volunteers.get(j).phone
+                    );
+                    duplicatesCompleted.add(mergeVolunteer);
+                }
+            }
+        }
+        return duplicatesCompleted;
     }
 }
 

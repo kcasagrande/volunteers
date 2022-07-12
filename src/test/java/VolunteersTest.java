@@ -146,4 +146,27 @@ public class VolunteersTest {
         List<Volunteer> nbrInvalidAddresses = App.getInvalidEmailAddresses(volunteers);
         assertEquals(expectedVolunteer, nbrInvalidAddresses);
     }
+
+    @Test
+    public void countVolunteerQuickContact(){
+        Volunteer vol1 = new Volunteer("Florian", "Mousset", "kik", "test@test.com", "123456890");
+        Volunteer vol2 = new Volunteer("", "", "", "test1@test.com", "");
+        Volunteer vol3 = new Volunteer("", "", "", "", "123456890");
+        Volunteer vol4 = new Volunteer("Antoine", "", "test", "uaai@aa.com", "123456890");
+        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3, vol4);
+        int nbrVolunteerQuickContact = App.getVolunteerQuickContact(volunteers);
+        assertEquals(3, nbrVolunteerQuickContact);
+    }
+
+    @Test
+    public void ensureRemoveDuplicateByNameAndNickName() {
+        Volunteer vol1 = new Volunteer("Florian", "Mousset", "kik", "test12@test.com", "123456890");
+        Volunteer vol2 = new Volunteer("Florian", "Mousset", "kik", "test15@test.com", "0987654321");
+        Volunteer vol3 = new Volunteer("flo", "berro", "kik", "test15@test.com", "0987654321");
+        Volunteer expectedResult = new Volunteer("Florian", "Mousset", "kik", "test12@test.com,test15@test.com", "123456890,0987654321");
+        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
+        List<Volunteer> expectedList = List.of(expectedResult);
+        List<Volunteer> actualResult = App.removeDuplicateByNameAndNickName(volunteers);
+        assertEquals(expectedList, actualResult);
+    }
 }
