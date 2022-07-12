@@ -62,14 +62,12 @@ public class CleanerTest {
     @Test
     public void removeSpecialCharacters() {
         List<Volunteer> volunteersA = new ArrayList<>();
-        volunteersA.add(new Volunteer("john'doe", "doé", "jojo", "john@mail.com", "+33698675434"));
-        volunteersA.add(new Volunteer("john-doe", "doe", "jojo", "john@mail.com", "+33698675434"));
+        volunteersA.add(new Volunteer("Éric", "Doé", "jojo", "john@mail.com", "+33698675434"));
 
         List<Volunteer> result = Cleaner.removeSpecialCharacters(volunteersA);
 
-        assertEquals(result.get(0).firstName, "john doe", "Les apostrophes doivent être supprimés");
-        assertEquals(result.get(0).lastName, "doe", "Les accents doivent être remplacés par des caractères classiques");
-        assertEquals(result.get(1).firstName, "john doe", "Les tirets doivent être supprimés");
+        assertEquals(result.get(0).firstName, "Eric", "Les accents doivent être remplacés par des caractères classiques");
+        assertEquals(result.get(0).lastName, "Doe", "Les accents doivent être remplacés par des caractères classiques");
     }
 
     @Test
