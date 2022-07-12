@@ -49,7 +49,7 @@ public class DemoTest {
         Volunteer volunteer = volunteerService.getVolunteers().get(index);
         List<Integer> indexes = VolunteerService.retrieveDuplicatesVolunteersIndex(volunteer, index + 1);
 
-        assertEquals(indexes.size(), 11, "Le nombre de doublons n'est pas correct !");
+        assertEquals(indexes.size(), 13, "Le nombre de doublons n'est pas correct !");
     }
 
     @Test
