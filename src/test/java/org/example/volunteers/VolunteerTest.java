@@ -284,4 +284,28 @@ public class VolunteerTest {
         assertEquals("Livain Henry", testVolunteer.lastName);
     }
 
+    @Test
+    public void shouldMergeStrings() {
+        String base = "Coucou";
+        String current = "Au revoir";
+        String result = Cleaner.mergeStrings(base,current);
+        assertEquals("Coucou,Au revoir", result);
+    }
+
+    @Test
+    public void shouldMergeStringsWithEmptyStringCurrent() {
+        String base = "Coucou";
+        String current = "";
+        String result = Cleaner.mergeStrings(base,current);
+        assertEquals("Coucou", result);
+    }
+
+    @Test
+    public void shouldMergeStringsWithEmptyStringBase() {
+        String base = "";
+        String current = "Coucou";
+        String result = Cleaner.mergeStrings(base,current);
+        assertEquals("Coucou", result);
+    }
+    
 }

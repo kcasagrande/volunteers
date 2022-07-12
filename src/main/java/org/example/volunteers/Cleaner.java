@@ -1,6 +1,7 @@
 package org.example.volunteers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,9 +61,23 @@ public class Cleaner {
                 Group g = groups.get(i);
                 //System.out.println(g);
                 // TODO : debug
-
-
             }*/
+            // On merge tout
+            Volunteer baseV = groups.get(i).volunteers.get(0);
+
+            for ( int v = 1; v < groups.get(i).volunteers.size(); v++ ) {
+                Volunteer current = groups.get(i).volunteers.get(v);
+                if ( (current.firstName.equals(baseV.firstName) && current.lastName.equals(baseV.lastName)) ||
+                     (current.firstName.equals(baseV.lastName) && current.lastName.equals(baseV.firstName))
+                ) {
+                    if ( baseV.nickName.equals("") && !current.nickName.equals("") ) baseV.nickName = current.nickName;
+                    if ( baseV.email.equals("") && !current.email.equals("") ) baseV.email = current.email;
+                    if ( baseV.phone.equals("") && !current.phone.equals("") ) baseV.phone = current.phone;
+                    if ( !baseV.email.equals(current.email) && !baseV.email.equals("") ) baseV.email = mergeStrings(baseV.email, current.email);
+                    if ( !baseV.phone.equals(current.phone) && !baseV.phone.equals("") ) baseV.phone = mergeStrings(baseV.phone, current.phone);
+                }
+            }
+
             Group item = groups.get(i);
             result.addAll(item.volunteers);
         }
@@ -72,8 +87,21 @@ public class Cleaner {
         // vérifier si mail ou tel similaire si le nom correspond aussi ou si les infos sont complémentaires ( donc à regrouper )
         // Lequel garder entre les deux doublons ? ( celui qui a le plus d'infos ? )
         // assigner à une famille si plusieurs personnes avec le même nom de famille mais pas même prénom
+        /*
+         * Pour merge règles :
+         * Si nom et prénom sont les même on fusionne et on fait la liste des mail / phone si besoin
+         * Si nom et prénom son inversé on choisit un des deux
+         * */
 
         return result;
+    }
+
+    public static String mergeStrings(String base, String current) {
+        String[] splitBase = base.split(",");
+        if (!Arrays.stream(splitBase).anyMatch(s -> s.equals(current))) {
+            base += ',' + current;
+        }
+        return base;
     }
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
