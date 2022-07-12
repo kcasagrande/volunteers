@@ -90,7 +90,7 @@ public class Cleaner {
         return uniqueVolunteers;
     }
 
-    public static List<Volunteer> removeSpecialCharacters(List<Volunteer> volunteers) {
+    public static List<Volunteer> removeAccents(List<Volunteer> volunteers) {
         List<Volunteer> cleanedVolunteers = new ArrayList<>();
 
         for (Volunteer volunteer: volunteers) {
