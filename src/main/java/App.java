@@ -1,5 +1,6 @@
 import org.example.volunteers.Cleaner;
 import org.example.volunteers.Volunteer;
+import org.example.volunteers.utils.FieldsSanitizer;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class App {
             .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
             .collect(toList());
 
-        List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
+        List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers, new FieldsSanitizer());
 
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         outputVolunteers.forEach(writer::println);
