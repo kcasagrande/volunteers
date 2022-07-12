@@ -6,9 +6,18 @@ import java.util.Objects;
 
 public class Cleaner {
     private static String formatName(String input) {
+        // Only non-empty names
         if (!Objects.equals(input, "")) {
+            // Add uppercase on first character and rest lowercase
             if (!Objects.equals(input.substring(1), input.substring(1).toUpperCase()) || Objects.equals(input, input.toUpperCase())) {
                 input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+            }
+        }
+
+        // Format names with '-'
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '-') {
+                input = input.substring(0, i) + "-" + input.substring(i+1, i+2).toUpperCase() + input.substring(i+2);
             }
         }
         return input;
@@ -23,11 +32,6 @@ public class Cleaner {
             // first & last name
             volunteer.firstName = formatName(volunteer.firstName);
             volunteer.lastName = formatName(volunteer.lastName);
-
-            if (Objects.equals(volunteer.nickName, "")) {
-                volunteer.nickName = volunteer.firstName;
-            }
-            //nickname
 
             //phone
 

@@ -41,7 +41,14 @@ public class CleanerTest {
     public void firstNameIsFormatted3() {
         givenVolunteer(new Volunteer("JEAN-JACQUES", "Bordais", "", "hugo.bordais@cuck.com", "0700000000"));
         whenCleaningUpVolunteers();
-        thenFirstNameIs("Jean-jacques");
+        thenFirstNameIs("Jean-Jacques");
+    }
+
+    @Test
+    public void firstNameIsFormatted4() {
+        givenVolunteer(new Volunteer("JeAn-JaCqUeS", "Bordais", "", "hugo.bordais@cuck.com", "0700000000"));
+        whenCleaningUpVolunteers();
+        thenFirstNameIs("Jean-Jacques");
     }
 
     @Test
