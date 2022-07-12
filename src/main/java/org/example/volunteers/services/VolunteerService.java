@@ -68,9 +68,9 @@ public class VolunteerService {
     }
 
     public static boolean compareVolunteers(Volunteer firstVolunteer, Volunteer secondVolunteer){
-        if(compareTwoVolunteersValue(firstVolunteer.phone, secondVolunteer.phone)) return true;
-        if(compareTwoVolunteersValue(firstVolunteer.eMail, secondVolunteer.eMail)) return true;
-        if(compareTwoVolunteersValue(firstVolunteer.nickName, secondVolunteer.nickName)) return true;
+        if(compareTwoVolunteersValue(firstVolunteer.getPhone(), secondVolunteer.getPhone())) return true;
+        if(compareTwoVolunteersValue(firstVolunteer.getEMail(), secondVolunteer.getEMail())) return true;
+        if(compareTwoVolunteersValue(firstVolunteer.getNickName(), secondVolunteer.getNickName())) return true;
         if(compareTwoVolunteersValue(firstVolunteer.getFullName(), secondVolunteer.getFullName())) return true;
 
         return false;

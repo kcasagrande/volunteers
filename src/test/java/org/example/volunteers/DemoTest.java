@@ -4,6 +4,9 @@ import org.example.volunteers.services.VolunteerService;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +62,7 @@ public class DemoTest {
 
         Path path = Paths.get("src/main/resources/output.csv");
         boolean fileExists = Files.exists(path);
-        assertEquals(true, fileExists, "Le fichier devrait exister");
+        assertTrue(fileExists, "Le fichier devrait exister");
     }
 
     @Test
@@ -67,9 +70,9 @@ public class DemoTest {
         System.out.println("Vérification du nombre de lignes du fichier");
 
         Path path = Paths.get("src/main/resources/output.csv");
-        Long nbLines = Files.lines(path).skip(1L).count();
+        long nbLines = Files.lines(path).skip(1L).count();
 
-        assertEquals(true, nbLines >= 1, "Le fichier devrait contenir plus d'une ligne");
+        assertTrue(nbLines >= 1, "Le fichier devrait contenir plus d'une ligne");
     }
 
     @Test
@@ -125,7 +128,7 @@ public class DemoTest {
     @Test
     public void shouldBeAGoodNumber() {
         List<Volunteer> volunteers = new ArrayList<Volunteer>();
-        Volunteer v = new Volunteer("Nom", "Prenom", "Surnom", "email1@gmail.com", "+33645784578");
+        Volunteer v = new Volunteer(1, "Nom", "Prenom", "Surnom", "email1@gmail.com", "+33645784578");
         volunteers.add(v);
 //        List<Volunteer> newVolunteer = c::cleanUp(volunteers);
         List<Volunteer> newVolunteers = Cleaner.cleanUp(volunteers);
