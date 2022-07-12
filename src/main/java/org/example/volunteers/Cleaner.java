@@ -7,6 +7,101 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class Cleaner {
+
+    private List<Volunteer> cleanedVolunteersList = new ArrayList<Volunteer>();
+
+    public List<Volunteer> cleanUp(List<Volunteer> volunteers) {
+        // This function should contain your dark magic.
+        // For now, it simply returns a copy of the initial list.
+
+        for (Volunteer volunteer : volunteers) {
+
+            // first & last name
+            volunteer.firstName = formatName(volunteer.firstName);
+            volunteer.lastName = formatName(volunteer.lastName);
+
+            //phone
+            volunteer.phone = formatPhone(volunteer.phone);
+
+            //email
+            volunteer.eMail = formatMail(volunteer.eMail);
+
+            isVolunteerDuplicated(volunteer);
+        }
+        return new ArrayList<>(cleanedVolunteersList);
+    }
+
+    private void isVolunteerDuplicated(Volunteer volunteer) {
+
+        isVolunteerInverted(volunteer);
+
+        Optional<Volunteer> volunteerWithSameInformation = cleanedVolunteersList.stream()
+                .filter(
+                        volunteerItem -> volunteerItem.firstName.equals(volunteer.firstName) &&
+                                volunteerItem.lastName.equals(volunteer.lastName) &&
+                                volunteerItem.nickName.equals(volunteer.nickName) &&
+                                volunteerItem.eMail.equals(volunteer.eMail) &&
+                                volunteerItem.phone.equals(volunteer.phone)
+                ).findFirst();
+
+        if (!volunteerWithSameInformation.isPresent()) {
+            cleanedVolunteersList.add(volunteer);
+        }
+    }
+
+    private Volunteer isVolunteerInverted(Volunteer volunteer) {
+        Optional<Volunteer> volunteerWithInvertedInformation = this.cleanedVolunteersList.stream()
+                .filter(
+                        volunteerItem -> volunteerItem.lastName.equals(volunteer.firstName) &&
+                                volunteerItem.firstName.equals(volunteer.lastName)
+                ).findFirst();
+
+        if (volunteerWithInvertedInformation.isPresent()) {
+            String firstname = volunteer.firstName;
+            String lastname = volunteer.lastName;
+
+            volunteer.firstName = lastname;
+            volunteer.lastName = firstname;
+        }
+
+        return volunteer;
+    }
+
+    private String formatPhone(String phone) {
+        if (!phone.isEmpty()) {
+            String correctedPhoneNumber = phone.replaceAll("[^0-9]", "");
+
+            if (correctedPhoneNumber.charAt(1) == '3') {
+                correctedPhoneNumber = correctedPhoneNumber.substring(2);
+            } else {
+                correctedPhoneNumber = correctedPhoneNumber.substring(1);
+            }
+
+            if (correctedPhoneNumber.length() == 10) {
+                correctedPhoneNumber = correctedPhoneNumber.substring(1);
+            }
+            correctedPhoneNumber = "+33" + correctedPhoneNumber;
+            return correctedPhoneNumber;
+        } else {
+            return "";
+        }
+    }
+
+    private static String formatMail(String email) {
+        if (!email.isEmpty()) {
+            String emailFormatRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+            if (email.charAt(email.length() - 1) == '.') {
+                email = removeLastCharacter(email);
+            }
+            if (!Pattern.compile(emailFormatRegex).matcher(email).matches()) {
+                return "";
+            }
+            return email;
+        }
+        return "";
+    }
+
     private static String formatName(String input) {
         // Only non-empty names
         if (!Objects.equals(input, "")) {
@@ -24,65 +119,6 @@ public class Cleaner {
         }
         return input;
     }
-
-    public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        // This function should contain your dark magic.
-        // For now, it simply returns a copy of the initial list.
-
-        List<Volunteer> cleanedVolunteersList = new ArrayList<Volunteer>();
-
-        for (Volunteer volunteer : volunteers) {
-
-            // first & last name
-            volunteer.firstName = formatName(volunteer.firstName);
-            volunteer.lastName = formatName(volunteer.lastName);
-
-            //phone
-
-            if (!volunteer.phone.isEmpty()) {
-                String correctedPhoneNumber = volunteer.phone.replaceAll("[^0-9]", "");
-
-                if (correctedPhoneNumber.charAt(1) == '3') {
-                    correctedPhoneNumber = correctedPhoneNumber.substring(2);
-                } else {
-                    correctedPhoneNumber = correctedPhoneNumber.substring(1);
-                }
-
-                if (correctedPhoneNumber.length() == 10) {
-                    correctedPhoneNumber = correctedPhoneNumber.substring(1);
-                }
-                correctedPhoneNumber = "+33" + correctedPhoneNumber;
-                volunteer.phone = correctedPhoneNumber;
-            }
-
-            if (!volunteer.eMail.isEmpty()) {
-                String emailFormatRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-
-                if (volunteer.eMail.charAt(volunteer.eMail.length() - 1) == '.') {
-                    volunteer.eMail = removeLastCharacter(volunteer.eMail);
-                }
-                if (!Pattern.compile(emailFormatRegex).matcher(volunteer.eMail).matches()) {
-                    volunteer.eMail = "";
-                }
-            }
-
-            Optional<Volunteer> volunteerWithSameInformation = cleanedVolunteersList.stream()
-                    .filter(
-                        volunteerItem -> volunteerItem.firstName.equals(volunteer.firstName) &&
-                                volunteerItem.lastName.equals(volunteer.lastName) &&
-                                volunteerItem.nickName.equals(volunteer.nickName) &&
-                                volunteerItem.eMail.equals(volunteer.eMail) &&
-                                volunteerItem.phone.equals(volunteer.phone)
-                    )
-                    .findFirst();
-
-            if (!volunteerWithSameInformation.isPresent()) {
-                cleanedVolunteersList.add(volunteer);
-            }
-        }
-        return new ArrayList<>(cleanedVolunteersList);
-    }
-
 
     public static String removeLastCharacter(String str) {
         String result = Optional.ofNullable(str)

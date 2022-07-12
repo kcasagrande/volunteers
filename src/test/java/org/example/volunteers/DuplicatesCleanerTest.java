@@ -9,10 +9,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DuplicatesCleanerTest {
 
+    @Test
+    public void doesRemoveAllDuplicateWhenFirstnameAndLastnameAreInvert() {
+        List<Volunteer> duplicatesVolunteers = new ArrayList<Volunteer>();
+        duplicatesVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
+        duplicatesVolunteers.add(new Volunteer("Lastname1", "Firstname1", "Nickname1", "email@test.com", "+33000000000"));
 
-    /*SI nom et prenom identique mais inversé
-    Distance de levenshtein
-    */
+        List<Volunteer> expectedVolunteers = new ArrayList<Volunteer>();
+        expectedVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
+
+        givenVolunteers(duplicatesVolunteers);
+        whenCleaningUpVolunteers();
+        thenVolunteersAre(expectedVolunteers);
+    }
 
     @Test
     public void doesRemoveAllDuplicateIfThereTwoSameVolunteer() {
@@ -44,17 +53,19 @@ public class DuplicatesCleanerTest {
     }
 
     private void givenVolunteers(List<Volunteer> volunteers) {
+        cleaner = new Cleaner();
         this.volunteers = volunteers;
     }
 
     private void whenCleaningUpVolunteers() {
-        cleanedVolunteers = Cleaner.cleanUp(volunteers);
+        cleanedVolunteers = cleaner.cleanUp(volunteers);
     }
 
     private void thenVolunteersAre(List<Volunteer> expectedVolunteers) {
         assertEquals(expectedVolunteers.toString(), cleanedVolunteers.toString());
     }
 
+    private Cleaner cleaner = null;
     private List<Volunteer> volunteers = new ArrayList<Volunteer>();
     private List<Volunteer> cleanedVolunteers = new ArrayList<Volunteer>();
 }
