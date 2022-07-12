@@ -1,12 +1,23 @@
 package org.example.volunteers;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static org.junit.jupiter.api.Assertions.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 public class CleanerTest {
 
@@ -72,5 +83,21 @@ public class CleanerTest {
 			Arguments.of(new Volunteer("test","test2",null, "test@test.com", "061234567"), 1, 1, 1),
 			Arguments.of(new Volunteer("test2","test",null, "test@test.com", "0612345678"), 1, 1, 1)
 		);
+	}
+
+	@Test
+	public void testCleanUp() throws IOException {
+		Pattern quotes = Pattern.compile("^\"([^\"]*)\"$");
+
+		List<Volunteer> inputVolunteers = Files.readAllLines(Paths.get("src/main/resources/data.csv")).stream()
+				.map(string -> Arrays.stream(string.split(";", -1))
+						.map(token -> quotes.matcher(token).replaceAll("$1"))
+						.collect(toList()))
+				.map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
+				.collect(toList());
+
+		List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
+
+		assertEquals(outputVolunteers.size(),398);
 	}
 }
