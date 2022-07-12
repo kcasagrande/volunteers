@@ -43,11 +43,11 @@ public class TestCleaner {
         addVolunteers(
                 new Volunteer("leo", "duff", "duff", "leo.duff@voleur.ytb", "+330069696969"),
                 new Volunteer("LEO", "duff", "miguel", "leo.duff@voleur.ytb", "+330069696969"),
-                new Volunteer("leo", "DUFF", "zera", "leo.duff@voleur.ytb", "+330069696969")
+                new Volunteer("leo", "DUFF", "judo", "leo.duff@voleur.ytb", "+330069696969")
         );
 
         List<Volunteer> expectedVolunteers = new ArrayList<>();
-        expectedVolunteers.add(new Volunteer("leo", "duff", "duff;miguel;zera", "leo.duff@voleur.ytb", "0069696969"));
+        expectedVolunteers.add(new Volunteer("leo", "duff", "duff;miguel;judo", "leo.duff@voleur.ytb", "0069696969"));
 
         whenCleaningVolunteers();
         thenExpectedListIs(expectedVolunteers);
@@ -73,11 +73,11 @@ public class TestCleaner {
         addVolunteers(
                 new Volunteer("leo", "duff", "", "leo.duff@voleur.ytb", "+330069696969"),
                 new Volunteer("LEO", "duff", "miguel", "leo.duff@voleur.ytb", "+330069696969"),
-                new Volunteer("leo", "DUFF", "zera", "leo.duff@voleur.ytb", "+330069696969")
+                new Volunteer("leo", "DUFF", "judo", "leo.duff@voleur.ytb", "+330069696969")
         );
 
         List<Volunteer> expectedVolunteers = new ArrayList<>();
-        expectedVolunteers.add(new Volunteer("leo", "duff", "miguel;zera", "leo.duff@voleur.ytb", "0069696969"));
+        expectedVolunteers.add(new Volunteer("leo", "duff", "miguel;judo", "leo.duff@voleur.ytb", "0069696969"));
 
         whenCleaningVolunteers();
         thenExpectedListIs(expectedVolunteers);
