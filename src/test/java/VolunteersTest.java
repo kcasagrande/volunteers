@@ -169,4 +169,14 @@ public class VolunteersTest {
         List<Volunteer> actualResult = App.removeDuplicateByNameAndNickName(volunteers);
         assertEquals(expectedList, actualResult, "Le nom, le prénom et le pseudo doivent etre identiques");
     }
+
+    @Test
+    public void ensureEmailAddressIsCorrected() {
+        String invalidEmail = "fdpgmail.com";
+        String expectedEmail = "fdp@gmail.com";
+
+        String actualEmail = Cleaner.correctEmail(invalidEmail);
+
+        assertEquals(expectedEmail, actualEmail, "Email should have @ in");
+    }
 }
