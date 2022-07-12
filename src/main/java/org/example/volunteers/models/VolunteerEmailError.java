@@ -31,7 +31,6 @@ public class VolunteerEmailError {
                       List<Volunteer> sameVolonteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
                       if(sameVolonteers.size()>1){
                           cleanEmails.add(volunteer);
-                          volunteers.remove(sameVolonteers);
                       }else{
                           badEmails.add(volunteer);
                       }

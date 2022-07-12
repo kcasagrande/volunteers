@@ -17,7 +17,6 @@ public class Cleaner {
     public VolunteerNameError nameValidator;
     public VolunteerPhoneNumberError phoneNumberValidator;
     public List<Volunteer> allVolunteers;
-    public List<Volunteer> cleanedVolunteers;
 
     public Cleaner(List<Volunteer> volunteers){
         this.validators = new Validations();
