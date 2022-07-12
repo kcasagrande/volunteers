@@ -5,10 +5,7 @@ import org.example.volunteers.services.Cleaner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -203,9 +200,14 @@ public class CleanerTest {
         Cleaner c = new Cleaner(outputVolunteers);
         c.cleanUp();
         List<Volunteer> badEmail = c.emailValidator.badFormatEmail;
-        List<Volunteer> emailDuplicatedNotClean = c.getDuplicateToRemove();
+        HashMap<Boolean, Set<Volunteer>> emailDuplicated = c.cleanDuplicate();
+        Set<Volunteer> emailDuplicatedClean = emailDuplicated.get(true);
+        Set<Volunteer> emailDuplicatedNotClean = emailDuplicated.get(false);
+
         assertEquals(badEmail.size() , 2);
-        assertEquals(emailDuplicatedNotClean.size() , 4);
+        assertEquals(emailDuplicatedNotClean.size() , 5);
+        assertEquals(emailDuplicatedClean.size() , 1);
+        assertTrue(emailDuplicatedClean.stream().anyMatch(x->x.equals(vol1)));
         assertTrue(badEmail.stream().anyMatch(x->x.equals(vol4)));
         assertTrue(badEmail.stream().anyMatch(x->x.equals(vol5)));
         assertTrue(emailDuplicatedNotClean.stream().anyMatch(x->x.equals(vol6)));
