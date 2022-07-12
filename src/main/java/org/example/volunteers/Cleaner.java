@@ -3,6 +3,8 @@ package org.example.volunteers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class Cleaner {
     private static String formatName(String input) {
@@ -22,17 +24,12 @@ public class Cleaner {
             volunteer.firstName = formatName(volunteer.firstName);
             volunteer.lastName = formatName(volunteer.lastName);
 
-            if (Objects.equals(volunteer.nickName, "")) {
-                volunteer.nickName = volunteer.firstName;
-            }
-            //nickname
-
             //phone
 
             if (!volunteer.phone.isEmpty()) {
                 String correctedPhoneNumber = volunteer.phone.replaceAll("[^0-9]", "");
 
-                if(correctedPhoneNumber.charAt(1) == '3') {
+                if (correctedPhoneNumber.charAt(1) == '3') {
                     correctedPhoneNumber = correctedPhoneNumber.substring(2);
                 } else {
                     correctedPhoneNumber = correctedPhoneNumber.substring(1);
@@ -44,8 +41,29 @@ public class Cleaner {
                 correctedPhoneNumber = "+33" + correctedPhoneNumber;
                 volunteer.phone = correctedPhoneNumber;
             }
-        }
 
+/*
+            ^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$
+*/
+
+            String emailFormatRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+            if (volunteer.eMail.charAt(volunteer.eMail.length() - 1) == '.') {
+                volunteer.eMail = removeLastCharacter(volunteer.eMail);
+            }
+            if (!Pattern.compile(emailFormatRegex).matcher(volunteer.eMail).matches()) {
+                volunteer.eMail = "";
+            }
+        }
         return new ArrayList<>(volunteers);
+    }
+
+
+    public static String removeLastCharacter(String str) {
+        String result = Optional.ofNullable(str)
+                .filter(sStr -> sStr.length() != 0)
+                .map(sStr -> sStr.substring(0, sStr.length() - 1))
+                .orElse(str);
+        return result;
     }
 }
