@@ -2,6 +2,7 @@ package org.example.volunteers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -133,9 +134,10 @@ public class Cleaner {
             finalVolunteers.add(volunteer);
         }
 
-        return Cleaner.handleDuplicates(finalVolunteers);
 
-        //return new ArrayList<>(finalVolunteers);
+        List<Volunteer> list = Cleaner.handleDuplicates(finalVolunteers);
+        Collections.sort(list, (o1, o2) -> o1.level.compareTo(o2.level));
+        return list;
     }
 }
 
