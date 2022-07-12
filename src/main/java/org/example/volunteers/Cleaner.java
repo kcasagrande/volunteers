@@ -1,5 +1,11 @@
 package org.example.volunteers;
 
+import org.testng.annotations.Test;
+
+import java.lang.reflect.Array;
+import java.util.regex.Pattern;
+
+import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -10,16 +16,49 @@ public class Cleaner {
     private static final String[][] UMLAUT_REPLACEMENTS = { { "É", "E" }, { "é", "e" }, { "È", "E" }, { "è", "e" } };
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        return new ArrayList<Volunteer>(volunteers);
+        List<Volunteer> cleanVolunteers = cleanupMailAddresses(volunteers);
+        return new ArrayList<Volunteer>(cleanVolunteers);
+    }
+    public static Boolean isValidEmail(String email) {
+        return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email);
+    }
+    public static String cleanEmailAddress(String email) {
+        email = email.toLowerCase();
+        email = email.replaceAll("é", "e");
+        email = email.replaceAll("è", "e");
+        email = email.replaceAll("ê", "e");
+        email = email.replaceAll("œ", "oe");
+        email = email.replaceAll("ë", "e");
+        email = email.replaceAll("à", "a");
+        email = email.replaceAll("ä", "a");
+        email = email.replaceAll("â", "a");
+        email = email.replaceAll("î", "i");
+        email = email.replaceAll("ï", "i");
+        email = email.replaceAll("ì", "i");
+        email = email.replaceAll("û", "u");
+        email = email.replaceAll("ù", "u");
+        email = email.replaceAll("ü", "u");
+        email = email.replaceAll("ô", "o");
+        email = email.replaceAll("ò", "o");
+        email = email.replaceAll("ö", "o");
+        return email;
+    }
+    public static List<Volunteer> cleanupMailAddresses(List<Volunteer> volunteers) {
+        List<Volunteer> cleanedVolunteers = new ArrayList<>();
+        for(Volunteer volunteer: volunteers) {
+            String cleanEmail = "";
+            String sanitizedEmail = cleanEmailAddress(volunteer.eMail);
+            if (isValidEmail(sanitizedEmail)) {
+                cleanEmail = sanitizedEmail;
+            }
+            cleanedVolunteers.add(new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, cleanEmail, volunteer.phone));
+        }
+        return cleanedVolunteers;
     }
 
     // Email
     public static Boolean isValidEmail(Volunteer volunteer) {
         return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", volunteer.eMail);
-    }
-
-    public static boolean testIsMail(String mail) {
-        return true;
     }
 
     public static List<Volunteer> removeDuplicateFirstNameLastNamePseudoMailPhone(List<Volunteer> volunteers) {
@@ -73,21 +112,20 @@ public class Cleaner {
     }
 
     public static List<Volunteer> sanitizeEmailInsteadOfPhone(List<Volunteer> volunteers) {
-        List<Volunteer> volunteersSanitized = new ArrayList<>();
-        LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
+        //List<Volunteer> volunteersSanitized = new ArrayList<>();
+        //LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
         for (Volunteer volunteer: volunteers) {
-            if (testIsPhone(volunteer.eMail) && isValidEmail(volunteer)) {
-                String oldMailHasPhone = volunteer.phone;
-                String oldPhoneHasMail = volunteer.eMail;
+
+            if (isValidPhoneNumber(volunteer.eMail)) {
+                String oldMailHasPhone = volunteer.eMail;
+                String oldPhoneHasMail = volunteer.phone;
                 volunteer.phone = oldMailHasPhone;
                 volunteer.eMail = oldPhoneHasMail;
-            } else if (testIsPhone(volunteer.eMail) && volunteer.phone == null) {
-                volunteer.phone = volunteer.eMail;
             }
         }
 
-        return volunteersSanitized;
+        return volunteers;
     }
 
     // Phone
@@ -127,7 +165,4 @@ public class Cleaner {
         return new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.eMail, cleanPhone);
     }
 
-    public static boolean testIsPhone(String phonetets) {
-        return true;
-    }
 }
