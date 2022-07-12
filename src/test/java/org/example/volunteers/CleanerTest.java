@@ -108,7 +108,7 @@ public class CleanerTest {
     }
 
     @Test
-    public void EmailInsteadOfPhone() {
+    public void emailInsteadOfPhone() {
         List<Volunteer> volunteers = new ArrayList<>();
         volunteers.add(new Volunteer("doe", "john", "jojo2", "+33698675434", "john@mail.com"));
         volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675487"));
@@ -119,6 +119,6 @@ public class CleanerTest {
         resultExpected.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
         resultExpected.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675487"));
 
-        assertEquals(resultExpected.toString(), result.toString());
+        assertEquals(resultExpected.toString(), result.toString(), "Les adresses mail mis à la place des téléphones doivent être changé et remis à leur place");
     }
 }
