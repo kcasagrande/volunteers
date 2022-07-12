@@ -160,14 +160,13 @@ public class App {
         return uncompletedVolunteer.size();
     }
 
-    public static void deleteDuplicates(List<Volunteer> volunteers) {
-        // find solution to delete element of list.
+    public static List<Volunteer> deleteDuplicates(List<Volunteer> volunteers) {
+        List<Volunteer> withoutDuplicates = new ArrayList<>();
         for (int i = 0; i < volunteers.size(); i++){
-            if (Collections.frequency(volunteers, volunteers.get(i)) > 1) {
-                volunteers.removeAll(Collections.singleton(volunteers.get(i)));
-            }
+            if (!withoutDuplicates.contains(volunteers.get(i)))
+                withoutDuplicates.add(volunteers.get(i));
         }
-        System.out.println(volunteers);
+        return withoutDuplicates;
     }
 
     public static int getVolunteerContactPseudoOnly(List<Volunteer> volunteers) {
@@ -181,6 +180,16 @@ public class App {
             }
         }
         return volunteerContactPseudoOnly.size();
+    }
+
+    public static List<Volunteer> getInvalidEmailAddresses(List<Volunteer> volunteers) {
+        List<Volunteer> invalidEmailAddresses = new ArrayList<>();
+        for (Volunteer volunteer : volunteers) {
+            if (!volunteer.eMail.contains("@")) {
+                invalidEmailAddresses.add(volunteer);
+            }
+        }
+        return invalidEmailAddresses;
     }
 }
 

@@ -122,8 +122,8 @@ public class VolunteersTest {
         Volunteer vol3 = new Volunteer("Antoine", "Mousset", "", "uaai@aa.com", "123456890");
         List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
 
-        App.deleteDuplicates(volunteers);
-        System.out.println(volunteers);
+        List<Volunteer> volunteerListWithoutDuplicates = App.deleteDuplicates(volunteers);
+        System.out.println(volunteerListWithoutDuplicates);
     }
 
     @Test
@@ -134,5 +134,16 @@ public class VolunteersTest {
         List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
         int nbrUncompletedForm = App.getVolunteerContactPseudoOnly(volunteers);
         assertEquals(1, nbrUncompletedForm);
+    }
+
+    @Test
+    public void getInvalidAddresses(){
+        Volunteer vol1 = new Volunteer("Florian", "Mousset", "", "aa.com", "");
+        Volunteer vol2 = new Volunteer("Gerard", "", "nrgix", "aa.com", "");
+        Volunteer vol3 = new Volunteer("Antoine", "Mousset", "test", "uaai@aa.com", "123456890");
+        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3);
+        List<Volunteer> expectedVolunteer = Arrays.asList(vol1, vol2);
+        List<Volunteer> nbrInvalidAddresses = App.getInvalidEmailAddresses(volunteers);
+        assertEquals(expectedVolunteer, nbrInvalidAddresses);
     }
 }
