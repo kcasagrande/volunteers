@@ -56,32 +56,13 @@ public class Cleaner {
         List<String> characters = new ArrayList<>();
 
         for (Volunteer volunteer: volunteers) {
-            String cleanedVolunteerFirstName = volunteer.firstName;
-            String cleanedVolunteerLastName = volunteer.lastName;
+            String cleanedVolunteerFirstName = volunteer.firstName.length() > 1
+                    ? volunteer.firstName.substring(0, 1).toUpperCase() + volunteer.firstName.substring(1).toLowerCase()
+                    : volunteer.firstName.toLowerCase();
 
-            List<String> cleanedVolunteerFirstNames = new ArrayList<>();
-            String[] slitedVolunteerFirstNames = cleanedVolunteerFirstName.split("-");
-            for (String slitedVolunteerFirstName : slitedVolunteerFirstNames) {
-                cleanedVolunteerFirstNames.add(
-                        slitedVolunteerFirstName.length() > 1
-                                ? slitedVolunteerFirstName.substring(0, 1).toUpperCase() + slitedVolunteerFirstName.substring(1).toLowerCase()
-                                : slitedVolunteerFirstName.toLowerCase()
-                );
-            }
-
-            cleanedVolunteerFirstName = String.join("-", cleanedVolunteerFirstNames);
-
-            List<String> cleanedVolunteerLastNames = new ArrayList<>();
-            String[] slitedVolunteerLastNames = cleanedVolunteerLastName.split("-");
-            for (String slitedVolunteerLastName : slitedVolunteerLastNames) {
-                cleanedVolunteerLastNames.add(
-                        slitedVolunteerLastName.length() > 1
-                                ? slitedVolunteerLastName.substring(0, 1).toUpperCase() + slitedVolunteerLastName.substring(1).toLowerCase()
-                                : slitedVolunteerLastName.toLowerCase()
-                );
-            }
-
-            cleanedVolunteerLastName = String.join("-", cleanedVolunteerLastNames);
+            String cleanedVolunteerLastName = volunteer.lastName.length() > 1
+                    ? volunteer.lastName.substring(0, 1).toUpperCase() + volunteer.lastName.substring(1).toLowerCase()
+                    : volunteer.lastName.toLowerCase();
 
             String cleanedVolunteerNickName = volunteer.nickName.toLowerCase();
 
