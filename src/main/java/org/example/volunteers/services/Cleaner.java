@@ -53,25 +53,25 @@ public class Cleaner {
 
     private List<Volunteer> getDuplicateToRemove(HashMap<String,List<Volunteer>> mapToRemoveEquals){
 
-        List<Volunteer> badEmails = new ArrayList<>();
-        List<Volunteer> cleanEmails = new ArrayList<>();
+        List<Volunteer> badVolunteer = new ArrayList<>();
+        List<Volunteer> cleanVolunteer = new ArrayList<>();
 
         for ( String condition : mapToRemoveEquals.keySet()){
             List<Volunteer> volunteers = mapToRemoveEquals.get(condition);
             for(Volunteer volunteer : volunteers){
-                if(!cleanEmails.stream().anyMatch(x-> x.equals(volunteer))){
+                if(!cleanVolunteer.stream().anyMatch(x-> x.equals(volunteer))){
                     List<Volunteer> sameVolonteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
                     if(sameVolonteers.size() < 2){
-                        badEmails.add(volunteer);
+                        badVolunteer.add(volunteer);
                     }else{
-                        cleanEmails.add(volunteer);
+                        cleanVolunteer.add(volunteer);
                     }
                 }else{
-                    badEmails.add(volunteer);
+                    badVolunteer.add(volunteer);
                 }
             }
         }
-        return badEmails;
+        return badVolunteer;
     }
 
 
