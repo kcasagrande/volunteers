@@ -54,8 +54,12 @@ public class Cleaner {
         List<Volunteer> cleanedVolunteers = new ArrayList<>();
 
         for (Volunteer volunteer: volunteers) {
-            String cleanedVolunteerFirstName = volunteer.firstName.substring(0, 1).toUpperCase() + volunteer.firstName.substring(1).toLowerCase();
-            String cleanedVolunteerLastName = volunteer.lastName.substring(0, 1).toUpperCase() + volunteer.lastName.substring(1).toLowerCase();
+            String cleanedVolunteerFirstName = volunteer.firstName.length() > 1
+                    ? volunteer.firstName.substring(0, 1).toUpperCase() + volunteer.firstName.substring(1).toLowerCase()
+                    : volunteer.firstName.toLowerCase();
+            String cleanedVolunteerLastName = volunteer.lastName.length() > 0
+                    ? volunteer.lastName.substring(0, 1).toUpperCase() + volunteer.lastName.substring(1).toLowerCase()
+                    : volunteer.lastName.toLowerCase();
             String cleanedVolunteerNickName = volunteer.nickName.toLowerCase();
 
             cleanedVolunteers.add(new Volunteer(cleanedVolunteerFirstName, cleanedVolunteerLastName, cleanedVolunteerNickName, volunteer.eMail, volunteer.phone));
