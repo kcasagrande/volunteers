@@ -26,24 +26,52 @@ public class CleanerTest {
     @Test
     public void testRemovedDuplicateVerifyFirstNameLastNameNicknamePseudoMailPhone() {
         List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
-        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
-        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo2", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
 
         List<Volunteer> result = Cleaner.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
 
-        assertEquals(2, result.size());
+        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon avec le nickName jojo");
     }
 
     @Test
     public void testRemovedDuplicateVerifyMailPhone() {
         List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo2", "john@mail.com", "+33698675434"));
         volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
-        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675439"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675439"));
 
         List<Volunteer> result = Cleaner.removeDuplicateMailPhone(volunteers);
 
-        assertEquals(2, result.size());
+        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon sur le téléphone +33698675434");
+    }
+
+    @Test
+    public void removeSpecialCharacters() {
+        List<Volunteer> volunteersA = new ArrayList<>();
+        volunteersA.add(new Volunteer("john'doe", "doé", "jojo", "john@mail.com", "+33698675434"));
+        volunteersA.add(new Volunteer("john-doe", "doe", "jojo", "john@mail.com", "+33698675434"));
+
+        List<Volunteer> result = Cleaner.removeSpecialCharacters(volunteersA);
+
+        assertEquals(result.get(0).firstName, "john doe", "Les apostrophes doivent être supprimés");
+        assertEquals(result.get(0).lastName, "doe", "Les accents doivent être remplacés par des caractères classiques");
+        assertEquals(result.get(1).firstName, "john doe", "Les tirets doivent être supprimés");
+    }
+
+    @Test
+    public void testEmailInsteadOfPhone() {
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("doe", "john", "jojo2", "+33698675434", "john@mail.com"));
+        //volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
+        //volunteers.add(new Volunteer("doe", "john", "jojo", "+33698675439", "john@mail.com"));
+
+        List<Volunteer> result = Cleaner.sanitizeEmailInsteadOfPhone(volunteers);
+
+        List<Volunteer> resultExpected = new ArrayList<>();
+        resultExpected.add(new Volunteer("doe", "john", "jojo2", "john@mail.com", "+33698675434"));
+
+        assertEquals(resultExpected.toString(), result.toString());
     }
 }

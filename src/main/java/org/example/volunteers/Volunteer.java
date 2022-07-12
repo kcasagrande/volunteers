@@ -8,8 +8,8 @@ public final class Volunteer {
     public final String firstName;
     public final String lastName;
     public final String nickName;
-    public final String eMail;
-    public final String phone;
+    public String eMail;
+    public String phone;
 
     public Volunteer(
         String firstName,
