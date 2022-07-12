@@ -102,8 +102,11 @@ public class Cleaner {
                             }
                         }).collect(Collectors.toList());
                         if(sameVolunteersByProperty.size() > 1){
-                            cleanVolunteer.add(Volunteer.concatMultiple(sameVolunteersByProperty));
-                            volunteersPassed.addAll(sameVolunteersByProperty);
+                            Volunteer v = Volunteer.concatMultiple(sameVolunteersByProperty);
+                            if(!cleanVolunteer.stream().anyMatch(x-> x.equals(v))){
+                                cleanVolunteer.add(v);
+                                volunteersPassed.addAll(sameVolunteersByProperty);
+                            }
                         }
                     }
                 }
