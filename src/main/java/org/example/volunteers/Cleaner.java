@@ -3,7 +3,6 @@ package org.example.volunteers;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -15,6 +14,17 @@ public class Cleaner {
 
         //        volunteers.stream().map(volunteer -> cleanPhoneNumber(volunteer.getPhone())).collect(Collectors.toList());
         for(Volunteer v: volunteers){
+            // Formattage du nom et du prénom
+            v.setFirstName( formatFirstName( v.getFirstName()) );
+            v.setLastName( formatLastName( v.getLastName()) );
+
+            // Formattage du pseudo
+            v.setNickName( Cleaner.formatNickName( v.getNickName()) );
+
+            // Formattage du mail
+            v.setEMail( Cleaner.formatEmail( v.getEMail()) );
+
+            // Formattage du téléphone
             String oldPhone = v.getPhone();
             String newPhone = cleanPhoneNumber(oldPhone);
             if(!oldPhone.equals(newPhone)) {
@@ -37,19 +47,39 @@ public class Cleaner {
     }
 
     public static String formatFirstName(String name){
-        name = capitalizeWord(name);
-        name = name.trim().replaceAll(" ", "-");
-        // Replace all characters except a to z, A to Z and dashes for compound noun
-        name = name.replaceAll("[^a-zA-Z-–—−]","");
-        return name.substring(0, 1).toUpperCase() + name.substring(1);
+        name = name.trim();
+        if(name != null && !name.isEmpty()){
+            name = capitalizeWord(name);
+            name = name.replaceAll(" ", "-");
+            // Replace all characters except a to z, A to Z and dashes for compound noun
+            name = name.replaceAll("[^a-zA-Z-–—−\u00C0-\u00FF]","");
+            return name.substring(0, 1).toUpperCase() + name.substring(1);
+        } else {
+            return "";
+        }
     }
 
     public static String formatLastName(String name) {
-        name = capitalizeWord(name);
-        name = name.toLowerCase().trim().replaceAll(" ", "-");
-        // Replace all characters except a to z, A to Z and dashes for compound noun
-        name = name.replaceAll("[^a-zA-Z-–—−]", "");
-        return name.toUpperCase();
+        name = name.trim();
+        if(name != null && !name.isEmpty()) {
+            name = capitalizeWord(name);
+            name = name.toLowerCase().replaceAll(" ", "-");
+            // Replace all characters except a to z, A to Z and dashes for compound noun
+            name = name.replaceAll("[^a-zA-Z-–—−\u00C0-\u00FF]", "");
+            return name.toUpperCase();
+        } else {
+            return "";
+        }
+    }
+
+    public static String formatNickName(String nickname){
+        nickname = nickname.trim();
+        if(nickname != null && !nickname.isEmpty()) {
+            nickname = nickname.replaceAll(" ", "").replaceAll("[^a-zA-Z0-9\u00C0-\u00FF-_&@€!]", "");
+            return nickname;
+        } else {
+            return "";
+        }
     }
 
     public static String cleanPhoneNumber(String phoneNumber) {
@@ -84,13 +114,18 @@ public class Cleaner {
     }
 
     public static String formatEmail(String email){
-        email = email.toLowerCase().trim().replaceAll(" ", "");
-        // If string does not contain @ symbol, returns nothing
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
-        if(m.matches()){
-            return email;
+        email = email.trim();
+        if(email != null && !email.isEmpty()) {
+            email = email.replaceAll(" ", "");
+            // If string does not contain @ symbol, returns nothing
+            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+            java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+            java.util.regex.Matcher m = p.matcher(email);
+            if(m.matches()){
+                return email.toLowerCase();
+            } else {
+                return "";
+            }
         } else {
             return "";
         }

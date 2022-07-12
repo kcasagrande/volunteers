@@ -93,6 +93,16 @@ public class DemoTest {
         assertEquals("BOURDIN-MICHEL", formattedLastName, "Le nom doit être formatté");
     }
 
+    @Test
+    public void shouldFormatNickname(){
+        System.out.println("Formattage du pseudo");
+
+        String nickname = "LouISEb  ' { OURDIN34";
+        String formattedNickname = Cleaner.formatNickName(nickname);
+
+        assertEquals("LouISEbOURDIN34", formattedNickname, "Le pseudo doit être formatté");
+    }
+
     @Test 
     public void shouldFormatEmail(){
         System.out.println("Formattage du mail");
