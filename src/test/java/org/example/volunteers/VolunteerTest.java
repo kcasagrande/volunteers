@@ -3,23 +3,8 @@ package org.example.volunteers;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VolunteerTest {
-
-    @BeforeAll
-    public static void globalSetUp() {
-    }
-
-    @BeforeEach
-    public void setUp() {
-        System.out.println("");
-    }
-
-    @Test
-    public void shouldAlwaysPass() {
-        assertTrue(true);
-    }
 
     @Test
     public void shouldHaveValidPhoneNumber() {
@@ -241,7 +226,7 @@ public class VolunteerTest {
         Volunteer testVolunteer = new Volunteer("henry-matiSse", "Livain",
                 "matli", "matisse.livain@gmail.com"
                 , "+33052658575");
-        testVolunteer.formatLastName();
+        testVolunteer.formatFirstName();
         assertEquals("Henry-Matisse", testVolunteer.firstName);
     }
 
@@ -250,7 +235,7 @@ public class VolunteerTest {
         Volunteer testVolunteer = new Volunteer("henry matiSse", "Livain",
                 "matli", "matisse.livain@gmail.com"
                 , "+33052658575");
-        testVolunteer.formatLastName();
+        testVolunteer.formatFirstName();
         assertEquals("Henry Matisse", testVolunteer.firstName);
     }
 
@@ -297,16 +282,6 @@ public class VolunteerTest {
                 , "+33052658575");
         testVolunteer.formatLastName();
         assertEquals("Livain Henry", testVolunteer.lastName);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        System.out.println("Ce code est exécuté après chaque test");
-    }
-
-    @AfterAll
-    public static void globalTearDown() {
-        System.out.println("Ce code est exécuté une seule fois après l'ensemble des tests");
     }
 
 }
