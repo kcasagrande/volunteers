@@ -1,15 +1,16 @@
 package org.example.volunteers;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static java.util.stream.Collectors.joining;
 
 public final class Volunteer {
-    public final String firstName;
-    public final String lastName;
-    public final String nickName;
-    public final String eMail;
-    public final String phone;
+    public String firstName;
+    public String lastName;
+    public String nickName;
+    public String eMail;
+    public String phone;
 
     public Volunteer(
         String firstName,
