@@ -9,13 +9,12 @@ Le client veut une liste de personnes avec de bonnes données tiré de cette lis
 Le but n'est pas de recréer un formulaire qui fonctionne mieux, mais de traiter les données. Les tests sont prioritaires.
 
 Liste des tests à réaliser : 
-- [ ] Le fichier output doit bien se générer à l'endroit espéré 
-- [ ] Le fichier doit bien contenir au moins une ligne
-- [ ] Filtrer un nom
-- [ ] Filtrer un prénom
-- [ ] Filtrer un pseudo
-- [ ] Filtrer un téléphone
-- [ ] Filtrer un mail
-- [ ] Filtrer toute une ligne 
-- [ ] Filtrer les doublons
-- [ ] Filtrer les lignes vides 
+- [X] Le fichier output doit bien se générer à l'endroit espéré 
+- [X] Le fichier doit bien contenir au moins une ligne
+- [X] Filtrer un nom
+- [X] Filtrer un prénom
+- [X] Filtrer un pseudo
+- [x] Filtrer un téléphone
+- [x] Filtrer un mail
+- [x] Filtrer les doublons
+- [x] Filtrer les lignes vides

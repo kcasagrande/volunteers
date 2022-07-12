@@ -2,18 +2,32 @@ package org.example.volunteers;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.joining;
 
 public final class Volunteer {
-    private Number id;
-    private String firstName;
-    private String lastName;
-    private String nickName;
-    private String eMail;
-    private String phone;
+    public Number id;
+    public String firstName;
+    public String lastName;
+    public String nickName;
+    public String eMail;
+    public String phone;
 
     public int score = 0;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Volunteer volunteer = (Volunteer) o;
+        return Objects.equals(firstName, volunteer.firstName) && Objects.equals(lastName, volunteer.lastName) && Objects.equals(nickName, volunteer.nickName) && Objects.equals(eMail, volunteer.eMail) && Objects.equals(phone, volunteer.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, nickName, eMail, phone);
+    }
 
     public Volunteer(
             Number id,
@@ -57,27 +71,27 @@ public final class Volunteer {
     }
 
     public Number getId() {
-        return id;
+        return this.id;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public String getNickName() {
-        return nickName;
+        return this.nickName;
     }
 
     public String getEMail() {
-        return eMail;
+        return this.eMail;
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
     public void setId(Number id){

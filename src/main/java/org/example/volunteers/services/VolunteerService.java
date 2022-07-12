@@ -86,8 +86,8 @@ public class VolunteerService {
         try {
             Field[] volunteerFields = Volunteer.class.getDeclaredFields();
             for (Field vField : volunteerFields) {
-                if (vField.get(firstVolunteer) == "" && vField.get(secondVolunteer) != "") {
-                    vField.set(firstVolunteer, vField.get(secondVolunteer));
+               if (vField.get(firstVolunteer) == "" && vField.get(secondVolunteer) != "") {
+                   vField.set(firstVolunteer, vField.get(secondVolunteer));
                 }
             }
         } catch (Exception e) {
