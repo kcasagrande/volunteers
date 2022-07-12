@@ -7,20 +7,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RemovingDuplicates {
+public class DuplicationChecker {
 
-    @Test
-    public void doNotRemoveDifferentVolunteers(){
-        Volunteer v1 = new Volunteer("Don Dada", "Toto", "Bandito", "jean.dupond@gmail.com", "+00374746373");
-        Volunteer v2 = new Volunteer("Bango", "BIngo", "ElBandito", "ratus@city.ch", "+00374951373");
-        List<Volunteer> testList = Arrays.asList(new Volunteer[]{v1, v2});
-
-        List<Volunteer> expectedResult = Arrays.asList(new Volunteer[]{v1, v2});
-
-        List<Volunteer> actualResult = Cleaner.removeDuplicates(testList);
-
-        assertEquals(expectedResult, actualResult, "Les volunteers ne doivent pas etre supprimés");
-    }
     @Test
     public void removePerfectDuplicates(){
         Volunteer v1 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com", "+33012345678");
@@ -77,7 +65,7 @@ public class RemovingDuplicates {
     }
 
     @Test
-    public void removeDuplicatesByMailAndPhone(){
+    public void ShouldNotRemoveWithSameMailAndPhone(){
         Volunteer v1 = new Volunteer("Don Dada", "Toto", "Bandito", "jean.dupond@gmail.com", "+00374746373");
         Volunteer v2 = new Volunteer("Bango", "BIngo", "ElBandito", "jean.dupond@gmail.com", "+00374746373");
         List<Volunteer> testList = Arrays.asList(new Volunteer[]{v1, v2});
@@ -88,17 +76,16 @@ public class RemovingDuplicates {
 
         assertEquals(expectedResult, actualResult, "Les doublons par eMail et Phone ne doivent pas être modifiées.");
     }
-
     @Test
-    public void removeDuplicatesBy(){
+    public void ShouldNotRemoveDifferentVolunteers(){
         Volunteer v1 = new Volunteer("Don Dada", "Toto", "Bandito", "jean.dupond@gmail.com", "+00374746373");
-        Volunteer v2 = new Volunteer("Bango", "BIngo", "ElBandito", "jean.dupond@gmail.com", "+00374746373");
+        Volunteer v2 = new Volunteer("Bango", "BIngo", "ElBandito", "ratus@city.ch", "+00374951373");
         List<Volunteer> testList = Arrays.asList(new Volunteer[]{v1, v2});
 
         List<Volunteer> expectedResult = Arrays.asList(new Volunteer[]{v1, v2});
 
         List<Volunteer> actualResult = Cleaner.removeDuplicates(testList);
 
-        assertEquals(expectedResult, actualResult, "Les doublons par eMail et Phone ne doivent pas être modifiées.");
+        assertEquals(expectedResult, actualResult, "Les volunteers ne doivent pas etre supprimés");
     }
 }
