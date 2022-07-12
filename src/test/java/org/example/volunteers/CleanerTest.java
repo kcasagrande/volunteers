@@ -189,9 +189,48 @@ public class CleanerTest {
         thenMailIs("test@test-test.com");
     }
 
+    @Test
+    public void doesNotChangeEmailIfEmpty() {
+        givenVolunteer("test", "test", "test", "", "");
+        whenCleaningUpVolunteers();
+        thenMailIs("");
+    }
+
+    @Test
+    public void doesRemoveAllDuplicateIfThereTwoSameVolunteer() {
+        List<Volunteer> duplicatesVolunteers = new ArrayList<Volunteer>();
+        duplicatesVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
+        duplicatesVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
+
+        List<Volunteer> expectedVolunteers = new ArrayList<Volunteer>();
+        expectedVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
+
+        givenVolunteers(duplicatesVolunteers);
+        whenCleaningUpVolunteers();
+        thenVolunteersAre(expectedVolunteers);
+    }
+
+    @Test
+    public void doesNotRemoveVolunteersWhenOnlyFirstAndLastNameAreDuplicates() {
+        List<Volunteer> duplicatesVolunteers = new ArrayList<Volunteer>();
+        duplicatesVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email1@test.com", "+33000000000"));
+        duplicatesVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email2@test.com", "+33000000000"));
+
+        List<Volunteer> expectedVolunteers = new ArrayList<Volunteer>();
+        expectedVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email1@test.com", "+33000000000"));
+        expectedVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email2@test.com", "+33000000000"));
+
+        givenVolunteers(duplicatesVolunteers);
+        whenCleaningUpVolunteers();
+        thenVolunteersAre(expectedVolunteers);
+    }
 
     private void givenVolunteer(String firstName, String lastName, String nickname, String eMail, String phone) {
         volunteers.add(new Volunteer(firstName, lastName, nickname, eMail, phone));
+    }
+
+    private void givenVolunteers(List<Volunteer> volunteers) {
+        this.volunteers = volunteers;
     }
 
     private void whenCleaningUpVolunteers() {
@@ -204,6 +243,10 @@ public class CleanerTest {
         thenNickNameIs(nickname);
         thenMailIs(eMail);
         thenPhoneIs(phone);
+    }
+
+    private void thenVolunteersAre(List<Volunteer> expectedVolunteers) {
+        assertEquals(expectedVolunteers.toString(), cleanedVolunteers.toString());
     }
 
     private void thenFirstNameIs(String firstName) {
@@ -226,6 +269,6 @@ public class CleanerTest {
         assertEquals(phone, cleanedVolunteers.get(0).phone);
     }
 
-    private final List<Volunteer> volunteers = new ArrayList<Volunteer>();
+    private List<Volunteer> volunteers = new ArrayList<Volunteer>();
     private List<Volunteer> cleanedVolunteers = new ArrayList<Volunteer>();
 }

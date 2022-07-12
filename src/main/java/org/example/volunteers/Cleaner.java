@@ -29,6 +29,8 @@ public class Cleaner {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
 
+        List<Volunteer> cleanedVolunteersList = new ArrayList<Volunteer>();
+
         for (Volunteer volunteer : volunteers) {
 
             // first & last name
@@ -53,20 +55,32 @@ public class Cleaner {
                 volunteer.phone = correctedPhoneNumber;
             }
 
-/*
-            ^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$
-*/
+            if (!volunteer.eMail.isEmpty()) {
+                String emailFormatRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-            String emailFormatRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-
-            if (volunteer.eMail.charAt(volunteer.eMail.length() - 1) == '.') {
-                volunteer.eMail = removeLastCharacter(volunteer.eMail);
+                if (volunteer.eMail.charAt(volunteer.eMail.length() - 1) == '.') {
+                    volunteer.eMail = removeLastCharacter(volunteer.eMail);
+                }
+                if (!Pattern.compile(emailFormatRegex).matcher(volunteer.eMail).matches()) {
+                    volunteer.eMail = "";
+                }
             }
-            if (!Pattern.compile(emailFormatRegex).matcher(volunteer.eMail).matches()) {
-                volunteer.eMail = "";
+
+            Optional<Volunteer> volunteerWithSameInformation = cleanedVolunteersList.stream()
+                    .filter(
+                        volunteerItem -> volunteerItem.firstName.equals(volunteer.firstName) &&
+                                volunteerItem.lastName.equals(volunteer.lastName) &&
+                                volunteerItem.nickName.equals(volunteer.nickName) &&
+                                volunteerItem.eMail.equals(volunteer.eMail) &&
+                                volunteerItem.phone.equals(volunteer.phone)
+                    )
+                    .findFirst();
+
+            if (!volunteerWithSameInformation.isPresent()) {
+                cleanedVolunteersList.add(volunteer);
             }
         }
-        return new ArrayList<>(volunteers);
+        return new ArrayList<>(cleanedVolunteersList);
     }
 
 
