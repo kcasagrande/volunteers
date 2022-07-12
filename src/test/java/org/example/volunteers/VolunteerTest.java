@@ -2,8 +2,13 @@ package org.example.volunteers;
 
 import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 public class VolunteerTest {
 
     @Test
@@ -289,7 +294,7 @@ public class VolunteerTest {
         String base = "Coucou";
         String current = "Au revoir";
         String result = Cleaner.mergeStrings(base,current);
-        assertEquals("Coucou,Au revoir", result);
+        assertEquals(result,"Coucou,Au revoir");
     }
 
     @Test
@@ -297,7 +302,7 @@ public class VolunteerTest {
         String base = "Coucou";
         String current = "";
         String result = Cleaner.mergeStrings(base,current);
-        assertEquals("Coucou", result);
+        assertEquals(result,"Coucou");
     }
 
     @Test
@@ -305,7 +310,71 @@ public class VolunteerTest {
         String base = "";
         String current = "Coucou";
         String result = Cleaner.mergeStrings(base,current);
-        assertEquals("Coucou", result);
+        assertEquals(result,"Coucou");
     }
-    
+
+    @Test
+    public void shouldDeleteDuplicateVolunteers() {
+        Volunteer testVolunteer = new Volunteer("Antoine", "Bonin",
+                "Abo", "antoine.bonin@gmail.com"
+                , "+3306205678");
+        Volunteer testVolunteer2 = new Volunteer("Emeline", "Pal",
+                "Epa", "emeline.pal@gmail.com"
+                , "+33052658575");
+        Volunteer testVolunteer3 = new Volunteer("Dimitri", "Rivoire",
+                "Dri", "dimitri.rivoire@gmail.com"
+                , "+3306040465");
+        Volunteer testVolunteer4 = new Volunteer("Emeline", "Pal",
+                "Epa", "emeline.pal@gmail.com"
+                , "+33052658575");
+        Volunteer testVolunteer5 = new Volunteer("Matisse", "livain henRy",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        Volunteer testVolunteer6 = new Volunteer("Antoine", "Bonin",
+                "Abo", "antoine.bonin@gmail.com"
+                , "+3306205678");
+        List<Volunteer> baseList = new ArrayList<Volunteer>();
+        List<Volunteer> verifyList = new ArrayList<Volunteer>();
+        baseList.add(testVolunteer);
+        baseList.add(testVolunteer2);
+        baseList.add(testVolunteer3);
+        baseList.add(testVolunteer4);
+        baseList.add(testVolunteer5);
+        baseList.add(testVolunteer6);
+        verifyList.add(testVolunteer);
+        verifyList.add(testVolunteer2);
+        verifyList.add(testVolunteer3);
+        verifyList.add(testVolunteer5);
+        List<Volunteer> noDuplicateList =  Cleaner.handleDuplicates(baseList);
+        assertEquals(true, verifyList.equals(noDuplicateList));
+    }
+
+
+    @Test
+    public void shouldNotDeleteDuplicateWhenNone() {
+        Volunteer testVolunteer = new Volunteer("Antoine", "Bonin",
+                "Abo", "antoine.bonin@gmail.com"
+                , "+3306205678");
+        Volunteer testVolunteer2 = new Volunteer("Emeline", "Pal",
+                "Epa", "emeline.pal@gmail.com"
+                , "+33052658575");
+        Volunteer testVolunteer3 = new Volunteer("Dimitri", "Rivoire",
+                "Dri", "dimitri.rivoire@gmail.com"
+                , "+3306040465");
+        Volunteer testVolunteer4 = new Volunteer("Matisse", "livain henRy",
+                "matli", "matisse.livain@gmail.com"
+                , "+33052658575");
+        List<Volunteer> baseList = new ArrayList<Volunteer>();
+        List<Volunteer> verifyList = new ArrayList<Volunteer>();
+        baseList.add(testVolunteer);
+        baseList.add(testVolunteer2);
+        baseList.add(testVolunteer3);
+        baseList.add(testVolunteer4);
+        verifyList.add(testVolunteer);
+        verifyList.add(testVolunteer2);
+        verifyList.add(testVolunteer3);
+        verifyList.add(testVolunteer4);
+        List<Volunteer> noDuplicateList =  Cleaner.handleDuplicates(baseList);
+        assertEquals(true, verifyList.equals(noDuplicateList));
+    }
 }

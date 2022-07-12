@@ -64,19 +64,34 @@ public class Cleaner {
                 // TODO : debug
             }*/
             // On merge tout
-            Volunteer baseV = groups.get(i).volunteers.get(0);
+            List<Volunteer> listV = new ArrayList<>();
+            listV.add(groups.get(i).volunteers.get(0));
 
             for ( int v = 1; v < groups.get(i).volunteers.size(); v++ ) {
                 Volunteer current = groups.get(i).volunteers.get(v);
-                if ( (current.firstName.equals(baseV.firstName) && current.lastName.equals(baseV.lastName)) ||
+
+                List<Volunteer> vFind = listV.stream().filter(o -> (
+                        (o.lastName.equals(current.lastName) && o.firstName.equals(current.firstName)) ||
+                        (o.firstName.equals(current.lastName) && o.lastName.equals(current.firstName))
+                )).collect(Collectors.toList());
+
+                /*if ( (current.firstName.equals(baseV.firstName) && current.lastName.equals(baseV.lastName)) ||
                      (current.firstName.equals(baseV.lastName) && current.lastName.equals(baseV.firstName))
-                ) {
+                ) {*/
+
+                if (vFind != null && vFind.size() > 0) {
+                    Volunteer baseV = vFind.get(0);
                     if ( baseV.nickName.equals("") && !current.nickName.equals("") ) baseV.nickName = current.nickName;
                     if ( baseV.email.equals("") && !current.email.equals("") ) baseV.email = current.email;
                     if ( baseV.phone.equals("") && !current.phone.equals("") ) baseV.phone = current.phone;
-                    if ( !baseV.email.equals(current.email) && !baseV.email.equals("") ) baseV.email = mergeStrings(baseV.email, current.email);
-                    if ( !baseV.phone.equals(current.phone) && !baseV.phone.equals("") ) baseV.phone = mergeStrings(baseV.phone, current.phone);
+                    if ( !baseV.email.equals(current.email) ) baseV.email = mergeStrings(baseV.email, current.email);
+                    if ( !baseV.phone.equals(current.phone) ) baseV.phone = mergeStrings(baseV.phone, current.phone);
                 }
+                else {
+                    listV.add(current);
+                }
+
+                groups.get(i).volunteers = listV;
             }
 
             Group item = groups.get(i);
@@ -99,8 +114,12 @@ public class Cleaner {
 
     public static String mergeStrings(String base, String current) {
         String[] splitBase = base.split(",");
-        if (!Arrays.stream(splitBase).anyMatch(s -> s.equals(current))) {
-            base += ',' + current;
+        if (!current.equals("")) {
+            if (!base.equals("")) {
+                if (!Arrays.stream(splitBase).anyMatch(s -> s.equals(current))) {
+                    base += "," + current;
+                }
+            } else base = current;
         }
         return base;
     }
