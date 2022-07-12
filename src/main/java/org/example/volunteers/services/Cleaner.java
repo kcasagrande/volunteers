@@ -35,19 +35,43 @@ public class Cleaner {
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
         volunteersToRemove.addAll(this.nameValidator.malformedNames);
-
-        HashMap<Boolean,List<Volunteer>> cleanDuplicateEmail = this.emailValidator.cleanDuplicateEmail();
-        volunteersToRemove.addAll(cleanDuplicateEmail.get(false));
-
-        for (String phoneNumber : this.phoneNumberValidator.duplicatePhoneNumber.keySet()){
-            volunteersToRemove.addAll(this.phoneNumberValidator.duplicatePhoneNumber.get(phoneNumber));
-        }
+        volunteersToRemove.addAll(this.getDuplicateToRemove());
 
         List<Volunteer> allVolunteersCorrect = this.allVolunteers;
         allVolunteersCorrect.removeAll(volunteersToRemove);
 
-        allVolunteersCorrect.addAll(cleanDuplicateEmail.get(true));
         return allVolunteersCorrect;
+    }
+
+    public List<Volunteer> getDuplicateToRemove(){
+        Set<Volunteer> volunteersToRemove = new HashSet<>();
+        volunteersToRemove.addAll(this.getDuplicateToRemove( this.emailValidator.duplicateEmail));
+        volunteersToRemove.addAll(this.getDuplicateToRemove(this.phoneNumberValidator.duplicatePhoneNumber));
+        volunteersToRemove.addAll(this.getDuplicateToRemove(this.nameValidator.duplicateName));
+        return volunteersToRemove.stream().collect(Collectors.toList());
+    }
+
+    private List<Volunteer> getDuplicateToRemove(HashMap<String,List<Volunteer>> mapToRemoveEquals){
+
+        List<Volunteer> badEmails = new ArrayList<>();
+        List<Volunteer> cleanEmails = new ArrayList<>();
+
+        for ( String phoneNumber : mapToRemoveEquals.keySet()){
+            List<Volunteer> volunteers = mapToRemoveEquals.get(phoneNumber);
+            for(Volunteer volunteer : volunteers){
+                if(!cleanEmails.stream().anyMatch(x-> x.equals(volunteer))){
+                    List<Volunteer> sameVolonteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
+                    if(sameVolonteers.size() < 2){
+                        badEmails.add(volunteer);
+                    }else{
+                        cleanEmails.add(volunteer);
+                    }
+                }else{
+                    badEmails.add(volunteer);
+                }
+            }
+        }
+        return badEmails;
     }
 
 
