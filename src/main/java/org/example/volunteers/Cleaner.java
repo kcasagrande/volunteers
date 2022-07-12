@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Cleaner {
-    public static boolean handleDuplicates(List<Volunteer> volunteers) {
+    public static List<Volunteer> handleDuplicates(List<Volunteer> volunteers) {
         // supprimer tous les doublons identiques
         // assigner un familly id à ceux qui sont identique ( par mail ou phone similaire mais nom différent )
         // Autre fonction pour formater par famille
@@ -49,22 +49,31 @@ public class Cleaner {
                 groups.add(group);*/
             } else singles.add(item);
         }
-        System.out.println(singles);
-        System.out.println(groups);
+        //System.out.println(singles);
+        //System.out.println(groups);
+
+        List<Volunteer> result = new ArrayList<>();
+        result.addAll(singles);
 
         for ( int i = 0; i < groups.size(); i++ ) {
-            if (groups.get(i).volunteers.size() < 2) {
+            /*if (groups.get(i).volunteers.size() < 2) {
                 Group g = groups.get(i);
                 //System.out.println(g);
                 // TODO : debug
-            }
+
+
+            }*/
+            Group item = groups.get(i);
+            result.addAll(item.volunteers);
         }
+        System.out.println(result);
+
 
         // vérifier si mail ou tel similaire si le nom correspond aussi ou si les infos sont complémentaires ( donc à regrouper )
         // Lequel garder entre les deux doublons ? ( celui qui a le plus d'infos ? )
         // assigner à une famille si plusieurs personnes avec le même nom de famille mais pas même prénom
 
-        return false;
+        return result;
     }
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
