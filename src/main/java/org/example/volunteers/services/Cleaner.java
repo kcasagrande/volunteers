@@ -2,16 +2,19 @@ package org.example.volunteers.services;
 
 import org.example.volunteers.models.Volunteer;
 import org.example.volunteers.models.VolunteerEmailError;
+import org.example.volunteers.models.VolunteerNameError;
 import org.example.volunteers.models.VolunteerPhoneNumberError;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 
 public class Cleaner {
 
     private Validations validators;
     public VolunteerEmailError emailValidator;
+    public VolunteerNameError nameValidator;
     public VolunteerPhoneNumberError phoneNumberValidator;
     public List<Volunteer> allVolunteers;
     public Cleaner(List<Volunteer> volunteers){
@@ -25,10 +28,12 @@ public class Cleaner {
         Set<Volunteer> volunteersToRemove = new HashSet<>();
         this.checkEmails();
         this.checkPhoneNumbers();
+        this.checkNames();
         volunteersToRemove.addAll(this.emailValidator.noEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.noPhoneNumber);
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
+        volunteersToRemove.addAll(this.nameValidator.malformedNames);
         for (String email : this.emailValidator.duplicateEmail.keySet()){
             volunteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
         }
@@ -69,6 +74,63 @@ public class Cleaner {
                 .filter(x-> x.getValue().stream().count() > 1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
         this.emailValidator= new VolunteerEmailError(checkVolunteersWithNoEmail , mapDuplicateEmailVolunteers , volunteersWithBadEmails);
+    }
+
+    public void checkNames() {
+
+        HashMap<String, List<Volunteer>> mapVolunteerNames = new HashMap<>();
+        ArrayList<Volunteer> volunteersWithMalformedNames = new ArrayList<>();
+
+        for (Volunteer volunteer : this.allVolunteers) {
+
+            if (volunteer.getFirstName() == null || volunteer.getFirstName().isEmpty()) {
+                volunteersWithMalformedNames.add(volunteer);
+                continue;
+            }
+
+            if (volunteer.getLastName() == null || volunteer.getLastName().isEmpty()) {
+                volunteersWithMalformedNames.add(volunteer);
+            }
+
+            if (this.validators.validateFirstName(volunteer.getFirstName()) || this.validators.validateLastName(volunteer.getLastName())) {
+                volunteersWithMalformedNames.add(volunteer);
+            }
+
+            if (mapVolunteerNames.containsKey(volunteer.getFirstName() + "." + volunteer.getLastName())) {
+                List<Volunteer> storedDuplicateVolunteers = mapVolunteerNames.get(volunteer.getFirstName() + "." + volunteer.getLastName());
+                int originalSize = storedDuplicateVolunteers.size();
+
+                if (storedDuplicateVolunteers.size() > 0) {
+                    boolean isDuplicated = false;
+                    for (Volunteer storedVolunteer : storedDuplicateVolunteers) {
+                        if (storedVolunteer.getEmail().equals(volunteer.getEmail())) {
+                            isDuplicated = true;
+
+                            break;
+                        }
+                    }
+                    if (isDuplicated) {
+                        storedDuplicateVolunteers.add(volunteer);
+                    }
+                } else {
+                    storedDuplicateVolunteers.add(volunteer);
+                }
+
+                if (originalSize != storedDuplicateVolunteers.size()) {
+                    mapVolunteerNames.put(volunteer.getFirstName() + "." + volunteer.getLastName(), storedDuplicateVolunteers);
+                }
+
+            } else {
+                mapVolunteerNames.put(volunteer.getFirstName() + "." + volunteer.getLastName(), new ArrayList<>(Arrays.asList(volunteer)));
+            }
+        }
+
+        HashMap<String, List<Volunteer>> mapDuplicateNamesVolunteers = mapVolunteerNames
+                .entrySet()
+                .stream()
+                .filter(x-> x.getValue().stream().count() > 1)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
+        this.nameValidator = new VolunteerNameError(mapDuplicateNamesVolunteers, volunteersWithMalformedNames);
     }
 
     public void checkPhoneNumbers(){

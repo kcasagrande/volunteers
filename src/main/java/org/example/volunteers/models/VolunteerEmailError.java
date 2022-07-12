@@ -1,7 +1,6 @@
 package org.example.volunteers.models;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
