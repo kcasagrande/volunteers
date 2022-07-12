@@ -1,27 +1,24 @@
 package org.example.volunteers;
 
-import org.testng.annotations.Test;
-
-import java.lang.reflect.Array;
 import java.util.regex.Pattern;
 
-import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class Cleaner {
     private static final String[][] UMLAUT_REPLACEMENTS = { { "É", "E" }, { "é", "e" }, { "È", "E" }, { "è", "e" } };
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        List<Volunteer> cleanVolunteers = cleanupMailAddresses(volunteers);
-        return new ArrayList<Volunteer>(cleanVolunteers);
+        volunteers = cleanupMailAddresses(volunteers);
+        volunteers = removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
+        return new ArrayList<Volunteer>(volunteers);
     }
+
     public static Boolean isValidEmail(String email) {
         return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email);
     }
+
     public static String cleanEmailAddress(String email) {
         email = email.toLowerCase();
         email = email.replaceAll("é", "e");
@@ -43,6 +40,7 @@ public class Cleaner {
         email = email.replaceAll("ö", "o");
         return email;
     }
+
     public static List<Volunteer> cleanupMailAddresses(List<Volunteer> volunteers) {
         List<Volunteer> cleanedVolunteers = new ArrayList<>();
         for(Volunteer volunteer: volunteers) {
@@ -56,7 +54,6 @@ public class Cleaner {
         return cleanedVolunteers;
     }
 
-    // Email
     public static Boolean isValidEmail(Volunteer volunteer) {
         return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", volunteer.eMail);
     }
@@ -112,11 +109,10 @@ public class Cleaner {
     }
 
     public static List<Volunteer> sanitizeEmailInsteadOfPhone(List<Volunteer> volunteers) {
-        //List<Volunteer> volunteersSanitized = new ArrayList<>();
-        //LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
+        List<Volunteer> volunteersSanitized = new ArrayList<>();
+        LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
         for (Volunteer volunteer: volunteers) {
-
             if (isValidPhoneNumber(volunteer.eMail)) {
                 String oldMailHasPhone = volunteer.eMail;
                 String oldPhoneHasMail = volunteer.phone;
@@ -180,5 +176,4 @@ public class Cleaner {
         }
         return new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, volunteer.eMail, cleanPhone);
     }
-
 }
