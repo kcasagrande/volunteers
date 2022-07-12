@@ -1,7 +1,5 @@
 package org.example.volunteers;
 
-import com.sun.tools.javac.util.StringUtils;
-
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Array;
@@ -15,11 +13,46 @@ import java.util.Objects;
 
 public class Cleaner {
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
-        removeDuplicate(volunteers);
-        return new ArrayList<Volunteer>(volunteers);
+        System.out.println("clean up call");
+        List<Volunteer> cleanVolunteers = cleanupMailAddresses(volunteers);
+        return new ArrayList<Volunteer>(cleanVolunteers);
     }
-    public static Boolean isValidEmail(Volunteer volunteer) {
-        return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", volunteer.eMail);
+    public static Boolean isValidEmail(String email) {
+        return Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email);
+    }
+    public static String cleanEmailAddress(String email) {
+        email = email.toLowerCase();
+        email = email.replaceAll("é", "e");
+        email = email.replaceAll("è", "e");
+        email = email.replaceAll("ê", "e");
+        email = email.replaceAll("œ", "oe");
+        email = email.replaceAll("ë", "e");
+        email = email.replaceAll("à", "a");
+        email = email.replaceAll("ä", "a");
+        email = email.replaceAll("â", "a");
+        email = email.replaceAll("î", "i");
+        email = email.replaceAll("ï", "i");
+        email = email.replaceAll("ì", "i");
+        email = email.replaceAll("û", "u");
+        email = email.replaceAll("ù", "u");
+        email = email.replaceAll("ü", "u");
+        email = email.replaceAll("ô", "o");
+        email = email.replaceAll("ò", "o");
+        email = email.replaceAll("ö", "o");
+        return email;
+    }
+    public static List<Volunteer> cleanupMailAddresses(List<Volunteer> volunteers) {
+        System.out.println("CALL");
+        List<Volunteer> cleanedVolunteers = new ArrayList<>();
+        for(Volunteer volunteer: volunteers) {
+            String cleanEmail = "";
+            String sanitizedEmail = cleanEmailAddress(volunteer.eMail);
+            if (isValidEmail(sanitizedEmail)) {
+                cleanEmail = sanitizedEmail;
+            }
+            cleanedVolunteers.add(new Volunteer(volunteer.firstName, volunteer.lastName, volunteer.nickName, cleanEmail, volunteer.phone));
+        }
+        return cleanedVolunteers;
     }
 
     public static List<Volunteer> removeDuplicate(List<Volunteer> volunteers) {

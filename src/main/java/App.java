@@ -26,7 +26,7 @@ public class App {
             .collect(toList());
 
         List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
-
+        System.out.println(outputVolunteers);
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         outputVolunteers.forEach(writer::println);
         writer.close();
