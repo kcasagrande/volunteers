@@ -48,38 +48,35 @@ public class Cleaner {
 
     public static String formatFirstName(String name){
         name = name.trim();
-        if(name != null && !name.isEmpty()){
-            name = capitalizeWord(name);
-            name = name.replaceAll(" ", "-");
-            // Replace all characters except a to z, A to Z and dashes for compound noun
-            name = name.replaceAll("[^a-zA-Z-–—−\u00C0-\u00FF]","");
-            return name.substring(0, 1).toUpperCase() + name.substring(1);
-        } else {
-            return "";
-        }
+
+        if(name == null || name.isEmpty()) return "";
+
+        name = capitalizeWord(name);
+        name = name.replaceAll(" ", "-");
+        // Replace all characters except a to z, A to Z and dashes for compound noun
+        name = name.replaceAll("[^a-zA-Z-–—−\u00C0-\u00FF]","");
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
     public static String formatLastName(String name) {
         name = name.trim();
-        if(name != null && !name.isEmpty()) {
-            name = capitalizeWord(name);
-            name = name.toLowerCase().replaceAll(" ", "-");
-            // Replace all characters except a to z, A to Z and dashes for compound noun
-            name = name.replaceAll("[^a-zA-Z-–—−\u00C0-\u00FF]", "");
-            return name.toUpperCase();
-        } else {
-            return "";
-        }
+
+        if(name == null || name.isEmpty()) return "";
+
+        name = capitalizeWord(name);
+        name = name.toLowerCase().replaceAll(" ", "-");
+        // Replace all characters except a to z, A to Z and dashes for compound noun
+        name = name.replaceAll("[^a-zA-Z-–—−\u00C0-\u00FF]", "");
+        return name.toUpperCase();
     }
 
     public static String formatNickName(String nickname){
         nickname = nickname.trim();
-        if(nickname != null && !nickname.isEmpty()) {
-            nickname = nickname.replaceAll(" ", "").replaceAll("[^a-zA-Z0-9\u00C0-\u00FF-_&@€!]", "");
-            return nickname;
-        } else {
-            return "";
-        }
+
+        if(nickname == null || nickname.isEmpty()) return "";
+
+        nickname = nickname.replaceAll(" ", "").replaceAll("[^a-zA-Z0-9\u00C0-\u00FF-_&@€!]", "");
+        return nickname;
     }
 
     public static String cleanPhoneNumber(String phoneNumber) {
