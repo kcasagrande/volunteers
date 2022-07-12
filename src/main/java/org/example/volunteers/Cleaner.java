@@ -7,23 +7,6 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class Cleaner {
-    private static String formatName(String input) {
-        // Only non-empty names
-        if (!Objects.equals(input, "")) {
-            // Add uppercase on first character and rest lowercase
-            if (!Objects.equals(input.substring(1), input.substring(1).toUpperCase()) || Objects.equals(input, input.toUpperCase())) {
-                input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
-            }
-        }
-
-        // Format names with '-'
-        for (int i = 0; i < input.length(); i++) {
-            if (input.charAt(i) == '-') {
-                input = input.substring(0, i) + "-" + input.substring(i+1, i+2).toUpperCase() + input.substring(i+2);
-            }
-        }
-        return input;
-    }
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         // This function should contain your dark magic.
@@ -66,6 +49,20 @@ public class Cleaner {
                 }
             }
 
+            Optional<Volunteer> volunteerWithInvertedInformation = cleanedVolunteersList.stream()
+                    .filter(
+                            volunteerItem -> volunteerItem.lastName.equals(volunteer.firstName) &&
+                                    volunteerItem.firstName.equals(volunteer.lastName)
+                    ).findFirst();
+
+            if (volunteerWithInvertedInformation.isPresent()) {
+                String firstname = volunteer.firstName;
+                String lastname = volunteer.lastName;
+
+                volunteer.firstName = lastname;
+                volunteer.lastName = firstname;
+            }
+
             Optional<Volunteer> volunteerWithSameInformation = cleanedVolunteersList.stream()
                     .filter(
                         volunteerItem -> volunteerItem.firstName.equals(volunteer.firstName) &&
@@ -73,8 +70,7 @@ public class Cleaner {
                                 volunteerItem.nickName.equals(volunteer.nickName) &&
                                 volunteerItem.eMail.equals(volunteer.eMail) &&
                                 volunteerItem.phone.equals(volunteer.phone)
-                    )
-                    .findFirst();
+                    ).findFirst();
 
             if (!volunteerWithSameInformation.isPresent()) {
                 cleanedVolunteersList.add(volunteer);
@@ -83,6 +79,23 @@ public class Cleaner {
         return new ArrayList<>(cleanedVolunteersList);
     }
 
+    private static String formatName(String input) {
+        // Only non-empty names
+        if (!Objects.equals(input, "")) {
+            // Add uppercase on first character and rest lowercase
+            if (!Objects.equals(input.substring(1), input.substring(1).toUpperCase()) || Objects.equals(input, input.toUpperCase())) {
+                input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+            }
+        }
+
+        // Format names with '-'
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '-') {
+                input = input.substring(0, i) + "-" + input.substring(i+1, i+2).toUpperCase() + input.substring(i+2);
+            }
+        }
+        return input;
+    }
 
     public static String removeLastCharacter(String str) {
         String result = Optional.ofNullable(str)

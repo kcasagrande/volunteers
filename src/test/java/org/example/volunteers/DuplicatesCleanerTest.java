@@ -15,6 +15,20 @@ public class DuplicatesCleanerTest {
     */
 
     @Test
+    public void doesRemoveAllDuplicateWhenFirstnameAndLastnameAreInvert() {
+        List<Volunteer> duplicatesVolunteers = new ArrayList<Volunteer>();
+        duplicatesVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
+        duplicatesVolunteers.add(new Volunteer("Lastname1", "Firstname1", "Nickname1", "email@test.com", "+33000000000"));
+
+        List<Volunteer> expectedVolunteers = new ArrayList<Volunteer>();
+        expectedVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
+
+        givenVolunteers(duplicatesVolunteers);
+        whenCleaningUpVolunteers();
+        thenVolunteersAre(expectedVolunteers);
+    }
+
+    @Test
     public void doesRemoveAllDuplicateIfThereTwoSameVolunteer() {
         List<Volunteer> duplicatesVolunteers = new ArrayList<Volunteer>();
         duplicatesVolunteers.add(new Volunteer("Firstname1", "Lastname1", "Nickname1", "email@test.com", "+33000000000"));
