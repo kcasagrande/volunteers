@@ -40,11 +40,11 @@ public class CleanerTest {
     @Test
     public void updateCaseInNames() {
         List<Volunteer> volunteers = new ArrayList<>();
-        volunteers.add(new Volunteer("jEaN", "DUJARDiN", "jeANnotD", "+33000000000", "jean@dujardin.com"));
+        volunteers.add(new Volunteer("jEaN-pauL", "DUJARDiN", "jeANnotD", "+33000000000", "jean@dujardin.com"));
 
         List<Volunteer> result = Cleaner.updateCaseInNames(volunteers);
 
-        assertEquals(result.get(0).firstName, "Jean", "Le prénom doit avoir une casse avec le premier caractère en majuscule et le reste en minuscule");
+        assertEquals(result.get(0).firstName, "Jean-Paul", "Les noms ou prénoms avec un tiret doivent avoir des majuscules à chaque mot");
         assertEquals(result.get(0).lastName, "Dujardin", "Le nom doit avoir une casse avec le premier caractère en majuscule et le reste en minuscule");
         assertEquals(result.get(0).nickName, "jeannotd", "Le surnom doit être entièrement en minuscule");
     }
