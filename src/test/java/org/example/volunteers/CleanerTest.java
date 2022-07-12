@@ -73,6 +73,7 @@ public class CleanerTest {
         assertEquals("dede-la-bagarre@gmail.com", volunteers.get(0).eMail, "L'adresse email contenant des caractères spéciaux est remplacée");
     }
 
+    @Test
     public void removeDuplicateVerifyFirstNameInsteadOfLastName() {
         List<Volunteer> volunteers = new ArrayList<>();
         volunteers.add(new Volunteer("john", "doe", "jojo2", "john@mail.com", "+33698675434"));
