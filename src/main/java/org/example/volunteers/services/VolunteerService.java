@@ -16,6 +16,8 @@ public class VolunteerService {
         for(String[] data: volunteers) {
             Number id = Integer.parseInt(data[0]);
             try {
+                // add new Volunteer in List with data parameters
+                // id, lastName, firstName, nickName, email, phone
                 Volunteers.add(createNewVolunteer(
                         id,
                         data[1],
