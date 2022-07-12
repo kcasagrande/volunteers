@@ -13,6 +13,16 @@ public class Cleaner {
         volunteers = Phone.cleanupPhoneNumber(volunteers);
         volunteers = updateCaseInNames(volunteers);
         volunteers = Duplicate.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
+        return new ArrayList<Volunteer>(volunteers);
+    }
+
+    public static List<Volunteer> cleanUpUniqueContact(List<Volunteer> volunteers) {
+        volunteers = removeAccents(volunteers);
+        volunteers = sanitizeEmailInsteadOfPhone(volunteers);
+        volunteers = Email.cleanupMailAddresses(volunteers);
+        volunteers = Phone.cleanupPhoneNumber(volunteers);
+        volunteers = updateCaseInNames(volunteers);
+        volunteers = Duplicate.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
         volunteers = Duplicate.removeDuplicateMailPhone(volunteers);
         return new ArrayList<Volunteer>(volunteers);
     }
