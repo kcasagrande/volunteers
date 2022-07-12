@@ -22,13 +22,15 @@ public class Cleaner {
         for (Volunteer volunteer: volunteers) {
             String firstName = volunteer.firstName;
             String lastName = volunteer.lastName;
+            String nickName = volunteer.nickName;
 
             for (String[] umlautReplacement : UMLAUT_REPLACEMENTS) {
                 firstName = firstName.replaceAll(umlautReplacement[0], umlautReplacement[1]);
                 lastName = lastName.replaceAll(umlautReplacement[0], umlautReplacement[1]);
+                nickName = nickName.replaceAll(umlautReplacement[0], umlautReplacement[1]);
             }
 
-            cleanedVolunteers.add(new Volunteer(firstName, lastName, volunteer.nickName, volunteer.eMail, volunteer.phone));
+            cleanedVolunteers.add(new Volunteer(firstName, lastName, nickName, volunteer.eMail, volunteer.phone));
         }
 
         return cleanedVolunteers;
