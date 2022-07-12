@@ -17,6 +17,25 @@ public class CleanerTest {
     }
 
     @Test
+    public void firstNameIsFormatted() {
+        givenVolunteer(new Volunteer("hugo", "Bordais", "", "hugo.bordais@cuck.com", "0700000000"));
+        whenCleaningUpVolunteers();
+        thenFirstNameIs("Hugo");
+    }
+
+    @Test
+    public void lastNameIsFormatted() {
+        givenVolunteer(new Volunteer("Hugo", "bordais", "", "hugo.bordais@cuck.com", "0700000000"));
+        whenCleaningUpVolunteers();
+        thenLastNameIs("Bordais");
+    }
+
+    @Test
+    private void givenVolunteer(Volunteer volunteer) {
+        volunteers.add(volunteer);
+    }
+
+    @Test
     public void transformPhoneNumberInFrenchFormat() {
         givenVolunteer("test", "test", "test", "test@test.test", "00-55-51-64-64");
         whenCleaningUpVolunteers();
@@ -57,6 +76,7 @@ public class CleanerTest {
         whenCleaningUpVolunteers();
         thenPhoneIs("");
     }
+    
     private void givenVolunteer(String firstName, String lastName, String nickname, String eMail, String phone) {
         volunteers.add(new Volunteer(firstName, lastName, nickname, eMail, phone));
     }
