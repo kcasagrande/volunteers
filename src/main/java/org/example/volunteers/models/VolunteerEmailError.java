@@ -1,10 +1,8 @@
 package org.example.volunteers.models;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class VolunteerEmailError {
 
@@ -29,7 +27,7 @@ public class VolunteerEmailError {
             writer.println("Records sans email : ");
             this.noEmail.forEach(writer::println);
         }else{
-            writer.println("Il n\'y a pas de record sans email : ");
+            writer.println("Il n'y a pas de record sans email : ");
         }
         writer.println();
     }
@@ -38,11 +36,11 @@ public class VolunteerEmailError {
         if(this.duplicateEmail.size()>0){
             writer.println("Records avec des doublons d'emails : ");
             for(String email : this.duplicateEmail.keySet()){
-                writer.println("Pour l\'email \""+email+"\" :");
+                writer.println("Pour l'email \""+email+"\" :");
                 this.duplicateEmail.get(email).forEach(writer::println);
             }
         }else{
-            writer.println("Il n\'y a pas de doublons d'email ");
+            writer.println("Il n'y a pas de doublons d'email ");
         }
         writer.println();
     }
@@ -52,7 +50,7 @@ public class VolunteerEmailError {
             writer.println("Records avec un mauvais format d'email:");
             this.badFormatEmail.forEach(writer::println);
         }else{
-            writer.println("Il n\'y a pas de record sans mauvais format d\'email");
+            writer.println("Il n'y a pas de record sans mauvais format d'email");
         }
         writer.println();
     }

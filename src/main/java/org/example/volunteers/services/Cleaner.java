@@ -35,6 +35,7 @@ public class Cleaner {
         volunteersToRemove.addAll(this.emailValidator.badFormatEmail);
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
         volunteersToRemove.addAll(this.nameValidator.malformedNames);
+        volunteersToRemove.addAll(this.nameValidator.noNames);
         HashMap<Boolean,Set<Volunteer>> duplicateVolunteers = this.cleanAndMergeDuplicate();
         volunteersToRemove.addAll(duplicateVolunteers.get(false));
 
@@ -56,6 +57,7 @@ public class Cleaner {
         excludedVolunteers.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
 
         excludedVolunteers.addAll(this.nameValidator.malformedNames);
+        excludedVolunteers.addAll(this.nameValidator.noNames);
 
         HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanAndMergeDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>(),excludedVolunteers, new String[]{"email"});
         badVolunteers.addAll(mapEmail.get(false));
@@ -96,12 +98,15 @@ public class Cleaner {
                                 }
                                 return true;
                             } catch (Exception e) {
-                               return false;
+                                return false;
                             }
                         }).collect(Collectors.toList());
                         if(sameVolunteersByProperty.size() > 1){
-                            cleanVolunteer.add(Volunteer.concatMultiple(sameVolunteersByProperty));
-                            volunteersPassed.addAll(sameVolunteersByProperty);
+                            Volunteer v = Volunteer.concatMultiple(sameVolunteersByProperty);
+                            if(!cleanVolunteer.stream().anyMatch(x-> x.equals(v))){
+                                cleanVolunteer.add(v);
+                                volunteersPassed.addAll(sameVolunteersByProperty);
+                            }
                         }
                     }
                 }
@@ -148,32 +153,33 @@ public class Cleaner {
 
         HashMap<String, List<Volunteer>> mapVolunteerNames = new HashMap<>();
         ArrayList<Volunteer> volunteersWithMalformedNames = new ArrayList<>();
+        ArrayList<Volunteer> volunteersWithNoNames = new ArrayList<>();
 
         for (Volunteer volunteer : this.allVolunteers) {
 
             if (volunteer.getFirstName() == null || volunteer.getFirstName().isEmpty()) {
-                volunteersWithMalformedNames.add(volunteer);
+                volunteersWithNoNames.add(volunteer);
                 continue;
             }
 
             if (volunteer.getLastName() == null || volunteer.getLastName().isEmpty()) {
-                volunteersWithMalformedNames.add(volunteer);
+                volunteersWithNoNames.add(volunteer);
             }
 
             if (this.validators.validateFirstName(volunteer.getFirstName()) || this.validators.validateLastName(volunteer.getLastName())) {
                 volunteersWithMalformedNames.add(volunteer);
             }
 
-            if (mapVolunteerNames.containsKey(volunteer.getFirstName() + "." + volunteer.getLastName())) {
-                List<Volunteer> storedDuplicateVolunteers = mapVolunteerNames.get(volunteer.getFirstName() + "." + volunteer.getLastName());
+            if (mapVolunteerNames.containsKey(volunteer.getFirstName() + "." + volunteer.getLastName()) || mapVolunteerNames.containsKey(volunteer.getLastName() + "." + volunteer.getFirstName())) {
+                String formatKey = mapVolunteerNames.containsKey(volunteer.getFirstName() + "." + volunteer.getLastName()) ? volunteer.getFirstName() + "." + volunteer.getLastName() : volunteer.getLastName() + "." + volunteer.getFirstName();
+                List<Volunteer> storedDuplicateVolunteers = mapVolunteerNames.get(formatKey);
                 int originalSize = storedDuplicateVolunteers.size();
 
                 if (storedDuplicateVolunteers.size() > 0) {
                     boolean isDuplicated = false;
                     for (Volunteer storedVolunteer : storedDuplicateVolunteers) {
-                        if (storedVolunteer.getEmail().equals(volunteer.getEmail())) {
+                        if (storedVolunteer.getEmail().equals(volunteer.getEmail()) || storedVolunteer.getFirstName().equals(volunteer.getLastName()) && storedVolunteer.getLastName().equals(volunteer.getFirstName())) {
                             isDuplicated = true;
-
                             break;
                         }
                     }
@@ -187,18 +193,19 @@ public class Cleaner {
                 if (originalSize != storedDuplicateVolunteers.size()) {
                     mapVolunteerNames.put(volunteer.getFirstName() + "." + volunteer.getLastName(), storedDuplicateVolunteers);
                 }
-
             } else {
                 mapVolunteerNames.put(volunteer.getFirstName() + "." + volunteer.getLastName(), new ArrayList<>(Arrays.asList(volunteer)));
             }
         }
+
+
 
         HashMap<String, List<Volunteer>> mapDuplicateNamesVolunteers = mapVolunteerNames
                 .entrySet()
                 .stream()
                 .filter(x-> x.getValue().stream().count() > 1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
-        this.nameValidator = new VolunteerNameError(mapDuplicateNamesVolunteers, volunteersWithMalformedNames);
+        this.nameValidator = new VolunteerNameError(mapDuplicateNamesVolunteers, volunteersWithMalformedNames, volunteersWithNoNames);
     }
 
     public void checkPhoneNumbers(){
