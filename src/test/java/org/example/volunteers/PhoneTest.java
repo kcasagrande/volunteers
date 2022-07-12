@@ -10,7 +10,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+3612345678");
 
         // Act
-        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+        Boolean isValidNumber = Phone.isValidPhoneNumber(volunteer.phone);
 
         // Assert
         Boolean expectedResult = true;
@@ -23,7 +23,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+33612345678");
 
         // Act
-        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+        Boolean isValidNumber = Phone.isValidPhoneNumber(volunteer.phone);
 
         // Assert
         Boolean expectedResult = true;
@@ -36,7 +36,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+333612345678");
 
         // Act
-        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+        Boolean isValidNumber = Phone.isValidPhoneNumber(volunteer.phone);
 
         // Assert
         Boolean expectedResult = true;
@@ -49,7 +49,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+336123456");
 
         // Act
-        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+        Boolean isValidNumber = Phone.isValidPhoneNumber(volunteer.phone);
 
         // Assert
         Boolean expectedResult = false;
@@ -62,7 +62,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+0612345678");
 
         // Act
-        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+        Boolean isValidNumber = Phone.isValidPhoneNumber(volunteer.phone);
 
         // Assert
         Boolean expectedResult = false;
@@ -75,7 +75,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "0612345678");
 
         // Act
-        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+        Boolean isValidNumber = Phone.isValidPhoneNumber(volunteer.phone);
 
         // Assert
         Boolean expectedResult = false;
@@ -88,7 +88,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06-12-34-56-78");
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertDashesFromPhoneNumber(volunteer);
+        Volunteer cleanVolunteer = Phone.convertDashesFromPhoneNumber(volunteer);
 
         // Assert
         String expectedResult = "0612345678";
@@ -101,7 +101,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06.12.34.56.78");
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertDotsFromPhoneNumber(volunteer);
+        Volunteer cleanVolunteer = Phone.convertDotsFromPhoneNumber(volunteer);
 
         // Assert
         String expectedResult = "0612345678";
@@ -114,7 +114,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06 12 34 56 78");
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertSpacesFromPhoneNumber(volunteer);
+        Volunteer cleanVolunteer = Phone.convertSpacesFromPhoneNumber(volunteer);
 
         // Assert
         String expectedResult = "0612345678";
@@ -127,7 +127,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "(0)612345678");
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertParenthesisFromPhoneNumber(volunteer);
+        Volunteer cleanVolunteer = Phone.convertParenthesisFromPhoneNumber(volunteer);
 
         // Assert
         String expectedResult = "0612345678";
@@ -140,7 +140,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "0612345678");
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.replaceBeginningPhoneNumber(volunteer);
+        Volunteer cleanVolunteer = Phone.replaceBeginningPhoneNumber(volunteer);
 
         // Assert
         String expectedResult = "+33612345678";
@@ -153,7 +153,7 @@ public class PhoneTest {
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "612345678");
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.replaceBeginningPhoneNumber(volunteer);
+        Volunteer cleanVolunteer = Phone.replaceBeginningPhoneNumber(volunteer);
 
         // Assert
         String expectedResult = "+33612345678";
