@@ -31,21 +31,21 @@ public class CleanerTest {
     }
 
     @Test
-    public void firstNameIsFormatted2() {
+    public void lowercaseFirstNameWhenIsFullUppercase() {
         givenVolunteer(new Volunteer("HUGO", "Bordais", "", "hugo.bordais@cuck.com", "0700000000"));
         whenCleaningUpVolunteers();
         thenFirstNameIs("Hugo");
     }
 
     @Test
-    public void firstNameIsFormatted3() {
+    public void lowercaseFirstNameWhenIsFullUppercaseWithDash() {
         givenVolunteer(new Volunteer("JEAN-JACQUES", "Bordais", "", "hugo.bordais@cuck.com", "0700000000"));
         whenCleaningUpVolunteers();
         thenFirstNameIs("Jean-Jacques");
     }
 
     @Test
-    public void firstNameIsFormatted4() {
+    public void lowercaseFirstNameWhenSomeLettersAreUppercase() {
         givenVolunteer(new Volunteer("JeAn-JaCqUeS", "Bordais", "", "hugo.bordais@cuck.com", "0700000000"));
         whenCleaningUpVolunteers();
         thenFirstNameIs("Jean-Jacques");
