@@ -52,11 +52,12 @@ public class NamesCleanerTest {
     }
 
     private void givenVolunteer(String firstName, String lastName, String nickname, String eMail, String phone) {
+        cleaner = new Cleaner();
         volunteers.add(new Volunteer(firstName, lastName, nickname, eMail, phone));
     }
 
     private void whenCleaningUpVolunteers() {
-        cleanedVolunteers = Cleaner.cleanUp(volunteers);
+        cleanedVolunteers = cleaner.cleanUp(volunteers);
     }
 
     private void thenFirstNameIs(String firstName) {
@@ -71,6 +72,7 @@ public class NamesCleanerTest {
         assertEquals(nickname, cleanedVolunteers.get(0).nickName);
     }
 
+    private Cleaner cleaner = null;
     private List<Volunteer> volunteers = new ArrayList<Volunteer>();
     private List<Volunteer> cleanedVolunteers = new ArrayList<Volunteer>();
 }

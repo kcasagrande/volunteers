@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 
 public class Cleaner {
 
-    public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
+    private List<Volunteer> cleanedVolunteersList = new ArrayList<Volunteer>();
+
+    public List<Volunteer> cleanUp(List<Volunteer> volunteers) {
         // This function should contain your dark magic.
         // For now, it simply returns a copy of the initial list.
-
-        List<Volunteer> cleanedVolunteersList = new ArrayList<Volunteer>();
 
         for (Volunteer volunteer : volunteers) {
 
@@ -21,62 +21,85 @@ public class Cleaner {
             volunteer.lastName = formatName(volunteer.lastName);
 
             //phone
+            volunteer.phone = formatPhone(volunteer.phone);
 
-            if (!volunteer.phone.isEmpty()) {
-                String correctedPhoneNumber = volunteer.phone.replaceAll("[^0-9]", "");
+            //email
+            volunteer.eMail = formatMail(volunteer.eMail);
 
-                if (correctedPhoneNumber.charAt(1) == '3') {
-                    correctedPhoneNumber = correctedPhoneNumber.substring(2);
-                } else {
-                    correctedPhoneNumber = correctedPhoneNumber.substring(1);
-                }
+            isVolunteerDuplicated(volunteer);
+        }
+        return new ArrayList<>(cleanedVolunteersList);
+    }
 
-                if (correctedPhoneNumber.length() == 10) {
-                    correctedPhoneNumber = correctedPhoneNumber.substring(1);
-                }
-                correctedPhoneNumber = "+33" + correctedPhoneNumber;
-                volunteer.phone = correctedPhoneNumber;
-            }
+    private void isVolunteerDuplicated(Volunteer volunteer) {
 
-            if (!volunteer.eMail.isEmpty()) {
-                String emailFormatRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        isVolunteerInverted(volunteer);
 
-                if (volunteer.eMail.charAt(volunteer.eMail.length() - 1) == '.') {
-                    volunteer.eMail = removeLastCharacter(volunteer.eMail);
-                }
-                if (!Pattern.compile(emailFormatRegex).matcher(volunteer.eMail).matches()) {
-                    volunteer.eMail = "";
-                }
-            }
-
-            Optional<Volunteer> volunteerWithInvertedInformation = cleanedVolunteersList.stream()
-                    .filter(
-                            volunteerItem -> volunteerItem.lastName.equals(volunteer.firstName) &&
-                                    volunteerItem.firstName.equals(volunteer.lastName)
-                    ).findFirst();
-
-            if (volunteerWithInvertedInformation.isPresent()) {
-                String firstname = volunteer.firstName;
-                String lastname = volunteer.lastName;
-
-                volunteer.firstName = lastname;
-                volunteer.lastName = firstname;
-            }
-
-            Optional<Volunteer> volunteerWithSameInformation = cleanedVolunteersList.stream()
-                    .filter(
+        Optional<Volunteer> volunteerWithSameInformation = cleanedVolunteersList.stream()
+                .filter(
                         volunteerItem -> volunteerItem.firstName.equals(volunteer.firstName) &&
                                 volunteerItem.lastName.equals(volunteer.lastName) &&
                                 volunteerItem.nickName.equals(volunteer.nickName) &&
                                 volunteerItem.eMail.equals(volunteer.eMail) &&
                                 volunteerItem.phone.equals(volunteer.phone)
-                    ).findFirst();
+                ).findFirst();
 
-            if (!volunteerWithSameInformation.isPresent()) {
-                cleanedVolunteersList.add(volunteer);
-            }
+        if (!volunteerWithSameInformation.isPresent()) {
+            cleanedVolunteersList.add(volunteer);
         }
-        return new ArrayList<>(cleanedVolunteersList);
+    }
+
+    private Volunteer isVolunteerInverted(Volunteer volunteer) {
+        Optional<Volunteer> volunteerWithInvertedInformation = this.cleanedVolunteersList.stream()
+                .filter(
+                        volunteerItem -> volunteerItem.lastName.equals(volunteer.firstName) &&
+                                volunteerItem.firstName.equals(volunteer.lastName)
+                ).findFirst();
+
+        if (volunteerWithInvertedInformation.isPresent()) {
+            String firstname = volunteer.firstName;
+            String lastname = volunteer.lastName;
+
+            volunteer.firstName = lastname;
+            volunteer.lastName = firstname;
+        }
+
+        return volunteer;
+    }
+
+    private String formatPhone(String phone) {
+        if (!phone.isEmpty()) {
+            String correctedPhoneNumber = phone.replaceAll("[^0-9]", "");
+
+            if (correctedPhoneNumber.charAt(1) == '3') {
+                correctedPhoneNumber = correctedPhoneNumber.substring(2);
+            } else {
+                correctedPhoneNumber = correctedPhoneNumber.substring(1);
+            }
+
+            if (correctedPhoneNumber.length() == 10) {
+                correctedPhoneNumber = correctedPhoneNumber.substring(1);
+            }
+            correctedPhoneNumber = "+33" + correctedPhoneNumber;
+            return correctedPhoneNumber;
+        } else {
+            return "";
+        }
+    }
+
+    private static String formatMail(String email) {
+        if (!email.isEmpty()) {
+            String emailFormatRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+            if (email.charAt(email.length() - 1) == '.') {
+                email = removeLastCharacter(email);
+            }
+            if (!Pattern.compile(emailFormatRegex).matcher(email).matches()) {
+                return "";
+            }
+            return email;
+        }
+        return "";
     }
 
     private static String formatName(String input) {

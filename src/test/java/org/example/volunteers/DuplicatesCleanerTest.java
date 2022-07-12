@@ -9,11 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DuplicatesCleanerTest {
 
-
-    /*SI nom et prenom identique mais inversé
-    Distance de levenshtein
-    */
-
     @Test
     public void doesRemoveAllDuplicateWhenFirstnameAndLastnameAreInvert() {
         List<Volunteer> duplicatesVolunteers = new ArrayList<Volunteer>();
@@ -58,17 +53,19 @@ public class DuplicatesCleanerTest {
     }
 
     private void givenVolunteers(List<Volunteer> volunteers) {
+        cleaner = new Cleaner();
         this.volunteers = volunteers;
     }
 
     private void whenCleaningUpVolunteers() {
-        cleanedVolunteers = Cleaner.cleanUp(volunteers);
+        cleanedVolunteers = cleaner.cleanUp(volunteers);
     }
 
     private void thenVolunteersAre(List<Volunteer> expectedVolunteers) {
         assertEquals(expectedVolunteers.toString(), cleanedVolunteers.toString());
     }
 
+    private Cleaner cleaner = null;
     private List<Volunteer> volunteers = new ArrayList<Volunteer>();
     private List<Volunteer> cleanedVolunteers = new ArrayList<Volunteer>();
 }

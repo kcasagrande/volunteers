@@ -108,14 +108,17 @@ public class EmailCleanerTest {
     }
 
     private void givenVolunteer(String firstName, String lastName, String nickname, String eMail, String phone) {
+        cleaner = new Cleaner();
         volunteers.add(new Volunteer(firstName, lastName, nickname, eMail, phone));
     }
     private void whenCleaningUpVolunteers() {
-        cleanedVolunteers = Cleaner.cleanUp(volunteers);
+        cleanedVolunteers = cleaner.cleanUp(volunteers);
     }
     private void thenMailIs(String eMail) {
         assertEquals(eMail, cleanedVolunteers.get(0).eMail);
     }
+
+    private Cleaner cleaner = null;
     private List<Volunteer> volunteers = new ArrayList<Volunteer>();
     private List<Volunteer> cleanedVolunteers = new ArrayList<Volunteer>();
 }
