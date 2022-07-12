@@ -6,8 +6,10 @@ import java.util.Objects;
 
 public class Cleaner {
     private static String formatName(String input) {
-        if (!Objects.equals(input, "") && !Objects.equals(input.substring(1), input.substring(1).toUpperCase())) {
-            input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+        if (!Objects.equals(input, "")) {
+            if (!Objects.equals(input.substring(1), input.substring(1).toUpperCase()) || Objects.equals(input, input.toUpperCase())) {
+                input = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+            }
         }
         return input;
     }
