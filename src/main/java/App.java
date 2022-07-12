@@ -25,10 +25,23 @@ public class App {
             .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
             .collect(toList());
 
-        List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
+        List<Volunteer> inputVolunteersForUnique = Files.readAllLines(Paths.get(args[0])).stream()
+                .map(string -> Arrays.stream(string.split(";", -1))
+                        .map(token -> quotes.matcher(token).replaceAll("$1"))
+                        .collect(toList()))
+                .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
+                .collect(toList());
 
+        List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
+        List<Volunteer> outputVolunteersUnique = Cleaner.cleanUpUniqueContact(inputVolunteersForUnique);
+        System.out.println(outputVolunteers);
+        System.out.println(outputVolunteersUnique);
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
+        PrintWriter writerUnique = new PrintWriter(new FileWriter("src/main/resources/outputUnique.csv"));
+
         outputVolunteers.forEach(writer::println);
+        outputVolunteersUnique.forEach(writerUnique::println);
         writer.close();
+        writerUnique.close();
     }
 }
