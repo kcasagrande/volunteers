@@ -48,11 +48,20 @@ public class Cleaner {
         HashMap<Boolean,Set<Volunteer>> mapResult = new HashMap<>();
         HashSet<Volunteer> badVolunteers = new HashSet<>();
 
-        HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanAndMergeDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>(), new String[]{"email"});
+        List<Volunteer> excludedVolunteers = new ArrayList<>();
+        excludedVolunteers.addAll(this.emailValidator.noEmail);
+        excludedVolunteers.addAll(this.emailValidator.badFormatEmail);
+
+        excludedVolunteers.addAll(this.phoneNumberValidator.noPhoneNumber);
+        excludedVolunteers.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
+
+        excludedVolunteers.addAll(this.nameValidator.malformedNames);
+
+        HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanAndMergeDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>(),excludedVolunteers, new String[]{"email"});
         badVolunteers.addAll(mapEmail.get(false));
-        HashMap<Boolean,List<Volunteer>> mapPhone = this.cleanAndMergeDuplicate(this.phoneNumberValidator.duplicatePhoneNumber, mapEmail.get(true), new String[]{"phone"});
+        HashMap<Boolean,List<Volunteer>> mapPhone = this.cleanAndMergeDuplicate(this.phoneNumberValidator.duplicatePhoneNumber, mapEmail.get(true),excludedVolunteers, new String[]{"phone"});
         badVolunteers.addAll(mapPhone.get(false));
-        HashMap<Boolean,List<Volunteer>> mapName = this.cleanAndMergeDuplicate(this.nameValidator.duplicateName, mapPhone.get(true) , new String[]{"firstName","lastName"});
+        HashMap<Boolean,List<Volunteer>> mapName = this.cleanAndMergeDuplicate(this.nameValidator.duplicateName, mapPhone.get(true) ,excludedVolunteers, new String[]{"firstName","lastName"});
         badVolunteers.addAll(mapName.get(false));
 
         mapResult.put(false,badVolunteers);
@@ -60,7 +69,7 @@ public class Cleaner {
         return mapResult;
     }
 
-    private HashMap<Boolean,List<Volunteer>> cleanAndMergeDuplicate(HashMap<String,List<Volunteer>> mapToRemoveEquals ,List<Volunteer> cleanVolunteer , String[] fieldNames) {
+    private HashMap<Boolean,List<Volunteer>> cleanAndMergeDuplicate(HashMap<String,List<Volunteer>> mapToRemoveEquals ,List<Volunteer> cleanVolunteer , List<Volunteer> excluded , String[] fieldNames) {
         HashMap<Boolean,List<Volunteer>> mapToRemove = new HashMap<>();
         List<Volunteer> badVolunteer = new ArrayList<>();
         List<Volunteer> volunteersPassed = new ArrayList<>();
@@ -68,13 +77,18 @@ public class Cleaner {
         for ( String condition : mapToRemoveEquals.keySet()){
             List<Volunteer> volunteers = mapToRemoveEquals.get(condition);
             for(Volunteer volunteer : volunteers){
+
+
                 if(!cleanVolunteer.stream().anyMatch(x-> x.equals(volunteer))){
-                    List<Volunteer> sameVolunteers =  volunteers.stream().filter(x-> x.equals(volunteer)).collect(Collectors.toList());
+                    List<Volunteer> sameVolunteers =  volunteers.stream().filter(x-> x.equals(volunteer)&& !excluded.contains(x)).collect(Collectors.toList());
                     if(sameVolunteers.size() > 1){
                         cleanVolunteer.add(volunteer);
                     }else if (!volunteersPassed.stream().anyMatch(x-> x.equals(volunteer))){
                         List<Volunteer> sameVolunteersByProperty =  volunteers.stream().filter(x-> {
                             try {
+                                if(excluded.contains(x)){
+                                    return false;
+                                }
                                 for(String fieldName : fieldNames){
                                     if(!x.get(fieldName).equalsIgnoreCase(volunteer.get(fieldName))){
                                         return false;
