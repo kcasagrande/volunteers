@@ -40,7 +40,7 @@ public class DuplicationChecker {
     public void removeDuplicatesByNameAndMail(){
         Volunteer v1 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com", "+3301276579");
         Volunteer v2 = new Volunteer("Jean", "Dupond", "Toto", "jean.dupond@gmail.com", "+33012345678");
-        Volunteer v3 = new Volunteer("Jean", "Dupond", "JDupond, Toto", "jean.dupond@gmail.com", "+33012345678, +3301276579");
+        Volunteer v3 = new Volunteer("Jean", "Dupond", "Toto, JDupond", "jean.dupond@gmail.com", "+33012345678, +3301276579");
         List<Volunteer> testList = Arrays.asList(new Volunteer[]{v1, v2});
 
         List<Volunteer> expectedResult = Arrays.asList(new Volunteer[]{v3});
@@ -54,6 +54,20 @@ public class DuplicationChecker {
     public void removeDuplicatesByNameAndMail2(){
         Volunteer v1 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com", "+00374746373");
         Volunteer v2 = new Volunteer("Jean", "Dupond", "", "jean.dupond@gmail.com", "");
+        Volunteer v3 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com", "+00374746373");
+        List<Volunteer> testList = Arrays.asList(new Volunteer[]{v1, v2});
+
+        List<Volunteer> expectedResult = Arrays.asList(new Volunteer[]{v3});
+
+        List<Volunteer> actualResult = Cleaner.removeDuplicates(testList);
+
+        assertEquals(expectedResult, actualResult, "Les doubles par Nom, Prénom et Email doivent être supprimés. Les champs Pseudo et Phone doivent être incrémenté par les doublons");
+    }
+
+    @Test
+    public void removeDuplicatesByNameAndMail3(){
+        Volunteer v1 = new Volunteer("Jean", "Dupond", "", "jean.dupond@gmail.com", "");
+        Volunteer v2 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com", "+00374746373");
         Volunteer v3 = new Volunteer("Jean", "Dupond", "JDupond", "jean.dupond@gmail.com", "+00374746373");
         List<Volunteer> testList = Arrays.asList(new Volunteer[]{v1, v2});
 
