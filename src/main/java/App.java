@@ -25,7 +25,6 @@ public class App {
                 .map(tokens -> new Volunteer(tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
                 .collect(toList());
         List<Volunteer> outputVolunteers = Cleaner.cleanUp(inputVolunteers);
-        getCompletedForms(outputVolunteers);
         PrintWriter writer = new PrintWriter(new FileWriter("src/main/resources/output.csv"));
         outputVolunteers.forEach(writer::println);
         writer.close();
@@ -194,6 +193,20 @@ public class App {
             }
         }
         return duplicatesCompleted;
+    }
+
+    public static List<Volunteer> getEmptyVolunteerData(List<Volunteer> volunteers) {
+        List<Volunteer> emptyVolunteer = new ArrayList<>();
+        for (int i = 0; i < volunteers.size(); i++) {
+            if (volunteers.get(i).nickName.isEmpty()
+            && volunteers.get(i).firstName.isEmpty()
+            && volunteers.get(i).lastName.isEmpty()
+            && volunteers.get(i).phone.isEmpty()
+            && volunteers.get(i).eMail.isEmpty()) {
+                emptyVolunteer.add(volunteers.get(i));
+            }
+        }
+        return emptyVolunteer;
     }
 }
 

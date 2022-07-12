@@ -69,4 +69,9 @@ public class Cleaner {
         System.out.println(nameTransformed + " : " + matcher.matches());
         return matcher.matches();
     }
+
+    public static String firstLetterToUppercase(String lastname) {
+        String firstLetter = lastname.substring(0, 1);
+        return firstLetter.toUpperCase() + lastname.split(firstLetter)[1];
+    }
 }

@@ -45,4 +45,13 @@ public class CleanerTest {
         Boolean toTitleCase = Cleaner.toTitleCase(name);
         assertTrue(toTitleCase, "Non valide");
     }
+
+    @Test
+    public void transformFirstLetterToUppercase() {
+        String name = "mousset";
+        String expectedResult = "Mousset";
+
+        String actualResult = Cleaner.firstLetterToUppercase(name);
+        assertEquals(expectedResult, actualResult, "La première lettre n'est pas minuscule");
+    }
 }

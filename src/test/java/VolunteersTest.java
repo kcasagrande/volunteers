@@ -143,4 +143,19 @@ public class VolunteersTest {
         List<Volunteer> actualResult = App.removeDuplicateByNameAndNickName(volunteers);
         assertEquals(expectedList, actualResult, "Le nom, le prénom et le pseudo doivent etre identiques");
     }
+
+    @Test
+    public void getEmptyVolunteerData()
+    {
+        Volunteer vol1 = new Volunteer("Florian", "Mousset", "kik", "test12@test.com", "123456890");
+        Volunteer vol2 = new Volunteer("Antoine", "lebg", "kik", "test15@test.com", "0987654321");
+        Volunteer vol3 = new Volunteer("", "", "", "", "");
+        Volunteer vol4 = new Volunteer("", "", "", "", "");
+        List<Volunteer> volunteers = Arrays.asList(vol1, vol2, vol3, vol4);
+
+        List<Volunteer> expectedResult = Arrays.asList(vol3, vol4);
+        List<Volunteer> actualResult = App.getEmptyVolunteerData(volunteers);
+
+        assertEquals(expectedResult, actualResult, "There are no empty volunteer");
+    }
 }
