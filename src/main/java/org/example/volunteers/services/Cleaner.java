@@ -17,6 +17,7 @@ public class Cleaner {
     public VolunteerNameError nameValidator;
     public VolunteerPhoneNumberError phoneNumberValidator;
     public List<Volunteer> allVolunteers;
+
     public Cleaner(List<Volunteer> volunteers){
         this.validators = new Validations();
         this.allVolunteers = volunteers;
@@ -35,16 +36,82 @@ public class Cleaner {
         volunteersToRemove.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
         volunteersToRemove.addAll(this.nameValidator.malformedNames);
         volunteersToRemove.addAll(this.nameValidator.noNames);
+        HashMap<Boolean,Set<Volunteer>> duplicateVolunteers = this.cleanAndMergeDuplicate();
+        volunteersToRemove.addAll(duplicateVolunteers.get(false));
 
-        for (String email : this.emailValidator.duplicateEmail.keySet()){
-            volunteersToRemove.addAll(this.emailValidator.duplicateEmail.get(email));
-        }
-        for (String phoneNumber : this.phoneNumberValidator.duplicatePhoneNumber.keySet()){
-            volunteersToRemove.addAll(this.phoneNumberValidator.duplicatePhoneNumber.get(phoneNumber));
-        }
         List<Volunteer> allVolunteersCorrect = this.allVolunteers;
         allVolunteersCorrect.removeAll(volunteersToRemove);
+        allVolunteersCorrect.addAll(duplicateVolunteers.get(true));
         return allVolunteersCorrect;
+    }
+
+    public HashMap<Boolean,Set<Volunteer>> cleanAndMergeDuplicate() {
+        HashMap<Boolean,Set<Volunteer>> mapResult = new HashMap<>();
+        HashSet<Volunteer> badVolunteers = new HashSet<>();
+
+        List<Volunteer> excludedVolunteers = new ArrayList<>();
+        excludedVolunteers.addAll(this.emailValidator.noEmail);
+        excludedVolunteers.addAll(this.emailValidator.badFormatEmail);
+
+        excludedVolunteers.addAll(this.phoneNumberValidator.noPhoneNumber);
+        excludedVolunteers.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
+
+        excludedVolunteers.addAll(this.nameValidator.malformedNames);
+
+        HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanAndMergeDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>(),excludedVolunteers, new String[]{"email"});
+        badVolunteers.addAll(mapEmail.get(false));
+        HashMap<Boolean,List<Volunteer>> mapPhone = this.cleanAndMergeDuplicate(this.phoneNumberValidator.duplicatePhoneNumber, mapEmail.get(true),excludedVolunteers, new String[]{"phone"});
+        badVolunteers.addAll(mapPhone.get(false));
+        HashMap<Boolean,List<Volunteer>> mapName = this.cleanAndMergeDuplicate(this.nameValidator.duplicateName, mapPhone.get(true) ,excludedVolunteers, new String[]{"firstName","lastName"});
+        badVolunteers.addAll(mapName.get(false));
+
+        mapResult.put(false,badVolunteers);
+        mapResult.put(true,mapName.get(true).stream().collect(Collectors.toSet()));
+        return mapResult;
+    }
+
+    private HashMap<Boolean,List<Volunteer>> cleanAndMergeDuplicate(HashMap<String,List<Volunteer>> mapToRemoveEquals ,List<Volunteer> cleanVolunteer , List<Volunteer> excluded , String[] fieldNames) {
+        HashMap<Boolean,List<Volunteer>> mapToRemove = new HashMap<>();
+        List<Volunteer> badVolunteer = new ArrayList<>();
+        List<Volunteer> volunteersPassed = new ArrayList<>();
+
+        for ( String condition : mapToRemoveEquals.keySet()){
+            List<Volunteer> volunteers = mapToRemoveEquals.get(condition);
+            for(Volunteer volunteer : volunteers){
+
+
+                if(!cleanVolunteer.stream().anyMatch(x-> x.equals(volunteer))){
+                    List<Volunteer> sameVolunteers =  volunteers.stream().filter(x-> x.equals(volunteer)&& !excluded.contains(x)).collect(Collectors.toList());
+                    if(sameVolunteers.size() > 1){
+                        cleanVolunteer.add(volunteer);
+                    }else if (!volunteersPassed.stream().anyMatch(x-> x.equals(volunteer))){
+                        List<Volunteer> sameVolunteersByProperty =  volunteers.stream().filter(x-> {
+                            try {
+                                if(excluded.contains(x)){
+                                    return false;
+                                }
+                                for(String fieldName : fieldNames){
+                                    if(!x.get(fieldName).equalsIgnoreCase(volunteer.get(fieldName))){
+                                        return false;
+                                    }
+                                }
+                                return true;
+                            } catch (Exception e) {
+                                return false;
+                            }
+                        }).collect(Collectors.toList());
+                        if(sameVolunteersByProperty.size() > 1){
+                            cleanVolunteer.add(Volunteer.concatMultiple(sameVolunteersByProperty));
+                            volunteersPassed.addAll(sameVolunteersByProperty);
+                        }
+                    }
+                }
+                badVolunteer.add(volunteer);
+            }
+        }
+        mapToRemove.put(false,badVolunteer);
+        mapToRemove.put(true,cleanVolunteer);
+        return mapToRemove;
     }
 
 
@@ -138,37 +205,36 @@ public class Cleaner {
     }
 
     public void checkPhoneNumbers(){
-        ArrayList<Volunteer> checkVolunteersWithNoPhoneNumbers = new ArrayList();
-        HashMap<String , List<Volunteer>> mapPhoneNumberVolunteers = new HashMap<>();
-        ArrayList<Volunteer> volunteersWithBadPhoneNumbers =new ArrayList<>();
+        ArrayList<Volunteer> volunteersWithoutPhoneNumber = new ArrayList();
+        HashMap<String,List<Volunteer>> volunteersMappedByPhoneNumber = new HashMap<>();
+        ArrayList<Volunteer> volunteersWithBadPhoneNumber = new ArrayList<>();
 
         for(Volunteer volunteer : this.allVolunteers){
-            if(volunteer.getEmail() == null || volunteer.getEmail().isEmpty()){
-                checkVolunteersWithNoPhoneNumbers.add(volunteer);
+            String volunteerPhone = volunteer.getPhone();
+            if(volunteerPhone == null || volunteerPhone.isEmpty()){
+                volunteersWithoutPhoneNumber.add(volunteer);
                 continue;
             }
-            if(!this.validators.validatePhoneNumber(volunteer.getPhone())){
-                checkVolunteersWithNoPhoneNumbers.add(volunteer);
+            if(!this.validators.validatePhoneNumber(volunteerPhone)){
+                volunteersWithBadPhoneNumber.add(volunteer);
                 continue;
             }
-            if(mapPhoneNumberVolunteers.containsKey(volunteer.getPhone())){
-                List<Volunteer> phoneNumberVolunteers = mapPhoneNumberVolunteers.get(volunteer.getPhone());
+
+            String formattedVolunteerPhone = formatPhoneNumber(volunteerPhone);
+            if(volunteersMappedByPhoneNumber.containsKey(formattedVolunteerPhone)){
+                List<Volunteer> phoneNumberVolunteers = volunteersMappedByPhoneNumber.get(formattedVolunteerPhone);
                 phoneNumberVolunteers.add(volunteer);
-                mapPhoneNumberVolunteers.put(volunteer.getPhone() , phoneNumberVolunteers);
+                volunteersMappedByPhoneNumber.put(formattedVolunteerPhone, phoneNumberVolunteers);
             } else {
-                mapPhoneNumberVolunteers.put(volunteer.getPhone() , new ArrayList<>(Arrays.asList(volunteer)));
+                volunteersMappedByPhoneNumber.put(formattedVolunteerPhone, new ArrayList<>(Arrays.asList(volunteer)));
             }
         }
-        HashMap<String , List<Volunteer>> mapDuplicatePhoneNumberVolunteers = mapPhoneNumberVolunteers
+        HashMap<String , List<Volunteer>> mapDuplicatePhoneNumberVolunteers = volunteersMappedByPhoneNumber
                 .entrySet()
                 .stream()
                 .filter(x-> x.getValue().stream().count() > 1)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (prev, next) -> next, HashMap::new));
-        this.phoneNumberValidator= new VolunteerPhoneNumberError(checkVolunteersWithNoPhoneNumbers, mapDuplicatePhoneNumberVolunteers, volunteersWithBadPhoneNumbers);
-    }
-
-    public  static List<Volunteer> removeDuplicateByPhoneNumber() throws Exception{
-        throw new Exception("not implemented");
+        this.phoneNumberValidator = new VolunteerPhoneNumberError(volunteersWithoutPhoneNumber, mapDuplicatePhoneNumberVolunteers, volunteersWithBadPhoneNumber);
     }
 
     public  static String formatPhoneNumber(String phoneNumber){
@@ -179,38 +245,4 @@ public class Cleaner {
                 .replace(" ", "");
     }
 
-    public static List<Volunteer> checkVolunteersWithNoPhoneNumber(List<Volunteer> volunteers){
-        return volunteers.stream().filter(x-> x.getPhone() == null || x.getPhone().isEmpty()).collect(Collectors.toList());
-    }
-
-    public static HashMap<String,List<Volunteer>> checkDuplicatePhoneNumbers(List<Volunteer> volunteers){
-        HashMap<String , List<Volunteer>> mapPhoneNumbersVolunteers = new HashMap<>();
-        List<String> phoneNumbers = volunteers
-                .stream().map(x-> formatPhoneNumber(x.getPhone()))
-                .collect(Collectors.toList());
-        phoneNumbers.remove(null);
-        for(String phoneNumber : phoneNumbers){
-            int occurrences = Collections.frequency(phoneNumbers, phoneNumber);
-            if(occurrences > 1 && !mapPhoneNumbersVolunteers.containsKey(phoneNumber)){
-                mapPhoneNumbersVolunteers
-                        .put(phoneNumber,volunteers.stream()
-                                .filter(x-> formatPhoneNumber(x.getPhone()) == phoneNumber).collect(Collectors.toList()));
-            }
-        }
-        return mapPhoneNumbersVolunteers;
-    }
-
-    public static List<Volunteer> checkBadPhoneNumber(List<Volunteer> volunteers){
-        List<Volunteer> volunteersWithBadPhoneNumbers = new ArrayList<>();
-        Validations validator = new Validations();
-        for (Volunteer volunteer : volunteers) {
-            if (volunteer.getPhone() == null || volunteer.getPhone().isEmpty()) {
-                continue;
-            }
-            if (!validator.validatePhoneNumber(volunteer.getPhone())) {
-                volunteersWithBadPhoneNumbers.add(volunteer);
-            }
-        }
-        return volunteersWithBadPhoneNumbers;
-    }
 }

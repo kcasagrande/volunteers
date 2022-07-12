@@ -7,10 +7,10 @@ import java.util.List;
 public class VolunteerEmailError {
 
     public List<Volunteer> noEmail ;
-    public HashMap<String , List<Volunteer>> duplicateEmail ;
+    public HashMap<String , List<Volunteer>> duplicateEmail;
     public List<Volunteer> badFormatEmail ;
 
-    public VolunteerEmailError( List<Volunteer> noEmail ,HashMap<String , List<Volunteer>> duplicateEmail  ,   List<Volunteer> badFormatEmail){
+    public VolunteerEmailError( List<Volunteer> noEmail ,HashMap<String , List<Volunteer>> duplicateEmail  ,  List<Volunteer> badFormatEmail){
         this.noEmail = noEmail;
         this.duplicateEmail = duplicateEmail;
         this.badFormatEmail = badFormatEmail;
@@ -27,7 +27,7 @@ public class VolunteerEmailError {
             writer.println("Records sans email : ");
             this.noEmail.forEach(writer::println);
         }else{
-            writer.println("Il n\'y a pas de record sans email : ");
+            writer.println("Il n'y a pas de record sans email : ");
         }
         writer.println();
     }
@@ -36,11 +36,11 @@ public class VolunteerEmailError {
         if(this.duplicateEmail.size()>0){
             writer.println("Records avec des doublons d'emails : ");
             for(String email : this.duplicateEmail.keySet()){
-                writer.println("Pour l\'email \""+email+"\" :");
+                writer.println("Pour l'email \""+email+"\" :");
                 this.duplicateEmail.get(email).forEach(writer::println);
             }
         }else{
-            writer.println("Il n\'y a pas de doublons d'email ");
+            writer.println("Il n'y a pas de doublons d'email ");
         }
         writer.println();
     }
@@ -50,7 +50,7 @@ public class VolunteerEmailError {
             writer.println("Records avec un mauvais format d'email:");
             this.badFormatEmail.forEach(writer::println);
         }else{
-            writer.println("Il n\'y a pas de record sans mauvais format d\'email");
+            writer.println("Il n'y a pas de record sans mauvais format d'email");
         }
         writer.println();
     }
