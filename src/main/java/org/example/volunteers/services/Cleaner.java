@@ -57,6 +57,7 @@ public class Cleaner {
         excludedVolunteers.addAll(this.phoneNumberValidator.badFormatPhoneNumber);
 
         excludedVolunteers.addAll(this.nameValidator.malformedNames);
+        excludedVolunteers.addAll(this.nameValidator.noNames);
 
         HashMap<Boolean,List<Volunteer>> mapEmail = this.cleanAndMergeDuplicate(this.emailValidator.duplicateEmail , new ArrayList<>(),excludedVolunteers, new String[]{"email"});
         badVolunteers.addAll(mapEmail.get(false));
