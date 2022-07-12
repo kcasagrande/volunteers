@@ -27,4 +27,44 @@ public class FormatingEmail {
 
         assertEquals(expectedResult, actualResult, "Si une adresse n'est pas formaté correctement, on la supprime");
     }
+    @Test
+    public void checkFormatValid(){
+        String textEmail = "to.to@yahoo";
+
+        String expectedResult = "to.to@yahoo";
+
+        String actualResult = Cleaner.formatEmail(textEmail);
+
+        assertEquals(expectedResult, actualResult, "Une adresse mail n'as pas forcément de points après l'arobase");
+    }
+    @Test
+    public void checkFormatEmailCharacters1(){
+        String textEmail = "to-to@yahoo.com";
+
+        String expectedResult = "to-to@yahoo.com";
+
+        String actualResult = Cleaner.formatEmail(textEmail);
+
+        assertEquals(expectedResult, actualResult, "Une adresse mail peut avoir des tirets");
+    }
+    @Test
+    public void checkFormatEmailCharacters2(){
+        String textEmail = "to_to@yahoo.com";
+
+        String expectedResult = "to_to@yahoo.com";
+
+        String actualResult = Cleaner.formatEmail(textEmail);
+
+        assertEquals(expectedResult, actualResult, "Une adresse mail peut avoir des underscore");
+    }
+    @Test
+    public void checkFormatEmailCharacters3(){
+        String textEmail = "to.to@yahoo.com";
+
+        String expectedResult = "to.to@yahoo.com";
+
+        String actualResult = Cleaner.formatEmail(textEmail);
+
+        assertEquals(expectedResult, actualResult, "Une adresse mail peut avoir des points");
+    }
 }
