@@ -1,6 +1,10 @@
 package org.example.volunteers;
 
 import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhoneTest {
@@ -85,78 +89,98 @@ public class PhoneTest {
     @Test
     public void shouldRemoveDashesFromPhoneNumber() {
         // Arrange
-        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06-12-34-56-78");
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06-12-34-56-78"));
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertDashesFromPhoneNumber(volunteer);
+        volunteers = Cleaner.cleanupPhoneNumber(volunteers);
 
         // Assert
-        String expectedResult = "0612345678";
-        assertEquals(expectedResult, cleanVolunteer.phone, "Le telephone devrait etre 0612345678");
+        String expectedResult = "+33612345678";
+        assertEquals(expectedResult, volunteers.get(0).phone, "Le telephone devrait etre +33612345678");
     }
 
     @Test
     public void shouldRemoveDotsFromPhoneNumber() {
         // Arrange
-        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06.12.34.56.78");
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06.12.34.56.78"));
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertDotsFromPhoneNumber(volunteer);
+        volunteers = Cleaner.cleanupPhoneNumber(volunteers);
 
         // Assert
-        String expectedResult = "0612345678";
-        assertEquals(expectedResult, cleanVolunteer.phone, "Le telephone devrait etre 0612345678");
+        String expectedResult = "+33612345678";
+        assertEquals(expectedResult, volunteers.get(0).phone, "Le telephone devrait etre +33612345678");
     }
 
     @Test
     public void shouldRemoveSpacesFromPhoneNumber() {
         // Arrange
-        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06 12 34 56 78");
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "06 12 34 56 78"));
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertSpacesFromPhoneNumber(volunteer);
+        volunteers = Cleaner.cleanupPhoneNumber(volunteers);
 
         // Assert
-        String expectedResult = "0612345678";
-        assertEquals(expectedResult, cleanVolunteer.phone, "Le telephone devrait etre 0612345678");
+        String expectedResult = "+33612345678";
+        assertEquals(expectedResult, volunteers.get(0).phone, "Le telephone devrait etre +33612345678");
     }
 
     @Test
     public void shouldRemoveParenthesisFromPhoneNumber() {
         // Arrange
-        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "(0)612345678");
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "(0)612345678"));
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.convertParenthesisFromPhoneNumber(volunteer);
+        volunteers = Cleaner.cleanupPhoneNumber(volunteers);
 
         // Assert
-        String expectedResult = "0612345678";
-        assertEquals(expectedResult, cleanVolunteer.phone, "Le telephone devrait etre 0612345678");
+        String expectedResult = "+33612345678";
+        assertEquals(expectedResult, volunteers.get(0).phone, "Le telephone devrait etre +33612345678");
+    }
+
+    @Test
+    public void shouldRemoveParenthesisFromPhoneNumberWhitCountryCode() {
+        // Arrange
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+33(0)612345678"));
+
+        // Act
+        volunteers = Cleaner.cleanupPhoneNumber(volunteers);
+
+        // Assert
+        String expectedResult = "+33612345678";
+        assertEquals(expectedResult, volunteers.get(0).phone, "Le telephone devrait etre +33612345678");
     }
 
     @Test
     public void shouldReplaceBeginningPhoneNumberWhenHasTenNumbers() {
         // Arrange
-        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "0612345678");
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "0612345678"));
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.replaceBeginningPhoneNumber(volunteer);
+        volunteers = Cleaner.cleanupPhoneNumber(volunteers);
 
         // Assert
         String expectedResult = "+33612345678";
-        assertEquals(expectedResult, cleanVolunteer.phone, "Le telephone devrait etre +33612345678");
+        assertEquals(expectedResult, volunteers.get(0).phone, "Le telephone devrait etre +33612345678");
     }
 
     @Test
     public void shouldReplaceBeginningPhoneNumberWhenHasNineNumbers() {
         // Arrange
-        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "612345678");
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "612345678"));
 
         // Act
-        Volunteer cleanVolunteer = Cleaner.replaceBeginningPhoneNumber(volunteer);
+        volunteers = Cleaner.cleanupPhoneNumber(volunteers);
 
         // Assert
         String expectedResult = "+33612345678";
-        assertEquals(expectedResult, cleanVolunteer.phone, "Le telephone devrait etre +33612345678");
+        assertEquals(expectedResult, volunteers.get(0).phone, "Le telephone devrait etre +33612345678");
     }
 }
