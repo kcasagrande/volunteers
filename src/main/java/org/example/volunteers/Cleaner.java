@@ -27,7 +27,8 @@ public class Cleaner {
         LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
         for (Volunteer volunteer: volunteers) {
-            if(!linkedsetVolunteers.contains(volunteer.toString())) {
+            Volunteer reversedVolunteer = new Volunteer(volunteer.lastName, volunteer.firstName, volunteer.nickName, volunteer.eMail, volunteer.phone);
+            if(!(linkedsetVolunteers.contains(volunteer.toString()) || linkedsetVolunteers.contains(reversedVolunteer.toString()))) {
                 linkedsetVolunteers.add(volunteer.toString());
                 uniqueVolunteers.add(volunteer);
             }
@@ -76,7 +77,6 @@ public class Cleaner {
         LinkedHashSet<String> linkedsetVolunteers = new LinkedHashSet<String>();
 
         for (Volunteer volunteer: volunteers) {
-
             if (testIsPhone(volunteer.eMail) && isValidEmail(volunteer)) {
                 String oldMailHasPhone = volunteer.phone;
                 String oldPhoneHasMail = volunteer.eMail;
@@ -85,7 +85,6 @@ public class Cleaner {
             } else if (testIsPhone(volunteer.eMail) && volunteer.phone == null) {
                 volunteer.phone = volunteer.eMail;
             }
-
         }
 
         return volunteersSanitized;

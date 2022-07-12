@@ -32,7 +32,19 @@ public class CleanerTest {
 
         List<Volunteer> result = Cleaner.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
 
-        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon avec le nickName jojo");
+        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon avec le nickName jojo car ils ont des données exactement similaires");
+    }
+
+    @Test
+    public void testRemovedDuplicateVerifyFirstNameInsteadOfLastName() {
+        List<Volunteer> volunteers = new ArrayList<>();
+        volunteers.add(new Volunteer("john", "doe", "jojo2", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("doe", "john", "jojo", "john@mail.com", "+33698675434"));
+        volunteers.add(new Volunteer("john", "doe", "jojo", "john@mail.com", "+33698675434"));
+
+        List<Volunteer> result = Cleaner.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
+
+        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon avec le nickName jojo car ils ont des données similaires avec leur nom/prénom inversés");
     }
 
     @Test
@@ -44,7 +56,7 @@ public class CleanerTest {
 
         List<Volunteer> result = Cleaner.removeDuplicateMailPhone(volunteers);
 
-        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon sur le téléphone +33698675434");
+        assertEquals(2, result.size(), "La liste ne doit pas garder le doublon sur le téléphone +33698675434 car le numéro de téléphone est similaire");
     }
 
     @Test
