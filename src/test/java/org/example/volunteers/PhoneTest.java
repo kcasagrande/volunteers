@@ -5,7 +5,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PhoneTest {
     @Test
-    public void shouldIsValidPhoneNumber() {
+    public void shouldIsValidPhoneNumberWithOneNumberCountryCode() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+3612345678");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+
+        // Assert
+        Boolean expectedResult = true;
+        assertEquals(expectedResult, isValidNumber, "Le telephone devrait etre valide");
+    }
+
+    @Test
+    public void shouldIsValidPhoneNumberWithTwoNumbersCountryCode() {
         // Arrange
         Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+33612345678");
 
@@ -18,9 +31,48 @@ public class PhoneTest {
     }
 
     @Test
-    public void shouldIsNotValidPhoneNumber() {
+    public void shouldIsValidPhoneNumberWithThreeNumbersCountryCode() {
         // Arrange
-        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+612345678");
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+333612345678");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+
+        // Assert
+        Boolean expectedResult = true;
+        assertEquals(expectedResult, isValidNumber, "Le telephone devrait etre valide");
+    }
+
+    @Test
+    public void shouldIsNotValidPhoneNumberWithCountryCodeAndNotEnoughNumber() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+336123456");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+
+        // Assert
+        Boolean expectedResult = false;
+        assertEquals(expectedResult, isValidNumber, "Le telephone ne devrait pas etre valide");
+    }
+
+    @Test
+    public void shouldIsNotValidPhoneNumberWithCountryCodeStartByZero() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "+0612345678");
+
+        // Act
+        Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
+
+        // Assert
+        Boolean expectedResult = false;
+        assertEquals(expectedResult, isValidNumber, "Le telephone ne devrait pas etre valide");
+    }
+
+    @Test
+    public void shouldIsNotValidPhoneNumberWithNotCountryCode() {
+        // Arrange
+        Volunteer volunteer = new Volunteer("Prénom", "Nom", "Pseudo", "email@email.com", "0612345678");
 
         // Act
         Boolean isValidNumber = Cleaner.isValidPhoneNumber(volunteer.phone);
