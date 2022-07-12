@@ -7,9 +7,12 @@ public class Cleaner {
     private static final String[][] UMLAUT_REPLACEMENTS = { { "É", "E" }, { "é", "e" }, { "È", "E" }, { "è", "e" } };
 
     public static List<Volunteer> cleanUp(List<Volunteer> volunteers) {
+        volunteers = removeAccents(volunteers);
+        volunteers = sanitizeEmailInsteadOfPhone(volunteers);
         volunteers = Email.cleanupMailAddresses(volunteers);
         volunteers = Phone.cleanupPhoneNumber(volunteers);
         volunteers = Duplicate.removeDuplicateFirstNameLastNamePseudoMailPhone(volunteers);
+        volunteers = Duplicate.removeDuplicateMailPhone(volunteers);
         return new ArrayList<Volunteer>(volunteers);
     }
 
