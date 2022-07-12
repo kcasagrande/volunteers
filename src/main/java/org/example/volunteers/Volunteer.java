@@ -23,16 +23,16 @@ public final class Volunteer {
             String eMail,
             String phone
     ) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.nickName = nickName;
-        this.eMail = eMail;
-        this.phone = phone;
+        setId(id);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setNickName(nickName);
+        setEMail(eMail);
+        setPhone(phone);
     }
 
     public String getFullName () {
-        return this.firstName.toLowerCase(Locale.ROOT).trim() + this.lastName.toLowerCase(Locale.ROOT).trim();
+        return getFirstName().toLowerCase(Locale.ROOT).trim() + getLastName().toLowerCase(Locale.ROOT).trim();
     }
 
     @Override
@@ -56,6 +56,10 @@ public final class Volunteer {
         return this.score;
     }
 
+    public Number getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -74,6 +78,10 @@ public final class Volunteer {
 
     public String getPhone() {
         return phone;
+    }
+
+    public void setId(Number id){
+        this.id = id;
     }
 
     public void setFirstName(String firstname){
