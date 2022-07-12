@@ -1,9 +1,9 @@
 package org.example.volunteers;
 
+import org.example.volunteers.services.VolunteerService;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +17,17 @@ import static org.junit.jupiter.api.Assertions.*;
 // Elle n'est pas nécessaire à la réalisation de l'exercice.
 public class DemoTest {
 
+    VolunteerService volunteerService;
+    List<String[]> volunteersData = new ArrayList<String[]>(){{
+        add(new String[]{"1", "Gregg", "Sanchez", "gsanchez", "gsanchez@ynov.com", "0123456789"});
+        add(new String[]{"2", "Aimée", "Ritleng", "aritleng", "aritleng@ynov.com", "+33123456789"});
+        add(new String[]{"3", "Nicolas", "Notararigo", "nnotararigo", "nnotararigo@ynov.com", "01 23 45 67 89"});
+        add(new String[]{"7", "Nicolas", "Notararigo", "nnotararigo", "nnotararigo@ynov.com", "+33123456789"});
+        add(new String[]{"4", "Romain", "Frechet", "rfrechet", "rfrechet@ynov.com", "0923456789"});
+        add(new String[]{"5", "Louise", "Baulan", "lbaulan", "lbaulan@ynov.com", "0623456789"});
+        add(new String[]{"6", "Louise", "Baulan", "lbaulan", "gsanchez@ynov.com", "0173456789"});
+    }};
+
     @BeforeAll
     public static void globalSetUp() {
         System.out.println("Ce code est exécuté une seule fois avant l'ensemble des tests");
@@ -25,40 +36,19 @@ public class DemoTest {
     @BeforeEach
     public void setUp() {
         System.out.println("Ce code est exécuté avant chaque test");
+
+        volunteerService = new VolunteerService(volunteersData);
     }
 
     @Test
-    public void showDuplicatedVolunteers() throws IOException {
-        Volunteer volunteer1 = new Volunteer(1, "Gregg", "Sanchez", "gsanchez", "gsanchez@ynov.com", "0123456789");
-        Volunteer volunteer2 = new Volunteer(2, "Aimée", "Ritleng", "aritleng", "aritleng@ynov.com", "0123456789");
-        Volunteer volunteer3 = new Volunteer(3, "Nicolas", "Notararigo", "nnotararigo", "nnotararigo@ynov.com", "0123456789");
-        Volunteer volunteer7 = new Volunteer(7, "Nicolas", "Notararigo", "nnotararigo", "nnotararigo@ynov.com", "+33123456789");
-        Volunteer volunteer4 = new Volunteer(4, "Romain", "Frechet", "rfrechet", "rfrechet@ynov.com", "0123456789");
-        Volunteer volunteer5 = new Volunteer(5, "Louise", "Baulan", "lbaulan", "lbaulan@ynov.com", "0123456789");
-        Volunteer volunteer6 = new Volunteer(6, "Louise", "Baulan", "lbaulan", "gsanchez@ynov.com", "0123456789");
+    public void showDuplicatedVolunteers() {
+        int index = 0;
+        Volunteer volunteer = volunteerService.getVolunteers().get(index);
+        List<Integer> indexes = VolunteerService.retrieveDuplicatesVolunteersIndex(volunteer, index + 1);
 
-        List<Volunteer> volunteersList = new ArrayList<>();
-        volunteersList.add(volunteer1);
-        volunteersList.add(volunteer2);
-        volunteersList.add(volunteer3);
-        volunteersList.add(volunteer4);
-        volunteersList.add(volunteer5);
-        volunteersList.add(volunteer6);
-        volunteersList.add(volunteer7);
+        System.out.println(indexes);
 
-        List<Duplicate> duplicatedVolunteers = Cleaner.extractDuplicated(volunteersList);
-        System.out.println(duplicatedVolunteers.size());
-
-        for (Duplicate duplicate : duplicatedVolunteers) {
-            System.out.println("Volunteer ID : " + duplicate.volunteerId);
-            System.out.println(duplicate.duplicates);
-            System.out.println("Nombre de duplications : " + duplicate.count);
-        }
-
-        List<Volunteer> uniqueVolunteers = volunteersList.stream()
-                .filter(v -> duplicatedVolunteers.stream().noneMatch(volunteer -> volunteer.volunteerId.equals(v.id)))
-                .collect(Collectors.toList());
-        System.out.println(uniqueVolunteers.size());
+        assertEquals(indexes.size(), 1);
     }
 
     @Test

@@ -1,5 +1,7 @@
 package org.example.volunteers;
 
+import org.example.volunteers.services.VolunteerService;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +31,20 @@ public class App {
                 .map(string -> Arrays.stream(string.split(";", -1))
                         .map(token -> quotes.matcher(token).replaceAll("$1"))
                         .collect(toList()))
-                .map(tokens -> new Volunteer(index.getAndIncrement(), tokens.get(0), tokens.get(1), tokens.get(2), tokens.get(3), tokens.get(4)))
+                .map(tokens -> {
+                    try {
+                        return VolunteerService.createNewVolunteer(
+                                index.getAndIncrement(),
+                                tokens.get(0),
+                                tokens.get(1),
+                                tokens.get(2),
+                                tokens.get(3),
+                                tokens.get(4)
+                        );
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(toList());
     }
 
