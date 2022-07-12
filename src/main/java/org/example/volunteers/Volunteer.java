@@ -72,43 +72,11 @@ public final class Volunteer {
     }
 
     public void formatFirstName() {
-        int ctr = 0;
-        int n = this.firstName.length();
-        char ch[ ] = this.firstName.toLowerCase().toCharArray();
-        int c = 0;
-        for (int i = 0; i < n; i++){
-            if(i == 0)
-                ch[i] = Character.toUpperCase(ch[i]);
-            if (ch[i] == ' ' || ch[i] == '-')
-            {
-                ctr++;
-                ch[ i + 1 ] = Character.toUpperCase(ch[i + 1]);
-                continue;
-            }
-            else
-                ch[c++] = ch[i];
-        }
-        this.firstName =  String.valueOf(ch,0,n - ctr);
+        this.firstName = capitalizeString(this.firstName);
     }
 
     public void formatLastName() {
-        int ctr = 0;
-        int n = this.lastName.length();
-        char ch[ ] = this.lastName.toLowerCase().toCharArray();
-        int c = 0;
-        for (int i = 0; i < n; i++){
-            if(i == 0)
-                ch[i] = Character.toUpperCase(ch[i]);
-            if (ch[i] == ' ' || ch[i] == '-')
-            {
-                ctr++;
-                ch[ i + 1 ] = Character.toUpperCase(ch[i + 1]);
-                continue;
-            }
-            else
-                ch[c++] = ch[i];
-        }
-        this.lastName =  String.valueOf(ch,0,n - ctr);
+        this.lastName = capitalizeString(this.lastName);
     }
 
     public void formatEmail() {
@@ -131,5 +99,19 @@ public final class Volunteer {
         if(this.lastName != null && this.lastName != "") {
             formatLastName();
         }
+    }
+
+    public static String capitalizeString(String string) {
+        char[] chars = string.toLowerCase().toCharArray();
+        boolean found = false;
+        for (int i = 0; i < chars.length; i++) {
+            if (!found && Character.isLetter(chars[i])) {
+                chars[i] = Character.toUpperCase(chars[i]);
+                found = true;
+            } else if (Character.isWhitespace(chars[i]) || chars[i]=='-') { // You can add other chars here
+                found = false;
+            }
+        }
+        return String.valueOf(chars);
     }
 }

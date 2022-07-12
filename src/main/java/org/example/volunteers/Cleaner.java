@@ -88,7 +88,7 @@ public class Cleaner {
             boolean hasFullName = volunteer.hasFullName();
             boolean hasPseudo = (volunteer.nickName == null || volunteer.nickName == "");
 
-            //volunteer.format();
+            volunteer.format();
 
             if (hasFullName && hasValidEmail && hasValidPhone) {
                 volunteer.level = 1;
@@ -105,9 +105,9 @@ public class Cleaner {
             finalVolunteers.add(volunteer);
         }
 
-        Cleaner.handleDuplicates(finalVolunteers);
+        return Cleaner.handleDuplicates(finalVolunteers);
 
-        return new ArrayList<>(finalVolunteers);
+        //return new ArrayList<>(finalVolunteers);
     }
 }
 
