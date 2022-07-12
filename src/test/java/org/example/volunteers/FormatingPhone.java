@@ -60,4 +60,15 @@ public class FormatingPhone {
 
         assertEquals(expectedResult, actualResult, "Le numéro de téléphone doit contenir l'indicateur du pays (+33)");
     }
+
+    @Test
+    public void checkFormatPhoneSpellingError(){
+        String textPhone = "+33000555A196";
+
+        String expectedResult = "+33000555196";
+
+        String actualResult = Cleaner.formatPhone(textPhone);
+
+        assertEquals(expectedResult, actualResult, "Le numéro de téléphone ne doit pas contenir de lettre");
+    }
 }

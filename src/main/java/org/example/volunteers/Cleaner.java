@@ -57,6 +57,10 @@ public class Cleaner {
         String regex = "\\.| |-|\\(\\d*\\)";
         phone = phone.replaceAll(regex, "");
 
+        // Remove letters
+        String regex2 = "[a-zA-Z]";
+        phone = phone.replaceAll(regex2, "");
+
         // Replace first 0 with +33
         char firstChar = phone.charAt(0);
         if (firstChar == '0'){
